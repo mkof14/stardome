@@ -10,6 +10,8 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ["framer-motion"],
+    instrumentationHook: true,
+    serverComponentsExternalPackages: ["@prisma/client", "prisma"],
   },
   compiler: {
     removeConsole:

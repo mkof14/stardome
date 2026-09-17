@@ -1,5 +1,8 @@
 import { randomBytes } from "crypto";
-import { parseStoredRole } from "@/lib/ensure-seed";
+import {
+  fallbackAccounts,
+  parseStoredRole,
+} from "@/lib/ensure-seed";
 import { hashPassword, verifyPassword } from "@/lib/password";
 import { prismaReady } from "@/lib/prisma";
 import { defaultSignupRole, isUserRole, type UserRole } from "@/lib/rbac";
@@ -44,14 +47,26 @@ function toStored(user: {
   };
 }
 
-export async function listUsers() {
-  const prisma = await prismaReady();
-  if (!prisma) return [];
-  const rows = await prisma.user.findMany({ orderBy: { createdAt: "asc" } });
-  return rows.map(toStored);
+function fromFallback(email: string): StoredUser | null {
+  const account = fallbackAccounts().find(
+    (item) => item.email === email.trim().toLowerCase(),
+  );
+  if (!account) return null;
+  return {
+    id: account.id,
+    name: account.name,
+    organization: account.organization,
+    email: account.email,
+    passwordHash: "",
+    role: account.role,
+    commercialRole:
+      "commercialRole" in account ? account.commercialRole : "none",
+    pending: false,
+    lastSignInAt: null,
+  };
 }
 
-export async function findUserByEmail(email: string) {
+async function findStoredByEmail(email: string) {
   const prisma = await prismaReady();
   if (!prisma) return null;
   const row = await prisma.user.findUnique({
@@ -60,11 +75,38 @@ export async function findUserByEmail(email: string) {
   return row ? toStored(row) : null;
 }
 
+export async function listUsers() {
+  try {
+    const prisma = await prismaReady();
+    if (!prisma) return [];
+    const rows = await prisma.user.findMany({ orderBy: { createdAt: "asc" } });
+    return rows.map(toStored);
+  } catch {
+    return [];
+  }
+}
+
+export async function findUserByEmail(email: string) {
+  try {
+    const stored = await findStoredByEmail(email);
+    if (stored) return stored;
+  } catch {
+    // Fall through to the built-in demo accounts when Postgres is down.
+  }
+  return fromFallback(email);
+}
+
 export async function findUserById(id: string) {
-  const prisma = await prismaReady();
-  if (!prisma) return null;
-  const row = await prisma.user.findUnique({ where: { id } });
-  return row ? toStored(row) : null;
+  try {
+    const prisma = await prismaReady();
+    if (prisma) {
+      const row = await prisma.user.findUnique({ where: { id } });
+      if (row) return toStored(row);
+    }
+  } catch {
+    // ignore
+  }
+  return fallbackAccounts().map((item) => fromFallback(item.email)).find((item) => item?.id === id) ?? null;
 }
 
 export async function createUser(input: {
@@ -97,19 +139,32 @@ export async function createUser(input: {
 }
 
 export async function authenticateUser(email: string, password: string) {
-  const user = await findUserByEmail(email);
-  if (!user || user.pending || !user.passwordHash) return null;
-  if (!verifyPassword(password, user.passwordHash)) return null;
-  return user;
+  const normalized = email.trim().toLowerCase();
+  try {
+    const user = await findStoredByEmail(normalized);
+    if (user && !user.pending && user.passwordHash && verifyPassword(password, user.passwordHash)) {
+      return user;
+    }
+  } catch {
+    // Demo accounts still sign in if the database is missing on Vercel.
+  }
+  const account = fallbackAccounts().find(
+    (item) => item.email === normalized && item.password === password,
+  );
+  return account ? fromFallback(account.email) : null;
 }
 
 export async function markSignIn(userId: string) {
-  const prisma = await prismaReady();
-  if (!prisma) return;
-  await prisma.user.update({
-    where: { id: userId },
-    data: { lastSignInAt: new Date(), pending: false },
-  });
+  try {
+    const prisma = await prismaReady();
+    if (!prisma) return;
+    await prisma.user.update({
+      where: { id: userId },
+      data: { lastSignInAt: new Date(), pending: false },
+    });
+  } catch {
+    // Demo JWT sessions do not need a row in Postgres.
+  }
 }
 
 export async function setUserRole(userId: string, role: UserRole) {

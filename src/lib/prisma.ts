@@ -1,8 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import { ensureBackendSeed } from "@/lib/ensure-seed";
+import { normalizePostgresUrl } from "@/lib/postgres-url";
 
 function resolveDatabaseUrl() {
-  return process.env.DATABASE_URL?.trim() ?? "";
+  return normalizePostgresUrl(process.env.DATABASE_URL?.trim() ?? "");
 }
 
 const globalForPrisma = globalThis as unknown as {
@@ -17,7 +18,9 @@ export function databaseConfigured() {
 export function getPrisma() {
   if (!databaseConfigured()) return null;
   if (!globalForPrisma.prisma) {
-    globalForPrisma.prisma = new PrismaClient();
+    globalForPrisma.prisma = new PrismaClient({
+      datasources: { db: { url: resolveDatabaseUrl() } },
+    });
   }
   return globalForPrisma.prisma;
 }

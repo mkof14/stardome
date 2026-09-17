@@ -73,6 +73,31 @@ function readLegacyUsers(): JsonUser[] {
   return [];
 }
 
+export const COMMERCIAL_DEMO_ACCOUNTS = [
+  {
+    id: "usr-sales",
+    email: "sales@starwall.demo",
+    name: "Sales",
+    organization: "AGRON",
+    role: "Operator" as const,
+    commercialRole: "sales",
+    password: "SalesPass!23",
+  },
+  {
+    id: "usr-engineering",
+    email: "engineering@starwall.demo",
+    name: "Engineering",
+    organization: "AGRON",
+    role: "Operator" as const,
+    commercialRole: "engineering",
+    password: "Engineer!23",
+  },
+] as const;
+
+export function fallbackAccounts() {
+  return [...DEMO_ACCOUNTS, ownerAccount(), ...COMMERCIAL_DEMO_ACCOUNTS];
+}
+
 export function ownerAccount() {
   const email = (
     process.env.STARWALL_OWNER_EMAIL?.trim() || "dnainform@gmail.com"
@@ -216,26 +241,7 @@ export async function ensureBackendSeed(prisma: PrismaClient) {
     });
   }
 
-  const commercial = [
-    {
-      id: "usr-sales",
-      email: "sales@starwall.demo",
-      name: "Sales",
-      organization: "AGRON",
-      role: "Operator" as const,
-      commercialRole: "sales",
-      password: "SalesPass!23",
-    },
-    {
-      id: "usr-engineering",
-      email: "engineering@starwall.demo",
-      name: "Engineering",
-      organization: "AGRON",
-      role: "Operator" as const,
-      commercialRole: "engineering",
-      password: "Engineer!23",
-    },
-  ];
+  const commercial = COMMERCIAL_DEMO_ACCOUNTS;
   for (const account of commercial) {
     const existing = await prisma.user.findUnique({ where: { email: account.email } });
     if (existing) {

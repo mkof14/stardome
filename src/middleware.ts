@@ -1,15 +1,15 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
-import { authSecret, ensureAuthEnv } from "@/lib/auth-env";
-
-ensureAuthEnv();
+import { applyAuthUrl, authSecret, ensureAuthEnv } from "@/lib/auth-env";
 
 export async function middleware(req: NextRequest) {
+  applyAuthUrl(req.nextUrl.origin);
+  ensureAuthEnv();
+
   try {
     const token = await getToken({
       req,
       secret: authSecret(),
-      secureCookie: req.nextUrl.protocol === "https:",
     });
     if (token) return NextResponse.next();
   } catch {

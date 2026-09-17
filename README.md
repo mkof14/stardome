@@ -127,17 +127,21 @@ Still English: sign-in / sign-up / forgot-password forms (credentials and role n
 
 ## Deploy on Vercel
 
-This is a standard Next.js 14 App Router app. Do **not** set `output: "standalone"`.
+This is a standard Next.js 14 App Router app. Do **not** set `output: "standalone"`. Connect the GitHub repo, leave the Framework Preset as Next.js, and deploy. The first production URL (including `*.vercel.app`) should load without extra env vars:
 
-1. Import the Git repository in Vercel (Framework Preset: Next.js).
-2. Set environment variables:
-   - `ANTHROPIC_API_KEY` — required for Pilot replies. Without it Pilot still opens and returns a configuration error.
-   - `NEXT_PUBLIC_SITE_URL` — production origin, e.g. `https://your-project.vercel.app`.
-   - `NEXTAUTH_URL` — **the same production HTTPS origin**. Do not leave this as `http://127.0.0.1:3000` on Vercel: NextAuth then fails on `/interface` with “Server error / There is a problem with the server configuration.”
-   - `NEXTAUTH_SECRET` — random secret for session tokens (`openssl rand -base64 32`). Required on Vercel; the Edge gate on `/interface` cannot read a secret that only exists in code.
-   - `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` — from the Google Cloud OAuth client. Leave both empty until those values exist; a placeholder Google provider also triggers that Server error page.
-   - `DATABASE_URL` — Neon / Vercel Postgres URL (add `?sslmode=require` if it is missing). Use the pooled connection string. The build runs `prisma migrate deploy` only when this is a hosted Postgres URL, so a missing database does not fail the Vercel deploy.
-3. Deploy. `vercel.json` pins the framework and a single region (`iad1`). `npm run build` generates the Prisma client, applies migrations when a hosted `DATABASE_URL` is set, then runs `next build`.
+- Marketing pages work immediately.
+- `/login` accepts the printed demo accounts (`super@starwall.demo` / `SuperAdmin!23`, and the other role accounts on that page) even before Postgres is attached. Sessions are JWTs.
+- `/interface` follows that session instead of showing NextAuth’s “Server error” page. `NEXTAUTH_URL` is taken from the request host; a leftover `http://127.0.0.1:3000` value is ignored on Vercel.
+- Google sign-in stays hidden until both `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are set.
+- Pilot replies need `ANTHROPIC_API_KEY`. Without it Pilot still opens and says the key is missing.
+
+Optional, after the first green deploy:
+
+- `DATABASE_URL` — Neon / Vercel Postgres (add `?sslmode=require` if it is missing). The build runs `prisma migrate deploy` only for a hosted URL, using a direct (non-pooler) connection. Seed accounts are written on first backend request.
+- `NEXT_PUBLIC_SITE_URL` / `NEXTAUTH_URL` — custom production origin, if it is not the `*.vercel.app` host.
+- `NEXTAUTH_SECRET` — `openssl rand -base64 32`. A built-in fallback is used if this is empty so Edge middleware can still verify cookies.
+
+`vercel.json` pins the framework, `npm run build`, and region `iad1`. Prisma generates an Amazon Linux (`rhel-openssl-3.0.x`) engine so serverless functions can query Postgres.
 
 ## Postgres on Vercel (required)
 

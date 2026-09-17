@@ -12,6 +12,7 @@ const KEYS = [
   "AUTH_SECRET",
   "NEXT_PUBLIC_SITE_URL",
   "VERCEL_URL",
+  "VERCEL_PROJECT_PRODUCTION_URL",
   "GOOGLE_CLIENT_ID",
   "GOOGLE_CLIENT_SECRET",
 ] as const;
@@ -35,10 +36,11 @@ describe("auth env", () => {
     expect(isLoopbackOrigin("https://starwall.vercel.app")).toBe(false);
   });
 
-  it("replaces a leftover localhost URL with the Vercel host", () => {
+  it("prefers the Vercel production host over a leftover localhost URL", () => {
     process.env.NEXTAUTH_URL = "http://127.0.0.1:3000";
-    process.env.VERCEL_URL = "starwall.vercel.app";
+    process.env.VERCEL_PROJECT_PRODUCTION_URL = "starwall.vercel.app";
     delete process.env.NEXT_PUBLIC_SITE_URL;
+    delete process.env.VERCEL_URL;
     ensureAuthEnv();
     expect(process.env.NEXTAUTH_URL).toBe("https://starwall.vercel.app");
   });
