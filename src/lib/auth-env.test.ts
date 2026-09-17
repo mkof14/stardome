@@ -45,7 +45,7 @@ describe("auth env", () => {
     expect(process.env.NEXTAUTH_URL).toBe("https://starwall.vercel.app");
   });
 
-  it("fills NEXTAUTH_SECRET so Edge middleware can decode the session", () => {
+  it("fills NEXTAUTH_SECRET so sessions can be decoded without a dashboard secret", () => {
     delete process.env.NEXTAUTH_SECRET;
     delete process.env.AUTH_SECRET;
     ensureAuthEnv();

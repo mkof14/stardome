@@ -1,4 +1,4 @@
-/** Shared NextAuth env for Node routes and Edge middleware. Keep this file Edge-safe. */
+/** Shared NextAuth env for Node routes. Keep this file runtime-safe (no Node-only APIs). */
 
 const LOOPBACK = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?\/?$/i;
 
