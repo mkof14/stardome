@@ -9,12 +9,22 @@ import { GoogleButton } from "@/components/auth/google-button";
 import { PasswordField } from "@/components/auth/password-field";
 import { safeNextPath } from "@/lib/auth-session";
 
-export function LoginView({ next }: { next?: string | null }) {
+export function LoginView({
+  next,
+  google = false,
+  error: initialError = null,
+}: {
+  next?: string | null;
+  google?: boolean;
+  error?: string | null;
+}) {
   const router = useRouter();
   const nextPath = safeNextPath(next);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(() =>
+    initialError ? "Sign-in could not finish on this host. Try email and password." : null,
+  );
   const [busy, setBusy] = useState(false);
 
   async function submit() {
@@ -38,7 +48,7 @@ export function LoginView({ next }: { next?: string | null }) {
     router.refresh();
   }
 
-  function google() {
+  function googleSignIn() {
     setBusy(true);
     void signIn("google", { callbackUrl: nextPath });
   }
@@ -101,15 +111,19 @@ export function LoginView({ next }: { next?: string | null }) {
         </button>
       </form>
 
-      <div className="my-5 flex items-center gap-3">
-        <span className="h-px flex-1 bg-[#B7C9D8]" />
-        <span className="font-mono text-[11px] uppercase tracking-wider text-[#55687A]">
-          or
-        </span>
-        <span className="h-px flex-1 bg-[#B7C9D8]" />
-      </div>
+      {google ? (
+        <>
+          <div className="my-5 flex items-center gap-3">
+            <span className="h-px flex-1 bg-[#B7C9D8]" />
+            <span className="font-mono text-[11px] uppercase tracking-wider text-[#55687A]">
+              or
+            </span>
+            <span className="h-px flex-1 bg-[#B7C9D8]" />
+          </div>
 
-      <GoogleButton onClick={google} disabled={busy} />
+          <GoogleButton onClick={googleSignIn} disabled={busy} />
+        </>
+      ) : null}
 
       <p className="mt-6 text-center text-sm text-[#55687A]">
         Don&apos;t have an account?{" "}

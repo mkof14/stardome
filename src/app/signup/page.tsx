@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SignupView } from "@/components/auth/signup-view";
+import { googleAuthConfigured } from "@/lib/auth-env";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -8,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function SignupPage() {
-  return <SignupView />;
+  return <SignupView google={googleAuthConfigured()} />;
 }

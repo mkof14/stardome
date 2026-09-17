@@ -133,9 +133,9 @@ This is a standard Next.js 14 App Router app. Do **not** set `output: "standalon
 2. Set environment variables:
    - `ANTHROPIC_API_KEY` — required for Pilot replies. Without it Pilot still opens and returns a configuration error.
    - `NEXT_PUBLIC_SITE_URL` — production origin, e.g. `https://your-project.vercel.app`.
-   - `NEXTAUTH_URL` — same production origin.
-   - `NEXTAUTH_SECRET` — random secret for session tokens.
-   - `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` — from the Google Cloud OAuth client. Without them the Google button is visible but sign-in cannot complete.
+   - `NEXTAUTH_URL` — **the same production HTTPS origin**. Do not leave this as `http://127.0.0.1:3000` on Vercel: NextAuth then fails on `/interface` with “Server error / There is a problem with the server configuration.”
+   - `NEXTAUTH_SECRET` — random secret for session tokens (`openssl rand -base64 32`). Required on Vercel; the Edge gate on `/interface` cannot read a secret that only exists in code.
+   - `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` — from the Google Cloud OAuth client. Leave both empty until those values exist; a placeholder Google provider also triggers that Server error page.
    - `DATABASE_URL` — Neon / Vercel Postgres URL (add `?sslmode=require` if it is missing). Use the pooled connection string. The build runs `prisma migrate deploy` only when this is a hosted Postgres URL, so a missing database does not fail the Vercel deploy.
 3. Deploy. `vercel.json` pins the framework and a single region (`iad1`). `npm run build` generates the Prisma client, applies migrations when a hosted `DATABASE_URL` is set, then runs `next build`.
 

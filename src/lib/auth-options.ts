@@ -1,6 +1,7 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+import { authSecret, ensureAuthEnv, googleAuthConfigured } from "@/lib/auth-env";
 import { isCommercialRole, resolveCommercialRole } from "@/lib/commercial-rbac";
 import { isUserRole } from "@/lib/rbac";
 import {
@@ -10,23 +11,20 @@ import {
   upsertGoogleUser,
 } from "@/lib/user-store";
 
-export const authOptions: NextAuthOptions = {
-  secret: process.env.NEXTAUTH_SECRET || "starwall-dev-secret-not-for-production",
-  session: { strategy: "jwt" },
-  pages: {
-    signIn: "/login",
-  },
-  providers: [
-    CredentialsProvider({
-      name: "Email",
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
-      },
-      async authorize(credentials) {
-        const email = credentials?.email?.trim() ?? "";
-        const password = credentials?.password ?? "";
-        if (!email || !password) return null;
+ensureAuthEnv();
+
+const providers: NextAuthOptions["providers"] = [
+  CredentialsProvider({
+    name: "Email",
+    credentials: {
+      email: { label: "Email", type: "email" },
+      password: { label: "Password", type: "password" },
+    },
+    async authorize(credentials) {
+      const email = credentials?.email?.trim() ?? "";
+      const password = credentials?.password ?? "";
+      if (!email || !password) return null;
+      try {
         const user = await authenticateUser(email, password);
         if (!user) return null;
         await markSignIn(user.id);
@@ -36,24 +34,45 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           role: user.role,
         };
-      },
-    }),
+      } catch {
+        return null;
+      }
+    },
+  }),
+];
+
+if (googleAuthConfigured()) {
+  providers.push(
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || "missing-google-client-id",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "missing-google-client-secret",
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
-  ],
+  );
+}
+
+export const authOptions: NextAuthOptions = {
+  secret: authSecret(),
+  session: { strategy: "jwt" },
+  pages: {
+    signIn: "/login",
+    error: "/login",
+  },
+  providers,
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider === "google" && user.email) {
-        const stored = await upsertGoogleUser({
-          id: user.id,
-          email: user.email,
-          name: user.name,
-        });
-        if (stored) {
-          user.id = stored.id;
-          user.role = stored.role;
+        try {
+          const stored = await upsertGoogleUser({
+            id: user.id,
+            email: user.email,
+            name: user.name,
+          });
+          if (stored) {
+            user.id = stored.id;
+            user.role = stored.role;
+          }
+        } catch {
+          return true;
         }
       }
       return true;
@@ -66,7 +85,8 @@ export const authOptions: NextAuthOptions = {
         if (isUserRole(user.role)) token.role = user.role;
       }
       const email = typeof token.email === "string" ? token.email : "";
-      if (email) {
+      if (!email) return token;
+      try {
         const stored = await findUserByEmail(email);
         if (stored) {
           token.sub = stored.id;
@@ -75,6 +95,9 @@ export const authOptions: NextAuthOptions = {
           token.commercialRole =
             resolveCommercialRole(stored.role, stored.commercialRole) ?? "none";
         }
+      } catch {
+        // A down or unmigrated database must not turn /interface into
+        // NextAuth's "Server error" configuration page.
       }
       return token;
     },

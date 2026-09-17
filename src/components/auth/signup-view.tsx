@@ -8,7 +8,7 @@ import { AuthShell } from "@/components/auth/auth-shell";
 import { GoogleButton } from "@/components/auth/google-button";
 import { PasswordField } from "@/components/auth/password-field";
 
-export function SignupView() {
+export function SignupView({ google = false }: { google?: boolean }) {
   const router = useRouter();
   const [name, setName] = useState("");
   const [organization, setOrganization] = useState("");
@@ -67,7 +67,7 @@ export function SignupView() {
     router.refresh();
   }
 
-  function google() {
+  function googleSignIn() {
     setBusy(true);
     void signIn("google", { callbackUrl: "/interface" });
   }
@@ -138,15 +138,19 @@ export function SignupView() {
         </button>
       </form>
 
-      <div className="my-5 flex items-center gap-3">
-        <span className="h-px flex-1 bg-[#B7C9D8]" />
-        <span className="font-mono text-[11px] uppercase tracking-wider text-[#55687A]">
-          or
-        </span>
-        <span className="h-px flex-1 bg-[#B7C9D8]" />
-      </div>
+      {google ? (
+        <>
+          <div className="my-5 flex items-center gap-3">
+            <span className="h-px flex-1 bg-[#B7C9D8]" />
+            <span className="font-mono text-[11px] uppercase tracking-wider text-[#55687A]">
+              or
+            </span>
+            <span className="h-px flex-1 bg-[#B7C9D8]" />
+          </div>
 
-      <GoogleButton onClick={google} disabled={busy} />
+          <GoogleButton onClick={googleSignIn} disabled={busy} />
+        </>
+      ) : null}
 
       <p className="mt-6 text-center text-sm text-[#55687A]">
         Already have an account?{" "}
