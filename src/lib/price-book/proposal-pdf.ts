@@ -110,7 +110,7 @@ function drawLetterhead(
   page.drawRectangle({ x: 0, y: height - 92, width, height: 92, color: NAVY });
   page.drawRectangle({ x: 0, y: height - 96, width, height: 4, color: accent });
   if (ctx.logo) {
-    const fit = ctx.logo.scaleToFit(168, 36);
+    const fit = ctx.logo.scaleToFit(210, 58);
     page.drawImage(ctx.logo, {
       x: 36,
       y: height - 28 - fit.height,

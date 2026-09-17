@@ -1,0 +1,13 @@
+---
+description: Official StarWall logo — chrome oval badge
+alwaysApply: true
+---
+
+# StarWall logo
+
+The only StarWall mark is `public/SW3.png` (chrome oval badge supplied by AGRON). Use this file for the header, footer, login shell, favicon, Open Graph, connections map, and proposal PDFs.
+
+- Do not redraw the wordmark in CSS or SVG.
+- Do not generate a replacement logo.
+- Do not switch to another asset, even if it looks similar.
+- Keep the path `/SW3.png` so every surface stays on the same file.
