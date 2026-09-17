@@ -42,8 +42,15 @@ ensure_deps() {
 }
 
 ensure_build() {
-  if [ ! -f "$ROOT/.next/BUILD_ID" ]; then
+  local stamp="$ROOT/.next/BUILD_ID"
+  local stale=""
+  if [ -f "$stamp" ]; then
+    stale="$(find "$ROOT/src" "$ROOT/package.json" "$ROOT/next.config.mjs" "$ROOT/prisma" -newer "$stamp" -print -quit 2>/dev/null || true)"
+  fi
+  if [ ! -f "$stamp" ] || [ -n "$stale" ]; then
     echo "[ensure] building Next.js…"
+    pkill -f "next start -H" >/dev/null 2>&1 || true
+    pkill -f "next-server" >/dev/null 2>&1 || true
     npm run build
   fi
 }

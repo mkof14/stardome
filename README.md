@@ -60,7 +60,7 @@ Shared sticky header and footer wrap every route via the root layout. The header
 |---|---|
 | `/` | StarWall — Overview |
 | `/how-it-works` | How it works |
-| `/interface` | Interface (scenario-linked Situational Picture) |
+| `/interface` | Interface (public Bridge demo — no sign-in) |
 | `/interface/connections` | System Connections Map |
 | `/levels` | Levels |
 | `/pricing` | Plans — four levels, comparison, how pricing is built, request form |
@@ -131,7 +131,7 @@ This is a standard Next.js 14 App Router app. Do **not** set `output: "standalon
 
 - Marketing pages work immediately.
 - `/login` accepts the printed demo accounts (`super@starwall.demo` / `SuperAdmin!23`, and the other role accounts on that page) even before Postgres is attached. Sessions are JWTs.
-- `/interface` is gated by the page `AuthGate` (not Edge middleware), so a missing `NEXTAUTH_SECRET` never renders NextAuth’s “Server error” page. `NEXTAUTH_URL` is taken from the request host; a leftover `http://127.0.0.1:3000` value is ignored on Vercel.
+- `/interface` is a public Bridge demo. It does not require a session, so a missing `NEXTAUTH_SECRET` never renders NextAuth’s “Server error” page. `NEXTAUTH_URL` is taken from the request host; a leftover `http://127.0.0.1:3000` value is ignored on Vercel.
 - Google sign-in stays hidden until both `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are set.
 - Pilot replies need `ANTHROPIC_API_KEY`. Without it Pilot still opens and says the key is missing.
 
