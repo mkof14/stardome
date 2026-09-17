@@ -26,6 +26,12 @@ const nextConfig = {
     "*.cursor.sh",
     "*.cursorusercontent.com",
   ],
+  async redirects() {
+    return [
+      { source: "/api/auth/signin", destination: "/login", permanent: false },
+      { source: "/api/auth/error", destination: "/login", permanent: false },
+    ];
+  },
   async headers() {
     return [
       {
