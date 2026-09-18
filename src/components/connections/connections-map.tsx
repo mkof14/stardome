@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { STARWALL_MARK } from "@/components/brand-logo";
 import {
   CONTAINER_BOX,
   CORE,
@@ -497,7 +498,7 @@ export function ConnectionsMap() {
         })}
       </svg>
       <Image
-        src="/SW3.png"
+        src={STARWALL_MARK}
         alt="StarWall"
         width={1466}
         height={543}
