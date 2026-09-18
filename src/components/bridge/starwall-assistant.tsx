@@ -23,9 +23,22 @@ import { usePreferences } from "@/lib/i18n/context";
 import { hudFor } from "@/lib/i18n/hud";
 import { pilotChrome } from "@/lib/i18n/pilot-chrome";
 import { useHud } from "@/lib/i18n/use-hud";
-import { localeMeta, locales, type Locale } from "@/lib/i18n/locales";
+import { localeMeta, locales, type Locale, isLocale } from "@/lib/i18n/locales";
 import { useAppMode } from "@/lib/mode";
 import { usePathname } from "next/navigation";
+import { pilotDemoCopy } from "@/lib/i18n/pilot-demo-copy";
+import { demoBeats } from "@/lib/pilot-demo";
+import {
+  pickVoice,
+  SPEAK_BCP47,
+  SpeechEngine,
+  voiceNeed,
+} from "@/lib/pilot-voice";
+import {
+  PilotDemoIcon,
+  PilotVoiceNeed,
+  PilotWatchCalls,
+} from "@/components/bridge/pilot-demo";
 
 type MicState = "idle" | "listening" | "processing" | "speaking";
 
@@ -42,30 +55,8 @@ function messageId() {
   return `helm-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
 }
 
-const SPEAK_LANG: Record<string, string> = {
-  en: "en-US",
-  es: "es-ES",
-  fr: "fr-FR",
-  de: "de-DE",
-  ru: "ru-RU",
-  uk: "uk-UA",
-  ar: "ar-SA",
-  zh: "zh-CN",
-  ja: "ja-JP",
-  he: "he-IL",
-};
-
 const BAR_COUNT = 10;
 const TYPE_MS = 28;
-
-function SpeechEngine() {
-  if (typeof window === "undefined") return null;
-  const w = window as Window & {
-    SpeechRecognition?: new () => SpeechRecognition;
-    webkitSpeechRecognition?: new () => SpeechRecognition;
-  };
-  return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null;
-}
 
 export function Helm() {
   const pathname = usePathname();
@@ -95,6 +86,8 @@ export function Helm() {
     comms: false,
   });
   const [unread, setUnread] = useState(false);
+  const [drilling, setDrilling] = useState(false);
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const listRef = useRef<HTMLDivElement | null>(null);
   const langRef = useRef<HTMLDivElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -104,10 +97,25 @@ export function Helm() {
   const sendRef = useRef<(text: string) => Promise<void>>(async () => {});
   const lastNote = useRef<string | null>(null);
   const openRef = useRef(open);
+  const voiceOnRef = useRef(voiceOn);
+  const demoCancel = useRef(false);
+  const drillingRef = useRef(false);
   const menuId = useId();
   const desk = pilotDeskCopy(recogLang);
+  const demoCopy = pilotDemoCopy(recogLang);
   const watch = buildPilotWatch(session, recogLang);
+  const need = voiceNeed(recogLang, voices);
   openRef.current = open;
+  voiceOnRef.current = voiceOn;
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.speechSynthesis) return;
+    const synth = window.speechSynthesis;
+    const load = () => setVoices(synth.getVoices());
+    load();
+    synth.addEventListener("voiceschanged", load);
+    return () => synth.removeEventListener("voiceschanged", load);
+  }, []);
 
   useEffect(() => {
     if (!listRef.current) return;
@@ -173,6 +181,9 @@ export function Helm() {
 
   useEffect(() => {
     if (live) {
+      demoCancel.current = true;
+      drillingRef.current = false;
+      setDrilling(false);
       setMessages([]);
       setTyped("");
       setTypingId(null);
@@ -331,7 +342,7 @@ export function Helm() {
       setMic("listening");
 
       const recognition = new Engine();
-      recognition.lang = SPEAK_LANG[recogLang] ?? "en-US";
+      recognition.lang = SPEAK_BCP47[recogLang];
       recognition.interimResults = true;
       recognition.continuous = false;
       recognitionRef.current = recognition;
@@ -372,28 +383,91 @@ export function Helm() {
     });
   }
 
-  function speakReply(text: string, langCode: string) {
-    if (!voiceOn || typeof window === "undefined" || !window.speechSynthesis) {
-      setMic("idle");
+  function speakReply(text: string, langCode: string, force = false): Promise<void> {
+    return new Promise((resolve) => {
+      let settled = false;
+      const finish = () => {
+        if (settled) return;
+        settled = true;
+        setMic((current) => (current === "speaking" ? "idle" : current));
+        resolve();
+      };
+      if (
+        (!voiceOnRef.current && !force) ||
+        typeof window === "undefined" ||
+        !window.speechSynthesis
+      ) {
+        finish();
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      const locale = isLocale(langCode) ? langCode : recogLang;
+      utterance.lang = SPEAK_BCP47[locale];
+      const installed = window.speechSynthesis.getVoices();
+      const match = pickVoice(installed.length ? installed : voices, locale);
+      if (match) {
+        const full = installed.find(
+          (voice) => voice.name === match.name && voice.lang === match.lang,
+        );
+        if (full) utterance.voice = full;
+      }
+      utterance.onend = finish;
+      utterance.onerror = finish;
+      setMic("speaking");
+      window.speechSynthesis.speak(utterance);
+      window.setTimeout(finish, Math.min(22000, 900 + text.length * 70));
+    });
+  }
+
+  function stopDemo() {
+    demoCancel.current = true;
+    drillingRef.current = false;
+    setDrilling(false);
+    stopSpeech();
+  }
+
+  async function runDemo() {
+    if (drillingRef.current) {
+      stopDemo();
       return;
     }
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = SPEAK_LANG[langCode] ?? langCode;
-    const voices = window.speechSynthesis.getVoices();
-    const match = voices.find((voice) =>
-      voice.lang.toLowerCase().startsWith(langCode.toLowerCase()),
-    );
-    if (match) utterance.voice = match;
-    utterance.onend = () => setMic("idle");
-    utterance.onerror = () => setMic("idle");
-    setMic("speaking");
-    window.speechSynthesis.speak(utterance);
+    demoCancel.current = false;
+    drillingRef.current = true;
+    setDrilling(true);
+    setOpen(true);
+    setUnread(false);
+    setVoiceOn(true);
+    voiceOnRef.current = true;
+    const beats = demoBeats(session, recogLang);
+    for (const beat of beats) {
+      if (demoCancel.current) break;
+      if (beat.raise) {
+        setRaised((current) => ({ ...current, ...beat.raise }));
+      }
+      const id = messageId();
+      setMessages((current) => [
+        ...current,
+        {
+          id,
+          role: beat.role === "officer" ? "user" : "assistant",
+          text: beat.text,
+        },
+      ]);
+      if (beat.speak) {
+        await speakReply(beat.text, recogLang, true);
+      } else {
+        await new Promise((resolve) => window.setTimeout(resolve, 420));
+      }
+    }
+    drillingRef.current = false;
+    setDrilling(false);
   }
 
   async function sendMessage(text: string) {
     const clean = text.trim();
     if (!clean) return;
+    stopDemo();
     stopListening(true);
     const userId = messageId();
     const userAt = new Date().toISOString();
@@ -589,11 +663,20 @@ export function Helm() {
                   </ul>
                 ) : null}
               </div>
+              <PilotDemoIcon
+                compact
+                running={drilling}
+                label={drilling ? demoCopy.stop : demoCopy.play}
+                onClick={() => void runDemo()}
+              />
               <button
                 type="button"
                 data-testid="helm-hide"
                 data-pilot-lang={recogLang}
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  stopDemo();
+                  setOpen(false);
+                }}
                 className="border border-sand/20 px-2 py-1 font-mono text-[10px] text-sand/70 hover:text-sand"
               >
                 {surface.hide}
@@ -607,6 +690,9 @@ export function Helm() {
               urgent={watch.urgent}
               onRaised={setRaised}
             />
+            <div className="mt-1.5">
+              <PilotVoiceNeed locale={recogLang} need={need} />
+            </div>
           </div>
 
           <div
@@ -713,6 +799,13 @@ export function Helm() {
             {micError ? (
               <p className="mb-2 font-mono text-[10px] text-attn">{micError}</p>
             ) : null}
+            <div className="mb-2">
+              <PilotWatchCalls
+                copy={demoCopy}
+                disabled={mic === "processing" || drilling}
+                onPick={(text) => void sendMessage(text)}
+              />
+            </div>
             <form
               onSubmit={(event) => {
                 event.preventDefault();
@@ -749,6 +842,12 @@ export function Helm() {
               }}
             />
           ) : null}
+        <div className="flex items-end gap-2">
+          <PilotDemoIcon
+            running={drilling}
+            label={drilling ? demoCopy.stop : demoCopy.play}
+            onClick={() => void runDemo()}
+          />
         <button
           type="button"
           data-testid="assistant-toggle"
@@ -780,6 +879,7 @@ export function Helm() {
             <circle cx="24" cy="24" r="3.2" fill="#F15A00" className="helm-idle-led" />
           </svg>
         </button>
+        </div>
         </div>
       )}
     </div>
