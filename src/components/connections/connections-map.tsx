@@ -501,6 +501,7 @@ export function ConnectionsMap() {
         alt="StarWall"
         width={1466}
         height={543}
+        unoptimized
         data-testid="map-core-logo"
         className="pointer-events-none absolute z-[1] h-auto w-[200px] -translate-x-1/2 -translate-y-[80%]"
         style={{
