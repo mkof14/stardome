@@ -1,6 +1,7 @@
 import { cn } from "@/lib/cn";
 import type { ReactNode } from "react";
-import { PilotHex } from "@/components/bridge/hud-icons";
+import { HexFrame, HudGlyph, type HudGlyphName, PilotHex } from "@/components/bridge/hud-icons";
+import { HudVisor } from "@/components/bridge/hud-visor";
 
 type HudPanelProps = {
   title: string;
@@ -9,6 +10,9 @@ type HudPanelProps = {
   className?: string;
   testId?: string;
   id?: string;
+  glyph?: HudGlyphName;
+  status?: string;
+  visor?: "window" | "overlay";
 };
 
 export function HudPanel({
@@ -18,32 +22,40 @@ export function HudPanel({
   className,
   testId,
   id,
+  glyph,
+  status,
+  visor = "window",
 }: HudPanelProps) {
   return (
     <section
       id={id}
       data-testid={testId}
       className={cn(
-        "hud-panel-bezel relative border border-bridge-line bg-bridge-panel p-4",
+        "hud-panel-bezel relative bg-bridge-panel p-4 pt-6",
+        visor === "overlay" ? "hud-visor-clip-overlay" : "hud-visor-clip-window",
         className,
       )}
     >
-      <span className="hud-panel-tick left-0 top-0 border-b-0 border-r-0" />
-      <span className="hud-panel-tick right-0 top-0 border-b-0 border-l-0" />
-      <span className="hud-panel-tick bottom-0 left-0 border-r-0 border-t-0" />
-      <span className="hud-panel-tick bottom-0 right-0 border-l-0 border-t-0" />
-      <span className="pointer-events-none absolute left-5 top-0 h-px w-8 bg-orange/70" />
-      <span className="pointer-events-none absolute right-5 top-0 h-px w-8 bg-orange/70" />
-      <span className="pointer-events-none absolute bottom-0 left-5 h-px w-8 bg-orange/70" />
-      <span className="pointer-events-none absolute bottom-0 right-5 h-px w-8 bg-orange/70" />
-      <header className="mb-3 flex items-center justify-between gap-3">
+      <HudVisor variant={visor} />
+      <header className="relative z-[1] mb-3 flex items-center justify-between gap-3">
         <h2 className="flex items-center gap-2 font-ui text-sm font-semibold tracking-wide text-bridge-text">
-          <PilotHex className="h-5 w-5" />
+          {glyph ? (
+            <HexFrame className="h-6 w-6 text-orange">
+              <HudGlyph name={glyph} className="h-3 w-3" />
+            </HexFrame>
+          ) : (
+            <PilotHex className="h-5 w-5" />
+          )}
           {title}
         </h2>
-        {extra ? <div className="shrink-0">{extra}</div> : null}
+        {extra ? <div className="relative z-[1] shrink-0">{extra}</div> : null}
       </header>
-      {children}
+      <div className="relative z-[1]">{children}</div>
+      {status ? (
+        <p className="hud-bezel-status pointer-events-none absolute bottom-2 end-4 z-[1] font-mono text-[9px] tracking-[0.18em] text-orange">
+          [ {status} ]
+        </p>
+      ) : null}
     </section>
   );
 }

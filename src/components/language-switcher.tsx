@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { FlagIcon } from "@/components/flag-icon";
+import { ChamferFrame, HudGlyph } from "@/components/bridge/hud-icons";
 import { usePreferences } from "@/lib/i18n/context";
 import { localeMeta, siteLocales, type Locale } from "@/lib/i18n/locales";
 import { cn } from "@/lib/cn";
@@ -59,6 +60,9 @@ export function LanguageSwitcher({
         aria-label={t.chrome.language}
         onClick={() => setOpen((value) => !value)}
       >
+        <ChamferFrame className="h-8 w-8">
+          <HudGlyph name="globe" className="h-3.5 w-3.5" />
+        </ChamferFrame>
         <FlagIcon locale={locale} />
         <span className="hidden sm:inline">{localeMeta[locale].native}</span>
         <span aria-hidden className="text-[10px]">

@@ -2,7 +2,8 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { FlagIcon } from "@/components/flag-icon";
-import { PilotHex } from "@/components/bridge/hud-icons";
+import { ChamferFrame, HudGlyph, PilotHex } from "@/components/bridge/hud-icons";
+import { HudVisor } from "@/components/bridge/hud-visor";
 import { cn } from "@/lib/cn";
 import { useBlackBox } from "@/lib/black-box";
 import { useBridgeSession } from "@/lib/bridge-session";
@@ -1038,17 +1039,13 @@ export function Helm() {
       {open ? (
         <div className="relative flex max-h-[calc(100vh-5.5rem)] flex-col items-end">
         <section className={cn(
-          "helm-scope hud-panel-bezel relative flex h-[min(40rem,calc(100vh-5.5rem))] flex-col overflow-hidden border border-bridge-line bg-bridge-panel text-bridge-text shadow-[0_20px_56px_rgb(15_25_34/0.22)]",
+          "helm-scope relative flex h-[min(40rem,calc(100vh-5.5rem))] flex-col overflow-hidden bg-bridge-panel text-bridge-text shadow-[0_20px_56px_rgb(15_25_34/0.22)] hud-visor-clip-window",
           drilling
-            ? "w-[min(24rem,calc(100vw-1.5rem))] border-[#38BDF8]/50"
+            ? "w-[min(24rem,calc(100vw-1.5rem))]"
             : "w-[min(22rem,calc(100vw-1.5rem))]",
         )}>
-          <div className="h-[2px] bg-orange" />
-          <span className="hud-panel-tick left-0 top-0 border-b-0 border-r-0" />
-          <span className="hud-panel-tick right-0 top-0 border-b-0 border-l-0" />
-          <span className="hud-panel-tick bottom-0 left-0 border-r-0 border-t-0" />
-          <span className="hud-panel-tick bottom-0 right-0 border-l-0 border-t-0" />
-          <header className="relative flex items-center justify-between gap-2 border-b border-bridge-line bg-bridge-bg px-3 py-2.5">
+          <HudVisor variant="window" />
+          <header className="relative z-[1] flex items-center justify-between gap-2 border-b border-bridge-line bg-bridge-bg px-3 py-2.5">
             <span
               className="helm-fab-sweep pointer-events-none absolute -end-6 -top-10 h-28 w-28 rounded-full opacity-40"
               style={{
@@ -1088,9 +1085,11 @@ export function Helm() {
                   aria-label={helmHud.language}
                   title={helmHud.language}
                   onClick={() => setLangsOpen((value) => !value)}
-                  className="inline-flex items-center gap-1.5 border border-bridge-line px-2 py-1 font-mono text-[10px] text-bridge-text hover:border-orange"
+                  className="inline-flex items-center gap-1 px-0.5 py-0.5 font-mono text-[10px] text-bridge-text hover:text-orange"
                 >
-                  <FlagIcon locale={recogLang} />
+                  <ChamferFrame className="h-7 w-7 text-orange">
+                    <HudGlyph name="globe" className="h-3 w-3" />
+                  </ChamferFrame>
                   {recogLang.toUpperCase()}
                   <span aria-hidden>▾</span>
                 </button>
@@ -1135,13 +1134,16 @@ export function Helm() {
                   setTalkHud(false);
                   setOpen(false);
                 }}
-                className="border border-bridge-line px-2 py-1 font-mono text-[10px] text-bridge-dim hover:text-bridge-text"
+                className="inline-flex items-center gap-1 px-1 py-0.5 font-mono text-[10px] text-bridge-dim hover:text-orange"
               >
+                <ChamferFrame className="h-7 w-7">
+                  <HudGlyph name="hide" className="h-3 w-3" />
+                </ChamferFrame>
                 {surface.hide}
               </button>
             </div>
           </header>
-          <div className="border-b border-bridge-line bg-bridge-bg px-3 py-1.5">
+          <div className="relative z-[1] border-b border-bridge-line bg-bridge-bg px-3 py-1.5">
             <PilotDeskBar
               copy={desk}
               screen={screen}

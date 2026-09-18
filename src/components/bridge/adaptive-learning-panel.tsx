@@ -33,6 +33,7 @@ export function AdaptiveLearningPanel() {
           testId="adaptive-learning-panel"
           className="scroll-mt-20"
           title={hud.learning.title}
+          glyph="learn"
           extra={
             <div className="flex items-center gap-3">
               <span className="hidden font-mono text-[10px] text-bridge-dim sm:inline">

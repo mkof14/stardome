@@ -172,6 +172,7 @@ export function PerimeterPanel() {
     <HudPanel
       testId="perimeter-panel"
       title="PERIMETER"
+      glyph="perimeter"
       extra={
         <span className="font-mono text-[10px] text-bridge-dim">
           5 SENSORS · 1 ALERT

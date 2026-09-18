@@ -47,6 +47,7 @@ export function CrisisProtocolPanel({
       id="crisis-protocol-panel"
       testId="crisis-protocol-panel"
       title={hud.chrome.crisisProtocol}
+      glyph="crisis"
       className="scroll-mt-20 border-crit"
     >
       <ol className="space-y-2">

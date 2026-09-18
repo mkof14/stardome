@@ -1,13 +1,34 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PilotHex } from "@/components/bridge/hud-icons";
+import { ChamferFrame, HudGlyph, PilotHex, type HudGlyphName } from "@/components/bridge/hud-icons";
+import { HudFrame } from "@/components/bridge/hud-visor";
 import { cn } from "@/lib/cn";
 import { askPilot, CLEAR_SCREENS_EVENT, WATCH_COMMS_FOCUS_EVENT, type WatchCommsFocus } from "@/lib/helm-events";
 import { watchCommsCopy } from "@/lib/i18n/watch-comms-copy";
 import { useHud } from "@/lib/i18n/use-hud";
 import { useAppMode } from "@/lib/mode";
-import { WATCH_CIRCUITS, type WatchParty } from "@/lib/watch-comms";
+import { WATCH_CIRCUITS, type WatchBearer, type WatchParty } from "@/lib/watch-comms";
+
+const BEARER_GLYPH: Record<WatchBearer, HudGlyphName> = {
+  shipPhone: "phone",
+  mobile: "mobile",
+  localPhone: "phone",
+  personalRadio: "radio",
+  vesselRadio: "radio",
+  vhf: "antenna",
+  satcomVoice: "satellite",
+  supportDesk: "support",
+  alarmNet: "alert",
+};
+
+const FILTERS: Array<{ id: WatchParty | "all"; glyph: HudGlyphName }> = [
+  { id: "all", glyph: "all" },
+  { id: "captain", glyph: "captain" },
+  { id: "designated", glyph: "person" },
+  { id: "watch", glyph: "radio" },
+  { id: "support", glyph: "support" },
+];
 
 export function WatchCommsPanel() {
   const { locale } = useHud();
@@ -56,44 +77,38 @@ export function WatchCommsPanel() {
         </p>
 
         <div className="mt-4 flex flex-wrap gap-1.5">
-          {(
-            [
-              ["all", copy.title],
-              ["captain", copy.party.captain],
-              ["designated", copy.party.designated],
-              ["watch", copy.party.watch],
-              ["support", copy.party.support],
-            ] as const
-          ).map(([id, label]) => (
-            <button
-              key={id}
-              type="button"
-              data-testid={`watch-comms-filter-${id}`}
-              aria-pressed={focus === id}
-              onClick={() => setFocus(id)}
-              className={cn(
-                "border px-2 py-1 font-ui text-[11px]",
-                focus === id
-                  ? "border-orange bg-orange/10 text-orange"
-                  : "border-bridge-line text-bridge-dim hover:border-orange hover:text-orange",
-              )}
-            >
-              {label}
-            </button>
-          ))}
+          {FILTERS.map((item) => {
+            const label = item.id === "all" ? copy.title : copy.party[item.id];
+            return (
+              <button
+                key={item.id}
+                type="button"
+                data-testid={`watch-comms-filter-${item.id}`}
+                aria-pressed={focus === item.id}
+                onClick={() => setFocus(item.id)}
+                className={cn(
+                  "inline-flex items-center gap-1.5 px-2 py-1 font-ui text-[11px]",
+                  focus === item.id
+                    ? "text-orange"
+                    : "text-bridge-dim hover:text-orange",
+                )}
+              >
+                <ChamferFrame active={focus === item.id} className="h-7 w-7">
+                  <HudGlyph name={item.glyph} className="h-3 w-3" />
+                </ChamferFrame>
+                {label}
+              </button>
+            );
+          })}
         </div>
 
-        <div className="hud-panel-bezel relative mt-4 overflow-hidden border border-bridge-line bg-bridge-panel">
-          <span className="hud-panel-tick left-0 top-0 border-b-0 border-r-0" />
-          <span className="hud-panel-tick right-0 top-0 border-b-0 border-l-0" />
-          <span className="hud-panel-tick bottom-0 left-0 border-r-0 border-t-0" />
-          <span className="hud-panel-tick bottom-0 right-0 border-l-0 border-t-0" />
-          <div className="grid grid-cols-[4.5rem_minmax(0,1fr)_auto] items-center gap-2 border-b border-bridge-line bg-bridge-bg px-3 py-1.5 font-mono text-[9px] tracking-[0.16em] text-bridge-dim">
+        <HudFrame variant="window" className="mt-4 bg-bridge-panel" status={live ? "STBY" : "CIRCUITS"}>
+          <div className="grid grid-cols-[4.5rem_minmax(0,1fr)_auto] items-center gap-2 bg-bridge-bg px-4 py-2 font-mono text-[9px] tracking-[0.16em] text-bridge-dim">
             <span>CH</span>
             <span>CIRCUIT</span>
             <span>PTT</span>
           </div>
-          <ul className="divide-y divide-bridge-line">
+          <ul className="divide-y divide-bridge-line pb-6">
             {rows.map((row, index) => {
               const hot = raised === row.id;
               const alarm = row.bearer === "alarmNet";
@@ -103,24 +118,17 @@ export function WatchCommsPanel() {
                   data-testid={`watch-circuit-${row.id}`}
                   data-party={row.party}
                   className={cn(
-                    "grid grid-cols-[4.5rem_minmax(0,1fr)_auto] items-center gap-2 px-3 py-2.5",
+                    "grid grid-cols-[4.5rem_minmax(0,1fr)_auto] items-center gap-2 px-4 py-2.5",
                     hot && "bg-orange/5",
                   )}
                 >
                   <div className="flex items-center gap-2">
-                    <span
-                      className={cn(
-                        "h-2 w-2 rounded-full",
-                        live
-                          ? "bg-bridge-dim/50"
-                          : hot
-                            ? alarm
-                              ? "bg-crit"
-                              : "bg-ok"
-                            : "bg-attn/80",
-                      )}
-                      aria-hidden
-                    />
+                    <ChamferFrame
+                      active={hot}
+                      className={cn("h-7 w-7", alarm ? "text-crit" : "text-orange")}
+                    >
+                      <HudGlyph name={BEARER_GLYPH[row.bearer]} className="h-3 w-3" />
+                    </ChamferFrame>
                     <span className="font-mono text-[11px] tabular-nums text-bridge-dim">
                       {String(index + 1).padStart(2, "0")}
                     </span>
@@ -160,7 +168,7 @@ export function WatchCommsPanel() {
               );
             })}
           </ul>
-        </div>
+        </HudFrame>
       </div>
     </section>
   );

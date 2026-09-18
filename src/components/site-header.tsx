@@ -8,6 +8,8 @@ import { LanguageSwitcher } from "@/components/language-switcher";
 import { ModeToggle } from "@/components/mode-toggle";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { AccountMenu } from "@/components/auth/account-menu";
+import { FullscreenButton } from "@/components/bridge/fullscreen-button";
+import { ClearScreensButton } from "@/components/bridge/clear-screens-button";
 import { isAuthRoute, isInternalDesk, useAuthSession } from "@/lib/auth-session";
 import { sessionHasDeskAccess } from "@/lib/commercial-rbac";
 import { usePreferences } from "@/lib/i18n/context";
@@ -84,6 +86,12 @@ export function SiteHeader() {
         <div className="flex items-center gap-2">
           <AccountMenu />
           {showMode ? <ModeToggle /> : null}
+          {pathname.startsWith("/interface") ? (
+            <>
+              <FullscreenButton />
+              <ClearScreensButton />
+            </>
+          ) : null}
           <div className="hidden lg:flex lg:items-center">
             <ThemeToggle />
             <LanguageSwitcher />
@@ -149,6 +157,12 @@ export function SiteHeader() {
           <div className="flex flex-wrap items-center justify-between gap-2 px-3 py-2">
             <AccountMenu />
             {showMode ? <ModeToggle /> : null}
+            {pathname.startsWith("/interface") ? (
+              <>
+                <FullscreenButton />
+                <ClearScreensButton />
+              </>
+            ) : null}
             <ThemeToggle />
             <LanguageSwitcher align="end" />
           </div>

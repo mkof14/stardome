@@ -164,6 +164,7 @@ export function SpectrumPanel() {
     <HudPanel
       testId="spectrum-panel"
       title="RF SPECTRUM"
+      glyph="spectrum"
       extra={
         <span className="font-mono text-[10px] text-bridge-dim">
           WIDE-BAND SCAN · ACTIVE

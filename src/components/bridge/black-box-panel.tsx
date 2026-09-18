@@ -5,7 +5,8 @@ import { cn } from "@/lib/cn";
 import { useBlackBox, type BlackBoxRecord, type StorageLocation } from "@/lib/black-box";
 import { useAppMode } from "@/lib/mode";
 import { useHud } from "@/lib/i18n/use-hud";
-import { PilotHex } from "@/components/bridge/hud-icons";
+import { HexFrame, HudGlyph } from "@/components/bridge/hud-icons";
+import { HudVisor } from "@/components/bridge/hud-visor";
 import { CLEAR_SCREENS_EVENT } from "@/lib/helm-events";
 
 function MicIcon() {
@@ -110,26 +111,26 @@ export function BlackBoxPanel() {
 
   return (
     <div className="bg-bridge-bg px-4 pb-28 md:px-6 lg:pe-[26rem]">
-      <section
-        id="black-box-panel"
-        data-testid="black-box-panel"
-        className="hud-panel-bezel relative mx-auto max-w-6xl scroll-mt-20 border border-bridge-line bg-bridge-panel p-4 text-bridge-text"
-      >
-        <span className="hud-panel-tick left-0 top-0 border-b-0 border-r-0" />
-        <span className="hud-panel-tick right-0 top-0 border-b-0 border-l-0" />
-        <span className="hud-panel-tick bottom-0 left-0 border-r-0 border-t-0" />
-        <span className="hud-panel-tick bottom-0 right-0 border-l-0 border-t-0" />
+          <section
+            id="black-box-panel"
+            data-testid="black-box-panel"
+            className="relative mx-auto max-w-6xl scroll-mt-20 bg-bridge-panel p-5 pt-7 text-bridge-text hud-visor-clip-window"
+          >
+            <HudVisor variant="window" />
 
-        <header className="mb-3">
-          <h2 className="flex items-center gap-2 font-ui text-sm font-semibold tracking-wide">
-            <PilotHex className="h-5 w-5" />
-            {hud.blackbox.title}
-          </h2>
+            <header className="relative z-[1] mb-3">
+              <h2 className="flex items-center gap-2 font-ui text-sm font-semibold tracking-wide">
+                <HexFrame className="h-6 w-6 text-orange">
+                  <HudGlyph name="drive" className="h-3 w-3" />
+                </HexFrame>
+                {hud.blackbox.title}
+              </h2>
           <p className="mt-2 max-w-3xl text-xs leading-relaxed text-bridge-dim">
             {hud.blackbox.lead}
           </p>
         </header>
 
+        <div className="relative z-[1]">
         {visible.length === 0 ? (
           <p className="font-mono text-xs text-bridge-dim">
             {live ? hud.blackbox.emptyLive : hud.blackbox.emptyDemo}
@@ -262,6 +263,7 @@ export function BlackBoxPanel() {
             {toast}
           </p>
         ) : null}
+        </div>
       </section>
 
       {printRecord ? (

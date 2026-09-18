@@ -96,6 +96,7 @@ export function SonarPanel() {
     <HudPanel
       testId="sonar-panel"
       title="UNDERWATER PICTURE"
+      glyph="sonar"
       extra={
         <span className="font-mono text-[10px] text-bridge-dim">
           RANGE 1.0 NM · SONAR ACTIVE

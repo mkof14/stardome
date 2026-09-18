@@ -13,10 +13,10 @@ import {
   type ToastKind,
 } from "@/components/bridge/event-toasts";
 import { HudPanel } from "@/components/bridge/hud-panel";
+import { ChamferFrame, HudGlyph, PilotHex } from "@/components/bridge/hud-icons";
+import { HudFrame } from "@/components/bridge/hud-visor";
 import { ModeToggle } from "@/components/mode-toggle";
 import { PerimeterView } from "@/components/bridge/perimeter-panel";
-import { FullscreenButton } from "@/components/bridge/fullscreen-button";
-import { ClearScreensButton } from "@/components/bridge/clear-screens-button";
 import { RankedActionList } from "@/components/bridge/ranked-action-list";
 import { ScenarioLibrary } from "@/components/bridge/scenario-library";
 import { SessionReport } from "@/components/bridge/session-report";
@@ -44,6 +44,7 @@ import { useAppMode } from "@/lib/mode";
 import { canTriggerScenarios } from "@/lib/rbac";
 import { applyScenarioToWatch, liveWatchBaseline, resetWatchToNormal } from "@/lib/watch-state";
 import { wipeDemoLocalData } from "@/lib/demo-storage";
+import { CLEAR_SCREENS_EVENT } from "@/lib/helm-events";
 import { cn } from "@/lib/cn";
 import {
   SCENARIOS,
@@ -543,6 +544,23 @@ export function BridgeConsole() {
     pushLogs([{ level: "NORMAL", text: hud.chrome.resetLog, kind: "reset" }]);
   }
 
+  const clearScreensRef = useRef(() => {});
+  clearScreensRef.current = () => {
+    resetToNormal();
+    dismissAllToasts();
+    setReportOpen(false);
+    setTraining(false);
+    void wipeDemoLocalData();
+  };
+
+  useEffect(() => {
+    function onClear() {
+      clearScreensRef.current();
+    }
+    window.addEventListener(CLEAR_SCREENS_EVENT, onClear);
+    return () => window.removeEventListener(CLEAR_SCREENS_EVENT, onClear);
+  }, []);
+
   function logRow(level: RiskLevel, text: string, kind: ToastKind) {
     pushLogs([{ level, text, kind }]);
   }
@@ -666,21 +684,14 @@ export function BridgeConsole() {
             <Link
               href="/interface/connections"
               data-testid="connections-map-link"
-              className="border border-bridge-text/40 px-3 py-1.5 font-ui text-xs text-bridge-text hover:border-orange hover:text-orange"
+              className="inline-flex h-9 items-center gap-1.5 border border-bridge-text/40 px-2.5 font-ui text-xs text-bridge-text hover:border-orange hover:text-orange"
             >
+              <ChamferFrame className="h-7 w-7">
+                <HudGlyph name="map" className="h-3.5 w-3.5" />
+              </ChamferFrame>
               {hud.chrome.connectionsMap}
             </Link>
             <ModeToggle />
-            <FullscreenButton />
-            <ClearScreensButton
-              onClear={() => {
-                resetToNormal();
-                dismissAllToasts();
-                setReportOpen(false);
-                setTraining(false);
-                void wipeDemoLocalData();
-              }}
-            />
             {crisis || live ? null : (
             <button
               type="button"
@@ -692,19 +703,23 @@ export function BridgeConsole() {
                 });
               }}
               className={cn(
-                "border px-3 py-1.5 font-ui text-xs",
+                "inline-flex h-9 items-center gap-1.5 border px-2.5 font-ui text-xs",
                 training
                   ? "border-orange bg-orange text-white"
                   : "border-bridge-text/40 text-bridge-text hover:border-orange hover:text-orange",
               )}
             >
+              <ChamferFrame active={training} className="h-7 w-7">
+                <HudGlyph name="training" className="h-3.5 w-3.5" />
+              </ChamferFrame>
               {hud.chrome.trainingMode}
             </button>
             )}
           {crisis ? null : (
+          <HudFrame variant="inset" className="min-w-[8.5rem]">
           <div
             data-testid="risk-badge"
-            className="border border-bridge-line bg-bridge-panel px-3 py-2 text-end"
+            className="bg-bridge-panel px-3 py-2 text-end"
           >
             <div className="flex items-center justify-end gap-2">
               <span
@@ -726,31 +741,59 @@ export function BridgeConsole() {
               {t.bridge.riskLevel}
             </p>
           </div>
+          </HudFrame>
           )}
           </div>
         </div>
 
+        <HudFrame variant="window" status="WATCH LIVE">
         <div
           data-testid="telemetry-strip"
-          className="grid grid-cols-2 gap-3 border border-bridge-line bg-bridge-panel px-3 py-2 sm:grid-cols-4 lg:grid-cols-7"
+          className="grid grid-cols-2 gap-3 bg-bridge-panel px-4 py-3 sm:grid-cols-4 lg:grid-cols-7"
         >
           {t.bridge.telemetry.map((label, index) => (
-            <div key={label}>
+            <div key={label} className="flex items-start gap-2">
+              <ChamferFrame className="mt-0.5 h-6 w-6 text-orange">
+                <HudGlyph
+                  name={
+                    (
+                      [
+                        "ship",
+                        "compass",
+                        "radar",
+                        "antenna",
+                        "satellite",
+                        "clock",
+                        "lock",
+                      ] as const
+                    )[index] ?? "info"
+                  }
+                  className="h-3 w-3"
+                />
+              </ChamferFrame>
+              <div>
               <p className="font-mono text-[9px] tracking-wider text-bridge-dim">
                 {label}
               </p>
               <p className="font-mono text-sm text-bridge-text">
                 {live ? "—" : TELEMETRY_VALUES[index]}
               </p>
+              </div>
             </div>
           ))}
-          <div>
+          <div className="flex items-start gap-2">
+            <ChamferFrame className="mt-0.5 h-6 w-6 text-orange">
+              <HudGlyph name="clock" className="h-3 w-3" />
+            </ChamferFrame>
+            <div>
             <p className="font-mono text-[9px] tracking-wider text-bridge-dim">
               UTC
             </p>
             <UtcClock />
+            </div>
           </div>
         </div>
+        </HudFrame>
 
         {faultId ? (
           <DegradedBanner
@@ -761,11 +804,13 @@ export function BridgeConsole() {
 
         <div className="grid gap-4 lg:grid-cols-[3fr_2fr]">
           <div id="situational-picture" data-testid="situational-panel" className="scroll-mt-20">
+          <HudFrame variant="inset" className="mb-2">
           <div
             data-testid="picture-scenario-banner"
-            className="mb-2 border border-bridge-line bg-bridge-panel px-3 py-2"
+            className="bg-bridge-panel px-4 py-3"
           >
-            <p className="font-mono text-[10px] tracking-[0.22em] text-orange">
+            <p className="flex items-center gap-2 font-mono text-[10px] tracking-[0.22em] text-orange">
+              <PilotHex className="h-4 w-4" />
               {activeScenario
                 ? hud.chrome.trainingSelect
                 : hud.chrome.watchSelect}
@@ -779,9 +824,11 @@ export function BridgeConsole() {
                 : hud.chrome.pickCase}
             </p>
           </div>
+          </HudFrame>
           <HudPanel
             testId={picture.testId}
             title={picture.title}
+            glyph="picture"
             extra={
               <span className="font-mono text-[10px] text-bridge-dim">
                 {picture.extra}
@@ -818,7 +865,7 @@ export function BridgeConsole() {
               />
             ) : (
               <>
-            <HudPanel id="risk-level-panel" testId="risk-level-panel" className="scroll-mt-20" title={t.bridge.riskLevel}>
+            <HudPanel id="risk-level-panel" testId="risk-level-panel" className="scroll-mt-20" title={t.bridge.riskLevel} glyph="risk">
               <ul className="space-y-2">
                 {RISK_KEYS.map((key, index) => {
                   const active = !live && key === riskLevel;
@@ -852,6 +899,7 @@ export function BridgeConsole() {
               testId="connected-systems-panel"
               className="scroll-mt-20"
               title={t.bridge.connected}
+              glyph="systems"
               extra={
                 <div className="flex flex-wrap items-center justify-end gap-2">
                   <label className="sr-only" htmlFor="simulate-fault">
@@ -926,7 +974,7 @@ export function BridgeConsole() {
               </ul>
             </HudPanel>
 
-            <HudPanel id="recommended-action-panel" testId="recommended-action-panel" className="scroll-mt-20" title={t.bridge.recommended}>
+            <HudPanel id="recommended-action-panel" testId="recommended-action-panel" className="scroll-mt-20" title={t.bridge.recommended} glyph="action">
               <span
                 className={cn(
                   "inline-block border px-2 py-0.5 font-mono text-[10px] tracking-wider",
@@ -979,6 +1027,7 @@ export function BridgeConsole() {
           testId="event-log-panel"
           className="scroll-mt-20"
           title={t.bridge.eventLog}
+          glyph="log"
           extra={
             live ? (
               <span className="font-mono text-[10px] text-bridge-dim">{hud.chrome.noFeed}</span>

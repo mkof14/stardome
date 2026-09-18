@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/cn";
+import { ChamferFrame, HudGlyph, PilotHex } from "@/components/bridge/hud-icons";
+import { HudVisor } from "@/components/bridge/hud-visor";
 import { useHud } from "@/lib/i18n/use-hud";
 import { localizeScenario } from "@/lib/i18n/hud-scenarios";
 import {
@@ -46,16 +48,14 @@ export function ScenarioLibrary({
       id="scenario-library"
       data-testid="scenario-picker"
       data-open={open ? "true" : "false"}
-      className="hud-panel-bezel relative scroll-mt-20 overflow-hidden border-2 border-bridge-line bg-bridge-panel"
+      className="relative scroll-mt-20 overflow-hidden bg-bridge-panel hud-visor-clip-window"
     >
-      <span className="hud-panel-tick left-0 top-0 z-10 border-b-0 border-r-0" />
-      <span className="hud-panel-tick right-0 top-0 z-10 border-b-0 border-l-0" />
-      <span className="hud-panel-tick bottom-0 left-0 z-10 border-r-0 border-t-0" />
-      <span className="hud-panel-tick bottom-0 right-0 z-10 border-l-0 border-t-0" />
-      <header className="border-b border-bridge-line bg-bridge-bg px-4 py-4 text-bridge-text sm:px-6 sm:py-5">
+      <HudVisor variant="window" />
+      <header className="relative z-[1] bg-bridge-bg px-4 py-5 text-bridge-text sm:px-6 sm:py-6">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="min-w-0">
-            <p className="font-mono text-[11px] tracking-[0.32em] text-orange">
+            <p className="flex items-center gap-2 font-mono text-[11px] tracking-[0.32em] text-orange">
+              <PilotHex className="h-5 w-5" />
               {hud.chrome.libraryKicker}
             </p>
             <h2
@@ -75,8 +75,11 @@ export function ScenarioLibrary({
           <div className="flex flex-wrap items-center gap-2">
             <span
               data-testid="scenario-library-status"
-              className="border border-bridge-line bg-bridge-panel px-3 py-1.5 font-mono text-[11px] tracking-wider text-bridge-text"
+              className="inline-flex items-center gap-1.5 bg-bridge-panel px-3 py-1.5 font-mono text-[11px] tracking-wider text-bridge-text"
             >
+              <ChamferFrame className="h-6 w-6 text-orange">
+                <HudGlyph name="library" className="h-3 w-3" />
+              </ChamferFrame>
               {selectedView ? selectedView.name.toUpperCase() : hud.chrome.situationsCount}
             </span>
             <button
@@ -85,16 +88,20 @@ export function ScenarioLibrary({
               disabled={disabled}
               title={disabled ? hud.chrome.disabledTip : undefined}
               onClick={onReset}
-              className="border border-bridge-line bg-transparent px-3 py-1.5 font-ui text-xs font-medium text-bridge-text hover:border-orange hover:text-orange disabled:cursor-not-allowed disabled:opacity-40"
+              className="inline-flex items-center gap-1.5 px-2 py-1.5 font-ui text-xs font-medium text-bridge-text hover:text-orange disabled:cursor-not-allowed disabled:opacity-40"
             >
+              <ChamferFrame className="h-7 w-7">
+                <HudGlyph name="clear" className="h-3 w-3" />
+              </ChamferFrame>
               {hud.chrome.resetNormal}
             </button>
             <button
               type="button"
               data-testid="generate-report"
               onClick={onReport}
-              className="bg-orange px-3 py-1.5 font-ui text-xs font-medium text-white hover:bg-orange/90"
+              className="inline-flex items-center gap-1.5 bg-orange px-3 py-1.5 font-ui text-xs font-medium text-white hover:bg-orange/90"
             >
+              <HudGlyph name="print" className="h-3.5 w-3.5" />
               {hud.chrome.generateReport}
             </button>
             <button
@@ -103,8 +110,11 @@ export function ScenarioLibrary({
               aria-expanded={open}
               aria-controls="scenario-library-body"
               onClick={() => setOpen((value) => !value)}
-              className="border border-orange/60 px-3 py-1.5 font-ui text-xs font-medium text-orange hover:bg-orange/10"
+              className="inline-flex items-center gap-1.5 px-2 py-1.5 font-ui text-xs font-medium text-orange hover:text-orange"
             >
+              <ChamferFrame active className="h-7 w-7 text-orange">
+                <HudGlyph name={open ? "collapse" : "expand"} className="h-3 w-3" />
+              </ChamferFrame>
               {open ? hud.chrome.hideLibrary : hud.chrome.showLibrary}
             </button>
           </div>
@@ -170,7 +180,7 @@ export function ScenarioLibrary({
       {open ? (
         <div
           id="scenario-library-body"
-          className="grid gap-4 p-4 sm:p-5 md:grid-cols-2 xl:grid-cols-3"
+          className="relative z-[1] grid gap-4 p-4 sm:p-5 md:grid-cols-2 xl:grid-cols-3"
         >
           {SCENARIO_CATEGORIES.map((category, index) => {
             const items = SCENARIOS.filter((item) => item.category === category);
@@ -178,13 +188,16 @@ export function ScenarioLibrary({
               <section
                 key={category}
                 data-testid={`scenario-section-${index + 1}`}
-                className="flex flex-col border border-bridge-line bg-bridge-bg"
+                className="relative z-[1] flex flex-col bg-bridge-bg hud-visor-clip-inset"
               >
-                <h3 className="flex items-center justify-between gap-3 border-b border-bridge-line bg-bridge-panel px-3 py-2.5">
+                <HudVisor variant="inset" />
+                <h3 className="relative z-[1] flex items-center justify-between gap-3 bg-bridge-panel px-3 py-2.5">
                   <span className="flex min-w-0 items-center gap-2">
-                    <span className="font-mono text-[11px] tabular-nums text-[#8B4A28]">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
+                    <ChamferFrame className="h-6 w-6 text-orange">
+                      <span className="font-mono text-[9px] tabular-nums">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                    </ChamferFrame>
                     <span className="truncate font-ui text-sm font-bold tracking-wide text-bridge-text">
                       {hud.categories[category]}
                     </span>

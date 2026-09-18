@@ -8,7 +8,8 @@ import { useCrisisMode } from "@/lib/crisis-mode";
 import { HELM_STATE_EVENT, focusWatchComms, openHelm, startPilotDemo } from "@/lib/helm-events";
 import { useHud } from "@/lib/i18n/use-hud";
 import { canUseHelm } from "@/lib/rbac";
-import { HexFrame, HudGlyph, PilotHex } from "@/components/bridge/hud-icons";
+import { HexFrame, HudGlyph, PilotHex, ChamferFrame } from "@/components/bridge/hud-icons";
+import { HudVisor } from "@/components/bridge/hud-visor";
 import type { WatchParty } from "@/lib/watch-comms";
 
 type JumpKind = "scroll" | "helm" | "link" | "demo";
@@ -263,7 +264,8 @@ export function JumpNav() {
         expanded ? "w-60" : "w-12",
       )}
     >
-      <div className="flex h-10 items-center justify-between border-b border-bridge-line px-2">
+      <HudVisor variant="rail" />
+      <div className="relative z-[1] flex h-10 items-center justify-between border-b border-bridge-line px-2">
         {expanded ? (
           <p className="font-mono text-[9px] tracking-[0.18em] text-bridge-dim">{hud.jump.kicker}</p>
         ) : (
@@ -275,22 +277,15 @@ export function JumpNav() {
           aria-expanded={expanded}
           aria-label={pinned ? hud.jump.unpin : hud.jump.pin}
           onClick={() => setPinned((value) => !value)}
-          className="inline-flex h-7 w-7 items-center justify-center border border-bridge-line text-bridge-dim hover:border-orange hover:text-orange"
+          className="inline-flex h-7 w-7 items-center justify-center text-bridge-dim hover:text-orange"
         >
-          <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" aria-hidden>
-            <path
-              fill="currentColor"
-              d={
-                expanded
-                  ? "M9.7 3.2 5 8l4.7 4.8 1.1-1.1L7.2 8l3.6-3.7-1.1-1.1Z"
-                  : "M6.3 3.2 11 8 6.3 12.8 5.2 11.7 8.8 8 5.2 4.3l1.1-1.1Z"
-              }
-            />
-          </svg>
+          <ChamferFrame active={pinned} className="h-7 w-7">
+            <HudGlyph name={expanded ? "collapse" : "expand"} className="h-3 w-3" />
+          </ChamferFrame>
         </button>
       </div>
 
-      <nav aria-label={hud.jump.sections} className="flex-1 overflow-y-auto py-1">
+      <nav aria-label={hud.jump.sections} className="relative z-[1] flex-1 overflow-y-auto py-1">
         <ul>
           {visible.map((item) => {
             const key = numbered.find((row) => row.item.id === item.id)?.key;
