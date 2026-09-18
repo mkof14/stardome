@@ -82,6 +82,8 @@ export type HudCopy = {
     automatedOnly: string;
     fullscreenEnter: string;
     fullscreenExit: string;
+    clearScreens: string;
+    clearScreensTip: string;
     openPicture: string;
     fullPicture: string;
     closePicture: string;
@@ -309,6 +311,8 @@ const en: HudCopy = {
     closePicture: "ESC · CLOSE",
     dismissToast: "Dismiss notification",
     liveEvents: "Live event notifications",
+    clearScreens: "Clear",
+    clearScreensTip: "Clear screens — close overlays and reset the watch",
   },
   learning: {
     title: "OBJECT PROFILE — LEARNING OVER TIME",
@@ -567,6 +571,8 @@ const ru = overlay({
     closePicture: "ESC · ЗАКРЫТЬ",
     dismissToast: "Закрыть уведомление",
     liveEvents: "Живые уведомления о событиях",
+    clearScreens: "Очистить",
+    clearScreensTip: "Очистить экраны — закрыть окна и сбросить вахту",
   },
   learning: {
     title: "ПРОФИЛЬ ОБЪЕКТА — ОБУЧЕНИЕ СО ВРЕМЕНЕМ",
@@ -803,6 +809,8 @@ const es = overlay({
     closePicture: "ESC · CERRAR",
     dismissToast: "Cerrar notificación",
     liveEvents: "Notificaciones de sucesos en vivo",
+    clearScreens: "Limpiar",
+    clearScreensTip: "Limpiar pantallas — cerrar ventanas y restablecer la guardia",
   },
   learning: {
     title: "PERFIL DEL OBJETO — APRENDIZAJE EN EL TIEMPO",
@@ -1040,6 +1048,8 @@ const fr = overlay({
     closePicture: "ESC · FERMER",
     dismissToast: "Fermer la notification",
     liveEvents: "Notifications d'événements en direct",
+    clearScreens: "Effacer",
+    clearScreensTip: "Effacer les écrans — fermer les fenêtres et rétablir le quart",
   },
   learning: {
     title: "PROFIL DE L'OBJET — APPRENTISSAGE DANS LE TEMPS",
@@ -1277,6 +1287,8 @@ const de = overlay({
     closePicture: "ESC · SCHLIESSEN",
     dismissToast: "Meldung schließen",
     liveEvents: "Live-Ereignismeldungen",
+    clearScreens: "Leeren",
+    clearScreensTip: "Bildschirme leeren — Fenster schließen und Wache zurücksetzen",
   },
   learning: {
     title: "OBJEKTPROFIL — LERNEN ÜBER DIE ZEIT",
@@ -1514,6 +1526,8 @@ const uk = overlay({
     closePicture: "ESC · ЗАКРИТИ",
     dismissToast: "Закрити сповіщення",
     liveEvents: "Живі сповіщення про події",
+    clearScreens: "Очистити",
+    clearScreensTip: "Очистити екрани — закрити вікна і скинути вахту",
   },
   learning: {
     title: "ПРОФІЛЬ ОБ'ЄКТА — НАВЧАННЯ З ЧАСОМ",
@@ -1750,6 +1764,8 @@ const ar = overlay({
     closePicture: "ESC · إغلاق",
     dismissToast: "إغلاق الإشعار",
     liveEvents: "إشعارات الأحداث الحيّة",
+    clearScreens: "مسح",
+    clearScreensTip: "مسح الشاشات — إغلاق النوافذ وإعادة الخفارة",
   },
   learning: {
     title: "ملف الكائن — التعلّم مع الزمن",
@@ -1985,6 +2001,8 @@ const zh = overlay({
     closePicture: "ESC · 关闭",
     dismissToast: "关闭通知",
     liveEvents: "实时事件通知",
+    clearScreens: "清除",
+    clearScreensTip: "清除屏幕 — 关闭窗口并复位值班",
   },
   learning: {
     title: "对象档案 — 随时间学习",
@@ -2215,6 +2233,8 @@ const ja = overlay({
     closePicture: "ESC · 閉じる",
     dismissToast: "通知を閉じる",
     liveEvents: "ライブ事象通知",
+    clearScreens: "消去",
+    clearScreensTip: "画面を消去 — 重ね窓を閉じ、当直を戻す",
   },
   learning: {
     title: "対象プロファイル — 時間とともに学ぶ",
@@ -2447,6 +2467,8 @@ const he = overlay({
     closePicture: "ESC · סגירה",
     dismissToast: "סגירת ההתראה",
     liveEvents: "התראות אירועים חיים",
+    clearScreens: "נקה",
+    clearScreensTip: "ניקוי מסכים — סגירת חלונות ואיפוס המשמרת",
   },
   learning: {
     title: "פרופיל האובייקט — למידה לאורך זמן",

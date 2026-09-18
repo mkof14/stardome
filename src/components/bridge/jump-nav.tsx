@@ -450,7 +450,7 @@ export function JumpNav() {
                   {!expanded ? (
                     <span
                       role="tooltip"
-                      className="pointer-events-none absolute start-full top-1/2 z-40 ml-2 hidden -translate-y-1/2 whitespace-nowrap border border-bridge-line bg-navy px-2 py-1 font-ui text-[11px] text-sand group-hover:block"
+                      className="pointer-events-none absolute start-full top-1/2 z-40 ml-2 hidden -translate-y-1/2 whitespace-nowrap border border-bridge-line bg-bridge-panel px-2 py-1 font-ui text-[11px] text-bridge-text shadow-lg group-hover:block"
                     >
                       {label}
                     </span>
@@ -475,7 +475,7 @@ export function JumpNav() {
                 {!expanded ? (
                   <span
                     role="tooltip"
-                    className="pointer-events-none absolute start-full top-1/2 z-40 ml-2 hidden -translate-y-1/2 whitespace-nowrap border border-bridge-line bg-navy px-2 py-1 font-ui text-[11px] text-sand group-hover:block"
+                    className="pointer-events-none absolute start-full top-1/2 z-40 ml-2 hidden -translate-y-1/2 whitespace-nowrap border border-bridge-line bg-bridge-panel px-2 py-1 font-ui text-[11px] text-bridge-text shadow-lg group-hover:block"
                   >
                     {label}
                   </span>

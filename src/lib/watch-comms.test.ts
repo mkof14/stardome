@@ -43,6 +43,19 @@ describe("core logo size", () => {
   });
 });
 
+describe("bridge chrome", () => {
+  it("names Clear and distinct fullscreen enter/exit in every locale", () => {
+    for (const code of locales) {
+      const chrome = hudFor(code).chrome;
+      expect(chrome.clearScreens.length).toBeGreaterThan(0);
+      expect(chrome.clearScreensTip.length).toBeGreaterThan(0);
+      expect(chrome.fullscreenEnter.length).toBeGreaterThan(0);
+      expect(chrome.fullscreenExit.length).toBeGreaterThan(0);
+      expect(chrome.fullscreenEnter).not.toBe(chrome.fullscreenExit);
+    }
+  });
+});
+
 describe("jump labels", () => {
   it("names AI Pilot, Pilot DEMO, and Support Live Team in every locale", () => {
     for (const code of locales) {

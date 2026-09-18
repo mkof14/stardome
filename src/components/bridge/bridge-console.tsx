@@ -16,6 +16,7 @@ import { HudPanel } from "@/components/bridge/hud-panel";
 import { ModeToggle } from "@/components/mode-toggle";
 import { PerimeterView } from "@/components/bridge/perimeter-panel";
 import { FullscreenButton } from "@/components/bridge/fullscreen-button";
+import { ClearScreensButton } from "@/components/bridge/clear-screens-button";
 import { RankedActionList } from "@/components/bridge/ranked-action-list";
 import { ScenarioLibrary } from "@/components/bridge/scenario-library";
 import { SessionReport } from "@/components/bridge/session-report";
@@ -42,6 +43,7 @@ import { useAuthSession } from "@/lib/auth-session";
 import { useAppMode } from "@/lib/mode";
 import { canTriggerScenarios } from "@/lib/rbac";
 import { applyScenarioToWatch, liveWatchBaseline, resetWatchToNormal } from "@/lib/watch-state";
+import { wipeDemoLocalData } from "@/lib/demo-storage";
 import { cn } from "@/lib/cn";
 import {
   SCENARIOS,
@@ -202,6 +204,12 @@ export function BridgeConsole() {
       toastTimers.current.delete(id);
     }
     setToasts((current) => current.filter((toast) => toast.id !== id));
+  }
+
+  function dismissAllToasts() {
+    toastTimers.current.forEach((timer) => window.clearTimeout(timer));
+    toastTimers.current.clear();
+    setToasts([]);
   }
 
   function restoreSessionEvents(rows: StoredEvent[]) {
@@ -664,6 +672,15 @@ export function BridgeConsole() {
             </Link>
             <ModeToggle />
             <FullscreenButton />
+            <ClearScreensButton
+              onClear={() => {
+                resetToNormal();
+                dismissAllToasts();
+                setReportOpen(false);
+                setTraining(false);
+                void wipeDemoLocalData();
+              }}
+            />
             {crisis || live ? null : (
             <button
               type="button"

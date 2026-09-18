@@ -7,6 +7,7 @@ describe("pilotDeskCopy", () => {
     for (const code of locales) {
       const copy = pilotDeskCopy(code);
       expect(copy.post.length).toBeGreaterThan(0);
+      expect(copy.chat.length).toBeGreaterThan(0);
       expect(copy.raiseInstruments.length).toBeGreaterThan(0);
       expect(copy.raiseAdvice.length).toBeGreaterThan(0);
       expect(copy.raiseComms.length).toBeGreaterThan(0);

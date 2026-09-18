@@ -5,29 +5,60 @@ import { cn } from "@/lib/cn";
 import { useHud } from "@/lib/i18n/use-hud";
 import { enterFullscreen, exitFullscreen, fullscreenTarget, isFullscreen, onFullscreenChange } from "@/lib/fullscreen";
 
-function ExpandIcon() {
+function EnterScreenIcon() {
   return (
-    <svg viewBox="0 0 20 20" className="h-4 w-4" aria-hidden>
+    <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0" aria-hidden>
+      <rect
+        x="6"
+        y="7"
+        width="12"
+        height="10"
+        rx="0.6"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.7"
+      />
       <path
         fill="none"
         stroke="currentColor"
-        strokeWidth="1.6"
+        strokeWidth="1.7"
         strokeLinecap="square"
-        d="M3 7.5V3h4.5M13 3H17.5V7.5M17.5 13V17.5H13M7.5 17.5H3V13"
+        d="M3 9V4h5M21 9V4h-5M21 15v5h-5M3 15v5h5"
       />
     </svg>
   );
 }
 
-function CollapseIcon() {
+function ExitScreenIcon() {
   return (
-    <svg viewBox="0 0 20 20" className="h-4 w-4" aria-hidden>
+    <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0" aria-hidden>
+      <rect
+        x="3.5"
+        y="4.5"
+        width="17"
+        height="15"
+        rx="0.6"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        opacity="0.55"
+      />
+      <rect
+        x="7"
+        y="8"
+        width="10"
+        height="8"
+        rx="0.4"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.7"
+      />
       <path
         fill="none"
         stroke="currentColor"
-        strokeWidth="1.6"
+        strokeWidth="1.7"
         strokeLinecap="square"
-        d="M7.5 3v4.5H3M13 3v4.5H17.5M17.5 13H13V17.5M3 13h4.5V17.5"
+        d="M9 11.5H7.2M9 11.5V9.7M15 11.5h1.8M15 11.5V9.7M9 12.5H7.2M9 12.5v1.8M15 12.5h1.8M15 12.5v1.8"
       />
     </svg>
   );
@@ -57,22 +88,26 @@ export function FullscreenButton() {
     }
   }
 
+  const label = active ? hud.chrome.fullscreenExit : hud.chrome.fullscreenEnter;
+
   return (
     <button
       type="button"
       data-testid="fullscreen-toggle"
+      data-mode={active ? "exit" : "enter"}
       onClick={toggle}
       aria-pressed={active}
-      aria-label={active ? hud.chrome.fullscreenExit : hud.chrome.fullscreenEnter}
-      title={active ? hud.chrome.fullscreenExit : hud.chrome.fullscreenEnter}
+      aria-label={label}
+      title={label}
       className={cn(
-        "inline-flex h-9 w-9 items-center justify-center border",
+        "inline-flex h-9 items-center gap-1.5 border px-2.5 font-ui text-xs",
         active
           ? "border-orange bg-orange text-white"
           : "border-bridge-text/40 text-bridge-text hover:border-orange hover:text-orange",
       )}
     >
-      {active ? <CollapseIcon /> : <ExpandIcon />}
+      {active ? <ExitScreenIcon /> : <EnterScreenIcon />}
+      <span className="hidden max-w-[9.5rem] truncate sm:inline">{label}</span>
     </button>
   );
 }

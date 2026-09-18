@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/cn";
-import { askPilot, WATCH_COMMS_FOCUS_EVENT, type WatchCommsFocus } from "@/lib/helm-events";
+import { askPilot, CLEAR_SCREENS_EVENT, WATCH_COMMS_FOCUS_EVENT, type WatchCommsFocus } from "@/lib/helm-events";
 import { watchCommsCopy } from "@/lib/i18n/watch-comms-copy";
 import { useHud } from "@/lib/i18n/use-hud";
 import { useAppMode } from "@/lib/mode";
@@ -24,8 +24,16 @@ export function WatchCommsPanel() {
         setFocus("all");
       }
     }
+    function onClear() {
+      setRaised(null);
+      setFocus("all");
+    }
     window.addEventListener(WATCH_COMMS_FOCUS_EVENT, onFocus);
-    return () => window.removeEventListener(WATCH_COMMS_FOCUS_EVENT, onFocus);
+    window.addEventListener(CLEAR_SCREENS_EVENT, onClear);
+    return () => {
+      window.removeEventListener(WATCH_COMMS_FOCUS_EVENT, onFocus);
+      window.removeEventListener(CLEAR_SCREENS_EVENT, onClear);
+    };
   }, []);
 
   const rows = WATCH_CIRCUITS.filter((row) => focus === "all" || row.party === focus);
@@ -73,46 +81,80 @@ export function WatchCommsPanel() {
           ))}
         </div>
 
-        <ul className="mt-4 divide-y divide-bridge-line border border-bridge-line bg-bridge-panel">
-          {rows.map((row) => {
-            const hot = raised === row.id;
-            return (
-              <li
-                key={row.id}
-                data-testid={`watch-circuit-${row.id}`}
-                data-party={row.party}
-                className={cn(
-                  "flex flex-col gap-2 px-3 py-3 sm:flex-row sm:items-center sm:justify-between",
-                  hot && "bg-orange/5",
-                )}
-              >
-                <div className="min-w-0">
-                  <p className="font-ui text-sm font-semibold text-bridge-text">
-                    {copy.party[row.party]}
-                  </p>
-                  <p className="font-mono text-[11px] text-bridge-dim">
-                    {copy.bearer[row.bearer]}
-                    <span className="ms-2 text-[10px] tracking-wider">
-                      {live ? copy.liveEmpty : copy.demoPath}
-                    </span>
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  data-testid={`watch-circuit-raise-${row.id}`}
-                  disabled={live}
-                  onClick={() => {
-                    setRaised(row.id);
-                    askPilot(copy.ask[row.party]);
-                  }}
-                  className="shrink-0 border border-orange bg-orange px-3 py-1.5 font-ui text-xs font-medium text-white hover:bg-orange/90 disabled:border-bridge-line disabled:bg-transparent disabled:text-bridge-dim"
+        <div className="mt-4 overflow-hidden border border-bridge-line bg-bridge-panel">
+          <div className="grid grid-cols-[4.5rem_minmax(0,1fr)_auto] items-center gap-2 border-b border-bridge-line bg-bridge-bg px-3 py-1.5 font-mono text-[9px] tracking-[0.16em] text-bridge-dim">
+            <span>CH</span>
+            <span>CIRCUIT</span>
+            <span>PTT</span>
+          </div>
+          <ul className="divide-y divide-bridge-line">
+            {rows.map((row, index) => {
+              const hot = raised === row.id;
+              const alarm = row.bearer === "alarmNet";
+              return (
+                <li
+                  key={row.id}
+                  data-testid={`watch-circuit-${row.id}`}
+                  data-party={row.party}
+                  className={cn(
+                    "grid grid-cols-[4.5rem_minmax(0,1fr)_auto] items-center gap-2 px-3 py-2.5",
+                    hot && "bg-orange/5",
+                  )}
                 >
-                  {live ? copy.liveEmpty : hot ? copy.raised : copy.raise}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+                  <div className="flex items-center gap-2">
+                    <span
+                      className={cn(
+                        "h-2 w-2 rounded-full",
+                        live
+                          ? "bg-bridge-dim/50"
+                          : hot
+                            ? alarm
+                              ? "bg-crit"
+                              : "bg-ok"
+                            : "bg-attn/80",
+                      )}
+                      aria-hidden
+                    />
+                    <span className="font-mono text-[11px] tabular-nums text-bridge-dim">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-ui text-sm font-semibold text-bridge-text">
+                      {copy.party[row.party]}
+                      <span className="ms-2 font-mono text-[10px] font-normal tracking-wider text-bridge-dim">
+                        {copy.bearer[row.bearer]}
+                      </span>
+                    </p>
+                    <p className="font-mono text-[10px] tracking-wider text-bridge-dim">
+                      {live ? "STBY" : hot ? "TX" : "RX"}
+                      <span className="ms-2">{live ? copy.liveEmpty : copy.demoPath}</span>
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    data-testid={`watch-circuit-raise-${row.id}`}
+                    disabled={live}
+                    onClick={() => {
+                      setRaised(row.id);
+                      askPilot(copy.ask[row.party]);
+                    }}
+                    className={cn(
+                      "shrink-0 border px-3 py-1.5 font-mono text-[11px] font-medium tracking-wider",
+                      live
+                        ? "border-bridge-line text-bridge-dim"
+                        : alarm
+                          ? "border-crit bg-crit text-white hover:bg-crit/90"
+                          : "border-orange bg-orange text-white hover:bg-orange/90",
+                    )}
+                  >
+                    {live ? copy.liveEmpty : hot ? copy.raised : copy.raise}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </div>
     </section>
   );

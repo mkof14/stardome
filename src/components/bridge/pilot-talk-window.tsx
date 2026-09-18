@@ -70,7 +70,7 @@ export function PilotTalkWindow({
     <div
       data-testid="pilot-talk-window"
       dir="ltr"
-      className="fixed inset-0 z-[90] flex items-center justify-center bg-[#061018]/70 p-3 sm:p-6"
+      className="fixed inset-0 z-[90] flex items-center justify-center bg-bridge-bg/70 p-3 sm:p-6"
     >
       <div className="pilot-talk-hud relative w-full max-w-5xl overflow-hidden">
         <div className="pilot-talk-hud-frame pointer-events-none" aria-hidden />
@@ -84,14 +84,14 @@ export function PilotTalkWindow({
           ×
         </button>
         <div className="relative grid gap-3 p-4 pt-10 sm:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] sm:p-6 sm:pt-12">
-          <section className="flex min-h-[22rem] flex-col overflow-hidden border border-sand/15 bg-[#0b141c]/95 shadow-[0_16px_40px_rgb(0_0_0/0.45)]">
-            <header className="flex items-center justify-between border-b border-sand/10 bg-[#061018] px-3 py-2">
-              <p className="flex items-center gap-2 font-heading text-lg font-bold tracking-wide text-sand">
+          <section className="flex min-h-[22rem] flex-col overflow-hidden border border-bridge-line bg-bridge-panel/95 shadow-[0_16px_40px_rgb(0_0_0/0.18)]">
+            <header className="flex items-center justify-between border-b border-bridge-line bg-bridge-bg px-3 py-2">
+              <p className="flex items-center gap-2 font-heading text-lg font-bold tracking-wide text-bridge-text">
                 <span className="inline-flex h-6 w-6 items-center justify-center">
                   <svg viewBox="0 0 48 48" className="h-6 w-6" aria-hidden>
                     <polygon
                       points="24,5 41,14.5 41,33.5 24,43 7,33.5 7,14.5"
-                      fill="#111820"
+                      fill="var(--bridge-bg)"
                       stroke="#F15A00"
                       strokeWidth="2"
                     />
@@ -116,7 +116,7 @@ export function PilotTalkWindow({
               className="min-h-0 flex-1 space-y-2 overflow-y-auto px-3 py-3"
             >
               {recent.length === 0 ? (
-                <p className="border-s-2 border-orange ps-3 text-xs text-sand/65">
+                <p className="border-s-2 border-orange ps-3 text-xs text-bridge-dim">
                   {copy.bargeHint}
                 </p>
               ) : null}
@@ -138,7 +138,7 @@ export function PilotTalkWindow({
                         <svg viewBox="0 0 48 48" className="h-5 w-5" aria-hidden>
                           <polygon
                             points="24,5 41,14.5 41,33.5 24,43 7,33.5 7,14.5"
-                            fill="#111820"
+                            fill="var(--bridge-bg)"
                             stroke="#F15A00"
                             strokeWidth="2"
                           />
@@ -152,13 +152,13 @@ export function PilotTalkWindow({
                           ? "bg-orange text-white"
                           : item.role === "error"
                             ? "border border-attn text-attn"
-                            : "bg-[#151e27] text-sand",
+                            : "bg-bridge-bg text-bridge-text",
                       )}
                     >
                       {showing}
                     </p>
                     {item.role === "user" ? (
-                      <span className="mb-0.5 h-6 w-6 shrink-0 rounded-full border border-sand/30 bg-[#1a2430]" />
+                      <span className="mb-0.5 h-6 w-6 shrink-0 rounded-full border border-bridge-line bg-bridge-bg" />
                     ) : null}
                   </div>
                 );
@@ -169,14 +169,14 @@ export function PilotTalkWindow({
                 event.preventDefault();
                 onSend(draft);
               }}
-              className="flex items-center gap-2 border-t border-sand/10 bg-[#061018] px-3 py-2"
+              className="flex items-center gap-2 border-t border-bridge-line bg-bridge-bg px-3 py-2"
             >
               <input
                 data-testid="pilot-talk-input"
                 value={draft}
                 onChange={(event) => onDraft(event.target.value)}
                 placeholder={ask}
-                className="min-w-0 flex-1 bg-transparent py-1.5 font-ui text-sm text-sand outline-none placeholder:text-sand/40"
+                className="min-w-0 flex-1 bg-transparent py-1.5 font-ui text-sm text-bridge-text outline-none placeholder:text-bridge-dim"
               />
               <button
                 type="button"
@@ -188,7 +188,7 @@ export function PilotTalkWindow({
                   mic === "listening" && "assistant-mic-listen border-ok text-ok",
                   mic === "speaking" && "border-orange text-orange",
                   mic === "processing" && "border-attn text-attn",
-                  mic === "idle" && "border-sand/25 text-sand/70",
+                  mic === "idle" && "border-bridge-line text-bridge-dim",
                 )}
               >
                 <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" aria-hidden>
@@ -207,7 +207,7 @@ export function PilotTalkWindow({
             </form>
           </section>
 
-          <section className="relative flex min-h-[14rem] flex-col border border-orange/25 bg-[#071018]/80">
+          <section className="relative flex min-h-[14rem] flex-col border border-orange/25 bg-bridge-bg">
             <div className="flex items-center justify-between px-3 pt-2">
               <p className="font-mono text-[9px] tracking-[0.2em] text-orange">
                 {copy.talkListening}
@@ -244,7 +244,7 @@ export function PilotTalkWindow({
             <p className="px-3 pb-3 text-end font-mono text-[10px] tracking-[0.22em] text-orange/80">
               [ {status} ]
             </p>
-            <p className="px-3 pb-4 font-mono text-[10px] leading-relaxed text-sand/50">
+            <p className="px-3 pb-4 font-mono text-[10px] leading-relaxed text-bridge-dim">
               {copy.bargeHint}
             </p>
           </section>

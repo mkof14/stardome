@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/cn";
 import { useBlackBox, type BlackBoxRecord, type StorageLocation } from "@/lib/black-box";
 import { useAppMode } from "@/lib/mode";
 import { useHud } from "@/lib/i18n/use-hud";
+import { CLEAR_SCREENS_EVENT } from "@/lib/helm-events";
 
 function MicIcon() {
   return (
@@ -84,6 +85,15 @@ export function BlackBoxPanel() {
   const [openId, setOpenId] = useState<string | null>(null);
   const [printRecord, setPrintRecord] = useState<BlackBoxRecord | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+
+  useEffect(() => {
+    function onClear() {
+      setOpenId(null);
+      setPrintRecord(null);
+    }
+    window.addEventListener(CLEAR_SCREENS_EVENT, onClear);
+    return () => window.removeEventListener(CLEAR_SCREENS_EVENT, onClear);
+  }, []);
 
   function flash(message: string) {
     setToast(message);

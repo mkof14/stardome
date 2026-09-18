@@ -12,34 +12,20 @@ import {
   type PilotInstrument,
 } from "@/lib/pilot-watch";
 
-export type RaisedScreens = {
-  instruments: boolean;
-  advice: boolean;
-  comms: boolean;
-};
-
-type Channel = "watch" | "support" | "alarm";
-
-type CommsLine = {
-  id: string;
-  channel: Channel;
-  from: "pilot" | "you" | "net";
-  text: string;
-  time: string;
-};
+export type PilotScreen = "chat" | "instruments" | "advice" | "comms";
 
 function instrumentTone(state: PilotInstrument["state"]) {
   if (state === "watching") return "border-ok/70 text-ok";
   if (state === "degraded") return "border-attn text-attn";
-  if (state === "dark") return "border-sand/15 text-sand/35";
-  return "border-sand/25 text-sand/70";
+  if (state === "dark") return "border-bridge-line text-bridge-dim/70";
+  return "border-bridge-line text-bridge-dim";
 }
 
 function led(state: PilotInstrument["state"]) {
   if (state === "watching") return "bg-ok";
   if (state === "degraded") return "bg-attn";
-  if (state === "dark") return "bg-sand/25";
-  return "bg-sand/40";
+  if (state === "dark") return "bg-bridge-dim/40";
+  return "bg-bridge-dim";
 }
 
 function nowStamp() {
@@ -49,19 +35,13 @@ function nowStamp() {
 export function PilotDesk({
   session,
   locale,
-  raised,
-  onRaised,
-  docked,
+  screen,
   highlight,
-  roomy,
 }: {
   session: BridgeSessionValue;
   locale: Locale;
-  raised: RaisedScreens;
-  onRaised: (next: RaisedScreens) => void;
-  docked: boolean;
-  highlight?: "instruments" | "advice" | "comms" | null;
-  roomy?: boolean;
+  screen: PilotScreen;
+  highlight?: PilotScreen | null;
 }) {
   const watch = buildPilotWatch(session, locale);
   const { copy } = watch;
@@ -113,31 +93,20 @@ export function PilotDesk({
     setDraft("");
   }
 
-  if (!raised.instruments && !raised.advice && !raised.comms) {
-    return null;
-  }
+  if (screen === "chat") return null;
 
-  const windows = (
+  return (
     <div
       data-testid="pilot-raised-screens"
-      className={cn(
-        "flex flex-col gap-2",
-        roomy
-          ? "w-[min(24.5rem,calc(100vw-1.5rem))]"
-          : "w-[min(20.5rem,calc(100vw-1.5rem))]",
-        docked
-          ? "absolute bottom-0 end-[calc(100%+0.75rem)] hidden max-h-[min(42rem,calc(100vh-5.5rem))] overflow-y-auto md:flex"
-          : "mb-2 max-h-[min(26rem,46vh)] overflow-y-auto md:mb-0 md:absolute md:bottom-0 md:end-[calc(100%+0.75rem)] md:max-h-[min(44rem,calc(100vh-5.5rem))]",
-      )}
+      data-screen={screen}
+      className="min-h-0 flex-1 overflow-y-auto px-3 py-2"
     >
-      {raised.instruments ? (
-        <PilotFrame
+      {screen === "instruments" ? (
+        <PilotRack
           testId="pilot-instruments"
           kicker={copy.instruments}
           title={copy.post}
           hot={highlight === "instruments"}
-          onClose={() => onRaised({ ...raised, instruments: false })}
-          closeLabel={copy.closeCard}
         >
           <div className="grid grid-cols-3 gap-1.5">
             {watch.instruments.map((item) => (
@@ -146,12 +115,12 @@ export function PilotDesk({
                 data-testid={`pilot-instrument-${item.id}`}
                 data-state={item.state}
                 className={cn(
-                  "border px-2 py-2 font-mono text-[10px] leading-tight",
+                  "border bg-bridge-bg px-2 py-2 font-mono text-[10px] leading-tight",
                   instrumentTone(item.state),
                 )}
               >
                 <span className={cn("mb-1 block h-1.5 w-1.5 rounded-full", led(item.state))} />
-                <p className="truncate text-sand">{item.name}</p>
+                <p className="truncate text-bridge-text">{item.name}</p>
                 <p>
                   {item.state === "watching"
                     ? copy.watching
@@ -164,13 +133,13 @@ export function PilotDesk({
               </div>
             ))}
           </div>
-          <p className="mt-2 font-mono text-[10px] text-sand/55">
+          <p className="mt-2 font-mono text-[10px] text-bridge-dim">
             {fillDesk(copy.seePicture, { panel: watch.panelLabel })}
           </p>
-        </PilotFrame>
+        </PilotRack>
       ) : null}
 
-      {raised.advice
+      {screen === "advice"
         ? watch.advice
             .filter((card) => !hiddenKinds.includes(card.kind))
             .map((card) => (
@@ -188,31 +157,20 @@ export function PilotDesk({
                 }
                 onAsk={() => askPilot(card.body)}
                 onClose={() => {
-                  setHiddenKinds((current) => {
-                    const next = current.includes(card.kind)
-                      ? current
-                      : [...current, card.kind];
-                    const remaining = watch.advice.filter(
-                      (item) => !next.includes(item.kind),
-                    );
-                    if (remaining.length === 0) {
-                      onRaised({ ...raised, advice: false });
-                    }
-                    return next;
-                  });
+                  setHiddenKinds((current) =>
+                    current.includes(card.kind) ? current : [...current, card.kind],
+                  );
                 }}
               />
             ))
         : null}
 
-      {raised.comms ? (
-        <PilotFrame
+      {screen === "comms" ? (
+        <PilotRack
           testId="pilot-comms"
           kicker={copy.comms}
           title={watch.commsLive ? copy.connected : copy.offline}
           hot={highlight === "comms"}
-          onClose={() => onRaised({ ...raised, comms: false })}
-          closeLabel={copy.closeCard}
         >
           <div className="mb-2 flex gap-1">
             {(["watch", "support", "alarm"] as const).map((id) => (
@@ -226,8 +184,8 @@ export function PilotDesk({
                   channel === id
                     ? id === "alarm"
                       ? "border-crit bg-crit/15 text-crit"
-                      : "border-orange text-orange"
-                    : "border-sand/20 text-sand/60 hover:text-sand",
+                      : "border-orange bg-orange/10 text-orange"
+                    : "border-bridge-line text-bridge-dim hover:text-bridge-text",
                 )}
               >
                 {id === "watch"
@@ -240,7 +198,7 @@ export function PilotDesk({
           </div>
           <div
             data-testid="pilot-comms-log"
-            className="mb-2 max-h-36 space-y-1.5 overflow-y-auto font-ui text-[11px] leading-relaxed text-sand/80"
+            className="mb-2 max-h-44 space-y-1.5 overflow-y-auto font-ui text-[11px] leading-relaxed text-bridge-text"
           >
             {lines
               .filter((line) => line.channel === channel)
@@ -257,10 +215,10 @@ export function PilotDesk({
                         ? "border-ok"
                         : channel === "alarm"
                           ? "border-crit/70"
-                          : "border-sand/30",
+                          : "border-bridge-line",
                   )}
                 >
-                  <span className="me-1.5 font-mono text-[9px] text-sand/40">
+                  <span className="me-1.5 font-mono text-[9px] text-bridge-dim">
                     {line.time}
                   </span>
                   {line.text}
@@ -280,7 +238,7 @@ export function PilotDesk({
               value={draft}
               onChange={(event) => setDraft(event.target.value)}
               placeholder={copy.typeComms}
-              className="min-w-0 flex-1 border-b border-sand/25 bg-transparent px-0 py-1 font-ui text-xs text-sand outline-none placeholder:text-sand/35 focus:border-orange"
+              className="min-w-0 flex-1 border-b border-bridge-line bg-transparent px-0 py-1 font-ui text-xs text-bridge-text outline-none placeholder:text-bridge-dim focus:border-orange"
             />
             <button
               type="submit"
@@ -294,7 +252,6 @@ export function PilotDesk({
             type="button"
             data-testid="pilot-notify"
             onClick={() => {
-              onRaised({ ...raised, comms: true });
               setChannel("alarm");
               postComms(copy.notify, "alarm");
             }}
@@ -302,28 +259,32 @@ export function PilotDesk({
           >
             {copy.notify}
           </button>
-        </PilotFrame>
+        </PilotRack>
       ) : null}
     </div>
   );
-
-  return windows;
 }
 
-function PilotFrame({
+type Channel = "watch" | "support" | "alarm";
+
+type CommsLine = {
+  id: string;
+  channel: Channel;
+  from: "pilot" | "you" | "net";
+  text: string;
+  time: string;
+};
+
+function PilotRack({
   kicker,
   title,
   children,
-  onClose,
-  closeLabel,
   testId,
   hot,
 }: {
   kicker: string;
   title: string;
   children: React.ReactNode;
-  onClose: () => void;
-  closeLabel: string;
   testId: string;
   hot?: boolean;
 }) {
@@ -332,12 +293,12 @@ function PilotFrame({
       data-testid={testId}
       data-demo-focus={hot ? "true" : undefined}
       className={cn(
-        "pilot-card-in border bg-[#0b141c] text-sand shadow-[0_16px_40px_rgb(15_25_34/0.42)]",
-        hot ? "demo-focus-ring border-[#38BDF8]" : "border-stroke",
+        "border bg-bridge-bg text-bridge-text",
+        hot ? "demo-focus-ring border-[#38BDF8]" : "border-bridge-line",
       )}
     >
       <div className={cn("h-[2px]", hot ? "bg-[#38BDF8]" : "bg-orange")} />
-      <header className="flex items-center justify-between gap-2 border-b border-sand/15 px-3 py-2">
+      <header className="flex items-center justify-between gap-2 border-b border-bridge-line px-3 py-2">
         <div className="min-w-0">
           <p
             className={cn(
@@ -349,14 +310,6 @@ function PilotFrame({
           </p>
           <p className="truncate font-heading text-base font-bold">{title}</p>
         </div>
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label={closeLabel}
-          className="px-1 font-mono text-xs text-sand/50 hover:text-sand"
-        >
-          ×
-        </button>
       </header>
       <div className="px-3 py-2.5">{children}</div>
     </section>
@@ -389,19 +342,17 @@ function AdviceCard({
           ? copy.remind
           : copy.picture;
   return (
-    <PilotFrame
+    <PilotRack
       testId={`pilot-card-${card.kind}`}
       kicker={kicker}
       title={card.title}
       hot={hot}
-      onClose={onClose}
-      closeLabel={copy.closeCard}
     >
-      <p className={cn("text-xs leading-relaxed text-sand/80", !expanded && "line-clamp-4")}>
+      <p className={cn("text-xs leading-relaxed text-bridge-text/90", !expanded && "line-clamp-4")}>
         {card.body}
       </p>
       {expanded && card.steps?.length ? (
-        <ol className="mt-2 list-decimal space-y-1 ps-4 text-xs text-sand/75">
+        <ol className="mt-2 list-decimal space-y-1 ps-4 text-xs text-bridge-dim">
           {card.steps.map((step) => (
             <li key={step}>{step}</li>
           ))}
@@ -411,7 +362,7 @@ function AdviceCard({
         <button
           type="button"
           onClick={onExpand}
-          className="border border-sand/20 px-2 py-1 font-mono text-[9px] text-sand/70 hover:text-sand"
+          className="border border-bridge-line px-2 py-1 font-mono text-[9px] text-bridge-dim hover:text-bridge-text"
         >
           {expanded ? copy.collapse : copy.expand}
         </button>
@@ -423,8 +374,16 @@ function AdviceCard({
         >
           {copy.ask}
         </button>
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label={copy.closeCard}
+          className="border border-bridge-line px-2 py-1 font-mono text-[9px] text-bridge-dim hover:text-bridge-text"
+        >
+          {copy.closeCard}
+        </button>
       </div>
-    </PilotFrame>
+    </PilotRack>
   );
 }
 
@@ -440,7 +399,7 @@ export function PilotUnreadChip({
       type="button"
       data-testid="pilot-unread"
       onClick={onOpen}
-      className="pilot-card-in mb-2 max-w-[16rem] border border-orange/60 bg-[#0b141c] px-3 py-2 text-start shadow-lg"
+      className="pilot-card-in mb-2 max-w-[16rem] border border-orange/60 bg-bridge-panel px-3 py-2 text-start text-bridge-text shadow-lg"
     >
       <p className="flex items-center gap-2 font-mono text-[10px] text-orange">
         <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-orange" />
@@ -452,21 +411,27 @@ export function PilotUnreadChip({
 
 export function PilotDeskBar({
   copy,
-  raised,
+  screen,
   urgent,
-  onRaised,
+  onScreen,
 }: {
   copy: PilotDeskCopy;
-  raised: RaisedScreens;
+  screen: PilotScreen;
   urgent: boolean;
-  onRaised: (next: RaisedScreens) => void;
+  onScreen: (next: PilotScreen) => void;
 }) {
   const buttons: Array<{
-    id: keyof RaisedScreens;
+    id: PilotScreen;
     label: string;
     testId: string;
     hot: boolean;
   }> = [
+    {
+      id: "chat",
+      label: copy.chat,
+      testId: "pilot-screen-chat",
+      hot: false,
+    },
     {
       id: "instruments",
       label: copy.raiseInstruments,
@@ -487,21 +452,21 @@ export function PilotDeskBar({
     },
   ];
   return (
-    <div data-testid="pilot-desk-bar" className="flex flex-wrap gap-1">
+    <div data-testid="pilot-desk-bar" className="grid grid-cols-4 gap-1">
       {buttons.map((item) => (
         <button
           key={item.id}
           type="button"
           data-testid={item.testId}
-          aria-pressed={raised[item.id]}
-          onClick={() => onRaised({ ...raised, [item.id]: !raised[item.id] })}
+          aria-pressed={screen === item.id}
+          onClick={() => onScreen(item.id)}
           className={cn(
-            "border px-1.5 py-0.5 font-mono text-[9px]",
-            raised[item.id]
-              ? "border-orange text-orange"
+            "border px-1 py-1 font-mono text-[9px] leading-tight",
+            screen === item.id
+              ? "border-orange bg-orange/10 text-orange"
               : item.hot
                 ? "border-crit/50 text-crit"
-                : "border-sand/20 text-sand/60 hover:text-sand",
+                : "border-bridge-line text-bridge-dim hover:text-bridge-text",
           )}
         >
           {item.label}

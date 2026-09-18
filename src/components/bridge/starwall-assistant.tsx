@@ -6,12 +6,12 @@ import { cn } from "@/lib/cn";
 import { useBlackBox } from "@/lib/black-box";
 import { useBridgeSession } from "@/lib/bridge-session";
 import { syncConversationToCloud } from "@/lib/cloud-sync";
-import { HELM_OPEN_EVENT, PILOT_ASK_EVENT, PILOT_DEMO_EVENT, publishHelmState } from "@/lib/helm-events";
+import { CLEAR_SCREENS_EVENT, HELM_OPEN_EVENT, PILOT_ASK_EVENT, PILOT_DEMO_EVENT, publishHelmState } from "@/lib/helm-events";
 import {
   PilotDesk,
   PilotDeskBar,
   PilotUnreadChip,
-  type RaisedScreens,
+  type PilotScreen,
 } from "@/components/bridge/pilot-desk";
 import { pilotDeskCopy } from "@/lib/i18n/pilot-desk-copy";
 import { buildPilotWatch, watchReply } from "@/lib/pilot-watch";
@@ -101,11 +101,7 @@ export function Helm() {
   const [typed, setTyped] = useState("");
   const [typingId, setTypingId] = useState<string | null>(null);
   const [micError, setMicError] = useState<string | null>(null);
-  const [raised, setRaised] = useState<RaisedScreens>({
-    instruments: false,
-    advice: false,
-    comms: false,
-  });
+  const [screen, setScreen] = useState<PilotScreen>("chat");
   const [unread, setUnread] = useState(false);
   const [drilling, setDrilling] = useState(false);
   const [demoBeat, setDemoBeat] = useState<DemoBeat | null>(null);
@@ -287,11 +283,7 @@ export function Helm() {
     lastNote.current = watch.noteKey;
     const hasPicture =
       Boolean(session.scenarioId) || session.live || Boolean(session.faultId);
-    setRaised({
-      instruments: true,
-      advice: hasPicture,
-      comms: watch.urgent || Boolean(session.scenarioId),
-    });
+    setScreen(hasPicture ? "advice" : "chat");
     if (!openRef.current && hasPicture && !first) {
       setUnread(true);
     }
@@ -311,9 +303,18 @@ export function Helm() {
       setMessages([]);
       setTyped("");
       setTypingId(null);
+      setScreen("chat");
+      setTalkHud(false);
+      stopDemo();
+      stopListening();
+      stopSpeech();
     }
     window.addEventListener(DEMO_CLEARED_EVENT, onCleared);
-    return () => window.removeEventListener(DEMO_CLEARED_EVENT, onCleared);
+    window.addEventListener(CLEAR_SCREENS_EVENT, onCleared);
+    return () => {
+      window.removeEventListener(DEMO_CLEARED_EVENT, onCleared);
+      window.removeEventListener(CLEAR_SCREENS_EVENT, onCleared);
+    };
   }, []);
 
   function persistChat(row: StoredConversation) {
@@ -851,8 +852,10 @@ export function Helm() {
       if (!beat || demoCancel.current) break;
       setDemoStep(i + 1);
       setDemoBeat(beat);
-      if (beat.raise) {
-        setRaised((current) => ({ ...current, ...beat.raise }));
+      if (beat.focus === "instruments" || beat.focus === "advice" || beat.focus === "comms") {
+        setScreen(beat.focus);
+      } else {
+        setScreen("chat");
       }
       const id = messageId();
       setMessages((current) => [
@@ -1033,29 +1036,14 @@ export function Helm() {
       ) : null}
       {open ? (
         <div className="relative flex max-h-[calc(100vh-5.5rem)] flex-col items-end">
-          <PilotDesk
-            session={session}
-            locale={recogLang}
-            raised={raised}
-            onRaised={setRaised}
-            docked={false}
-            roomy={drilling}
-            highlight={
-              demoBeat?.focus === "instruments" ||
-              demoBeat?.focus === "advice" ||
-              demoBeat?.focus === "comms"
-                ? demoBeat.focus
-                : null
-            }
-          />
         <section className={cn(
-          "helm-scope flex h-[min(40rem,calc(100vh-5.5rem))] flex-col overflow-hidden border border-stroke bg-[#0b141c] text-sand shadow-[0_20px_56px_rgb(15_25_34/0.38)]",
+          "helm-scope flex h-[min(40rem,calc(100vh-5.5rem))] flex-col overflow-hidden border border-bridge-line bg-bridge-panel text-bridge-text shadow-[0_20px_56px_rgb(15_25_34/0.22)]",
           drilling
             ? "w-[min(24rem,calc(100vw-1.5rem))] border-[#38BDF8]/50"
             : "w-[min(22rem,calc(100vw-1.5rem))]",
         )}>
           <div className="h-[2px] bg-orange" />
-          <header className="relative flex items-center justify-between gap-2 border-b border-sand/15 bg-[#061018] px-3 py-2.5">
+          <header className="relative flex items-center justify-between gap-2 border-b border-bridge-line bg-bridge-bg px-3 py-2.5">
             <span
               className="helm-fab-sweep pointer-events-none absolute -end-6 -top-10 h-28 w-28 rounded-full opacity-40"
               style={{
@@ -1065,7 +1053,7 @@ export function Helm() {
               aria-hidden
             />
             <div className="relative min-w-0">
-              <p className="flex items-center gap-2 font-heading text-xl font-bold text-sand">
+              <p className="flex items-center gap-2 font-heading text-xl font-bold text-bridge-text">
                 <span
                   className={cn(
                     "h-2 w-2 rounded-full",
@@ -1078,7 +1066,7 @@ export function Helm() {
                 />
                 {surface.title}
               </p>
-              <p className="truncate font-mono text-[10px] text-sand/55">
+              <p className="truncate font-mono text-[10px] text-bridge-dim">
                 {live
                   ? surface.live
                   : `${desk.post} · ${session.vessel} · ${session.riskLevel}`}
@@ -1094,7 +1082,7 @@ export function Helm() {
                   aria-label={helmHud.language}
                   title={helmHud.language}
                   onClick={() => setLangsOpen((value) => !value)}
-                  className="inline-flex items-center gap-1.5 border border-sand/20 px-2 py-1 font-mono text-[10px] text-sand hover:border-orange"
+                  className="inline-flex items-center gap-1.5 border border-bridge-line px-2 py-1 font-mono text-[10px] text-bridge-text hover:border-orange"
                 >
                   <FlagIcon locale={recogLang} />
                   {recogLang.toUpperCase()}
@@ -1141,18 +1129,18 @@ export function Helm() {
                   setTalkHud(false);
                   setOpen(false);
                 }}
-                className="border border-sand/20 px-2 py-1 font-mono text-[10px] text-sand/70 hover:text-sand"
+                className="border border-bridge-line px-2 py-1 font-mono text-[10px] text-bridge-dim hover:text-bridge-text"
               >
                 {surface.hide}
               </button>
             </div>
           </header>
-          <div className="border-b border-sand/15 bg-[#061018] px-3 py-1.5">
+          <div className="border-b border-bridge-line bg-bridge-bg px-3 py-1.5">
             <PilotDeskBar
               copy={desk}
-              raised={raised}
+              screen={screen}
               urgent={watch.urgent}
-              onRaised={setRaised}
+              onScreen={setScreen}
             />
             <div className="mt-1.5">
               <PilotVoiceNeed locale={recogLang} need={need} />
@@ -1173,13 +1161,14 @@ export function Helm() {
             />
           ) : null}
 
+          {screen === "chat" ? (
           <div
             ref={listRef}
             data-testid="assistant-chat"
             className="min-h-0 flex-1 space-y-2 overflow-y-auto px-3 py-3"
           >
             {messages.length === 0 ? (
-              <p className="border-s-2 border-orange ps-3 text-xs leading-relaxed text-sand/65">
+              <p className="border-s-2 border-orange ps-3 text-xs leading-relaxed text-bridge-dim">
                 {surface.empty}
               </p>
             ) : null}
@@ -1198,8 +1187,8 @@ export function Helm() {
                       : item.role === "error"
                         ? "border border-attn text-attn"
                         : drilling && demoBeat?.text === item.text
-                          ? "border-s-2 border-[#38BDF8] bg-[#06202c] text-sand"
-                          : "border-s-2 border-ok bg-[#111820] text-sand",
+                          ? "border-s-2 border-[#38BDF8] bg-[#38BDF8]/10 text-bridge-text"
+                          : "border-s-2 border-ok bg-bridge-bg text-bridge-text",
                   )}
                 >
                   {showing}
@@ -1207,8 +1196,22 @@ export function Helm() {
               );
             })}
           </div>
+          ) : (
+            <PilotDesk
+              session={session}
+              locale={recogLang}
+              screen={screen}
+              highlight={
+                demoBeat?.focus === "instruments" ||
+                demoBeat?.focus === "advice" ||
+                demoBeat?.focus === "comms"
+                  ? demoBeat.focus
+                  : null
+              }
+            />
+          )}
 
-          <div className="border-t border-sand/15 bg-[#061018] px-3 py-3">
+          <div className="border-t border-bridge-line bg-bridge-bg px-3 py-3">
             <div className="mb-3 flex items-end gap-2">
               <button
                 type="button"
@@ -1219,7 +1222,7 @@ export function Helm() {
                   mic === "listening" && "assistant-mic-listen border-ok text-ok",
                   mic === "processing" && "border-attn text-attn",
                   mic === "speaking" && "assistant-mic-speak border-orange text-orange",
-                  mic === "idle" && "border-sand/25 text-sand/70 hover:text-sand",
+                  mic === "idle" && "border-bridge-line text-bridge-dim hover:text-bridge-text",
                 )}
                 aria-label={
                   mic === "listening" ? helmHud.listenStop : helmHud.listenStart
@@ -1277,7 +1280,7 @@ export function Helm() {
                 value={draft}
                 onChange={(event) => setDraft(event.target.value)}
                 placeholder={surface.ask}
-                className="min-w-0 flex-1 border-b border-sand/25 bg-transparent px-0 py-1.5 font-ui text-sm text-sand outline-none placeholder:text-sand/40 focus:border-orange"
+                className="min-w-0 flex-1 border-b border-bridge-line bg-transparent px-0 py-1.5 font-ui text-sm text-bridge-text outline-none placeholder:text-bridge-dim focus:border-orange"
               />
               <button
                 type="submit"
@@ -1323,7 +1326,7 @@ export function Helm() {
           }}
           aria-label={surface.open}
           className={cn(
-            "helm-fab relative flex h-16 w-16 items-center justify-center overflow-hidden rounded-full border border-orange bg-navy text-orange",
+            "helm-fab relative flex h-16 w-16 items-center justify-center overflow-hidden rounded-full border border-orange bg-bridge-panel text-orange",
             unread && "helm-fab-pulse",
           )}
         >
@@ -1338,7 +1341,7 @@ export function Helm() {
           <svg viewBox="0 0 48 48" className="relative h-8 w-8" aria-hidden>
             <polygon
               points="24,5 41,14.5 41,33.5 24,43 7,33.5 7,14.5"
-              fill="#111820"
+              fill="var(--bridge-bg)"
               stroke="#F15A00"
               strokeWidth="1.8"
             />

@@ -3,6 +3,7 @@ export const HELM_STATE_EVENT = "starwall-helm-state";
 export const PILOT_ASK_EVENT = "starwall-pilot-ask";
 export const PILOT_DEMO_EVENT = "starwall-pilot-demo";
 export const WATCH_COMMS_FOCUS_EVENT = "starwall-watch-comms-focus";
+export const CLEAR_SCREENS_EVENT = "starwall-clear-screens";
 
 export type WatchCommsFocus = {
   party?: string;
@@ -37,4 +38,9 @@ export function focusWatchComms(party?: string) {
       detail: { party },
     }),
   );
+}
+
+export function requestClearScreens() {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new Event(CLEAR_SCREENS_EVENT));
 }

@@ -117,17 +117,17 @@ export function TrainingTour({ active, onClose }: TrainingTourProps) {
             left: spot.left,
             width: spot.width,
             height: spot.height,
-            boxShadow: "0 0 0 9999px rgb(10 15 20 / 0.68)",
+            boxShadow: "0 0 0 9999px color-mix(in srgb, var(--bridge-bg) 78%, transparent)",
           }}
         />
       ) : (
-        <div className="absolute inset-0 bg-[#0A0F14]/70" />
+        <div className="absolute inset-0 bg-bridge-bg/70" />
       )}
 
       <div
         ref={calloutRef}
         data-testid="training-callout"
-        className="pointer-events-auto absolute w-[min(22rem,calc(100vw-2rem))] border border-orange/50 bg-[#0A0F14] p-4 font-ui text-sand shadow-xl"
+        className="pointer-events-auto absolute w-[min(22rem,calc(100vw-2rem))] border border-orange/50 bg-bridge-panel p-4 font-ui text-bridge-text shadow-xl"
         style={calloutStyle}
       >
         <p className="font-mono text-[10px] tracking-[0.18em] text-orange">
@@ -139,7 +139,7 @@ export function TrainingTour({ active, onClose }: TrainingTourProps) {
             type="button"
             data-testid="training-skip"
             onClick={onClose}
-            className="text-xs text-sand/70 underline-offset-2 hover:text-sand hover:underline"
+            className="text-xs text-bridge-dim underline-offset-2 hover:text-bridge-text hover:underline"
           >
             {hud.tour.skip}
           </button>
@@ -149,7 +149,7 @@ export function TrainingTour({ active, onClose }: TrainingTourProps) {
                 type="button"
                 data-testid="training-back"
                 onClick={() => setStep((current) => current - 1)}
-                className="border border-sand/30 px-3 py-1 text-xs text-sand hover:border-sand"
+                className="border border-bridge-line px-3 py-1 text-xs text-bridge-text hover:border-orange"
               >
                 {hud.tour.back}
               </button>

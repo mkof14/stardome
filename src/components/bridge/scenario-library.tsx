@@ -48,22 +48,22 @@ export function ScenarioLibrary({
       data-open={open ? "true" : "false"}
       className="relative scroll-mt-20 overflow-hidden border-2 border-bridge-line bg-bridge-panel"
     >
-      <header className="bg-navy px-4 py-4 text-sand sm:px-6 sm:py-5">
+      <header className="border-b border-bridge-line bg-bridge-bg px-4 py-4 text-bridge-text sm:px-6 sm:py-5">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="min-w-0">
-            <p className="font-mono text-[11px] tracking-[0.32em] text-[#C47A4A]">
+            <p className="font-mono text-[11px] tracking-[0.32em] text-orange">
               {hud.chrome.libraryKicker}
             </p>
             <h2
               className={cn(
-                "mt-1 font-ui font-bold tracking-wide text-sand",
+                "mt-1 font-ui font-bold tracking-wide text-bridge-text",
                 open ? "text-3xl md:text-4xl" : "text-2xl md:text-3xl",
               )}
             >
               {hud.chrome.libraryTitle}
             </h2>
             {open ? (
-              <p className="mt-2 max-w-2xl text-sm text-sand/75">
+              <p className="mt-2 max-w-2xl text-sm text-bridge-dim">
                 {hud.chrome.libraryLead}
               </p>
             ) : null}
@@ -71,7 +71,7 @@ export function ScenarioLibrary({
           <div className="flex flex-wrap items-center gap-2">
             <span
               data-testid="scenario-library-status"
-              className="border border-sand/25 bg-white/5 px-3 py-1.5 font-mono text-[11px] tracking-wider text-sand"
+              className="border border-bridge-line bg-bridge-panel px-3 py-1.5 font-mono text-[11px] tracking-wider text-bridge-text"
             >
               {selectedView ? selectedView.name.toUpperCase() : hud.chrome.situationsCount}
             </span>
@@ -81,7 +81,7 @@ export function ScenarioLibrary({
               disabled={disabled}
               title={disabled ? hud.chrome.disabledTip : undefined}
               onClick={onReset}
-              className="border border-sand/40 bg-transparent px-3 py-1.5 font-ui text-xs font-medium text-sand hover:border-sand hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-40"
+              className="border border-bridge-line bg-transparent px-3 py-1.5 font-ui text-xs font-medium text-bridge-text hover:border-orange hover:text-orange disabled:cursor-not-allowed disabled:opacity-40"
             >
               {hud.chrome.resetNormal}
             </button>
@@ -89,7 +89,7 @@ export function ScenarioLibrary({
               type="button"
               data-testid="generate-report"
               onClick={onReport}
-              className="bg-[#3A2418] px-3 py-1.5 font-ui text-xs font-medium text-sand hover:bg-[#4A2E1C]"
+              className="bg-orange px-3 py-1.5 font-ui text-xs font-medium text-white hover:bg-orange/90"
             >
               {hud.chrome.generateReport}
             </button>
@@ -99,7 +99,7 @@ export function ScenarioLibrary({
               aria-expanded={open}
               aria-controls="scenario-library-body"
               onClick={() => setOpen((value) => !value)}
-              className="border border-[#C47A4A] px-3 py-1.5 font-ui text-xs font-medium text-[#E8B48A] hover:bg-[#3A2418]"
+              className="border border-orange/60 px-3 py-1.5 font-ui text-xs font-medium text-orange hover:bg-orange/10"
             >
               {open ? hud.chrome.hideLibrary : hud.chrome.showLibrary}
             </button>
@@ -124,13 +124,13 @@ export function ScenarioLibrary({
                   className={cn(
                     "border px-2.5 py-1.5 font-mono text-[10px] tracking-wider",
                     activeHere
-                      ? "border-[#C47A4A] bg-[#3A2418] text-sand"
-                      : "border-sand/20 text-sand/80 hover:border-[#C47A4A] hover:text-[#E8B48A]",
+                      ? "border-orange bg-orange/10 text-orange"
+                      : "border-bridge-line text-bridge-dim hover:border-orange hover:text-orange",
                   )}
                 >
                   {String(index + 1).padStart(2, "0")}{" "}
                   {hud.categoryShort[category]}
-                  <span className="ms-2 text-[#C47A4A]">{count}</span>
+                  <span className="ms-2 text-orange">{count}</span>
                 </button>
               );
             })}

@@ -32,15 +32,15 @@ export function PilotDemoIcon({
       className={cn(
         "relative flex items-center justify-center overflow-hidden border text-[#38BDF8]",
         compact
-          ? "h-9 w-9 shrink-0 border-[#38BDF8] bg-[#06202c]"
-          : "h-12 w-12 rounded-full border-[#38BDF8] bg-[#06202c] shadow-[0_8px_20px_rgb(6_32_44/0.45)]",
+          ? "h-9 w-9 shrink-0 border-[#38BDF8] bg-bridge-bg"
+          : "h-12 w-12 rounded-full border-[#38BDF8] bg-bridge-bg shadow-[0_8px_20px_rgb(15_25_34/0.18)]",
         running && "demo-fab-pulse",
       )}
     >
       <svg viewBox="0 0 48 48" className={compact ? "h-5 w-5" : "h-7 w-7"} aria-hidden>
         <polygon
           points="24,5 41,14.5 41,33.5 24,43 7,33.5 7,14.5"
-          fill="#06202c"
+          fill="var(--bridge-bg)"
           stroke={DEMO_CYAN}
           strokeWidth="1.8"
         />
@@ -88,7 +88,7 @@ export function PilotSoundDock({
         live
           ? "border-ok/50 bg-ok/5"
           : voiceOn
-            ? "border-sand/20 bg-[#061018]"
+            ? "border-bridge-line bg-bridge-bg"
             : "border-attn/50 bg-attn/10",
       )}
     >
@@ -146,13 +146,13 @@ export function PilotDemoStage({
     <div
       data-testid="pilot-demo-stage"
       data-focus={beat.focus}
-      className="space-y-2 border-b border-[#38BDF8]/40 bg-[#06202c] px-3 py-2"
+      className="space-y-2 border-b border-[#38BDF8]/40 bg-[#38BDF8]/10 px-3 py-2"
     >
       <div className="flex flex-wrap items-center gap-2">
         <span className="border border-[#38BDF8] px-1.5 py-0.5 font-mono text-[9px] font-bold tracking-wider text-[#38BDF8]">
           {copy.demo}
         </span>
-        <span className="font-mono text-[9px] text-sand/55">
+        <span className="font-mono text-[9px] text-bridge-dim">
           {fillDemo(copy.step, { n: String(index), total: String(total) })}
         </span>
       </div>
@@ -161,7 +161,7 @@ export function PilotDemoStage({
           <span className="block font-mono text-[8px] tracking-wider text-[#38BDF8]">
             {copy.now}
           </span>
-          <span className="block font-ui text-sm font-semibold leading-tight text-sand">
+          <span className="block font-ui text-sm font-semibold leading-tight text-bridge-text">
             {beat.action}
           </span>
         </p>
@@ -169,7 +169,7 @@ export function PilotDemoStage({
           <span className="block font-mono text-[8px] tracking-wider text-[#38BDF8]">
             {copy.where}
           </span>
-          <span className="block font-ui text-sm font-semibold leading-tight text-sand">
+          <span className="block font-ui text-sm font-semibold leading-tight text-bridge-text">
             {beat.place}
           </span>
         </p>
@@ -184,7 +184,7 @@ export function PilotDemoStage({
         soundOffLabel={copy.soundOff}
         onToggle={onToggleSound}
       />
-      <p className="font-mono text-[9px] leading-relaxed text-sand/55">
+      <p className="font-mono text-[9px] leading-relaxed text-bridge-dim">
         {copy.interruptHint}
       </p>
     </div>
@@ -212,7 +212,7 @@ export function PilotWatchCalls({
             data-testid="pilot-watch-call"
             disabled={disabled}
             onClick={() => onPick(call)}
-            className="border border-sand/20 px-1.5 py-1 text-start font-ui text-[10px] leading-tight text-sand/80 hover:border-orange hover:text-sand disabled:opacity-40"
+            className="border border-bridge-line px-1.5 py-1 text-start font-ui text-[10px] leading-tight text-bridge-text/80 hover:border-orange hover:text-bridge-text disabled:opacity-40"
           >
             {call}
           </button>
@@ -234,7 +234,7 @@ export function PilotVoiceNeed({
       data-testid="pilot-voice-need"
       data-tts={need.tts}
       data-voice={need.voiceName ?? ""}
-      className="font-mono text-[9px] leading-relaxed text-sand/50"
+      className="font-mono text-[9px] leading-relaxed text-bridge-dim"
     >
       {voiceNeedLine(locale, need)}
     </p>

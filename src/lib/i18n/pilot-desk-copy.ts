@@ -2,6 +2,7 @@ import type { Locale } from "@/lib/i18n/locales";
 
 export type PilotDeskCopy = {
   post: string;
+  chat: string;
   instruments: string;
   advice: string;
   comms: string;
@@ -61,6 +62,7 @@ export type PilotDeskCopy = {
 const DESK = {
   en: {
     post: "ON WATCH",
+    chat: "Talk",
     instruments: "Instruments",
     advice: "Advice",
     comms: "Comms",
@@ -122,6 +124,7 @@ const DESK = {
   },
   es: {
     post: "DE GUARDIA",
+    chat: "Hablar",
     instruments: "Instrumentos",
     advice: "Consejo",
     comms: "Comms",
@@ -183,6 +186,7 @@ const DESK = {
   },
   fr: {
     post: "DE QUART",
+    chat: "Parler",
     instruments: "Instruments",
     advice: "Conseil",
     comms: "Comms",
@@ -244,6 +248,7 @@ const DESK = {
   },
   de: {
     post: "AUF WACHE",
+    chat: "Gespräch",
     instruments: "Instrumente",
     advice: "Rat",
     comms: "Comms",
@@ -305,6 +310,7 @@ const DESK = {
   },
   ru: {
     post: "НА ВАХТЕ",
+    chat: "Разговор",
     instruments: "Приборы",
     advice: "Совет",
     comms: "Связь",
@@ -366,6 +372,7 @@ const DESK = {
   },
   uk: {
     post: "НА ВАХТІ",
+    chat: "Розмова",
     instruments: "Прилади",
     advice: "Порада",
     comms: "Зв’язок",
@@ -427,6 +434,7 @@ const DESK = {
   },
   ar: {
     post: "على الخفارة",
+    chat: "حديث",
     instruments: "الأجهزة",
     advice: "نصيحة",
     comms: "الاتصال",
@@ -488,6 +496,7 @@ const DESK = {
   },
   zh: {
     post: "值班中",
+    chat: "对话",
     instruments: "仪器",
     advice: "建议",
     comms: "通信",
@@ -546,6 +555,7 @@ const DESK = {
   },
   ja: {
     post: "当直中",
+    chat: "会話",
     instruments: "計器",
     advice: "助言",
     comms: "通信",
@@ -604,6 +614,7 @@ const DESK = {
   },
   he: {
     post: "במשמרת",
+    chat: "שיחה",
     instruments: "מכשירים",
     advice: "ייעוץ",
     comms: "קשר",

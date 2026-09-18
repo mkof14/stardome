@@ -300,8 +300,8 @@ body {
 }
 
 .pilot-talk-hud {
-  background:
-    linear-gradient(180deg, rgb(11 20 28 / 0.96), rgb(6 16 24 / 0.94));
+  background: var(--bridge-panel);
+  color: var(--bridge-text);
   clip-path: polygon(
     20px 0,
     calc(100% - 20px) 0,
@@ -314,8 +314,8 @@ body {
   );
   box-shadow:
     0 0 0 1px #f15a00,
-    0 0 32px rgb(241 90 0 / 0.28),
-    inset 0 0 48px rgb(241 90 0 / 0.08);
+    0 0 32px rgb(241 90 0 / 0.22),
+    inset 0 0 48px rgb(241 90 0 / 0.06);
 }
 
 .pilot-talk-hud-frame {

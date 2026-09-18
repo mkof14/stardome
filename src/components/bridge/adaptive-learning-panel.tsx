@@ -26,7 +26,7 @@ export function AdaptiveLearningPanel() {
   if (crisis) return null;
 
   return (
-    <div className="dark bg-bridge-bg px-4 pb-10 md:px-6">
+    <div className="bg-bridge-bg px-4 pb-10 md:px-6">
       <div className="mx-auto max-w-6xl">
         <HudPanel
           id="adaptive-learning-panel"
@@ -99,7 +99,7 @@ export function AdaptiveLearningPanel() {
             </p>
           ) : (
           <>
-          <div className="relative overflow-hidden bg-[#0A0F14]">
+          <div className="relative overflow-hidden bg-bridge-bg">
             <svg viewBox="0 0 680 280" className="h-auto w-full">
               <rect x="40" y="24" width="600" height="232" fill="none" stroke="#223039" strokeWidth="1.4" />
               <rect x="80" y="48" width="160" height="88" fill="#0D161C" stroke="#223039" strokeWidth="1" />
