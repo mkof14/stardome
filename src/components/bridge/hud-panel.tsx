@@ -31,8 +31,8 @@ export function HudPanel({
       id={id}
       data-testid={testId}
       className={cn(
-        "hud-panel-bezel relative bg-bridge-panel p-4 pt-6",
-        visor === "overlay" ? "hud-visor-clip-overlay" : "hud-visor-clip-window",
+        "hud-panel-bezel relative bg-bridge-panel px-5 py-5 pt-7",
+        visor === "overlay" && "hud-visor-clip-overlay",
         className,
       )}
     >
@@ -40,11 +40,11 @@ export function HudPanel({
       <header className="relative z-[1] mb-3 flex items-center justify-between gap-3">
         <h2 className="flex items-center gap-2 font-ui text-sm font-semibold tracking-wide text-bridge-text">
           {glyph ? (
-            <HexFrame className="h-6 w-6 text-orange">
-              <HudGlyph name={glyph} className="h-3 w-3" />
+            <HexFrame className="h-7 w-7 shrink-0 text-orange">
+              <HudGlyph name={glyph} className="h-3.5 w-3.5" />
             </HexFrame>
           ) : (
-            <PilotHex className="h-5 w-5" />
+            <PilotHex className="h-6 w-6 shrink-0" />
           )}
           {title}
         </h2>

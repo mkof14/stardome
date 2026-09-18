@@ -878,7 +878,8 @@ export function Helm() {
     setDrilling(false);
     setDemoBeat(null);
     releaseBarge();
-    setTalkHud(false);
+    setMic("idle");
+    setTalkHud(true);
   }
 
   async function sendMessage(text: string) {
@@ -997,13 +998,7 @@ export function Helm() {
 
   if (isAuthRoute(pathname) || !helmAllowed) return null;
 
-  const showTalk =
-    talkHud &&
-    voiceOn &&
-    (mic === "speaking" ||
-      mic === "listening" ||
-      mic === "processing" ||
-      drilling);
+  const showTalk = talkHud || drilling;
 
   return (
     <div
@@ -1039,7 +1034,7 @@ export function Helm() {
       {open ? (
         <div className="relative flex max-h-[calc(100vh-5.5rem)] flex-col items-end">
         <section className={cn(
-          "helm-scope relative flex h-[min(40rem,calc(100vh-5.5rem))] flex-col overflow-hidden bg-bridge-panel text-bridge-text shadow-[0_20px_56px_rgb(15_25_34/0.22)] hud-visor-clip-window",
+          "helm-scope relative flex h-[min(40rem,calc(100vh-5.5rem))] flex-col overflow-hidden bg-bridge-panel text-bridge-text shadow-[0_20px_56px_rgb(15_25_34/0.22)]",
           drilling
             ? "w-[min(24rem,calc(100vw-1.5rem))]"
             : "w-[min(22rem,calc(100vw-1.5rem))]",

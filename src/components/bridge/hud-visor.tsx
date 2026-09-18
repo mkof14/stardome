@@ -190,9 +190,6 @@ export function HudFrame({
       className={cn(
         "relative",
         variant === "overlay" && "hud-visor-clip-overlay",
-        variant === "window" && "hud-visor-clip-window",
-        variant === "rail" && "hud-visor-clip-rail",
-        variant === "inset" && "hud-visor-clip-inset",
         className,
       )}
     >

@@ -83,7 +83,7 @@ export function PilotTalkWindow({
         closeTestId="pilot-talk-close"
       >
         <div className="relative grid min-h-[22rem] gap-4 pb-8 sm:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]">
-          <section className="relative flex min-h-[22rem] flex-col overflow-hidden bg-bridge-panel/95 shadow-[0_16px_40px_rgb(0_0_0/0.18)] hud-visor-clip-inset">
+          <section className="relative flex min-h-[22rem] flex-col overflow-hidden bg-bridge-panel/95 shadow-[0_16px_40px_rgb(0_0_0/0.18)]">
             <HudVisor variant="inset" />
             <header className="relative z-[1] flex items-center justify-between bg-bridge-bg px-3 py-2">
               <p className="flex items-center gap-2 font-heading text-lg font-bold tracking-wide text-bridge-text">

@@ -5,6 +5,7 @@ import eventLogNew from "../../../public/bridge/event-log-new.png";
 import radarNormal from "../../../public/bridge/radar-normal.png";
 import recommendedAction from "../../../public/bridge/recommended-action.png";
 import riskElevated from "../../../public/bridge/risk-elevated.png";
+import { HudFrame } from "@/components/bridge/hud-visor";
 
 const stills = {
   "radar-normal.png": radarNormal,
@@ -22,18 +23,22 @@ export function ScenarioStill({ file }: ScenarioStillProps) {
 
   if (!src) {
     return (
-      <div className="flex aspect-video w-full items-center justify-center border border-bridge-line bg-bridge-panel font-mono text-sm text-bridge-dim">
-        {file}
-      </div>
+      <HudFrame variant="window" className="bg-bridge-panel">
+        <div className="flex aspect-video w-full items-center justify-center font-mono text-sm text-bridge-dim">
+          {file}
+        </div>
+      </HudFrame>
     );
   }
 
   return (
-    <Image
-      src={src}
-      alt=""
-      unoptimized
-      className="h-auto w-full border border-bridge-line object-cover object-top"
-    />
+    <HudFrame variant="window" className="bg-bridge-panel p-2">
+      <Image
+        src={src}
+        alt=""
+        unoptimized
+        className="relative z-[1] h-auto w-full object-cover object-top"
+      />
+    </HudFrame>
   );
 }

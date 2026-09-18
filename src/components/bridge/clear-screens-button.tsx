@@ -7,8 +7,10 @@ import { useHud } from "@/lib/i18n/use-hud";
 
 export function ClearScreensButton({
   onClear,
+  compact,
 }: {
   onClear?: () => void;
+  compact?: boolean;
 }) {
   const { hud } = useHud();
 
@@ -23,14 +25,14 @@ export function ClearScreensButton({
       aria-label={hud.chrome.clearScreensTip}
       title={hud.chrome.clearScreensTip}
       className={cn(
-        "inline-flex h-9 items-center gap-1.5 border border-bridge-text/40 px-2.5 font-ui text-xs text-bridge-text",
-        "hover:border-orange hover:text-orange",
+        "inline-flex h-9 shrink-0 items-center gap-1 px-1.5 font-ui text-xs text-ink",
+        "hover:text-orange",
       )}
     >
-      <ChamferFrame className="h-7 w-7">
+      <ChamferFrame className="h-8 w-8">
         <HudGlyph name="clear" className="h-3.5 w-3.5" />
       </ChamferFrame>
-      <span>{hud.chrome.clearScreens}</span>
+      {compact ? null : <span className="hidden sm:inline">{hud.chrome.clearScreens}</span>}
     </button>
   );
 }

@@ -48,7 +48,7 @@ export function ScenarioLibrary({
       id="scenario-library"
       data-testid="scenario-picker"
       data-open={open ? "true" : "false"}
-      className="relative scroll-mt-20 overflow-hidden bg-bridge-panel hud-visor-clip-window"
+      className="relative scroll-mt-20 overflow-hidden bg-bridge-panel"
     >
       <HudVisor variant="window" />
       <header className="relative z-[1] bg-bridge-bg px-4 py-5 text-bridge-text sm:px-6 sm:py-6">
@@ -188,7 +188,7 @@ export function ScenarioLibrary({
               <section
                 key={category}
                 data-testid={`scenario-section-${index + 1}`}
-                className="relative z-[1] flex flex-col bg-bridge-bg hud-visor-clip-inset"
+                className="relative z-[1] flex flex-col bg-bridge-bg"
               >
                 <HudVisor variant="inset" />
                 <h3 className="relative z-[1] flex items-center justify-between gap-3 bg-bridge-panel px-3 py-2.5">

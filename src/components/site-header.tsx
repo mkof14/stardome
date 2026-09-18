@@ -10,6 +10,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { AccountMenu } from "@/components/auth/account-menu";
 import { FullscreenButton } from "@/components/bridge/fullscreen-button";
 import { ClearScreensButton } from "@/components/bridge/clear-screens-button";
+import { HudVisor } from "@/components/bridge/hud-visor";
 import { isAuthRoute, isInternalDesk, useAuthSession } from "@/lib/auth-session";
 import { sessionHasDeskAccess } from "@/lib/commercial-rbac";
 import { usePreferences } from "@/lib/i18n/context";
@@ -42,7 +43,7 @@ export function SiteHeader() {
         </Link>
 
         <nav
-          className="hidden items-center gap-4 lg:flex xl:gap-5"
+          className="hidden min-w-0 items-center gap-3 overflow-hidden lg:flex xl:gap-5"
           aria-label={t.nav.primary}
         >
           {headerNavItems.map((item) => {
@@ -83,14 +84,18 @@ export function SiteHeader() {
           })}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex min-w-0 shrink-0 items-center gap-1">
           <AccountMenu />
           {showMode ? <ModeToggle /> : null}
           {pathname.startsWith("/interface") ? (
-            <>
+            <div
+              data-testid="bridge-header-chrome"
+              className="relative flex shrink-0 items-center gap-0.5 px-1 py-0.5"
+            >
+              <HudVisor variant="inset" />
               <FullscreenButton />
               <ClearScreensButton />
-            </>
+            </div>
           ) : null}
           <div className="hidden lg:flex lg:items-center">
             <ThemeToggle />
@@ -158,10 +163,10 @@ export function SiteHeader() {
             <AccountMenu />
             {showMode ? <ModeToggle /> : null}
             {pathname.startsWith("/interface") ? (
-              <>
-                <FullscreenButton />
-                <ClearScreensButton />
-              </>
+              <div data-testid="bridge-header-chrome-mobile" className="flex items-center gap-1">
+                <FullscreenButton compact />
+                <ClearScreensButton compact />
+              </div>
             ) : null}
             <ThemeToggle />
             <LanguageSwitcher align="end" />

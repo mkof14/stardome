@@ -102,7 +102,7 @@ export function WatchCommsPanel() {
           })}
         </div>
 
-        <HudFrame variant="window" className="mt-4 bg-bridge-panel" status={live ? "STBY" : "CIRCUITS"}>
+        <HudFrame variant="window" className="mt-4 bg-bridge-panel px-1 pt-3" status={live ? "STBY" : "CIRCUITS"}>
           <div className="grid grid-cols-[4.5rem_minmax(0,1fr)_auto] items-center gap-2 bg-bridge-bg px-4 py-2 font-mono text-[9px] tracking-[0.16em] text-bridge-dim">
             <span>CH</span>
             <span>CIRCUIT</span>

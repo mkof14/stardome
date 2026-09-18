@@ -6,7 +6,11 @@ import { useHud } from "@/lib/i18n/use-hud";
 import { ChamferFrame, HudGlyph } from "@/components/bridge/hud-icons";
 import { enterFullscreen, exitFullscreen, fullscreenTarget, isFullscreen, onFullscreenChange } from "@/lib/fullscreen";
 
-export function FullscreenButton() {
+export function FullscreenButton({
+  compact,
+}: {
+  compact?: boolean;
+}) {
   const { hud } = useHud();
   const [active, setActive] = useState(false);
 
@@ -42,16 +46,16 @@ export function FullscreenButton() {
       aria-label={label}
       title={label}
       className={cn(
-        "inline-flex h-9 items-center gap-1.5 border px-2.5 font-ui text-xs",
-        active
-          ? "border-orange bg-orange text-white"
-          : "border-bridge-text/40 text-bridge-text hover:border-orange hover:text-orange",
+        "inline-flex h-9 shrink-0 items-center gap-1 px-1.5 font-ui text-xs",
+        active ? "text-orange" : "text-ink hover:text-orange",
       )}
     >
-      <ChamferFrame active={active} className="h-7 w-7">
+      <ChamferFrame active={active} className="h-8 w-8">
         <HudGlyph name={active ? "fullscreenExit" : "fullscreen"} className="h-3.5 w-3.5" />
       </ChamferFrame>
-      <span className="hidden max-w-[9.5rem] truncate sm:inline">{label}</span>
+      {compact ? null : (
+        <span className="hidden max-w-[8.5rem] truncate xl:inline">{label}</span>
+      )}
     </button>
   );
 }

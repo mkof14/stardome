@@ -114,7 +114,7 @@ export function BlackBoxPanel() {
           <section
             id="black-box-panel"
             data-testid="black-box-panel"
-            className="relative mx-auto max-w-6xl scroll-mt-20 bg-bridge-panel p-5 pt-7 text-bridge-text hud-visor-clip-window"
+            className="relative mx-auto max-w-6xl scroll-mt-20 bg-bridge-panel p-5 pt-7 text-bridge-text"
           >
             <HudVisor variant="window" />
 
