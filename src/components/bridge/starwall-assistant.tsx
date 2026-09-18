@@ -11,6 +11,9 @@ import { DEMO_CLEARED_EVENT } from "@/lib/demo-storage";
 import { listConversations, putConversation, type StoredConversation } from "@/lib/local-db";
 import { isAuthRoute, useAuthSession } from "@/lib/auth-session";
 import { canUseHelm } from "@/lib/rbac";
+import { usePreferences } from "@/lib/i18n/context";
+import { dictionaries } from "@/lib/i18n/dictionaries";
+import { HUD } from "@/lib/i18n/hud";
 import { useHud } from "@/lib/i18n/use-hud";
 import { localeMeta, locales, type Locale } from "@/lib/i18n/locales";
 import { useAppMode } from "@/lib/mode";
@@ -62,15 +65,17 @@ export function Helm() {
   const { session: auth } = useAuthSession();
   const helmAllowed = !auth || canUseHelm(auth.role);
   const { live } = useAppMode();
-  const { t, locale, hud } = useHud();
+  const { t, locale } = useHud();
+  const { setLocale } = usePreferences();
   const { recordConversation } = useBlackBox();
-  const surface = t.surface;
   const [open, setOpen] = useState(false);
   const [langsOpen, setLangsOpen] = useState(false);
   const [mic, setMic] = useState<MicState>("idle");
   const [voiceOn, setVoiceOn] = useState(true);
   const [levels, setLevels] = useState<number[]>(() => Array(BAR_COUNT).fill(0));
   const [recogLang, setRecogLang] = useState<Locale>(locale);
+  const surface = dictionaries[recogLang]?.surface ?? t.surface;
+  const helmHud = (HUD[recogLang] ?? HUD.en).helm;
   const [draft, setDraft] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [typed, setTyped] = useState("");
@@ -243,7 +248,7 @@ export function Helm() {
 
     const Engine = SpeechEngine();
     if (!Engine) {
-      setMicError(hud.helm.noSpeech);
+      setMicError(helmHud.noSpeech);
       return;
     }
 
@@ -268,7 +273,7 @@ export function Helm() {
       };
       recognition.onerror = () => {
         stopListening();
-        setMicError(hud.helm.micStopped);
+        setMicError(helmHud.micStopped);
       };
       recognition.onend = () => {
         stopMeter();
@@ -276,7 +281,7 @@ export function Helm() {
       };
       recognition.start();
     } catch {
-      setMicError(hud.helm.micDenied);
+      setMicError(helmHud.micDenied);
       stopListening(true);
       setMic("idle");
     }
@@ -357,7 +362,7 @@ export function Helm() {
         error?: string;
       };
       if (!response.ok || !data.reply) {
-        const errorText = data.error ?? hud.helm.noReply;
+        const errorText = data.error ?? helmHud.noReply;
         const errorId = messageId();
         setMessages((current) => [
           ...current,
@@ -399,13 +404,13 @@ export function Helm() {
       const errorId = messageId();
       setMessages((current) => [
         ...current,
-          { id: errorId, role: "error", text: hud.helm.network },
+          { id: errorId, role: "error", text: helmHud.network },
       ]);
       persistChat({
         id: errorId,
         timestamp: new Date().toISOString(),
         role: "error",
-        content: hud.helm.network,
+        content: helmHud.network,
         langCode: recogLang,
       });
       recordConversation({
@@ -462,8 +467,8 @@ export function Helm() {
                   data-testid="helm-lang-toggle"
                   aria-expanded={langsOpen}
                   aria-controls={menuId}
-                  aria-label={hud.helm.language}
-                  title={hud.helm.language}
+                  aria-label={helmHud.language}
+                  title={helmHud.language}
                   onClick={() => setLangsOpen((value) => !value)}
                   className="inline-flex items-center gap-1.5 border border-sand/20 px-2 py-1 font-mono text-[10px] text-sand hover:border-orange"
                 >
@@ -488,6 +493,7 @@ export function Helm() {
                           )}
                           onClick={() => {
                             setRecogLang(code);
+                            setLocale(code);
                             setLangsOpen(false);
                           }}
                         >
@@ -505,7 +511,7 @@ export function Helm() {
                 onClick={() => setOpen(false)}
                 className="border border-sand/20 px-2 py-1 font-mono text-[10px] text-sand/70 hover:text-sand"
               >
-                {surface.helmHide}
+                <span key={recogLang}>{surface.helmHide}</span>
               </button>
             </div>
           </header>
@@ -557,7 +563,7 @@ export function Helm() {
                   mic === "idle" && "border-sand/25 text-sand/70 hover:text-sand",
                 )}
                 aria-label={
-                  mic === "listening" ? hud.helm.listenStop : hud.helm.listenStart
+                  mic === "listening" ? helmHud.listenStop : helmHud.listenStart
                 }
               >
                 {mic === "processing" ? (
