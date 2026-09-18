@@ -48,13 +48,13 @@ function OverlayPaths() {
       <path
         d="M46 28 H188 L214 8 H392 L418 28 H954 L992 66 V554 L954 592 H46 L8 554 V66 Z"
         stroke={STROKE}
-        strokeWidth="2.2"
+        strokeWidth="3.2"
         vectorEffect="nonScalingStroke"
       />
       <path
         d="M70 52 H210 L228 38 H386 L404 52 H930 L962 84 V536 L930 568 H70 L38 536 V84 Z"
         stroke={STROKE_DIM}
-        strokeWidth="1.2"
+        strokeWidth="1.8"
         vectorEffect="nonScalingStroke"
       />
       <path d="M70 52 h36 v36" stroke={STROKE} strokeWidth="2.4" vectorEffect="nonScalingStroke" />

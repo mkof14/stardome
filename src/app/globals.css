@@ -300,8 +300,11 @@ body {
 }
 
 .hud-bezel {
-  background: color-mix(in srgb, var(--bridge-panel) 86%, transparent);
-  box-shadow: 0 0 36px rgb(241 90 0 / 0.22);
+  background: #0c141c;
+  box-shadow:
+    0 0 0 1px rgb(241 90 0 / 0.45),
+    0 0 48px rgb(241 90 0 / 0.28),
+    0 24px 80px rgb(0 0 0 / 0.45);
 }
 
 .hud-bezel-glow {

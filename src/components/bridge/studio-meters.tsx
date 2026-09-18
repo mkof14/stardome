@@ -83,7 +83,17 @@ export function StudioWave({
       />
       <div className="flex h-[78%] w-full items-center gap-px px-3">
         {wave.map((value, index) => {
-          const mag = live || hud ? Math.min(1, Math.abs(value)) : 0;
+          const mag = live
+            ? Math.min(1, Math.max(0.05, Math.abs(value)))
+            : hud
+              ? Math.min(
+                  1,
+                  Math.max(
+                    Math.abs(value),
+                    0.14 + 0.22 * Math.abs(Math.sin((index / Math.max(1, wave.length)) * Math.PI)),
+                  ),
+                )
+              : 0;
           const color = hud
             ? waveHudColor(index, wave.length, mag, peak && live)
             : waveColor(mag, peak && live);

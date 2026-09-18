@@ -23,7 +23,7 @@ export function HudBezel({
   return (
     <div
       data-testid={testId}
-      className={cn("hud-bezel hud-visor-clip-overlay relative", className)}
+      className={cn("hud-bezel relative", className)}
     >
       <div className="hud-bezel-glow pointer-events-none" aria-hidden />
       <HudVisor variant="overlay" />
