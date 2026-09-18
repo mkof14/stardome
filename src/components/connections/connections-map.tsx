@@ -7,6 +7,7 @@ import { STARWALL_MARK } from "@/components/brand-logo";
 import {
   CONTAINER_BOX,
   CORE,
+  coreLogoWidthPct,
   ENDPOINTS,
   MAP_H,
   MAP_W,
@@ -504,10 +505,11 @@ export function ConnectionsMap() {
         height={543}
         unoptimized
         data-testid="map-core-logo"
-        className="pointer-events-none absolute z-[1] h-auto w-[200px] -translate-x-1/2 -translate-y-[80%]"
+        className="pointer-events-none absolute z-[1] h-auto -translate-x-1/2 -translate-y-[58%]"
         style={{
           left: `${(CORE.x / MAP_W) * 100}%`,
           top: `${(CORE.y / MAP_H) * 100}%`,
+          width: `${coreLogoWidthPct()}%`,
         }}
       />
 

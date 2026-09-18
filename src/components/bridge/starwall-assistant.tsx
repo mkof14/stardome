@@ -6,7 +6,7 @@ import { cn } from "@/lib/cn";
 import { useBlackBox } from "@/lib/black-box";
 import { useBridgeSession } from "@/lib/bridge-session";
 import { syncConversationToCloud } from "@/lib/cloud-sync";
-import { HELM_OPEN_EVENT, PILOT_ASK_EVENT, publishHelmState } from "@/lib/helm-events";
+import { HELM_OPEN_EVENT, PILOT_ASK_EVENT, PILOT_DEMO_EVENT, publishHelmState } from "@/lib/helm-events";
 import {
   PilotDesk,
   PilotDeskBar,
@@ -124,6 +124,7 @@ export function Helm() {
   const rafRef = useRef<number | null>(null);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const sendRef = useRef<(text: string) => Promise<void>>(async () => {});
+  const runDemoRef = useRef<() => Promise<void>>(async () => {});
   const lastNote = useRef<string | null>(null);
   const openRef = useRef(open);
   const voiceOnRef = useRef(voiceOn);
@@ -219,6 +220,17 @@ export function Helm() {
     }
     window.addEventListener(PILOT_ASK_EVENT, onAsk);
     return () => window.removeEventListener(PILOT_ASK_EVENT, onAsk);
+  }, []);
+
+  useEffect(() => {
+    function onDemo() {
+      setOpen(true);
+      setUnread(false);
+      if (drillingRef.current) return;
+      void runDemoRef.current();
+    }
+    window.addEventListener(PILOT_DEMO_EVENT, onDemo);
+    return () => window.removeEventListener(PILOT_DEMO_EVENT, onDemo);
   }, []);
 
   useEffect(() => {
@@ -976,6 +988,7 @@ export function Helm() {
   }
 
   sendRef.current = sendMessage;
+  runDemoRef.current = runDemo;
 
   if (isAuthRoute(pathname) || !helmAllowed) return null;
 

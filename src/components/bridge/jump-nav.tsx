@@ -5,17 +5,19 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { cn } from "@/lib/cn";
 import { useAuthSession } from "@/lib/auth-session";
 import { useCrisisMode } from "@/lib/crisis-mode";
-import { HELM_STATE_EVENT, openHelm } from "@/lib/helm-events";
+import { HELM_STATE_EVENT, focusWatchComms, openHelm, startPilotDemo } from "@/lib/helm-events";
 import { useHud } from "@/lib/i18n/use-hud";
 import { canUseHelm } from "@/lib/rbac";
+import type { WatchParty } from "@/lib/watch-comms";
 
-type JumpKind = "scroll" | "helm" | "link";
+type JumpKind = "scroll" | "helm" | "link" | "demo";
 
 type JumpItem = {
   id: keyof import("@/lib/i18n/hud").HudCopy["jump"];
   kind: JumpKind;
   href?: string;
   targetId?: string;
+  party?: WatchParty;
   crisisOnly?: boolean;
   hideInCrisis?: boolean;
   icon: ReactNode;
@@ -133,6 +135,73 @@ const ITEMS: JumpItem[] = [
     ),
   },
   {
+    id: "demo",
+    kind: "demo",
+    icon: (
+      <svg viewBox="0 0 16 16" className={ICON} aria-hidden>
+        <path
+          fill="currentColor"
+          d="M8 1.2 14.2 4.6v6.8L8 14.8 1.8 11.4V4.6L8 1.2Zm0 1.7L3.2 5.2v5.6L8 13.1l4.8-2.3V5.2L8 2.9Zm-1 2.4 4.2 2.7-4.2 2.7V5.3Z"
+        />
+      </svg>
+    ),
+  },
+  {
+    id: "comms",
+    kind: "scroll",
+    targetId: "watch-comms-panel",
+    icon: (
+      <svg viewBox="0 0 16 16" className={ICON} aria-hidden>
+        <path
+          fill="currentColor"
+          d="M8 1.4A5.6 5.6 0 0 0 2.4 7v2.2H4V7a4 4 0 1 1 8 0v2.2h1.6V7A5.6 5.6 0 0 0 8 1.4ZM3.2 10.2h1.8V14H3.2v-3.8Zm7.8 0h1.8V14h-1.8v-3.8Z"
+        />
+      </svg>
+    ),
+  },
+  {
+    id: "captain",
+    kind: "scroll",
+    targetId: "watch-comms-panel",
+    party: "captain",
+    icon: (
+      <svg viewBox="0 0 16 16" className={ICON} aria-hidden>
+        <path
+          fill="currentColor"
+          d="M8 1.3 2.6 3.4 8 5.6l5.4-2.2L8 1.3ZM4.2 6.2 8 7.8l3.8-1.6V9.2A4.2 4.2 0 0 1 8 13.2 4.2 4.2 0 0 1 4.2 9.2V6.2Z"
+        />
+      </svg>
+    ),
+  },
+  {
+    id: "designated",
+    kind: "scroll",
+    targetId: "watch-comms-panel",
+    party: "designated",
+    icon: (
+      <svg viewBox="0 0 16 16" className={ICON} aria-hidden>
+        <path
+          fill="currentColor"
+          d="M8 1.6A2.4 2.4 0 1 1 5.6 4 2.4 2.4 0 0 1 8 1.6ZM3.2 13.2V12A4.8 4.8 0 0 1 8 7.2 4.8 4.8 0 0 1 12.8 12v1.2H3.2Z"
+        />
+      </svg>
+    ),
+  },
+  {
+    id: "supportTeam",
+    kind: "scroll",
+    targetId: "watch-comms-panel",
+    party: "support",
+    icon: (
+      <svg viewBox="0 0 16 16" className={ICON} aria-hidden>
+        <path
+          fill="currentColor"
+          d="M8 1.5A2.2 2.2 0 1 1 5.8 3.7 2.2 2.2 0 0 1 8 1.5ZM2.4 8.2h2.2V12H2.4V8.2Zm9 0H13.6V12H11.4V8.2ZM4.4 13.2A4.2 4.2 0 0 1 8 10.2a4.2 4.2 0 0 1 3.6 3H4.4Z"
+        />
+      </svg>
+    ),
+  },
+  {
     id: "blackbox",
     kind: "scroll",
     targetId: "black-box-panel",
@@ -189,7 +258,7 @@ export function JumpNav() {
   const { hud } = useHud();
   const { crisis } = useCrisisMode();
   const { session } = useAuthSession();
-  const helmAllowed = canUseHelm(session?.role);
+  const helmAllowed = !session || canUseHelm(session.role);
   const [pinned, setPinned] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [active, setActive] = useState("picture");
@@ -202,6 +271,7 @@ export function JumpNav() {
         if (item.crisisOnly && !crisis) return false;
         if (item.hideInCrisis && crisis) return false;
         if (item.kind === "helm" && !helmAllowed) return false;
+        if (item.kind === "demo" && !helmAllowed) return false;
         return true;
       }),
     [crisis, helmAllowed],
@@ -223,6 +293,17 @@ export function JumpNav() {
       openHelm();
       setActive(item.id);
       return;
+    }
+    if (item.kind === "demo") {
+      lockUntil.current = Date.now() + 1200;
+      startPilotDemo();
+      setActive(item.id);
+      return;
+    }
+    if (item.party) {
+      focusWatchComms(item.party);
+    } else if (item.id === "comms") {
+      focusWatchComms();
     }
     const target = item.targetId ? document.getElementById(item.targetId) : null;
     if (!target) return;
@@ -290,7 +371,7 @@ export function JumpNav() {
       onMouseLeave={() => setHovered(false)}
       className={cn(
         "fixed bottom-0 left-0 top-16 z-30 flex flex-col border-r border-bridge-line bg-bridge-panel text-bridge-text",
-        expanded ? "w-56" : "w-12",
+        expanded ? "w-60" : "w-12",
       )}
     >
       <div className="flex h-10 items-center justify-between border-b border-bridge-line px-2">
