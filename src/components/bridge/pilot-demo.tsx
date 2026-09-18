@@ -32,7 +32,7 @@ export function PilotDemoIcon({
       className={cn(
         "relative flex items-center justify-center overflow-hidden border text-[#38BDF8]",
         compact
-          ? "h-8 w-8 border-[#38BDF8] bg-[#06202c]"
+          ? "h-9 w-9 shrink-0 border-[#38BDF8] bg-[#06202c]"
           : "h-12 w-12 rounded-full border-[#38BDF8] bg-[#06202c] shadow-[0_8px_20px_rgb(6_32_44/0.45)]",
         running && "demo-fab-pulse",
       )}

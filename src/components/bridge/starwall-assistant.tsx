@@ -831,6 +831,7 @@ export function Helm() {
     setUnread(false);
     setVoiceOn(true);
     voiceOnRef.current = true;
+    setTalkHud(true);
     const beats = demoBeats(session, recogLang);
     setDemoTotal(beats.length);
     for (let i = 0; i < beats.length; i += 1) {
@@ -1070,7 +1071,7 @@ export function Helm() {
                   : `${desk.post} · ${session.vessel} · ${session.riskLevel}`}
               </p>
             </div>
-            <div className="relative flex items-center gap-1.5">
+            <div className="relative flex shrink-0 items-center gap-1.5">
               <div ref={langRef} className="relative">
                 <button
                   type="button"
@@ -1275,6 +1276,13 @@ export function Helm() {
             </form>
           </div>
         </section>
+        <div className="mt-2 flex items-end gap-2">
+          <PilotDemoIcon
+            running={drilling}
+            label={drilling ? demoCopy.stop : demoCopy.play}
+            onClick={() => void runDemo()}
+          />
+        </div>
         </div>
       ) : (
         <div className="flex flex-col items-end">
