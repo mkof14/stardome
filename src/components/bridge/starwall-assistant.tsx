@@ -6,7 +6,15 @@ import { cn } from "@/lib/cn";
 import { useBlackBox } from "@/lib/black-box";
 import { useBridgeSession } from "@/lib/bridge-session";
 import { syncConversationToCloud } from "@/lib/cloud-sync";
-import { HELM_OPEN_EVENT, publishHelmState } from "@/lib/helm-events";
+import { HELM_OPEN_EVENT, PILOT_ASK_EVENT, publishHelmState } from "@/lib/helm-events";
+import {
+  PilotDesk,
+  PilotDeskBar,
+  PilotUnreadChip,
+  type RaisedScreens,
+} from "@/components/bridge/pilot-desk";
+import { pilotDeskCopy } from "@/lib/i18n/pilot-desk-copy";
+import { buildPilotWatch, watchReply } from "@/lib/pilot-watch";
 import { DEMO_CLEARED_EVENT } from "@/lib/demo-storage";
 import { listConversations, putConversation, type StoredConversation } from "@/lib/local-db";
 import { isAuthRoute, useAuthSession } from "@/lib/auth-session";
@@ -81,13 +89,25 @@ export function Helm() {
   const [typed, setTyped] = useState("");
   const [typingId, setTypingId] = useState<string | null>(null);
   const [micError, setMicError] = useState<string | null>(null);
+  const [raised, setRaised] = useState<RaisedScreens>({
+    instruments: false,
+    advice: false,
+    comms: false,
+  });
+  const [unread, setUnread] = useState(false);
   const listRef = useRef<HTMLDivElement | null>(null);
   const langRef = useRef<HTMLDivElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const audioRef = useRef<AudioContext | null>(null);
   const rafRef = useRef<number | null>(null);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const sendRef = useRef<(text: string) => Promise<void>>(async () => {});
+  const lastNote = useRef<string | null>(null);
+  const openRef = useRef(open);
   const menuId = useId();
+  const desk = pilotDeskCopy(recogLang);
+  const watch = buildPilotWatch(session, recogLang);
+  openRef.current = open;
 
   useEffect(() => {
     if (!listRef.current) return;
@@ -97,9 +117,25 @@ export function Helm() {
   useEffect(() => {
     function onOpen() {
       setOpen(true);
+      setUnread(false);
     }
     window.addEventListener(HELM_OPEN_EVENT, onOpen);
     return () => window.removeEventListener(HELM_OPEN_EVENT, onOpen);
+  }, []);
+
+  useEffect(() => {
+    function onAsk(event: Event) {
+      const prompt =
+        event instanceof CustomEvent
+          ? String((event.detail as { prompt?: unknown } | undefined)?.prompt ?? "").trim()
+          : "";
+      if (!prompt) return;
+      setOpen(true);
+      setUnread(false);
+      void sendRef.current(prompt);
+    }
+    window.addEventListener(PILOT_ASK_EVENT, onAsk);
+    return () => window.removeEventListener(PILOT_ASK_EVENT, onAsk);
   }, []);
 
   useEffect(() => {
@@ -142,6 +178,35 @@ export function Helm() {
       setTypingId(null);
     }
   }, [live]);
+
+  useEffect(() => {
+    if (!pathname.startsWith("/interface")) {
+      lastNote.current = null;
+      return;
+    }
+    if (lastNote.current === watch.noteKey) return;
+    const first = lastNote.current === null;
+    lastNote.current = watch.noteKey;
+    const hasPicture =
+      Boolean(session.scenarioId) || session.live || Boolean(session.faultId);
+    setRaised({
+      instruments: true,
+      advice: hasPicture,
+      comms: watch.urgent || Boolean(session.scenarioId),
+    });
+    if (!openRef.current && hasPicture && !first) {
+      setUnread(true);
+    }
+    if (!hasPicture || first) return;
+    const brief = watchReply(session, recogLang);
+    const assistantId = messageId();
+    setMessages((current) => {
+      const last = current[current.length - 1];
+      if (last?.role === "assistant" && last.text === brief) return current;
+      return [...current, { id: assistantId, role: "assistant", text: brief }];
+    });
+    setTypingId(assistantId);
+  }, [pathname, watch.noteKey, watch.urgent, session, recogLang]);
 
   useEffect(() => {
     function onCleared() {
@@ -359,6 +424,13 @@ export function Helm() {
             mode: live ? "live" : "demo",
             locale: recogLang,
             path: pathname,
+            scenarioId: session.scenarioId,
+            panelType: session.panelType,
+            actionText: session.actionText,
+            recommended: session.recommended,
+            logText: session.logText,
+            crisis: session.crisis,
+            faultId: session.faultId,
           },
         }),
       });
@@ -427,6 +499,8 @@ export function Helm() {
     }
   }
 
+  sendRef.current = sendMessage;
+
   if (isAuthRoute(pathname) || !helmAllowed) return null;
 
   return (
@@ -435,7 +509,15 @@ export function Helm() {
       className="fixed bottom-4 end-4 z-[70] font-ui"
     >
       {open ? (
-        <section className="helm-scope flex h-[min(42rem,calc(100vh-5.5rem))] w-[min(20rem,calc(100vw-1.5rem))] flex-col overflow-hidden border border-stroke bg-[#0b141c] text-sand shadow-[0_20px_56px_rgb(15_25_34/0.38)]">
+        <div className="relative flex max-h-[calc(100vh-5.5rem)] flex-col items-end">
+          <PilotDesk
+            session={session}
+            locale={recogLang}
+            raised={raised}
+            onRaised={setRaised}
+            docked={false}
+          />
+        <section className="helm-scope flex h-[min(38rem,calc(100vh-5.5rem))] w-[min(22rem,calc(100vw-1.5rem))] flex-col overflow-hidden border border-stroke bg-[#0b141c] text-sand shadow-[0_20px_56px_rgb(15_25_34/0.38)]">
           <div className="h-[2px] bg-orange" />
           <header className="relative flex items-center justify-between gap-2 border-b border-sand/15 bg-[#061018] px-3 py-2.5">
             <span
@@ -463,7 +545,7 @@ export function Helm() {
               <p className="truncate font-mono text-[10px] text-sand/55">
                 {live
                   ? surface.live
-                  : `${surface.advisor} · ${session.vessel} · ${session.riskLevel}`}
+                  : `${desk.post} · ${session.vessel} · ${session.riskLevel}`}
               </p>
             </div>
             <div className="relative flex items-center gap-1.5">
@@ -518,6 +600,14 @@ export function Helm() {
               </button>
             </div>
           </header>
+          <div className="border-b border-sand/15 bg-[#061018] px-3 py-1.5">
+            <PilotDeskBar
+              copy={desk}
+              raised={raised}
+              urgent={watch.urgent}
+              onRaised={setRaised}
+            />
+          </div>
 
           <div
             ref={listRef}
@@ -647,13 +737,30 @@ export function Helm() {
             </form>
           </div>
         </section>
+        </div>
       ) : (
+        <div className="flex flex-col items-end">
+          {unread ? (
+            <PilotUnreadChip
+              label={desk.unread}
+              onOpen={() => {
+                setOpen(true);
+                setUnread(false);
+              }}
+            />
+          ) : null}
         <button
           type="button"
           data-testid="assistant-toggle"
-          onClick={() => setOpen(true)}
+          onClick={() => {
+            setOpen(true);
+            setUnread(false);
+          }}
           aria-label={surface.open}
-          className="helm-fab relative flex h-16 w-16 items-center justify-center overflow-hidden rounded-full border border-orange bg-navy text-orange"
+          className={cn(
+            "helm-fab relative flex h-16 w-16 items-center justify-center overflow-hidden rounded-full border border-orange bg-navy text-orange",
+            unread && "helm-fab-pulse",
+          )}
         >
           <span
             className="helm-fab-sweep pointer-events-none absolute inset-1 rounded-full"
@@ -673,6 +780,7 @@ export function Helm() {
             <circle cx="24" cy="24" r="3.2" fill="#F15A00" className="helm-idle-led" />
           </svg>
         </button>
+        </div>
       )}
     </div>
   );

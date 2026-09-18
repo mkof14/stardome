@@ -1,12 +1,9 @@
 "use client";
 
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
+import type { BridgeSessionValue } from "@/lib/bridge-session-types";
 
-export type BridgeSessionValue = {
-  scenarioName: string;
-  riskLevel: string;
-  vessel: string;
-};
+export type { BridgeSessionValue };
 
 type BridgeSessionContextValue = BridgeSessionValue & {
   setSession: (next: Partial<BridgeSessionValue>) => void;
@@ -16,6 +13,14 @@ const DEFAULT_SESSION: BridgeSessionValue = {
   scenarioName: "Normal watch",
   riskLevel: "NORMAL",
   vessel: "M/Y AURELIA",
+  scenarioId: "",
+  panelType: "radar",
+  actionText: "",
+  recommended: "",
+  logText: "",
+  crisis: false,
+  faultId: null,
+  live: false,
 };
 
 const BridgeSessionContext = createContext<BridgeSessionContextValue>({

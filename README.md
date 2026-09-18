@@ -35,7 +35,7 @@ Cloud Agent environments run `scripts/ensure-site.sh` on every boot (`start` in 
 
 The supervisor writes the current public URL to `/tmp/starwall-public-url.txt`. Quick-tunnel hostnames change when cloudflared restarts.
 
-Pilot (the watch advisor) answers questions about StarWall and this website from `src/app/api/assistant/route.ts`. Copy `.env.local.example` to `.env.local` and set `ANTHROPIC_API_KEY` for model replies. `.env*.local` is gitignored. Without the key Pilot still answers from the on-site briefing (plans, Bridge, containers, contact) — it does not invent prices.
+Pilot (the watch advisor) sits on the Bridge like a second person on watch. Open Pilot on `/interface` to raise instrument cards, advice windows, and a watch/support/alarm comms strip. DEMO follows the current scenario, sensors, and recommended action. LIVE stays honest: no invented contacts, and comms stay offline until a real satcom path exists. Pilot answers questions about StarWall and this website from `src/app/api/assistant/route.ts`. Copy `.env.local.example` to `.env.local` and set `ANTHROPIC_API_KEY` for model replies. `.env*.local` is gitignored. Without the key Pilot still answers from the on-site briefing (plans, Bridge, containers, contact) — it does not invent prices.
 
 `NEXT_PUBLIC_SITE_URL` is used for canonical metadata, Open Graph, `robots.txt`, and `sitemap.xml`. Locally it defaults to `http://127.0.0.1:3000`. On Vercel it falls back to `https://$VERCEL_URL` if you leave it blank.
 

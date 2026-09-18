@@ -407,22 +407,6 @@ export function BridgeConsole() {
     );
   }, [locale]);
 
-  useEffect(() => {
-    if (live) {
-      setSession({
-        scenarioName: hud.chrome.noLivePicture,
-        riskLevel: "NO DATA",
-        vessel: hud.chrome.unconnected,
-      });
-      return;
-    }
-    setSession({
-      scenarioName: selectedName || hud.chrome.normalWatch,
-      riskLevel,
-      vessel: "M/Y AURELIA",
-    });
-  }, [live, selectedName, riskLevel, setSession, hud]);
-
   const systems = t.bridge.systems.map((name, index) => {
     const id = EQUIPMENT[index]?.id;
     const faulted = id === faultId;
@@ -592,6 +576,54 @@ export function BridgeConsole() {
   }
 
   const crisis = riskLevel === "CRITICAL" && selectedId !== "";
+  const recommended =
+    displayedOptions?.find((option) => option.recommended)?.label ?? "";
+
+  useEffect(() => {
+    if (live) {
+      setSession({
+        scenarioName: hud.chrome.noLivePicture,
+        riskLevel: "NO DATA",
+        vessel: hud.chrome.unconnected,
+        scenarioId: "",
+        panelType: "radar",
+        actionText: "",
+        recommended: "",
+        logText: "",
+        crisis: false,
+        faultId: null,
+        live: true,
+      });
+      return;
+    }
+    setSession({
+      scenarioName: selectedName || hud.chrome.normalWatch,
+      riskLevel,
+      vessel: "M/Y AURELIA",
+      scenarioId: selectedId,
+      panelType,
+      actionText: displayedAction ?? "",
+      recommended,
+      logText: activeScenario?.logText ?? "",
+      crisis,
+      faultId,
+      live: false,
+    });
+  }, [
+    live,
+    selectedName,
+    selectedId,
+    riskLevel,
+    panelType,
+    displayedAction,
+    recommended,
+    activeScenario?.logText,
+    crisis,
+    faultId,
+    setSession,
+    hud,
+  ]);
+
   const crisisSteps = localizeCrisisSteps(
     locale,
     selectedId,

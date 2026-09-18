@@ -4,6 +4,8 @@ import {
   localPilotReply,
   PILOT_SITE_BRIEFING,
 } from "@/lib/pilot-knowledge";
+import { isLocale } from "@/lib/i18n/locales";
+import { sessionFromAssistantContext, watchReply } from "@/lib/pilot-watch";
 
 type AssistantBody = {
   message?: unknown;
@@ -14,6 +16,13 @@ type AssistantBody = {
     mode?: unknown;
     locale?: unknown;
     path?: unknown;
+    scenarioId?: unknown;
+    panelType?: unknown;
+    actionText?: unknown;
+    recommended?: unknown;
+    logText?: unknown;
+    crisis?: unknown;
+    faultId?: unknown;
   };
 };
 
@@ -41,20 +50,22 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Message is required." }, { status: 400 });
   }
 
-  const scenarioName = asText(body.context?.scenarioName, "Normal watch");
-  const riskLevel = asText(body.context?.riskLevel, "NORMAL");
-  const vessel = asText(body.context?.vessel, "M/Y AURELIA");
-  const locale = asText(body.context?.locale, "en");
+  const localeRaw = asText(body.context?.locale, "en");
+  const locale = isLocale(localeRaw) ? localeRaw : "en";
   const path = asText(body.context?.path, "/");
-  const live = body.context?.mode === "live";
+  const watchSession = sessionFromAssistantContext(body.context ?? {});
+  const live = watchSession.live;
+  const watchBrief = watchReply(watchSession, locale);
 
   const situation = live
     ? "Current mode is LIVE. There is no live scenario or sensor data. This deployment is not connected to any radar, AIS, camera, or other equipment. If asked about current status, say you do not have live sensor data yet — this vessel is not connected to any equipment. They can ask about StarWall in general, or switch to DEMO mode to see a simulated scenario. Do not invent contacts, risk levels, equipment status, or events."
-    : `Current Bridge picture (DEMO): scenario is '${scenarioName}', risk level is '${riskLevel}', aboard ${vessel}.`;
+    : `Current Bridge picture (DEMO): scenario is '${watchSession.scenarioName}', risk level is '${watchSession.riskLevel}', aboard ${watchSession.vessel}. Panel: ${watchSession.panelType}. ${watchBrief} Advice only — the person on watch decides.`;
 
   const apiKey = process.env.ANTHROPIC_API_KEY?.trim();
   if (!apiKey) {
-    return NextResponse.json(localPilotReply(message, locale));
+    return NextResponse.json(
+      localPilotReply(message, locale, { path, session: watchSession }),
+    );
   }
 
   const system = `${PILOT_SITE_BRIEFING} The visitor is on ${path}. ${situation} Respond in 2-4 sentences unless more detail is needed. IMPORTANT: Respond in the exact same language the user's message is written in. At the very start of your response, output a language code in this exact format on its own first line: [LANG:xx] where xx is the ISO 639-1 code (e.g. [LANG:en], [LANG:ru], [LANG:fr]) — then a newline, then your actual response.`;
@@ -75,11 +86,15 @@ export async function POST(request: Request) {
       .trim();
 
     if (!raw) {
-      return NextResponse.json(localPilotReply(message, locale));
+      return NextResponse.json(
+        localPilotReply(message, locale, { path, session: watchSession }),
+      );
     }
 
     return NextResponse.json(parseLangTag(raw));
   } catch {
-    return NextResponse.json(localPilotReply(message, locale));
+    return NextResponse.json(
+      localPilotReply(message, locale, { path, session: watchSession }),
+    );
   }
 }

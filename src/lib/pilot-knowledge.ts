@@ -1,5 +1,7 @@
+import type { BridgeSessionValue } from "@/lib/bridge-session-types";
 import { messagesFor } from "@/lib/i18n/dictionaries";
 import { isLocale, type Locale } from "@/lib/i18n/locales";
+import { watchReply } from "@/lib/pilot-watch";
 
 export const PILOT_SITE_BRIEFING = `You are Pilot, the watch advisor for StarWall by AGRON. Never call yourself Helm.
 
@@ -62,9 +64,16 @@ function topicOf(message: string): Topic {
   return "general";
 }
 
+function isWatchAsk(message: string) {
+  return /radar|ais|sonar|cctv|satcom|sensor|датчик|сенсор|картин|обстанов|what should|что делать|advice|совет|protocol|watch|вахт|contact|тревог|alarm|comms|радио|perimeter|прибор|instrument/.test(
+    message.toLowerCase(),
+  );
+}
+
 export function localPilotReply(
   message: string,
   fallbackLocale: string | undefined,
+  extra?: { path?: string; session?: BridgeSessionValue },
 ): { reply: string; langCode: string } {
   const locale = detectLang(
     message,
@@ -72,6 +81,19 @@ export function localPilotReply(
   );
   const t = messagesFor(locale);
   const topic = topicOf(message);
+  const siteTopic =
+    topic === "plans" ||
+    topic === "about" ||
+    topic === "contact" ||
+    topic === "containers" ||
+    topic === "how";
+
+  if (extra?.session && !siteTopic && (isWatchAsk(message) || extra.session.scenarioId || extra.session.live)) {
+    return {
+      reply: watchReply(extra.session, locale).replace(/\s+/g, " ").trim(),
+      langCode: locale,
+    };
+  }
 
   const replies: Record<Topic, string> = {
     general: `${t.home.lead} ${t.home.cards[1].body} ${t.chrome.footerBlurb}`,

@@ -252,6 +252,37 @@ body {
   animation: assistant-speak 0.8s ease-in-out infinite;
 }
 
+@keyframes pilot-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.pilot-card-in {
+  animation: pilot-card-in 0.28s ease-out;
+}
+
+@keyframes helm-fab-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgb(241 90 0 / 0.55);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgb(241 90 0 / 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgb(241 90 0 / 0);
+  }
+}
+
+.helm-fab-pulse {
+  animation: helm-fab-pulse 1.4s ease-out infinite;
+}
+
 @keyframes backend-flow {
   0% {
     left: 0;
