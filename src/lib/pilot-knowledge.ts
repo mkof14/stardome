@@ -1,4 +1,4 @@
-import { dictionaries } from "@/lib/i18n/dictionaries";
+import { messagesFor } from "@/lib/i18n/dictionaries";
 import { isLocale, type Locale } from "@/lib/i18n/locales";
 
 export const PILOT_SITE_BRIEFING = `You are Pilot, the watch advisor for StarWall by AGRON. Never call yourself Helm.
@@ -70,7 +70,7 @@ export function localPilotReply(
     message,
     isLocale(fallbackLocale) ? fallbackLocale : "en",
   );
-  const t = dictionaries[locale];
+  const t = messagesFor(locale);
   const topic = topicOf(message);
 
   const replies: Record<Topic, string> = {

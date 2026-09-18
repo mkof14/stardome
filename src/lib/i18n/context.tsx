@@ -15,7 +15,7 @@ import {
   rtlLocales,
   type Locale,
 } from "@/lib/i18n/locales";
-import { dictionaries } from "@/lib/i18n/dictionaries";
+import { messagesFor } from "@/lib/i18n/dictionaries";
 import type { Messages } from "@/lib/i18n/messages";
 import { isTheme, LOCALE_KEY, THEME_KEY, type Theme } from "@/lib/theme";
 
@@ -69,6 +69,7 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const [locale, setLocaleState] = useState<Locale>(defaultLocale);
   const [theme, setThemeState] = useState<Theme>("light");
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     const storedLocale = window.localStorage.getItem(LOCALE_KEY);
@@ -78,24 +79,26 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
     setLocaleState(nextLocale);
     setThemeState(nextTheme);
     applyDocument(nextLocale, nextTheme);
+    setHydrated(true);
   }, []);
 
   useEffect(() => {
+    if (!hydrated) return;
     applyDocument(locale, theme);
     window.localStorage.setItem(LOCALE_KEY, locale);
     window.localStorage.setItem(THEME_KEY, theme);
-  }, [locale, theme]);
+  }, [locale, theme, hydrated]);
 
   useEffect(() => {
     const key = titleByPath[pathname] ?? "home";
-    document.title = dictionaries[locale].seo[key];
+    document.title = messagesFor(locale).seo[key];
   }, [locale, pathname]);
 
   const value = useMemo<Preferences>(
     () => ({
       locale,
       theme,
-      t: dictionaries[locale],
+      t: messagesFor(locale),
       setLocale: setLocaleState,
       setTheme: setThemeState,
       toggleTheme: () =>

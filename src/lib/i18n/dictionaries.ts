@@ -23,3 +23,30 @@ export const dictionaries: Record<Locale, Messages> = {
   ja,
   he,
 };
+
+/** Static per-locale returns so a language key cannot resolve to a missing chunk. */
+export function messagesFor(locale: Locale): Messages {
+  switch (locale) {
+    case "es":
+      return es;
+    case "fr":
+      return fr;
+    case "de":
+      return de;
+    case "ru":
+      return ru;
+    case "uk":
+      return uk;
+    case "ar":
+      return ar;
+    case "zh":
+      return zh;
+    case "ja":
+      return ja;
+    case "he":
+      return he;
+    case "en":
+    default:
+      return en;
+  }
+}

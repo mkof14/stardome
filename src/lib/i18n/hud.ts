@@ -2556,6 +2556,32 @@ export const HUD: Record<Locale, HudCopy> = {
   he,
 };
 
+export function hudFor(locale: Locale): HudCopy {
+  switch (locale) {
+    case "ru":
+      return ru;
+    case "es":
+      return es;
+    case "fr":
+      return fr;
+    case "de":
+      return de;
+    case "uk":
+      return uk;
+    case "ar":
+      return ar;
+    case "zh":
+      return zh;
+    case "ja":
+      return ja;
+    case "he":
+      return he;
+    case "en":
+    default:
+      return en;
+  }
+}
+
 export function fill(template: string, vars: Record<string, string>) {
   return Object.entries(vars).reduce(
     (text, [key, value]) => text.replaceAll(`{${key}}`, value),

@@ -1,0 +1,38 @@
+import { describe, expect, it } from "vitest";
+import { messagesFor } from "@/lib/i18n/dictionaries";
+import { locales } from "@/lib/i18n/locales";
+import { pilotChrome, pilotHide } from "@/lib/i18n/pilot-chrome";
+
+describe("pilotChrome", () => {
+  it("returns Hide for every locale without falling back to a previous language", () => {
+    const hides = locales.map((code) => [code, pilotHide(code)] as const);
+    expect(Object.fromEntries(hides)).toEqual({
+      en: "Hide",
+      es: "Ocultar",
+      fr: "Masquer",
+      de: "Ausblenden",
+      ru: "Скрыть",
+      uk: "Сховати",
+      ar: "إخفاء",
+      zh: "隐藏",
+      ja: "隠す",
+      he: "הסתרה",
+    });
+  });
+
+  it("matches dictionary helm chrome and changes Hide when the locale changes", () => {
+    let previous = "";
+    for (const code of locales) {
+      const chrome = pilotChrome(code);
+      const surface = messagesFor(code).surface;
+      expect(chrome.hide).toBe(surface.helmHide);
+      expect(chrome.send).toBe(surface.helmSend);
+      expect(chrome.ask).toBe(surface.helmAsk);
+      expect(chrome.advisor).toBe(surface.helmAdvisor);
+      expect(pilotHide(code)).toBe(surface.helmHide);
+      expect(chrome.hide.length).toBeGreaterThan(0);
+      if (previous) expect(chrome.hide).not.toBe(previous);
+      previous = chrome.hide;
+    }
+  });
+});

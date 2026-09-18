@@ -12,8 +12,8 @@ import { listConversations, putConversation, type StoredConversation } from "@/l
 import { isAuthRoute, useAuthSession } from "@/lib/auth-session";
 import { canUseHelm } from "@/lib/rbac";
 import { usePreferences } from "@/lib/i18n/context";
-import { dictionaries } from "@/lib/i18n/dictionaries";
-import { HUD } from "@/lib/i18n/hud";
+import { hudFor } from "@/lib/i18n/hud";
+import { pilotChrome } from "@/lib/i18n/pilot-chrome";
 import { useHud } from "@/lib/i18n/use-hud";
 import { localeMeta, locales, type Locale } from "@/lib/i18n/locales";
 import { useAppMode } from "@/lib/mode";
@@ -65,7 +65,7 @@ export function Helm() {
   const { session: auth } = useAuthSession();
   const helmAllowed = !auth || canUseHelm(auth.role);
   const { live } = useAppMode();
-  const { t, locale } = useHud();
+  const { locale } = useHud();
   const { setLocale } = usePreferences();
   const { recordConversation } = useBlackBox();
   const [open, setOpen] = useState(false);
@@ -74,8 +74,8 @@ export function Helm() {
   const [voiceOn, setVoiceOn] = useState(true);
   const [levels, setLevels] = useState<number[]>(() => Array(BAR_COUNT).fill(0));
   const [recogLang, setRecogLang] = useState<Locale>(locale);
-  const surface = dictionaries[recogLang]?.surface ?? t.surface;
-  const helmHud = (HUD[recogLang] ?? HUD.en).helm;
+  const surface = pilotChrome(recogLang);
+  const helmHud = hudFor(recogLang).helm;
   const [draft, setDraft] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [typed, setTyped] = useState("");
@@ -105,6 +105,12 @@ export function Helm() {
   useEffect(() => {
     setRecogLang(locale);
   }, [locale]);
+
+  function selectPilotLang(code: Locale) {
+    setRecogLang(code);
+    setLocale(code);
+    setLangsOpen(false);
+  }
 
   useEffect(() => {
     publishHelmState(open);
@@ -452,12 +458,12 @@ export function Helm() {
                         : "bg-orange helm-idle-led",
                   )}
                 />
-                {surface.helmTitle}
+                {surface.title}
               </p>
               <p className="truncate font-mono text-[10px] text-sand/55">
                 {live
-                  ? surface.helmLive
-                  : `${surface.helmAdvisor} · ${session.vessel} · ${session.riskLevel}`}
+                  ? surface.live
+                  : `${surface.advisor} · ${session.vessel} · ${session.riskLevel}`}
               </p>
             </div>
             <div className="relative flex items-center gap-1.5">
@@ -491,11 +497,7 @@ export function Helm() {
                               ? "text-orange"
                               : "text-ink hover:bg-page",
                           )}
-                          onClick={() => {
-                            setRecogLang(code);
-                            setLocale(code);
-                            setLangsOpen(false);
-                          }}
+                          onClick={() => selectPilotLang(code)}
                         >
                           <FlagIcon locale={code} />
                           {localeMeta[code].native}
@@ -507,11 +509,12 @@ export function Helm() {
               </div>
               <button
                 type="button"
-                data-testid="assistant-toggle"
+                data-testid="helm-hide"
+                data-pilot-lang={recogLang}
                 onClick={() => setOpen(false)}
                 className="border border-sand/20 px-2 py-1 font-mono text-[10px] text-sand/70 hover:text-sand"
               >
-                <span key={recogLang}>{surface.helmHide}</span>
+                {surface.hide}
               </button>
             </div>
           </header>
@@ -523,7 +526,7 @@ export function Helm() {
           >
             {messages.length === 0 ? (
               <p className="border-s-2 border-orange ps-3 text-xs leading-relaxed text-sand/65">
-                {surface.helmEmpty}
+                {surface.empty}
               </p>
             ) : null}
             {messages.map((item) => {
@@ -582,8 +585,8 @@ export function Helm() {
                 data-testid="assistant-speaker"
                 onClick={toggleSpeaker}
                 aria-pressed={!voiceOn}
-                aria-label={voiceOn ? surface.helmSpeakerOn : surface.helmSpeakerOff}
-                title={voiceOn ? surface.helmSpeakerOn : surface.helmSpeakerOff}
+                aria-label={voiceOn ? surface.speakerOn : surface.speakerOff}
+                title={voiceOn ? surface.speakerOn : surface.speakerOff}
                 className={cn(
                   "flex h-10 w-10 items-center justify-center border",
                   voiceOn
@@ -631,7 +634,7 @@ export function Helm() {
                 data-testid="assistant-input"
                 value={draft}
                 onChange={(event) => setDraft(event.target.value)}
-                placeholder={surface.helmAsk}
+                placeholder={surface.ask}
                 className="min-w-0 flex-1 border-b border-sand/25 bg-transparent px-0 py-1.5 font-ui text-sm text-sand outline-none placeholder:text-sand/40 focus:border-orange"
               />
               <button
@@ -639,7 +642,7 @@ export function Helm() {
                 data-testid="assistant-send"
                 className="bg-orange px-3 py-1.5 font-ui text-xs font-medium text-white hover:bg-orange/90"
               >
-                {surface.helmSend}
+                {surface.send}
               </button>
             </form>
           </div>
@@ -649,7 +652,7 @@ export function Helm() {
           type="button"
           data-testid="assistant-toggle"
           onClick={() => setOpen(true)}
-          aria-label={surface.helmOpen}
+          aria-label={surface.open}
           className="helm-fab relative flex h-16 w-16 items-center justify-center overflow-hidden rounded-full border border-orange bg-navy text-orange"
         >
           <span
