@@ -13,7 +13,7 @@ import {
   type ToastKind,
 } from "@/components/bridge/event-toasts";
 import { HudPanel } from "@/components/bridge/hud-panel";
-import { ChamferFrame, HudGlyph, PilotHex } from "@/components/bridge/hud-icons";
+import { HudGlyph, IconWell } from "@/components/bridge/hud-icons";
 import { HudFrame } from "@/components/bridge/hud-visor";
 import { ModeToggle } from "@/components/mode-toggle";
 import { PerimeterView } from "@/components/bridge/perimeter-panel";
@@ -684,11 +684,9 @@ export function BridgeConsole() {
             <Link
               href="/interface/connections"
               data-testid="connections-map-link"
-              className="inline-flex h-9 items-center gap-1.5 border border-bridge-text/40 px-2.5 font-ui text-xs text-bridge-text hover:border-orange hover:text-orange"
+              className="inline-flex h-9 items-center gap-1.5 rounded-xl border border-bridge-text/40 px-2.5 font-body text-sm text-bridge-text hover:border-orange hover:text-orange"
             >
-              <ChamferFrame className="h-7 w-7">
-                <HudGlyph name="map" className="h-3.5 w-3.5" />
-              </ChamferFrame>
+              <HudGlyph name="map" className="h-4 w-4" />
               {hud.chrome.connectionsMap}
             </Link>
             <ModeToggle />
@@ -703,15 +701,13 @@ export function BridgeConsole() {
                 });
               }}
               className={cn(
-                "inline-flex h-9 items-center gap-1.5 border px-2.5 font-ui text-xs",
+                "inline-flex h-9 items-center gap-1.5 rounded-xl border px-2.5 font-body text-sm",
                 training
                   ? "border-orange bg-orange text-white"
                   : "border-bridge-text/40 text-bridge-text hover:border-orange hover:text-orange",
               )}
             >
-              <ChamferFrame active={training} className="h-7 w-7">
-                <HudGlyph name="training" className="h-3.5 w-3.5" />
-              </ChamferFrame>
+              <HudGlyph name="training" className="h-4 w-4" />
               {hud.chrome.trainingMode}
             </button>
             )}
@@ -753,7 +749,7 @@ export function BridgeConsole() {
         >
           {t.bridge.telemetry.map((label, index) => (
             <div key={label} className="flex items-start gap-2">
-              <ChamferFrame className="mt-0.5 h-6 w-6 text-orange">
+              <IconWell className="mt-0.5 h-7 w-7 text-orange">
                 <HudGlyph
                   name={
                     (
@@ -768,25 +764,25 @@ export function BridgeConsole() {
                       ] as const
                     )[index] ?? "info"
                   }
-                  className="h-3 w-3"
+                  className="h-3.5 w-3.5"
                 />
-              </ChamferFrame>
+              </IconWell>
               <div>
-              <p className="font-mono text-[9px] tracking-wider text-bridge-dim">
+              <p className="font-body text-xs text-bridge-dim">
                 {label}
               </p>
-              <p className="font-mono text-sm text-bridge-text">
+              <p className="font-body text-sm text-bridge-text">
                 {live ? "—" : TELEMETRY_VALUES[index]}
               </p>
               </div>
             </div>
           ))}
           <div className="flex items-start gap-2">
-            <ChamferFrame className="mt-0.5 h-6 w-6 text-orange">
-              <HudGlyph name="clock" className="h-3 w-3" />
-            </ChamferFrame>
+            <IconWell className="mt-0.5 h-7 w-7 text-orange">
+              <HudGlyph name="clock" className="h-3.5 w-3.5" />
+            </IconWell>
             <div>
-            <p className="font-mono text-[9px] tracking-wider text-bridge-dim">
+            <p className="font-body text-xs text-bridge-dim">
               UTC
             </p>
             <UtcClock />
@@ -809,16 +805,15 @@ export function BridgeConsole() {
             data-testid="picture-scenario-banner"
             className="bg-bridge-panel px-4 py-3"
           >
-            <p className="flex items-center gap-2 font-mono text-[10px] tracking-[0.22em] text-orange">
-              <PilotHex className="h-4 w-4" />
+            <p className="font-body text-xs font-medium text-orange">
               {activeScenario
                 ? hud.chrome.trainingSelect
                 : hud.chrome.watchSelect}
             </p>
-            <p className="mt-0.5 font-ui text-lg font-bold tracking-wide text-bridge-text">
+            <p className="mt-0.5 font-body text-lg font-semibold tracking-tight text-bridge-text">
               {activeScenario?.name ?? hud.chrome.normalWatch}
             </p>
-            <p className="font-mono text-[10px] text-bridge-dim">
+            <p className="font-body text-sm text-bridge-dim">
               {activeScenario
                 ? `${activeScenario.category} · ${t.bridge.risks[RISK_KEYS.indexOf(activeScenario.riskLevel)] ?? activeScenario.riskLevel}`
                 : hud.chrome.pickCase}

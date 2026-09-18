@@ -5,8 +5,7 @@ import { cn } from "@/lib/cn";
 import { useBlackBox, type BlackBoxRecord, type StorageLocation } from "@/lib/black-box";
 import { useAppMode } from "@/lib/mode";
 import { useHud } from "@/lib/i18n/use-hud";
-import { HexFrame, HudGlyph } from "@/components/bridge/hud-icons";
-import { HudVisor } from "@/components/bridge/hud-visor";
+import { HudGlyph, IconWell } from "@/components/bridge/hud-icons";
 import { CLEAR_SCREENS_EVENT } from "@/lib/helm-events";
 
 function MicIcon() {
@@ -114,18 +113,17 @@ export function BlackBoxPanel() {
           <section
             id="black-box-panel"
             data-testid="black-box-panel"
-            className="relative mx-auto max-w-6xl scroll-mt-20 bg-bridge-panel p-5 pt-7 text-bridge-text"
+            className="relative mx-auto max-w-6xl scroll-mt-20 overflow-hidden rounded-2xl border border-bridge-line bg-bridge-panel p-5 text-bridge-text shadow-[0_10px_28px_rgb(15_25_34/0.08)]"
           >
-            <HudVisor variant="window" />
 
             <header className="relative z-[1] mb-3">
-              <h2 className="flex items-center gap-2 font-ui text-sm font-semibold tracking-wide">
-                <HexFrame className="h-6 w-6 text-orange">
-                  <HudGlyph name="drive" className="h-3 w-3" />
-                </HexFrame>
+              <h2 className="flex items-center gap-2 font-body text-base font-semibold tracking-tight">
+                <IconWell className="h-8 w-8 text-orange">
+                  <HudGlyph name="drive" className="h-4 w-4" />
+                </IconWell>
                 {hud.blackbox.title}
               </h2>
-          <p className="mt-2 max-w-3xl text-xs leading-relaxed text-bridge-dim">
+          <p className="mt-2 max-w-3xl font-body text-sm leading-relaxed text-bridge-dim">
             {hud.blackbox.lead}
           </p>
         </header>

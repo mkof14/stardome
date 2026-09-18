@@ -10,7 +10,6 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { AccountMenu } from "@/components/auth/account-menu";
 import { FullscreenButton } from "@/components/bridge/fullscreen-button";
 import { ClearScreensButton } from "@/components/bridge/clear-screens-button";
-import { HudVisor } from "@/components/bridge/hud-visor";
 import { isAuthRoute, isInternalDesk, useAuthSession } from "@/lib/auth-session";
 import { sessionHasDeskAccess } from "@/lib/commercial-rbac";
 import { usePreferences } from "@/lib/i18n/context";
@@ -90,9 +89,8 @@ export function SiteHeader() {
           {pathname.startsWith("/interface") ? (
             <div
               data-testid="bridge-header-chrome"
-              className="relative flex shrink-0 items-center gap-0.5 px-1 py-0.5"
+              className="relative flex shrink-0 items-center gap-0.5 rounded-xl px-0.5 py-0.5"
             >
-              <HudVisor variant="inset" />
               <FullscreenButton />
               <ClearScreensButton />
             </div>

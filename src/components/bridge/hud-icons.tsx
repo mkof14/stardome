@@ -65,6 +65,28 @@ export function HexFrame({
   );
 }
 
+export function IconWell({
+  children,
+  className,
+  active,
+}: {
+  children: ReactNode;
+  className?: string;
+  active?: boolean;
+}) {
+  return (
+    <span
+      className={cn(
+        "inline-flex h-8 w-8 items-center justify-center rounded-xl",
+        active ? "bg-orange/15 text-orange" : "bg-bridge-bg text-current",
+        className,
+      )}
+    >
+      {children}
+    </span>
+  );
+}
+
 export function ChamferFrame({
   children,
   className,

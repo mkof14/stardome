@@ -4,9 +4,8 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "@/lib/cn";
 import type { PilotDemoCopy } from "@/lib/i18n/pilot-demo-copy";
+import { HudGlyph } from "@/components/bridge/hud-icons";
 import { HudBezel } from "@/components/bridge/hud-bezel";
-import { ChamferFrame, HudGlyph, PilotHex } from "@/components/bridge/hud-icons";
-import { HudVisor } from "@/components/bridge/hud-visor";
 import { PilotSoundDock } from "@/components/bridge/pilot-demo";
 import { StudioWave } from "@/components/bridge/studio-meters";
 
@@ -83,20 +82,18 @@ export function PilotTalkWindow({
         closeTestId="pilot-talk-close"
       >
         <div className="relative grid min-h-0 flex-1 gap-4 pb-8 sm:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]">
-          <section className="relative flex min-h-[18rem] flex-col overflow-hidden bg-[#111820] shadow-[0_16px_40px_rgb(0_0_0/0.35)]">
-            <HudVisor variant="inset" />
+          <section className="relative flex min-h-[18rem] flex-col overflow-hidden rounded-2xl bg-[#111820] shadow-[0_16px_40px_rgb(0_0_0/0.35)]">
             <header className="relative z-[1] flex items-center justify-between px-3 py-2">
-              <p className="flex items-center gap-2 font-heading text-lg font-bold tracking-wide text-[#E7ECEF]">
-                <PilotHex glow />
+              <p className="font-body text-lg font-semibold tracking-tight text-[#E7ECEF]">
                 {title}
               </p>
-              <span className="flex items-center gap-1 text-orange">
-                <ChamferFrame className="h-7 w-7">
-                  <HudGlyph name="minus" className="h-3 w-3" />
-                </ChamferFrame>
-                <ChamferFrame className="h-7 w-7">
-                  <HudGlyph name="close" className="h-3 w-3" />
-                </ChamferFrame>
+              <span className="flex items-center gap-1 text-[#7c8894]">
+                <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg">
+                  <HudGlyph name="minus" className="h-3.5 w-3.5" />
+                </span>
+                <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg">
+                  <HudGlyph name="close" className="h-3.5 w-3.5" />
+                </span>
               </span>
             </header>
             <div
@@ -104,7 +101,7 @@ export function PilotTalkWindow({
               className="relative z-[1] min-h-0 flex-1 space-y-2 overflow-y-auto px-3 py-3"
             >
               {recent.length === 0 ? (
-                <p className="border-s-2 border-orange ps-3 text-xs text-[#7c8894]">
+                <p className="border-s-2 border-orange ps-3 font-body text-sm text-[#7c8894]">
                   {copy.bargeHint}
                 </p>
               ) : null}
@@ -122,13 +119,13 @@ export function PilotTalkWindow({
                     )}
                   >
                     {item.role !== "user" ? (
-                      <span className="mb-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center">
-                        <PilotHex className="h-5 w-5" />
+                      <span className="mb-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-orange/15 text-orange">
+                        <HudGlyph name="talk" className="h-4 w-4" />
                       </span>
                     ) : null}
                     <p
                       className={cn(
-                        "max-w-[85%] px-2.5 py-2 text-sm leading-relaxed",
+                        "max-w-[85%] rounded-2xl px-3 py-2 font-body text-[15px] leading-relaxed",
                         item.role === "user"
                           ? "bg-orange text-white"
                           : item.role === "error"
@@ -139,7 +136,7 @@ export function PilotTalkWindow({
                       {showing}
                     </p>
                     {item.role === "user" ? (
-                      <span className="mb-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center border border-[#1c2830] bg-[#0a0f14] text-[#7c8894]">
+                      <span className="mb-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-[#1c2830] bg-[#0a0f14] text-[#7c8894]">
                         <HudGlyph name="person" className="h-3.5 w-3.5" />
                       </span>
                     ) : null}
@@ -159,7 +156,7 @@ export function PilotTalkWindow({
                 value={draft}
                 onChange={(event) => onDraft(event.target.value)}
                 placeholder={ask}
-                className="min-w-0 flex-1 bg-transparent py-1.5 font-ui text-sm text-[#E7ECEF] outline-none placeholder:text-[#7c8894]"
+                className="min-w-0 flex-1 bg-transparent py-1.5 font-body text-sm text-[#E7ECEF] outline-none placeholder:text-[#7c8894]"
               />
               <button
                 type="button"
@@ -167,25 +164,20 @@ export function PilotTalkWindow({
                 onClick={onMic}
                 aria-label={copy.talkListening}
                 className={cn(
-                  "flex h-8 w-8 items-center justify-center",
-                  mic === "listening" && "assistant-mic-listen text-ok",
-                  mic === "speaking" && "text-orange",
+                  "flex h-9 w-9 items-center justify-center rounded-xl",
+                  mic === "listening" && "assistant-mic-listen bg-ok/15 text-ok",
+                  mic === "speaking" && "bg-orange/15 text-orange",
                   mic === "processing" && "text-attn",
                   mic === "idle" && "text-[#7c8894]",
                 )}
               >
-                <ChamferFrame
-                  active={mic === "listening" || mic === "speaking"}
-                  className="h-8 w-8"
-                >
-                  <HudGlyph name="mic" className="h-3.5 w-3.5" />
-                </ChamferFrame>
+                <HudGlyph name="mic" className="h-4 w-4" />
               </button>
               <button
                 type="submit"
-                className="inline-flex items-center gap-1 bg-orange px-2.5 py-1 font-ui text-[11px] font-medium text-white"
+                className="inline-flex items-center gap-1 rounded-xl bg-orange px-3 py-2 font-body text-sm font-medium text-white"
               >
-                <HudGlyph name="send" className="h-3 w-3" />
+                <HudGlyph name="send" className="h-4 w-4" />
                 {send}
               </button>
             </form>

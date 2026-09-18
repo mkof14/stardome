@@ -8,8 +8,6 @@ import type { DemoBeat } from "@/lib/pilot-demo";
 import type { VoiceNeed } from "@/lib/pilot-voice";
 import { StudioVu } from "@/components/bridge/studio-meters";
 
-const DEMO_CYAN = "#38BDF8";
-
 export function PilotDemoIcon({
   label,
   running,
@@ -30,32 +28,24 @@ export function PilotDemoIcon({
       title={label}
       onClick={onClick}
       className={cn(
-        "relative flex items-center justify-center overflow-hidden border text-[#38BDF8]",
+        "relative flex items-center justify-center overflow-hidden font-body text-[#38BDF8]",
         compact
-          ? "h-9 w-9 shrink-0 border-[#38BDF8] bg-bridge-bg"
-          : "h-12 w-12 rounded-full border-[#38BDF8] bg-bridge-bg shadow-[0_8px_20px_rgb(15_25_34/0.18)]",
+          ? "min-w-[2.6rem] flex-col gap-0.5 rounded-xl px-1.5 py-1 text-[11px] font-medium hover:bg-[#38BDF8]/10"
+          : "h-12 w-12 rounded-full border border-[#38BDF8] bg-bridge-bg shadow-[0_8px_20px_rgb(15_25_34/0.18)]",
         running && "demo-fab-pulse",
+        compact && running && "bg-[#38BDF8]/15",
       )}
     >
-      <svg viewBox="0 0 48 48" className={compact ? "h-5 w-5" : "h-7 w-7"} aria-hidden>
-        <polygon
-          points="24,5 41,14.5 41,33.5 24,43 7,33.5 7,14.5"
-          fill="var(--bridge-bg)"
-          stroke={DEMO_CYAN}
-          strokeWidth="1.8"
-        />
-        <text
-          x="24"
-          y="30"
-          textAnchor="middle"
-          fill={DEMO_CYAN}
-          fontSize={compact ? "18" : "20"}
-          fontFamily="var(--font-space-grotesk), system-ui, sans-serif"
-          fontWeight="700"
-        >
-          D
-        </text>
-      </svg>
+      {compact ? (
+        <>
+          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#38BDF8]/15 text-sm font-semibold">
+            D
+          </span>
+          {label}
+        </>
+      ) : (
+        <span className="text-lg font-semibold leading-none">D</span>
+      )}
     </button>
   );
 }
@@ -84,11 +74,11 @@ export function PilotSoundDock({
     <div
       data-testid="pilot-sound-dock"
       className={cn(
-        "flex items-end gap-2 rounded-sm border px-2 py-1.5",
+        "flex h-11 items-center gap-2 rounded-xl border px-2",
         live
           ? "border-ok/50 bg-ok/5"
           : voiceOn
-            ? "border-bridge-line bg-bridge-bg"
+            ? "border-bridge-line bg-bridge-panel"
             : "border-attn/50 bg-attn/10",
       )}
     >
@@ -100,8 +90,8 @@ export function PilotSoundDock({
         aria-label={voiceOn ? soundOnLabel : soundOffLabel}
         title={voiceOn ? soundOnLabel : soundOffLabel}
         className={cn(
-          "flex h-9 w-9 shrink-0 items-center justify-center border",
-          voiceOn ? "border-ok text-ok" : "border-attn text-attn",
+          "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg",
+          voiceOn ? "bg-ok/15 text-ok" : "bg-attn/15 text-attn",
         )}
       >
         {voiceOn ? <SpeakerOnIcon /> : <SpeakerOffIcon />}
@@ -109,7 +99,7 @@ export function PilotSoundDock({
       <StudioVu levels={levels} peak={Boolean(peak)} live={live} />
       <p
         className={cn(
-          "hidden shrink-0 font-mono text-[9px] tracking-wider sm:block",
+          "hidden shrink-0 font-body text-xs font-medium sm:block",
           voiceOn ? "text-ok" : "text-attn",
         )}
       >
@@ -149,27 +139,27 @@ export function PilotDemoStage({
       className="space-y-2 border-b border-[#38BDF8]/40 bg-[#38BDF8]/10 px-3 py-2"
     >
       <div className="flex flex-wrap items-center gap-2">
-        <span className="border border-[#38BDF8] px-1.5 py-0.5 font-mono text-[9px] font-bold tracking-wider text-[#38BDF8]">
+        <span className="rounded-lg bg-[#38BDF8]/15 px-2 py-0.5 font-body text-xs font-semibold text-[#38BDF8]">
           {copy.demo}
         </span>
-        <span className="font-mono text-[9px] text-bridge-dim">
+        <span className="font-body text-xs text-bridge-dim">
           {fillDemo(copy.step, { n: String(index), total: String(total) })}
         </span>
       </div>
       <div className="grid gap-1.5 sm:grid-cols-2">
         <p className="min-w-0">
-          <span className="block font-mono text-[8px] tracking-wider text-[#38BDF8]">
+          <span className="block font-body text-xs font-medium text-[#38BDF8]">
             {copy.now}
           </span>
-          <span className="block font-ui text-sm font-semibold leading-tight text-bridge-text">
+          <span className="block font-body text-sm font-semibold leading-tight text-bridge-text">
             {beat.action}
           </span>
         </p>
         <p className="min-w-0">
-          <span className="block font-mono text-[8px] tracking-wider text-[#38BDF8]">
+          <span className="block font-body text-xs font-medium text-[#38BDF8]">
             {copy.where}
           </span>
-          <span className="block font-ui text-sm font-semibold leading-tight text-bridge-text">
+          <span className="block font-body text-sm font-semibold leading-tight text-bridge-text">
             {beat.place}
           </span>
         </p>
@@ -184,7 +174,7 @@ export function PilotDemoStage({
         soundOffLabel={copy.soundOff}
         onToggle={onToggleSound}
       />
-      <p className="font-mono text-[9px] leading-relaxed text-bridge-dim">
+      <p className="font-body text-sm leading-relaxed text-bridge-dim">
         {copy.interruptHint}
       </p>
     </div>
@@ -203,7 +193,7 @@ export function PilotWatchCalls({
   const calls = [copy.callStatus, copy.callAdvice, copy.callNotify];
   return (
     <div data-testid="pilot-watch-calls" className="space-y-1.5">
-      <p className="font-mono text-[9px] tracking-wider text-orange">{copy.calls}</p>
+      <p className="font-body text-xs font-medium text-orange">{copy.calls}</p>
       <div className="flex flex-wrap gap-1">
         {calls.map((call) => (
           <button
@@ -212,7 +202,7 @@ export function PilotWatchCalls({
             data-testid="pilot-watch-call"
             disabled={disabled}
             onClick={() => onPick(call)}
-            className="border border-bridge-line px-1.5 py-1 text-start font-ui text-[10px] leading-tight text-bridge-text/80 hover:border-orange hover:text-bridge-text disabled:opacity-40"
+            className="rounded-lg border border-bridge-line px-2 py-1.5 text-start font-body text-xs leading-tight text-bridge-text/80 hover:border-orange hover:text-bridge-text disabled:opacity-40"
           >
             {call}
           </button>
@@ -234,7 +224,7 @@ export function PilotVoiceNeed({
       data-testid="pilot-voice-need"
       data-tts={need.tts}
       data-voice={need.voiceName ?? ""}
-      className="font-mono text-[9px] leading-relaxed text-bridge-dim"
+      className="font-body text-xs leading-relaxed text-bridge-dim"
     >
       {voiceNeedLine(locale, need)}
     </p>

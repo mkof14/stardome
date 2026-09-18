@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ChamferFrame, HudGlyph, PilotHex, type HudGlyphName } from "@/components/bridge/hud-icons";
+import { HudGlyph, IconWell, type HudGlyphName } from "@/components/bridge/hud-icons";
 import { HudFrame } from "@/components/bridge/hud-visor";
 import { cn } from "@/lib/cn";
 import { askPilot, CLEAR_SCREENS_EVENT, WATCH_COMMS_FOCUS_EVENT, type WatchCommsFocus } from "@/lib/helm-events";
@@ -67,12 +67,11 @@ export function WatchCommsPanel() {
       className="border-t border-bridge-line bg-bridge-bg px-4 py-8 md:px-8"
     >
       <div className="mx-auto max-w-6xl">
-        <p className="font-mono text-[10px] tracking-[0.22em] text-bridge-dim">{copy.kicker}</p>
-        <h2 className="mt-1 flex items-center gap-2 font-ui text-xl font-bold tracking-wide text-bridge-text">
-          <PilotHex glow />
+        <p className="font-body text-xs font-medium text-bridge-dim">{copy.kicker}</p>
+        <h2 className="mt-1 font-body text-xl font-semibold tracking-tight text-bridge-text">
           {copy.title}
         </h2>
-        <p className="mt-2 max-w-3xl text-sm text-bridge-dim">
+        <p className="mt-2 max-w-3xl font-body text-sm text-bridge-dim">
           {live ? copy.leadLive : copy.lead}
         </p>
 
@@ -87,15 +86,15 @@ export function WatchCommsPanel() {
                 aria-pressed={focus === item.id}
                 onClick={() => setFocus(item.id)}
                 className={cn(
-                  "inline-flex items-center gap-1.5 px-2 py-1 font-ui text-[11px]",
+                  "inline-flex items-center gap-1.5 rounded-xl px-2 py-1.5 font-body text-sm",
                   focus === item.id
-                    ? "text-orange"
-                    : "text-bridge-dim hover:text-orange",
+                    ? "bg-orange/10 text-orange"
+                    : "text-bridge-dim hover:bg-bridge-panel hover:text-orange",
                 )}
               >
-                <ChamferFrame active={focus === item.id} className="h-7 w-7">
-                  <HudGlyph name={item.glyph} className="h-3 w-3" />
-                </ChamferFrame>
+                <IconWell active={focus === item.id} className="h-7 w-7">
+                  <HudGlyph name={item.glyph} className="h-3.5 w-3.5" />
+                </IconWell>
                 {label}
               </button>
             );
@@ -103,7 +102,7 @@ export function WatchCommsPanel() {
         </div>
 
         <HudFrame variant="window" className="mt-4 bg-bridge-panel px-1 pt-3" status={live ? "STBY" : "CIRCUITS"}>
-          <div className="grid grid-cols-[4.5rem_minmax(0,1fr)_auto] items-center gap-2 bg-bridge-bg px-4 py-2 font-mono text-[9px] tracking-[0.16em] text-bridge-dim">
+          <div className="grid grid-cols-[4.5rem_minmax(0,1fr)_auto] items-center gap-2 bg-bridge-bg px-4 py-2 font-body text-xs text-bridge-dim">
             <span>CH</span>
             <span>CIRCUIT</span>
             <span>PTT</span>
@@ -123,24 +122,24 @@ export function WatchCommsPanel() {
                   )}
                 >
                   <div className="flex items-center gap-2">
-                    <ChamferFrame
+                    <IconWell
                       active={hot}
                       className={cn("h-7 w-7", alarm ? "text-crit" : "text-orange")}
                     >
-                      <HudGlyph name={BEARER_GLYPH[row.bearer]} className="h-3 w-3" />
-                    </ChamferFrame>
-                    <span className="font-mono text-[11px] tabular-nums text-bridge-dim">
+                      <HudGlyph name={BEARER_GLYPH[row.bearer]} className="h-3.5 w-3.5" />
+                    </IconWell>
+                    <span className="font-body text-xs tabular-nums text-bridge-dim">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                   </div>
                   <div className="min-w-0">
-                    <p className="font-ui text-sm font-semibold text-bridge-text">
+                    <p className="font-body text-sm font-semibold text-bridge-text">
                       {copy.party[row.party]}
-                      <span className="ms-2 font-mono text-[10px] font-normal tracking-wider text-bridge-dim">
+                      <span className="ms-2 font-body text-xs font-normal text-bridge-dim">
                         {copy.bearer[row.bearer]}
                       </span>
                     </p>
-                    <p className="font-mono text-[10px] tracking-wider text-bridge-dim">
+                    <p className="font-body text-xs text-bridge-dim">
                       {live ? "STBY" : hot ? "TX" : "RX"}
                       <span className="ms-2">{live ? copy.liveEmpty : copy.demoPath}</span>
                     </p>
@@ -154,12 +153,12 @@ export function WatchCommsPanel() {
                       askPilot(copy.ask[row.party]);
                     }}
                     className={cn(
-                      "shrink-0 border px-3 py-1.5 font-mono text-[11px] font-medium tracking-wider",
+                      "shrink-0 rounded-xl px-3 py-1.5 font-body text-sm font-medium",
                       live
-                        ? "border-bridge-line text-bridge-dim"
+                        ? "border border-bridge-line text-bridge-dim"
                         : alarm
-                          ? "border-crit bg-crit text-white hover:bg-crit/90"
-                          : "border-orange bg-orange text-white hover:bg-orange/90",
+                          ? "bg-crit text-white hover:bg-crit/90"
+                          : "bg-orange text-white hover:bg-orange/90",
                     )}
                   >
                     {live ? copy.liveEmpty : hot ? copy.raised : copy.raise}

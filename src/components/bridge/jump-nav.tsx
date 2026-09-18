@@ -8,8 +8,7 @@ import { useCrisisMode } from "@/lib/crisis-mode";
 import { HELM_STATE_EVENT, focusWatchComms, openHelm, startPilotDemo } from "@/lib/helm-events";
 import { useHud } from "@/lib/i18n/use-hud";
 import { canUseHelm } from "@/lib/rbac";
-import { HexFrame, HudGlyph, PilotHex, ChamferFrame } from "@/components/bridge/hud-icons";
-import { HudVisor } from "@/components/bridge/hud-visor";
+import { HudGlyph } from "@/components/bridge/hud-icons";
 import type { WatchParty } from "@/lib/watch-comms";
 
 type JumpKind = "scroll" | "helm" | "link" | "demo";
@@ -25,7 +24,7 @@ type JumpItem = {
   icon: ReactNode;
 };
 
-const ICON = "h-3.5 w-3.5";
+const ICON = "h-4 w-4";
 
 const ITEMS: JumpItem[] = [
   {
@@ -78,7 +77,7 @@ const ITEMS: JumpItem[] = [
   {
     id: "helm",
     kind: "helm",
-    icon: <PilotHex className="h-7 w-7" glow />,
+    icon: <HudGlyph name="talk" className={ICON} />,
   },
   {
     id: "demo",
@@ -260,14 +259,13 @@ export function JumpNav() {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className={cn(
-        "fixed bottom-0 left-0 top-16 z-30 flex flex-col border-r border-bridge-line bg-bridge-panel text-bridge-text",
-        expanded ? "w-60" : "w-12",
+        "fixed bottom-0 left-0 top-16 z-30 flex flex-col border-r border-bridge-line bg-bridge-panel/95 text-bridge-text backdrop-blur-md",
+        expanded ? "w-56" : "w-[4.85rem]",
       )}
     >
-      <HudVisor variant="rail" />
-      <div className="relative z-[1] flex h-10 items-center justify-between border-b border-bridge-line px-2">
+      <div className="flex h-12 items-center justify-between border-b border-bridge-line px-2">
         {expanded ? (
-          <p className="font-mono text-[9px] tracking-[0.18em] text-bridge-dim">{hud.jump.kicker}</p>
+          <p className="px-1 font-body text-xs font-medium text-bridge-dim">{hud.jump.kicker}</p>
         ) : (
           <span className="sr-only">{hud.jump.sections}</span>
         )}
@@ -277,15 +275,16 @@ export function JumpNav() {
           aria-expanded={expanded}
           aria-label={pinned ? hud.jump.unpin : hud.jump.pin}
           onClick={() => setPinned((value) => !value)}
-          className="inline-flex h-7 w-7 items-center justify-center text-bridge-dim hover:text-orange"
+          className={cn(
+            "inline-flex h-8 w-8 items-center justify-center rounded-lg text-bridge-dim hover:bg-bridge-bg hover:text-orange",
+            pinned && "bg-orange/10 text-orange",
+          )}
         >
-          <ChamferFrame active={pinned} className="h-7 w-7">
-            <HudGlyph name={expanded ? "collapse" : "expand"} className="h-3 w-3" />
-          </ChamferFrame>
+          <HudGlyph name={expanded ? "collapse" : "expand"} className="h-4 w-4" />
         </button>
       </div>
 
-      <nav aria-label={hud.jump.sections} className="relative z-[1] flex-1 overflow-y-auto py-1">
+      <nav aria-label={hud.jump.sections} className="flex-1 overflow-y-auto py-1">
         <ul>
           {visible.map((item) => {
             const key = numbered.find((row) => row.item.id === item.id)?.key;
@@ -295,38 +294,38 @@ export function JumpNav() {
               <>
                 <span
                   className={cn(
-                    "flex h-8 w-8 shrink-0 items-center justify-center",
-                    current ? "text-orange" : "text-bridge-text",
+                    "flex h-8 w-8 shrink-0 items-center justify-center rounded-xl",
+                    current ? "bg-orange/15 text-orange" : "bg-bridge-bg text-bridge-text",
                   )}
                 >
-                  {item.id === "helm" ? (
-                    item.icon
-                  ) : (
-                    <HexFrame active={current}>{item.icon}</HexFrame>
-                  )}
+                  {item.icon}
                 </span>
-                    {expanded ? (
-                      <>
-                        <span className="min-w-0 flex-1 truncate text-left font-ui text-xs">
-                          {label}
-                        </span>
-                    {key ? (
-                      <span className="font-mono text-[9px] text-bridge-dim">{key}</span>
-                    ) : null}
-                  </>
+                <span
+                  className={cn(
+                    "font-body font-medium",
+                    expanded
+                      ? "min-w-0 flex-1 truncate text-left text-sm"
+                      : "mt-1 line-clamp-2 w-full text-center text-[10px] leading-tight",
+                  )}
+                >
+                  {label}
+                </span>
+                {expanded && key ? (
+                  <span className="font-body text-[11px] text-bridge-dim">{key}</span>
                 ) : null}
               </>
             );
             const className = cn(
-              "relative flex w-full items-center gap-2 px-2 py-1",
+              "relative flex w-full rounded-xl",
+              expanded ? "flex-row items-center gap-2 px-2 py-1.5" : "flex-col items-center px-1 py-2",
               current
-                ? "border-l-2 border-orange bg-orange/10 text-orange"
-                : "border-l-2 border-transparent text-bridge-text hover:bg-bridge-bg hover:text-orange",
+                ? "bg-orange/10 text-orange"
+                : "text-bridge-text hover:bg-bridge-bg hover:text-orange",
             );
 
             if (item.kind === "link" && item.href) {
               return (
-                <li key={item.id} className="group relative">
+                <li key={item.id} className="px-1">
                   <Link
                     href={item.href}
                     title={label}
@@ -335,20 +334,12 @@ export function JumpNav() {
                   >
                     {inner}
                   </Link>
-                  {!expanded ? (
-                    <span
-                      role="tooltip"
-                      className="pointer-events-none absolute start-full top-1/2 z-40 ml-2 hidden -translate-y-1/2 whitespace-nowrap border border-bridge-line bg-bridge-panel px-2 py-1 font-ui text-[11px] text-bridge-text shadow-lg group-hover:block"
-                    >
-                      {label}
-                    </span>
-                  ) : null}
                 </li>
               );
             }
 
             return (
-              <li key={item.id} className="group relative">
+              <li key={item.id} className="px-1">
                 <button
                   type="button"
                   title={label}
@@ -360,14 +351,6 @@ export function JumpNav() {
                 >
                   {inner}
                 </button>
-                {!expanded ? (
-                  <span
-                    role="tooltip"
-                    className="pointer-events-none absolute start-full top-1/2 z-40 ml-2 hidden -translate-y-1/2 whitespace-nowrap border border-bridge-line bg-bridge-panel px-2 py-1 font-ui text-[11px] text-bridge-text shadow-lg group-hover:block"
-                  >
-                    {label}
-                  </span>
-                ) : null}
               </li>
             );
           })}

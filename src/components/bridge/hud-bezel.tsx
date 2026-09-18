@@ -1,6 +1,6 @@
 import { cn } from "@/lib/cn";
 import type { ReactNode } from "react";
-import { ChamferFrame, HudGlyph } from "@/components/bridge/hud-icons";
+import { HudGlyph } from "@/components/bridge/hud-icons";
 import { HudVisor } from "@/components/bridge/hud-visor";
 
 export function HudBezel({
@@ -33,17 +33,15 @@ export function HudBezel({
           data-testid={closeTestId ?? "hud-bezel-close"}
           onClick={onClose}
           aria-label={closeLabel ?? "Close"}
-          className="absolute end-5 top-4 z-10 text-orange hover:text-cyan-300"
+          className="absolute end-5 top-4 z-10 rounded-xl p-1.5 text-orange hover:bg-white/5 hover:text-white"
         >
-          <ChamferFrame className="h-8 w-8 text-orange">
-            <HudGlyph name="close" className="h-3.5 w-3.5" />
-          </ChamferFrame>
+          <HudGlyph name="close" className="h-4 w-4" />
         </button>
       ) : null}
       <div className="relative z-[1] min-h-0 flex-1 p-5 pt-8 sm:p-7 sm:pt-10">{children}</div>
       {status ? (
-        <p className="hud-bezel-status pointer-events-none absolute bottom-4 end-7 z-[1] font-mono text-[10px] tracking-[0.22em] text-orange">
-          [ {status} ]
+        <p className="pointer-events-none absolute bottom-4 end-7 z-[1] font-body text-xs text-orange/80">
+          {status}
         </p>
       ) : null}
     </div>

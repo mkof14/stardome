@@ -2,8 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { FlagIcon } from "@/components/flag-icon";
-import { ChamferFrame, HudGlyph, PilotHex } from "@/components/bridge/hud-icons";
-import { HudVisor } from "@/components/bridge/hud-visor";
+import { HudGlyph } from "@/components/bridge/hud-icons";
 import { cn } from "@/lib/cn";
 import { useBlackBox } from "@/lib/black-box";
 import { useBridgeSession } from "@/lib/bridge-session";
@@ -1003,7 +1002,7 @@ export function Helm() {
   return (
     <div
       data-testid="starwall-assistant"
-      className="fixed bottom-4 end-4 z-[70] font-ui"
+      className="fixed bottom-4 end-4 z-[70] font-body"
     >
       {showTalk ? (
         <PilotTalkWindow
@@ -1034,13 +1033,12 @@ export function Helm() {
       {open ? (
         <div className="relative flex max-h-[calc(100vh-5.5rem)] flex-col items-end">
         <section className={cn(
-          "helm-scope relative flex h-[min(40rem,calc(100vh-5.5rem))] flex-col overflow-hidden bg-bridge-panel text-bridge-text shadow-[0_20px_56px_rgb(15_25_34/0.22)]",
+          "helm-scope relative flex h-[min(40rem,calc(100vh-5.5rem))] flex-col overflow-hidden rounded-2xl border border-bridge-line bg-bridge-panel text-bridge-text shadow-[0_20px_56px_rgb(15_25_34/0.18)]",
           drilling
             ? "w-[min(24rem,calc(100vw-1.5rem))]"
             : "w-[min(22rem,calc(100vw-1.5rem))]",
         )}>
-          <HudVisor variant="window" />
-          <header className="relative z-[1] flex items-center justify-between gap-2 border-b border-bridge-line bg-bridge-bg px-3 py-2.5">
+          <header className="relative z-[1] flex items-center justify-between gap-2 border-b border-bridge-line bg-bridge-bg px-3 py-3">
             <span
               className="helm-fab-sweep pointer-events-none absolute -end-6 -top-10 h-28 w-28 rounded-full opacity-40"
               style={{
@@ -1050,11 +1048,10 @@ export function Helm() {
               aria-hidden
             />
             <div className="relative min-w-0">
-              <p className="flex items-center gap-2 font-heading text-xl font-bold text-bridge-text">
-                <PilotHex className="h-6 w-6" glow />
+              <p className="flex items-center gap-2 font-body text-lg font-semibold tracking-tight text-bridge-text">
                 <span
                   className={cn(
-                    "h-2 w-2 rounded-full",
+                    "h-2.5 w-2.5 rounded-full",
                     mic === "listening"
                       ? "bg-ok assistant-mic-listen"
                       : mic === "speaking"
@@ -1064,13 +1061,13 @@ export function Helm() {
                 />
                 {surface.title}
               </p>
-              <p className="truncate font-mono text-[10px] text-bridge-dim">
+              <p className="truncate font-body text-sm text-bridge-dim">
                 {live
                   ? surface.live
                   : `${desk.post} · ${session.vessel} · ${session.riskLevel}`}
               </p>
             </div>
-            <div className="relative flex shrink-0 items-center gap-1.5">
+            <div className="relative flex shrink-0 items-start gap-1">
               <div ref={langRef} className="relative">
                 <button
                   type="button"
@@ -1080,25 +1077,22 @@ export function Helm() {
                   aria-label={helmHud.language}
                   title={helmHud.language}
                   onClick={() => setLangsOpen((value) => !value)}
-                  className="inline-flex items-center gap-1 px-0.5 py-0.5 font-mono text-[10px] text-bridge-text hover:text-orange"
+                  className="inline-flex min-w-[2.6rem] flex-col items-center gap-0.5 rounded-xl px-1.5 py-1 font-body text-[11px] font-medium text-bridge-text hover:bg-bridge-panel"
                 >
-                  <ChamferFrame className="h-7 w-7 text-orange">
-                    <HudGlyph name="globe" className="h-3 w-3" />
-                  </ChamferFrame>
+                  <HudGlyph name="globe" className="h-4 w-4" />
                   {recogLang.toUpperCase()}
-                  <span aria-hidden>▾</span>
                 </button>
                 {langsOpen ? (
                   <ul
                     id={menuId}
-                    className="absolute end-0 z-20 mt-1 max-h-64 min-w-[11rem] overflow-auto border border-stroke bg-panel py-1 text-ink shadow-lg"
+                    className="absolute end-0 z-20 mt-1 max-h-64 min-w-[11rem] overflow-auto rounded-xl border border-stroke bg-panel py-1 text-ink shadow-lg"
                   >
                     {locales.map((code) => (
                       <li key={code}>
                         <button
                           type="button"
                           className={cn(
-                            "flex w-full items-center gap-2 px-2.5 py-1.5 text-start text-xs",
+                            "flex w-full items-center gap-2 px-2.5 py-1.5 text-start font-body text-sm",
                             code === recogLang
                               ? "text-orange"
                               : "text-ink hover:bg-page",
@@ -1129,11 +1123,9 @@ export function Helm() {
                   setTalkHud(false);
                   setOpen(false);
                 }}
-                className="inline-flex items-center gap-1 px-1 py-0.5 font-mono text-[10px] text-bridge-dim hover:text-orange"
+                className="inline-flex min-w-[2.6rem] flex-col items-center gap-0.5 rounded-xl px-1.5 py-1 font-body text-[11px] font-medium text-bridge-dim hover:bg-bridge-panel hover:text-bridge-text"
               >
-                <ChamferFrame className="h-7 w-7">
-                  <HudGlyph name="hide" className="h-3 w-3" />
-                </ChamferFrame>
+                <HudGlyph name="hide" className="h-4 w-4" />
                 {surface.hide}
               </button>
             </div>
@@ -1171,7 +1163,7 @@ export function Helm() {
             className="min-h-0 flex-1 space-y-2 overflow-y-auto px-3 py-3"
           >
             {messages.length === 0 ? (
-              <p className="border-s-2 border-orange ps-3 text-xs leading-relaxed text-bridge-dim">
+              <p className="border-s-2 border-orange ps-3 font-body text-sm leading-relaxed text-bridge-dim">
                 {surface.empty}
               </p>
             ) : null}
@@ -1184,7 +1176,7 @@ export function Helm() {
                 <div
                   key={item.id}
                   className={cn(
-                    "max-w-[92%] px-2.5 py-2 text-sm leading-relaxed",
+                    "max-w-[92%] rounded-2xl px-3 py-2 font-body text-[15px] leading-relaxed",
                     item.role === "user"
                       ? "ms-auto bg-orange text-white"
                       : item.role === "error"
@@ -1215,13 +1207,13 @@ export function Helm() {
           )}
 
           <div className="border-t border-bridge-line bg-bridge-bg px-3 py-3">
-            <div className="mb-3 flex items-end gap-2">
+            <div className="mb-3 flex items-center gap-2">
               <button
                 type="button"
                 data-testid="assistant-mic"
                 onClick={() => void toggleMic()}
                 className={cn(
-                  "flex h-10 w-10 items-center justify-center border",
+                  "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border",
                   mic === "listening" && "assistant-mic-listen border-ok text-ok",
                   mic === "processing" && "border-attn text-attn",
                   mic === "speaking" && "assistant-mic-speak border-orange text-orange",
@@ -1243,7 +1235,7 @@ export function Helm() {
                 )}
               </button>
               {drilling ? (
-                <p className="min-w-0 flex-1 font-mono text-[10px] leading-tight text-[#38BDF8]">
+                <p className="min-w-0 flex-1 font-body text-sm leading-snug text-[#38BDF8]">
                   {demoCopy.interruptHint}
                 </p>
               ) : (
@@ -1262,7 +1254,7 @@ export function Helm() {
               )}
             </div>
             {micError ? (
-              <p className="mb-2 font-mono text-[10px] text-attn">{micError}</p>
+              <p className="mb-2 font-body text-sm text-attn">{micError}</p>
             ) : null}
             <div className="mb-2">
               <PilotWatchCalls
@@ -1283,12 +1275,12 @@ export function Helm() {
                 value={draft}
                 onChange={(event) => setDraft(event.target.value)}
                 placeholder={surface.ask}
-                className="min-w-0 flex-1 border-b border-bridge-line bg-transparent px-0 py-1.5 font-ui text-sm text-bridge-text outline-none placeholder:text-bridge-dim focus:border-orange"
+                className="min-w-0 flex-1 rounded-xl border border-bridge-line bg-bridge-panel px-3 py-2 font-body text-sm text-bridge-text outline-none placeholder:text-bridge-dim focus:border-orange"
               />
               <button
                 type="submit"
                 data-testid="assistant-send"
-                className="bg-orange px-3 py-1.5 font-ui text-xs font-medium text-white hover:bg-orange/90"
+                className="rounded-xl bg-orange px-3 py-2 font-body text-sm font-medium text-white hover:bg-orange/90"
               >
                 {surface.send}
               </button>
@@ -1342,19 +1334,22 @@ export function Helm() {
             aria-hidden
           />
           <svg viewBox="0 0 48 48" className="relative h-8 w-8" aria-hidden>
-            <polygon
-              points="24,5 41,14.5 41,33.5 24,43 7,33.5 7,14.5"
+            <circle
+              cx="24"
+              cy="24"
+              r="16"
               fill="var(--bridge-bg)"
               stroke="#F15A00"
               strokeWidth="1.8"
             />
-            <polygon
-              points="24,14 33.5,31 14.5,31"
+            <path
+              d="M24 16v8.4l4.6 2.7"
               fill="none"
               stroke="#38BDF8"
-              strokeWidth="1.6"
+              strokeWidth="1.8"
+              strokeLinecap="round"
             />
-            <circle cx="24" cy="24" r="2.4" fill="#F15A00" className="helm-idle-led" />
+            <circle cx="24" cy="24" r="2.2" fill="#F15A00" className="helm-idle-led" />
           </svg>
         </button>
         </div>

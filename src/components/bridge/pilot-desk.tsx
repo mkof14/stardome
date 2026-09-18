@@ -4,7 +4,7 @@ import { useEffect, useId, useState } from "react";
 import { cn } from "@/lib/cn";
 import type { BridgeSessionValue } from "@/lib/bridge-session-types";
 import { askPilot } from "@/lib/helm-events";
-import { HexFrame, HudGlyph } from "@/components/bridge/hud-icons";
+import { HudGlyph } from "@/components/bridge/hud-icons";
 import { fillDesk, type PilotDeskCopy } from "@/lib/i18n/pilot-desk-copy";
 import type { Locale } from "@/lib/i18n/locales";
 import {
@@ -116,7 +116,7 @@ export function PilotDesk({
                 data-testid={`pilot-instrument-${item.id}`}
                 data-state={item.state}
                 className={cn(
-                  "border bg-bridge-bg px-2 py-2 font-mono text-[10px] leading-tight",
+                  "rounded-xl border bg-bridge-bg px-2 py-2 font-body text-xs leading-snug",
                   instrumentTone(item.state),
                 )}
               >
@@ -134,7 +134,7 @@ export function PilotDesk({
               </div>
             ))}
           </div>
-          <p className="mt-2 font-mono text-[10px] text-bridge-dim">
+          <p className="mt-2 font-body text-sm text-bridge-dim">
             {fillDesk(copy.seePicture, { panel: watch.panelLabel })}
           </p>
         </PilotRack>
@@ -173,7 +173,7 @@ export function PilotDesk({
           title={watch.commsLive ? copy.connected : copy.offline}
           hot={highlight === "comms"}
         >
-          <div className="mb-2 flex gap-1">
+          <div className="mb-3 flex gap-1.5">
             {(["watch", "support", "alarm"] as const).map((id) => (
               <button
                 key={id}
@@ -181,12 +181,12 @@ export function PilotDesk({
                 data-testid={`pilot-channel-${id}`}
                 onClick={() => setChannel(id)}
                 className={cn(
-                  "flex-1 border px-1 py-1 font-mono text-[9px]",
+                  "flex-1 rounded-xl px-2 py-2 font-body text-sm font-semibold leading-tight",
                   channel === id
                     ? id === "alarm"
-                      ? "border-crit bg-crit/15 text-crit"
-                      : "border-orange bg-orange/10 text-orange"
-                    : "border-bridge-line text-bridge-dim hover:text-bridge-text",
+                      ? "bg-crit text-white"
+                      : "bg-orange text-white"
+                    : "bg-bridge-panel text-bridge-text hover:bg-bridge-bg",
                 )}
               >
                 {id === "watch"
@@ -199,7 +199,7 @@ export function PilotDesk({
           </div>
           <div
             data-testid="pilot-comms-log"
-            className="mb-2 max-h-44 space-y-1.5 overflow-y-auto font-ui text-[11px] leading-relaxed text-bridge-text"
+            className="mb-2 max-h-44 space-y-1.5 overflow-y-auto font-body text-sm leading-relaxed text-bridge-text"
           >
             {lines
               .filter((line) => line.channel === channel)
@@ -219,7 +219,7 @@ export function PilotDesk({
                           : "border-bridge-line",
                   )}
                 >
-                  <span className="me-1.5 font-mono text-[9px] text-bridge-dim">
+                  <span className="me-1.5 font-body text-xs text-bridge-dim">
                     {line.time}
                   </span>
                   {line.text}
@@ -239,12 +239,12 @@ export function PilotDesk({
               value={draft}
               onChange={(event) => setDraft(event.target.value)}
               placeholder={copy.typeComms}
-              className="min-w-0 flex-1 border-b border-bridge-line bg-transparent px-0 py-1 font-ui text-xs text-bridge-text outline-none placeholder:text-bridge-dim focus:border-orange"
+              className="min-w-0 flex-1 rounded-xl border border-bridge-line bg-bridge-panel px-3 py-2 font-body text-sm text-bridge-text outline-none placeholder:text-bridge-dim focus:border-orange"
             />
             <button
               type="submit"
               data-testid="pilot-comms-send"
-              className="bg-orange px-2 py-1 font-ui text-[10px] font-medium text-white"
+              className="rounded-xl bg-orange px-3 py-2 font-body text-sm font-medium text-white"
             >
               {copy.sendComms}
             </button>
@@ -256,7 +256,7 @@ export function PilotDesk({
               setChannel("alarm");
               postComms(copy.notify, "alarm");
             }}
-            className="mt-2 w-full border border-crit/50 px-2 py-1 font-mono text-[10px] text-crit hover:border-crit"
+            className="mt-2 w-full rounded-xl border border-crit/50 px-3 py-2 font-body text-sm font-medium text-crit hover:border-crit"
           >
             {copy.notify}
           </button>
@@ -294,22 +294,21 @@ function PilotRack({
       data-testid={testId}
       data-demo-focus={hot ? "true" : undefined}
       className={cn(
-        "border bg-bridge-bg text-bridge-text",
+        "overflow-hidden rounded-2xl border bg-bridge-bg text-bridge-text",
         hot ? "demo-focus-ring border-[#38BDF8]" : "border-bridge-line",
       )}
     >
-      <div className={cn("h-[2px]", hot ? "bg-[#38BDF8]" : "bg-orange")} />
-      <header className="flex items-center justify-between gap-2 border-b border-bridge-line px-3 py-2">
+      <header className="flex items-center justify-between gap-2 border-b border-bridge-line px-3 py-2.5">
         <div className="min-w-0">
           <p
             className={cn(
-              "font-mono text-[10px] tracking-wider",
+              "font-body text-xs font-medium",
               hot ? "text-[#38BDF8]" : "text-orange",
             )}
           >
             {kicker}
           </p>
-          <p className="truncate font-heading text-base font-bold">{title}</p>
+          <p className="truncate font-body text-base font-semibold">{title}</p>
         </div>
       </header>
       <div className="px-3 py-2.5">{children}</div>
@@ -349,11 +348,11 @@ function AdviceCard({
       title={card.title}
       hot={hot}
     >
-      <p className={cn("text-xs leading-relaxed text-bridge-text/90", !expanded && "line-clamp-4")}>
+      <p className={cn("font-body text-sm leading-relaxed text-bridge-text/90", !expanded && "line-clamp-4")}>
         {card.body}
       </p>
       {expanded && card.steps?.length ? (
-        <ol className="mt-2 list-decimal space-y-1 ps-4 text-xs text-bridge-dim">
+        <ol className="mt-2 list-decimal space-y-1 ps-4 font-body text-sm text-bridge-dim">
           {card.steps.map((step) => (
             <li key={step}>{step}</li>
           ))}
@@ -363,7 +362,7 @@ function AdviceCard({
         <button
           type="button"
           onClick={onExpand}
-          className="border border-bridge-line px-2 py-1 font-mono text-[9px] text-bridge-dim hover:text-bridge-text"
+          className="rounded-lg border border-bridge-line px-2.5 py-1.5 font-body text-xs text-bridge-dim hover:text-bridge-text"
         >
           {expanded ? copy.collapse : copy.expand}
         </button>
@@ -371,7 +370,7 @@ function AdviceCard({
           type="button"
           data-testid="pilot-card-ask"
           onClick={onAsk}
-          className="border border-orange/40 px-2 py-1 font-mono text-[9px] text-orange hover:border-orange"
+          className="rounded-lg border border-orange/40 px-2.5 py-1.5 font-body text-xs text-orange hover:border-orange"
         >
           {copy.ask}
         </button>
@@ -379,7 +378,7 @@ function AdviceCard({
           type="button"
           onClick={onClose}
           aria-label={copy.closeCard}
-          className="border border-bridge-line px-2 py-1 font-mono text-[9px] text-bridge-dim hover:text-bridge-text"
+          className="rounded-lg border border-bridge-line px-2.5 py-1.5 font-body text-xs text-bridge-dim hover:text-bridge-text"
         >
           {copy.closeCard}
         </button>
@@ -400,9 +399,9 @@ export function PilotUnreadChip({
       type="button"
       data-testid="pilot-unread"
       onClick={onOpen}
-      className="pilot-card-in mb-2 max-w-[16rem] border border-orange/60 bg-bridge-panel px-3 py-2 text-start text-bridge-text shadow-lg"
+      className="pilot-card-in mb-2 max-w-[16rem] rounded-2xl border border-orange/40 bg-bridge-panel px-3 py-2 text-start text-bridge-text shadow-lg"
     >
-      <p className="flex items-center gap-2 font-mono text-[10px] text-orange">
+      <p className="flex items-center gap-2 font-body text-sm text-orange">
         <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-orange" />
         {label}
       </p>
@@ -458,7 +457,7 @@ export function PilotDeskBar({
     },
   ];
   return (
-    <div data-testid="pilot-desk-bar" className="grid grid-cols-4 gap-1">
+    <div data-testid="pilot-desk-bar" className="grid grid-cols-4 gap-1.5">
       {buttons.map((item) => (
         <button
           key={item.id}
@@ -467,18 +466,23 @@ export function PilotDeskBar({
           aria-pressed={screen === item.id}
           onClick={() => onScreen(item.id)}
           className={cn(
-            "flex items-center justify-center gap-1 border px-1 py-1 font-mono text-[9px] leading-tight",
+            "flex flex-col items-center gap-1 rounded-xl px-1 py-2 font-body text-[11px] font-medium leading-tight",
             screen === item.id
-              ? "border-orange bg-orange/10 text-orange"
+              ? "bg-orange text-white"
               : item.hot
-                ? "border-crit/50 text-crit"
-                : "border-bridge-line text-bridge-dim hover:text-bridge-text",
+                ? "bg-crit/10 text-crit"
+                : "bg-bridge-panel text-bridge-dim hover:bg-bridge-bg hover:text-bridge-text",
           )}
         >
-          <HexFrame active={screen === item.id} className="h-6 w-6">
-            <HudGlyph name={item.glyph} className="h-3 w-3" />
-          </HexFrame>
-          <span className="hidden min-[22rem]:inline">{item.label}</span>
+          <span
+            className={cn(
+              "flex h-8 w-8 items-center justify-center rounded-lg",
+              screen === item.id ? "bg-white/15" : "bg-bridge-bg",
+            )}
+          >
+            <HudGlyph name={item.glyph} className="h-4 w-4" />
+          </span>
+          <span className="text-center">{item.label}</span>
         </button>
       ))}
     </div>

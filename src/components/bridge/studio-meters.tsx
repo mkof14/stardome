@@ -33,7 +33,7 @@ export function StudioVu({
         "flex",
         vertical
           ? "h-full w-4 flex-col-reverse items-center gap-px"
-          : "h-9 min-w-0 flex-1 items-end gap-px",
+          : "h-8 min-w-0 flex-1 items-end gap-px",
       )}
       aria-hidden
     >

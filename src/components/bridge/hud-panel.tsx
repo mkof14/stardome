@@ -1,7 +1,6 @@
 import { cn } from "@/lib/cn";
 import type { ReactNode } from "react";
-import { HexFrame, HudGlyph, type HudGlyphName, PilotHex } from "@/components/bridge/hud-icons";
-import { HudVisor } from "@/components/bridge/hud-visor";
+import { HudGlyph, IconWell, type HudGlyphName } from "@/components/bridge/hud-icons";
 
 type HudPanelProps = {
   title: string;
@@ -24,37 +23,30 @@ export function HudPanel({
   id,
   glyph,
   status,
-  visor = "window",
 }: HudPanelProps) {
   return (
     <section
       id={id}
       data-testid={testId}
       className={cn(
-        "hud-panel-bezel relative bg-bridge-panel px-5 py-5 pt-7",
-        visor === "overlay" && "hud-visor-clip-overlay",
+        "relative overflow-hidden rounded-2xl border border-bridge-line bg-bridge-panel px-5 py-5 shadow-[0_10px_28px_rgb(15_25_34/0.08)]",
         className,
       )}
     >
-      <HudVisor variant={visor} />
       <header className="relative z-[1] mb-3 flex items-center justify-between gap-3">
-        <h2 className="flex items-center gap-2 font-ui text-sm font-semibold tracking-wide text-bridge-text">
+        <h2 className="flex items-center gap-2 font-body text-base font-semibold tracking-tight text-bridge-text">
           {glyph ? (
-            <HexFrame className="h-7 w-7 shrink-0 text-orange">
-              <HudGlyph name={glyph} className="h-3.5 w-3.5" />
-            </HexFrame>
-          ) : (
-            <PilotHex className="h-6 w-6 shrink-0" />
-          )}
+            <IconWell className="h-8 w-8 shrink-0 text-orange">
+              <HudGlyph name={glyph} className="h-4 w-4" />
+            </IconWell>
+          ) : null}
           {title}
         </h2>
         {extra ? <div className="relative z-[1] shrink-0">{extra}</div> : null}
       </header>
       <div className="relative z-[1]">{children}</div>
       {status ? (
-        <p className="hud-bezel-status pointer-events-none absolute bottom-2 end-4 z-[1] font-mono text-[9px] tracking-[0.18em] text-orange">
-          [ {status} ]
-        </p>
+        <p className="mt-3 text-end font-body text-[11px] text-bridge-dim">{status}</p>
       ) : null}
     </section>
   );

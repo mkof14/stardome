@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { FlagIcon } from "@/components/flag-icon";
-import { ChamferFrame, HudGlyph } from "@/components/bridge/hud-icons";
+import { HudGlyph } from "@/components/bridge/hud-icons";
 import { usePreferences } from "@/lib/i18n/context";
 import { localeMeta, siteLocales, type Locale } from "@/lib/i18n/locales";
 import { cn } from "@/lib/cn";
@@ -51,8 +51,8 @@ export function LanguageSwitcher({
       <button
         type="button"
         className={cn(
-          "inline-flex h-9 items-center gap-2 px-2 text-sm",
-          onDark ? "text-sand/80 hover:text-sand" : "text-ink hover:text-orange",
+          "inline-flex h-10 items-center gap-2 rounded-xl px-2 font-body text-sm",
+          onDark ? "text-sand/80 hover:bg-white/5 hover:text-sand" : "text-ink hover:bg-page hover:text-orange",
         )}
         aria-haspopup="listbox"
         aria-expanded={open}
@@ -60,9 +60,9 @@ export function LanguageSwitcher({
         aria-label={t.chrome.language}
         onClick={() => setOpen((value) => !value)}
       >
-        <ChamferFrame className="h-8 w-8">
-          <HudGlyph name="globe" className="h-3.5 w-3.5" />
-        </ChamferFrame>
+        <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-page text-current">
+          <HudGlyph name="globe" className="h-4 w-4" />
+        </span>
         <FlagIcon locale={locale} />
         <span className="hidden sm:inline">{localeMeta[locale].native}</span>
         <span aria-hidden className="text-[10px]">
@@ -74,7 +74,7 @@ export function LanguageSwitcher({
           id={menuId}
           role="listbox"
           className={cn(
-            "absolute z-50 mt-1 min-w-[13.5rem] border py-1 shadow-lg",
+            "absolute z-50 mt-1 min-w-[13.5rem] rounded-xl border py-1 shadow-lg",
             align === "end" ? "end-0" : "start-0",
             onDark
               ? "border-white/10 bg-navy text-sand"

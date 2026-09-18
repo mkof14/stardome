@@ -173,7 +173,6 @@ function ChipPaths() {
 
 export function HudFrame({
   children,
-  variant = "window",
   className,
   status,
   testId,
@@ -188,16 +187,14 @@ export function HudFrame({
     <div
       data-testid={testId}
       className={cn(
-        "relative",
-        variant === "overlay" && "hud-visor-clip-overlay",
+        "relative overflow-hidden rounded-2xl border border-bridge-line shadow-[0_10px_28px_rgb(15_25_34/0.08)]",
         className,
       )}
     >
-      <HudVisor variant={variant} />
       <div className="relative z-[1] min-h-0 flex-1">{children}</div>
       {status ? (
-        <p className="hud-bezel-status pointer-events-none absolute bottom-3 end-5 z-[1] font-mono text-[9px] tracking-[0.2em] text-orange">
-          [ {status} ]
+        <p className="pointer-events-none absolute bottom-2 end-4 z-[1] font-body text-[11px] text-bridge-dim">
+          {status}
         </p>
       ) : null}
     </div>

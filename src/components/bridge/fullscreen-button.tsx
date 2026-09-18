@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/cn";
 import { useHud } from "@/lib/i18n/use-hud";
-import { ChamferFrame, HudGlyph } from "@/components/bridge/hud-icons";
+import { HudGlyph } from "@/components/bridge/hud-icons";
 import { enterFullscreen, exitFullscreen, fullscreenTarget, isFullscreen, onFullscreenChange } from "@/lib/fullscreen";
 
 export function FullscreenButton({
@@ -46,13 +46,11 @@ export function FullscreenButton({
       aria-label={label}
       title={label}
       className={cn(
-        "inline-flex h-9 shrink-0 items-center gap-1 px-1.5 font-ui text-xs",
-        active ? "text-orange" : "text-ink hover:text-orange",
+        "inline-flex h-10 shrink-0 flex-col items-center justify-center gap-0.5 rounded-xl px-2 font-body text-[11px] font-medium",
+        active ? "bg-orange/10 text-orange" : "text-ink hover:bg-page hover:text-orange",
       )}
     >
-      <ChamferFrame active={active} className="h-8 w-8">
-        <HudGlyph name={active ? "fullscreenExit" : "fullscreen"} className="h-3.5 w-3.5" />
-      </ChamferFrame>
+      <HudGlyph name={active ? "fullscreenExit" : "fullscreen"} className="h-4 w-4" />
       {compact ? null : (
         <span className="hidden max-w-[8.5rem] truncate xl:inline">{label}</span>
       )}
