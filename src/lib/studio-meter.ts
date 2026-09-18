@@ -1,0 +1,79 @@
+export const VU_GREEN = "#33D3A6";
+export const VU_RED = "#DC2626";
+export const STUDIO_BARS = 12;
+export const WAVE_BINS = 96;
+export const VU_RED_RATIO = 0.72;
+export const PEAK_RMS = 0.42;
+export const PEAK_SAMPLE = 0.78;
+
+export type StudioReading = {
+  rms: number;
+  peak: boolean;
+  maxAbs: number;
+  wave: number[];
+  bars: number[];
+};
+
+export function downsampleWave(samples: Uint8Array, bins: number): number[] {
+  const wave = Array.from({ length: bins }, () => 0);
+  if (!samples.length || bins <= 0) return wave;
+  const step = samples.length / bins;
+  for (let i = 0; i < bins; i += 1) {
+    const index = Math.min(samples.length - 1, Math.floor(i * step));
+    wave[i] = ((samples[index] ?? 128) - 128) / 128;
+  }
+  return wave;
+}
+
+export function meterFromTimeDomain(
+  samples: Uint8Array,
+  barCount = STUDIO_BARS,
+  waveBins = WAVE_BINS,
+): StudioReading {
+  let sum = 0;
+  let maxAbs = 0;
+  for (let i = 0; i < samples.length; i += 1) {
+    const value = ((samples[i] ?? 128) - 128) / 128;
+    sum += value * value;
+    const abs = Math.abs(value);
+    if (abs > maxAbs) maxAbs = abs;
+  }
+  const rms = samples.length ? Math.sqrt(sum / samples.length) : 0;
+  const peak = rms >= PEAK_RMS || maxAbs >= PEAK_SAMPLE;
+  const lit = Math.min(barCount, Math.round(rms * 24));
+  const bars = Array.from({ length: barCount }, (_, index) =>
+    index < lit ? Math.min(1, 0.28 + rms * 1.8) : 0,
+  );
+  return {
+    rms,
+    peak,
+    maxAbs,
+    wave: downsampleWave(samples, waveBins),
+    bars,
+  };
+}
+
+export function vuBarColor(
+  index: number,
+  count: number,
+  lit: boolean,
+  peak: boolean,
+): string {
+  if (!lit) return "rgb(51 211 166 / 0.16)";
+  const ratio = count <= 0 ? 1 : (index + 1) / count;
+  if (ratio >= VU_RED_RATIO || (peak && ratio >= 0.55)) return VU_RED;
+  return VU_GREEN;
+}
+
+export function waveColor(magnitude: number, peak: boolean): string {
+  if (peak || magnitude >= 0.72) return VU_RED;
+  return VU_GREEN;
+}
+
+export function silenceWave(bins = WAVE_BINS): number[] {
+  return Array.from({ length: bins }, () => 0);
+}
+
+export function silenceBars(count = STUDIO_BARS): number[] {
+  return Array.from({ length: count }, () => 0);
+}

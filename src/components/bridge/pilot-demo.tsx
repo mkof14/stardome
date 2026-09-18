@@ -6,6 +6,7 @@ import type { Locale } from "@/lib/i18n/locales";
 import { voiceNeedLine } from "@/lib/pilot-demo";
 import type { DemoBeat } from "@/lib/pilot-demo";
 import type { VoiceNeed } from "@/lib/pilot-voice";
+import { StudioVu } from "@/components/bridge/studio-meters";
 
 const DEMO_CYAN = "#38BDF8";
 
@@ -62,25 +63,30 @@ export function PilotDemoIcon({
 export function PilotSoundDock({
   voiceOn,
   speaking,
+  listening,
   levels,
+  peak,
   soundOnLabel,
   soundOffLabel,
   onToggle,
 }: {
   voiceOn: boolean;
   speaking: boolean;
+  listening?: boolean;
   levels: number[];
+  peak?: boolean;
   soundOnLabel: string;
   soundOffLabel: string;
   onToggle: () => void;
 }) {
+  const live = Boolean((speaking && voiceOn) || listening);
   return (
     <div
       data-testid="pilot-sound-dock"
       className={cn(
         "flex items-end gap-2 rounded-sm border px-2 py-1.5",
-        speaking && voiceOn
-          ? "border-[#38BDF8] bg-[#38BDF8]/10"
+        live
+          ? "border-ok/50 bg-ok/5"
           : voiceOn
             ? "border-sand/20 bg-[#061018]"
             : "border-attn/50 bg-attn/10",
@@ -95,31 +101,18 @@ export function PilotSoundDock({
         title={voiceOn ? soundOnLabel : soundOffLabel}
         className={cn(
           "flex h-9 w-9 shrink-0 items-center justify-center border",
-          voiceOn
-            ? "border-[#38BDF8] text-[#38BDF8]"
-            : "border-attn text-attn",
+          voiceOn ? "border-ok text-ok" : "border-attn text-attn",
         )}
       >
         {voiceOn ? <SpeakerOnIcon /> : <SpeakerOffIcon />}
       </button>
-      <div
-        data-testid="assistant-vu"
-        className="flex h-9 min-w-0 flex-1 items-end gap-px"
-        title={voiceOn ? soundOnLabel : soundOffLabel}
-        aria-hidden
+      <StudioVu levels={levels} peak={Boolean(peak)} live={live} />
+      <p
+        className={cn(
+          "hidden shrink-0 font-mono text-[9px] tracking-wider sm:block",
+          voiceOn ? "text-ok" : "text-attn",
+        )}
       >
-        {levels.map((level, index) => (
-          <span
-            key={index}
-            className={cn("w-1.5", voiceOn ? "bg-[#38BDF8]" : "bg-attn")}
-            style={{
-              height: `${Math.max(14, (speaking && voiceOn ? level : 0.16 + (index % 3) * 0.08) * 100)}%`,
-              opacity: speaking && voiceOn ? Math.max(0.35, level) : 0.22,
-            }}
-          />
-        ))}
-      </div>
-      <p className="hidden shrink-0 font-mono text-[9px] tracking-wider text-[#38BDF8] sm:block">
         {voiceOn ? soundOnLabel : soundOffLabel}
       </p>
     </div>
@@ -133,7 +126,9 @@ export function PilotDemoStage({
   total,
   voiceOn,
   speaking,
+  listening,
   levels,
+  peak,
   onToggleSound,
 }: {
   copy: PilotDemoCopy;
@@ -142,7 +137,9 @@ export function PilotDemoStage({
   total: number;
   voiceOn: boolean;
   speaking: boolean;
+  listening?: boolean;
   levels: number[];
+  peak?: boolean;
   onToggleSound: () => void;
 }) {
   return (
@@ -180,7 +177,9 @@ export function PilotDemoStage({
       <PilotSoundDock
         voiceOn={voiceOn}
         speaking={speaking}
+        listening={listening}
         levels={levels}
+        peak={peak}
         soundOnLabel={copy.soundOn}
         soundOffLabel={copy.soundOff}
         onToggle={onToggleSound}

@@ -44,6 +44,20 @@ import {
   PilotVoiceNeed,
   PilotWatchCalls,
 } from "@/components/bridge/pilot-demo";
+import { PilotTalkWindow } from "@/components/bridge/pilot-talk-window";
+import {
+  BARGE_GRACE_MS,
+  shouldCutIn,
+  vadHotFrames,
+  vadTriggered,
+} from "@/lib/barge-in";
+import {
+  meterFromTimeDomain,
+  silenceBars,
+  silenceWave,
+  STUDIO_BARS,
+  type StudioReading,
+} from "@/lib/studio-meter";
 
 type MicState = "idle" | "listening" | "processing" | "speaking";
 
@@ -60,7 +74,6 @@ function messageId() {
   return `helm-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
 }
 
-const BAR_COUNT = 10;
 const TYPE_MS = 28;
 
 export function Helm() {
@@ -76,7 +89,10 @@ export function Helm() {
   const [langsOpen, setLangsOpen] = useState(false);
   const [mic, setMic] = useState<MicState>("idle");
   const [voiceOn, setVoiceOn] = useState(true);
-  const [levels, setLevels] = useState<number[]>(() => Array(BAR_COUNT).fill(0));
+  const [levels, setLevels] = useState<number[]>(() => silenceBars());
+  const [wave, setWave] = useState<number[]>(() => silenceWave());
+  const [peak, setPeak] = useState(false);
+  const [talkHud, setTalkHud] = useState(false);
   const [recogLang, setRecogLang] = useState<Locale>(locale);
   const surface = pilotChrome(recogLang);
   const helmHud = hudFor(recogLang).helm;
@@ -118,6 +134,18 @@ export function Helm() {
   const speakAbort = useRef<AbortController | null>(null);
   const playRaf = useRef<number | null>(null);
   const playCtx = useRef<AudioContext | null>(null);
+  const playWait = useRef<(() => void) | null>(null);
+  const bargeArmed = useRef(false);
+  const listenMode = useRef<"off" | "push" | "barge">("off");
+  const spokenText = useRef("");
+  const speakStartedAt = useRef(0);
+  const cutLock = useRef(false);
+  const keepListen = useRef(false);
+  const vadRaf = useRef<number | null>(null);
+  const vadCtx = useRef<AudioContext | null>(null);
+  const vadHot = useRef(0);
+  const peakHoldUntil = useRef(0);
+  const micRef = useRef<MicState>(mic);
   const menuId = useId();
   const desk = pilotDeskCopy(recogLang);
   const demoCopy = pilotDemoCopy(recogLang);
@@ -125,6 +153,7 @@ export function Helm() {
   const need = voiceNeed(recogLang, voices, neural);
   openRef.current = open;
   voiceOnRef.current = voiceOn;
+  micRef.current = mic;
 
   useEffect(() => {
     if (typeof window === "undefined" || !window.speechSynthesis) return;
@@ -319,15 +348,43 @@ export function Helm() {
       if (rafRef.current !== null) window.cancelAnimationFrame(rafRef.current);
       streamRef.current?.getTracks().forEach((track) => track.stop());
       if (audioRef.current) void audioRef.current.close();
+      if (vadRaf.current !== null) window.cancelAnimationFrame(vadRaf.current);
+      if (vadCtx.current) void vadCtx.current.close();
     };
   }, []);
+
+  function applyReading(reading: StudioReading) {
+    setLevels(reading.bars);
+    setWave(reading.wave);
+    if (reading.peak) peakHoldUntil.current = performance.now() + 450;
+    setPeak(performance.now() < peakHoldUntil.current);
+  }
+
+  function clearMeter() {
+    setLevels(silenceBars());
+    setWave(silenceWave());
+    setPeak(false);
+    peakHoldUntil.current = 0;
+  }
+
+  function stopVad() {
+    if (vadRaf.current !== null) {
+      window.cancelAnimationFrame(vadRaf.current);
+      vadRaf.current = null;
+    }
+    vadHot.current = 0;
+    if (vadCtx.current) {
+      void vadCtx.current.close();
+      vadCtx.current = null;
+    }
+  }
 
   function stopMeter() {
     if (rafRef.current !== null) {
       window.cancelAnimationFrame(rafRef.current);
       rafRef.current = null;
     }
-    setLevels(Array(BAR_COUNT).fill(0));
+    clearMeter();
     streamRef.current?.getTracks().forEach((track) => track.stop());
     streamRef.current = null;
     if (audioRef.current) {
@@ -337,90 +394,249 @@ export function Helm() {
   }
 
   function stopListening(silent = false) {
+    bargeArmed.current = false;
+    listenMode.current = "off";
+    keepListen.current = false;
     recognitionRef.current?.stop();
     recognitionRef.current = null;
+    stopVad();
     stopMeter();
     if (!silent) setMic((current) => (current === "listening" ? "idle" : current));
   }
 
   function startMeter(stream: MediaStream) {
+    if (rafRef.current !== null) {
+      window.cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+    if (audioRef.current) {
+      void audioRef.current.close();
+      audioRef.current = null;
+    }
     const context = new AudioContext();
     const source = context.createMediaStreamSource(stream);
     const analyser = context.createAnalyser();
-    analyser.fftSize = 256;
+    analyser.fftSize = 2048;
     source.connect(analyser);
     audioRef.current = context;
     const samples = new Uint8Array(analyser.fftSize);
 
     const tick = () => {
       analyser.getByteTimeDomainData(samples);
-      let sum = 0;
-      for (let i = 0; i < samples.length; i += 1) {
-        const centered = (samples[i] - 128) / 128;
-        sum += centered * centered;
-      }
-      const rms = Math.sqrt(sum / samples.length);
-      const lit = Math.min(BAR_COUNT, Math.round(rms * 28));
-      setLevels(Array.from({ length: BAR_COUNT }, (_, i) => (i < lit ? 1 : 0.18)));
+      applyReading(meterFromTimeDomain(samples, STUDIO_BARS));
       rafRef.current = window.requestAnimationFrame(tick);
     };
     rafRef.current = window.requestAnimationFrame(tick);
+    void context.resume();
+  }
+
+  function startVad(stream: MediaStream) {
+    stopVad();
+    const Ctor =
+      window.AudioContext ||
+      (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    if (!Ctor) return;
+    const ctx = new Ctor();
+    vadCtx.current = ctx;
+    const source = ctx.createMediaStreamSource(stream);
+    const analyser = ctx.createAnalyser();
+    analyser.fftSize = 1024;
+    source.connect(analyser);
+    const samples = new Uint8Array(analyser.fftSize);
+    const tick = () => {
+      analyser.getByteTimeDomainData(samples);
+      const reading = meterFromTimeDomain(samples, STUDIO_BARS);
+      vadHot.current = vadHotFrames(reading.rms, vadHot.current);
+      if (
+        bargeArmed.current &&
+        !cutLock.current &&
+        vadTriggered(vadHot.current) &&
+        performance.now() - speakStartedAt.current >= BARGE_GRACE_MS
+      ) {
+        void yieldToOfficer();
+        return;
+      }
+      vadRaf.current = window.requestAnimationFrame(tick);
+    };
+    vadRaf.current = window.requestAnimationFrame(tick);
+    void ctx.resume();
+  }
+
+  function releaseBarge() {
+    bargeArmed.current = false;
+    stopVad();
+    if (listenMode.current !== "barge") return;
+    listenMode.current = "off";
+    recognitionRef.current?.stop();
+    recognitionRef.current = null;
+    streamRef.current?.getTracks().forEach((track) => track.stop());
+    streamRef.current = null;
+  }
+
+  function takeOfficerFirst(said: string) {
+    if (!said.trim()) return;
+    cutLock.current = true;
+    demoCancel.current = true;
+    drillingRef.current = false;
+    setDrilling(false);
+    setDemoBeat(null);
+    speakGen.current += 1;
+    haltAudio();
+    bargeArmed.current = false;
+    listenMode.current = "off";
+    recognitionRef.current?.stop();
+    recognitionRef.current = null;
+    stopVad();
+    setTalkHud(true);
+    setOpen(true);
+    void sendRef.current(said);
+  }
+
+  function yieldToOfficer() {
+    if (cutLock.current) return;
+    cutLock.current = true;
+    bargeArmed.current = false;
+    haltAudio();
+    speakGen.current += 1;
+    setMic("listening");
+    listenMode.current = "push";
+    keepListen.current = true;
+    stopVad();
+    if (streamRef.current) startMeter(streamRef.current);
+  }
+
+  function handleHeard(said: string, isFinal: boolean) {
+    const text = said.trim();
+    if (!text) return;
+    if (listenMode.current === "barge" || micRef.current === "speaking") {
+      if (!isFinal && text.length < 4) return;
+      if (
+        !shouldCutIn(
+          text,
+          spokenText.current,
+          speakStartedAt.current,
+          Date.now(),
+        )
+      ) {
+        return;
+      }
+      takeOfficerFirst(text);
+      return;
+    }
+    if (!isFinal) return;
+    void sendRef.current(text);
+  }
+
+  async function startListen(mode: "push" | "barge") {
+    const Engine = SpeechEngine();
+    if (!Engine) {
+      if (mode === "push") setMicError(helmHud.noSpeech);
+      return false;
+    }
+    if (
+      mode === "barge" &&
+      bargeArmed.current &&
+      recognitionRef.current &&
+      streamRef.current
+    ) {
+      return true;
+    }
+    try {
+      recognitionRef.current?.stop();
+      recognitionRef.current = null;
+      if (mode === "push") {
+        stopVad();
+      }
+      streamRef.current?.getTracks().forEach((track) => track.stop());
+      streamRef.current = null;
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true,
+        },
+      });
+      streamRef.current = stream;
+      listenMode.current = mode;
+      if (mode === "push") {
+        bargeArmed.current = false;
+        startMeter(stream);
+        setMic("listening");
+      } else {
+        bargeArmed.current = true;
+        startVad(stream);
+      }
+      setMicError(null);
+
+      const recognition = new Engine();
+      recognition.lang = SPEAK_BCP47[recogLang];
+      recognition.interimResults = true;
+      recognition.continuous = mode === "barge";
+      recognitionRef.current = recognition;
+
+      recognition.onresult = (event) => {
+        const last = event.results[event.results.length - 1];
+        const said = last?.[0]?.transcript?.trim() ?? "";
+        handleHeard(said, Boolean(last?.isFinal));
+      };
+      recognition.onerror = (event) => {
+        const error = (event as Event & { error?: string }).error;
+        if (error === "no-speech" || error === "aborted") return;
+        if (listenMode.current === "barge") return;
+        stopListening();
+        setMicError(helmHud.micStopped);
+      };
+      recognition.onend = () => {
+        if (
+          (listenMode.current === "barge" && bargeArmed.current) ||
+          (keepListen.current && micRef.current === "listening")
+        ) {
+          try {
+            recognition.start();
+          } catch {
+            // already started
+          }
+          return;
+        }
+        if (listenMode.current === "push" && micRef.current === "listening") {
+          stopMeter();
+          listenMode.current = "off";
+          setMic("idle");
+        }
+      };
+      recognition.start();
+      return true;
+    } catch {
+      if (mode === "push") {
+        setMicError(helmHud.micDenied);
+        stopListening(true);
+        setMic("idle");
+      }
+      return false;
+    }
   }
 
   async function toggleMic() {
     if (mic === "listening") {
       stopListening();
+      setTalkHud(false);
       return;
     }
     if (mic === "processing") return;
-    if (drillingRef.current || mic === "speaking") {
+    const keepHud = drillingRef.current || mic === "speaking";
+    if (keepHud) {
       stopDemo();
+      setTalkHud(true);
+      keepListen.current = true;
     }
-
-    const Engine = SpeechEngine();
-    if (!Engine) {
-      setMicError(helmHud.noSpeech);
-      return;
-    }
-
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      streamRef.current = stream;
-      startMeter(stream);
-      setMicError(null);
-      setMic("listening");
-
-      const recognition = new Engine();
-      recognition.lang = SPEAK_BCP47[recogLang];
-      recognition.interimResults = true;
-      recognition.continuous = false;
-      recognitionRef.current = recognition;
-
-      recognition.onresult = (event) => {
-        const last = event.results[event.results.length - 1];
-        if (!last?.isFinal) return;
-        const said = last[0]?.transcript?.trim();
-        if (said) void sendMessage(said);
-      };
-      recognition.onerror = () => {
-        stopListening();
-        setMicError(helmHud.micStopped);
-      };
-      recognition.onend = () => {
-        stopMeter();
-        setMic((current) => (current === "listening" ? "idle" : current));
-      };
-      recognition.start();
-    } catch {
-      setMicError(helmHud.micDenied);
-      stopListening(true);
-      setMic("idle");
-    }
+    await startListen("push");
   }
 
   function haltAudio() {
     speakAbort.current?.abort();
     speakAbort.current = null;
+    playWait.current?.();
+    playWait.current = null;
     if (playRaf.current !== null) {
       window.cancelAnimationFrame(playRaf.current);
       playRaf.current = null;
@@ -446,6 +662,8 @@ export function Helm() {
   function stopSpeech() {
     speakGen.current += 1;
     haltAudio();
+    releaseBarge();
+    clearMeter();
     setMic((current) => (current === "speaking" ? "idle" : current));
   }
 
@@ -466,19 +684,13 @@ export function Helm() {
     playCtx.current = ctx;
     const source = ctx.createMediaElementSource(audio);
     const analyser = ctx.createAnalyser();
-    analyser.fftSize = 64;
+    analyser.fftSize = 2048;
     source.connect(analyser);
     analyser.connect(ctx.destination);
-    const bins = new Uint8Array(analyser.frequencyBinCount);
+    const samples = new Uint8Array(analyser.fftSize);
     const tick = () => {
-      analyser.getByteFrequencyData(bins);
-      const step = Math.max(1, Math.floor(bins.length / BAR_COUNT));
-      setLevels(
-        Array.from({ length: BAR_COUNT }, (_, i) => {
-          const value = bins[i * step] ?? 0;
-          return Math.max(0.14, value / 255);
-        }),
-      );
+      analyser.getByteTimeDomainData(samples);
+      applyReading(meterFromTimeDomain(samples, STUDIO_BARS));
       playRaf.current = window.requestAnimationFrame(tick);
     };
     playRaf.current = window.requestAnimationFrame(tick);
@@ -538,7 +750,12 @@ export function Helm() {
     const gen = ++speakGen.current;
     haltAudio();
     const locale = isLocale(langCode) ? langCode : recogLang;
+    spokenText.current = spoken;
+    speakStartedAt.current = performance.now();
+    cutLock.current = false;
+    setTalkHud(true);
     setMic("speaking");
+    void startListen("barge");
     try {
       const controller = new AbortController();
       speakAbort.current = controller;
@@ -558,9 +775,11 @@ export function Helm() {
         startPlayMeter(clip);
         await new Promise<void>((resolve) => {
           const finish = () => {
+            if (playWait.current === finish) playWait.current = null;
             URL.revokeObjectURL(url);
             resolve();
           };
+          playWait.current = finish;
           clip.onended = finish;
           clip.onerror = finish;
           void clip.play().catch(finish);
@@ -572,7 +791,10 @@ export function Helm() {
             voice: res.headers.get("X-Pilot-Voice") ?? maleVoiceFor(locale).voice,
             provider: res.headers.get("X-Pilot-Provider") ?? "edge",
           });
+          if (!drillingRef.current) releaseBarge();
           setMic((current) => (current === "speaking" ? "idle" : current));
+          if (!drillingRef.current) setTalkHud(false);
+          clearMeter();
         }
         return;
       }
@@ -582,6 +804,11 @@ export function Helm() {
     if (gen !== speakGen.current) return;
     setNeural((current) => ({ ...current, ready: false }));
     await speakBrowser(spoken, locale, gen);
+    if (gen === speakGen.current) {
+      if (!drillingRef.current) releaseBarge();
+      if (!drillingRef.current) setTalkHud(false);
+      clearMeter();
+    }
   }
 
   function stopDemo() {
@@ -632,6 +859,8 @@ export function Helm() {
     drillingRef.current = false;
     setDrilling(false);
     setDemoBeat(null);
+    releaseBarge();
+    setTalkHud(false);
   }
 
   async function sendMessage(text: string) {
@@ -702,6 +931,7 @@ export function Helm() {
           fullContent: `Officer: ${clean}\n\nPilot: ${errorText}`,
         });
         setMic("idle");
+        setTalkHud(false);
         return;
       }
       const assistantId = messageId();
@@ -740,6 +970,7 @@ export function Helm() {
         fullContent: `Officer: ${clean}\n\nPilot: Network error — try again.`,
       });
       setMic("idle");
+      setTalkHud(false);
     }
   }
 
@@ -747,11 +978,45 @@ export function Helm() {
 
   if (isAuthRoute(pathname) || !helmAllowed) return null;
 
+  const showTalk =
+    talkHud &&
+    voiceOn &&
+    (mic === "speaking" ||
+      mic === "listening" ||
+      mic === "processing" ||
+      drilling);
+
   return (
     <div
       data-testid="starwall-assistant"
       className="fixed bottom-4 end-4 z-[70] font-ui"
     >
+      {showTalk ? (
+        <PilotTalkWindow
+          copy={demoCopy}
+          title={surface.title}
+          ask={surface.ask}
+          send={surface.send}
+          messages={messages}
+          typed={typed}
+          typingId={typingId}
+          draft={draft}
+          mic={mic}
+          levels={levels}
+          wave={wave}
+          peak={peak}
+          voiceOn={voiceOn}
+          onDraft={setDraft}
+          onSend={(text) => void sendMessage(text)}
+          onClose={() => {
+            stopDemo();
+            stopListening();
+            setTalkHud(false);
+          }}
+          onMic={() => void toggleMic()}
+          onToggleSound={toggleSpeaker}
+        />
+      ) : null}
       {open ? (
         <div className="relative flex max-h-[calc(100vh-5.5rem)] flex-col items-end">
           <PilotDesk
@@ -858,6 +1123,8 @@ export function Helm() {
                 data-pilot-lang={recogLang}
                 onClick={() => {
                   stopDemo();
+                  stopListening();
+                  setTalkHud(false);
                   setOpen(false);
                 }}
                 className="border border-sand/20 px-2 py-1 font-mono text-[10px] text-sand/70 hover:text-sand"
@@ -885,7 +1152,9 @@ export function Helm() {
               total={demoTotal}
               voiceOn={voiceOn}
               speaking={mic === "speaking"}
+              listening={mic === "listening"}
               levels={levels}
+              peak={peak}
               onToggleSound={toggleSpeaker}
             />
           ) : null}
@@ -962,7 +1231,9 @@ export function Helm() {
                   <PilotSoundDock
                     voiceOn={voiceOn}
                     speaking={mic === "speaking"}
+                    listening={mic === "listening"}
                     levels={levels}
+                    peak={peak}
                     soundOnLabel={surface.speakerOn}
                     soundOffLabel={surface.speakerOff}
                     onToggle={toggleSpeaker}

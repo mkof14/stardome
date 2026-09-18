@@ -35,6 +35,10 @@ describe("pilotDemoCopy", () => {
       expect(copy.interruptHint.length).toBeGreaterThan(0);
       expect(copy.soundOn.length).toBeGreaterThan(0);
       expect(copy.now.length).toBeGreaterThan(0);
+      expect(copy.linkLive.length).toBeGreaterThan(0);
+      expect(copy.bargeHint.length).toBeGreaterThan(0);
+      expect(copy.talkListening.length).toBeGreaterThan(0);
+      expect(copy.peakHold.length).toBeGreaterThan(0);
     }
   });
 });
