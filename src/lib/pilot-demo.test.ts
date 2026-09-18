@@ -32,6 +32,9 @@ describe("pilotDemoCopy", () => {
       expect(copy.demo.length).toBeGreaterThan(0);
       expect(copy.callStatus.toLowerCase()).toMatch(/pilot/);
       expect(copy.intro.toLowerCase()).not.toMatch(/\bcommand\b/);
+      expect(copy.interruptHint.length).toBeGreaterThan(0);
+      expect(copy.soundOn.length).toBeGreaterThan(0);
+      expect(copy.now.length).toBeGreaterThan(0);
     }
   });
 });
@@ -45,6 +48,8 @@ describe("demoBeats", () => {
     expect(demo.some((beat) => beat.role === "officer")).toBe(true);
     expect(demo.some((beat) => beat.raise?.instruments)).toBe(true);
     expect(demo.some((beat) => beat.raise?.comms)).toBe(true);
+    expect(demo.every((beat) => beat.action.length > 0)).toBe(true);
+    expect(demo.some((beat) => beat.focus === "instruments")).toBe(true);
   });
 });
 

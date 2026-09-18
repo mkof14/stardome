@@ -121,7 +121,11 @@ async function synthEdge(text: string, locale: Locale): Promise<SpeechClip> {
         male.voice,
         OUTPUT_FORMAT.AUDIO_24KHZ_48KBITRATE_MONO_MP3,
       );
-      const { audioStream } = tts.toStream(escapeSsml(text));
+      const { audioStream } = tts.toStream(escapeSsml(text), {
+        rate: "-8%",
+        pitch: "-5Hz",
+        volume: "+22%",
+      });
       const audio = await bufferFromAudioStream(audioStream, 22_000);
       return {
         audio,
@@ -138,7 +142,7 @@ async function synthEdge(text: string, locale: Locale): Promise<SpeechClip> {
 async function synthAzure(text: string, locale: Locale): Promise<SpeechClip> {
   const male = maleVoiceFor(locale);
   const region = envText("AZURE_SPEECH_REGION") || "eastus";
-  const ssml = `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="${male.lang}"><voice name="${male.voice}">${escapeSsml(text)}</voice></speak>`;
+  const ssml = `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="https://www.w3.org/2001/mstts" xml:lang="${male.lang}"><voice name="${male.voice}"><prosody rate="-8%" pitch="-5Hz" volume="+22%">${escapeSsml(text)}</prosody></voice></speak>`;
   const res = await fetch(
     `https://${region}.tts.speech.microsoft.com/cognitiveservices/v1`,
     {

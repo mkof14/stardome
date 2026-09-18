@@ -1,10 +1,13 @@
 "use client";
 
 import { cn } from "@/lib/cn";
-import type { PilotDemoCopy } from "@/lib/i18n/pilot-demo-copy";
+import { fillDemo, type PilotDemoCopy } from "@/lib/i18n/pilot-demo-copy";
 import type { Locale } from "@/lib/i18n/locales";
 import { voiceNeedLine } from "@/lib/pilot-demo";
+import type { DemoBeat } from "@/lib/pilot-demo";
 import type { VoiceNeed } from "@/lib/pilot-voice";
+
+const DEMO_CYAN = "#38BDF8";
 
 export function PilotDemoIcon({
   label,
@@ -26,27 +29,166 @@ export function PilotDemoIcon({
       title={label}
       onClick={onClick}
       className={cn(
-        "relative flex items-center justify-center overflow-hidden border border-orange bg-navy text-orange",
+        "relative flex items-center justify-center overflow-hidden border text-[#38BDF8]",
         compact
-          ? "h-8 w-8"
-          : "h-12 w-12 rounded-full shadow-[0_8px_20px_rgb(15_25_34/0.35)]",
-        running && "helm-fab-pulse",
+          ? "h-8 w-8 border-[#38BDF8] bg-[#06202c]"
+          : "h-12 w-12 rounded-full border-[#38BDF8] bg-[#06202c] shadow-[0_8px_20px_rgb(6_32_44/0.45)]",
+        running && "demo-fab-pulse",
       )}
     >
       <svg viewBox="0 0 48 48" className={compact ? "h-5 w-5" : "h-7 w-7"} aria-hidden>
         <polygon
           points="24,5 41,14.5 41,33.5 24,43 7,33.5 7,14.5"
-          fill="#111820"
-          stroke="#F15A00"
+          fill="#06202c"
+          stroke={DEMO_CYAN}
           strokeWidth="1.8"
         />
-        {running ? (
-          <path fill="#F15A00" d="M18 18h4.2v12H18V18Zm7.8 0H30v12h-4.2V18Z" />
-        ) : (
-          <path fill="#F15A00" d="M20 16.5 33 24 20 31.5V16.5Z" />
-        )}
+        <text
+          x="24"
+          y="30"
+          textAnchor="middle"
+          fill={DEMO_CYAN}
+          fontSize={compact ? "18" : "20"}
+          fontFamily="var(--font-space-grotesk), system-ui, sans-serif"
+          fontWeight="700"
+        >
+          D
+        </text>
       </svg>
     </button>
+  );
+}
+
+export function PilotSoundDock({
+  voiceOn,
+  speaking,
+  levels,
+  soundOnLabel,
+  soundOffLabel,
+  onToggle,
+}: {
+  voiceOn: boolean;
+  speaking: boolean;
+  levels: number[];
+  soundOnLabel: string;
+  soundOffLabel: string;
+  onToggle: () => void;
+}) {
+  return (
+    <div
+      data-testid="pilot-sound-dock"
+      className={cn(
+        "flex items-end gap-2 rounded-sm border px-2 py-1.5",
+        speaking && voiceOn
+          ? "border-[#38BDF8] bg-[#38BDF8]/10"
+          : voiceOn
+            ? "border-sand/20 bg-[#061018]"
+            : "border-attn/50 bg-attn/10",
+      )}
+    >
+      <button
+        type="button"
+        data-testid="assistant-speaker"
+        onClick={onToggle}
+        aria-pressed={!voiceOn}
+        aria-label={voiceOn ? soundOnLabel : soundOffLabel}
+        title={voiceOn ? soundOnLabel : soundOffLabel}
+        className={cn(
+          "flex h-9 w-9 shrink-0 items-center justify-center border",
+          voiceOn
+            ? "border-[#38BDF8] text-[#38BDF8]"
+            : "border-attn text-attn",
+        )}
+      >
+        {voiceOn ? <SpeakerOnIcon /> : <SpeakerOffIcon />}
+      </button>
+      <div
+        data-testid="assistant-vu"
+        className="flex h-9 min-w-0 flex-1 items-end gap-px"
+        title={voiceOn ? soundOnLabel : soundOffLabel}
+        aria-hidden
+      >
+        {levels.map((level, index) => (
+          <span
+            key={index}
+            className={cn("w-1.5", voiceOn ? "bg-[#38BDF8]" : "bg-attn")}
+            style={{
+              height: `${Math.max(14, (speaking && voiceOn ? level : 0.16 + (index % 3) * 0.08) * 100)}%`,
+              opacity: speaking && voiceOn ? Math.max(0.35, level) : 0.22,
+            }}
+          />
+        ))}
+      </div>
+      <p className="hidden shrink-0 font-mono text-[9px] tracking-wider text-[#38BDF8] sm:block">
+        {voiceOn ? soundOnLabel : soundOffLabel}
+      </p>
+    </div>
+  );
+}
+
+export function PilotDemoStage({
+  copy,
+  beat,
+  index,
+  total,
+  voiceOn,
+  speaking,
+  levels,
+  onToggleSound,
+}: {
+  copy: PilotDemoCopy;
+  beat: DemoBeat;
+  index: number;
+  total: number;
+  voiceOn: boolean;
+  speaking: boolean;
+  levels: number[];
+  onToggleSound: () => void;
+}) {
+  return (
+    <div
+      data-testid="pilot-demo-stage"
+      data-focus={beat.focus}
+      className="space-y-2 border-b border-[#38BDF8]/40 bg-[#06202c] px-3 py-2"
+    >
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="border border-[#38BDF8] px-1.5 py-0.5 font-mono text-[9px] font-bold tracking-wider text-[#38BDF8]">
+          {copy.demo}
+        </span>
+        <span className="font-mono text-[9px] text-sand/55">
+          {fillDemo(copy.step, { n: String(index), total: String(total) })}
+        </span>
+      </div>
+      <div className="grid gap-1.5 sm:grid-cols-2">
+        <p className="min-w-0">
+          <span className="block font-mono text-[8px] tracking-wider text-[#38BDF8]">
+            {copy.now}
+          </span>
+          <span className="block font-ui text-sm font-semibold leading-tight text-sand">
+            {beat.action}
+          </span>
+        </p>
+        <p className="min-w-0">
+          <span className="block font-mono text-[8px] tracking-wider text-[#38BDF8]">
+            {copy.where}
+          </span>
+          <span className="block font-ui text-sm font-semibold leading-tight text-sand">
+            {beat.place}
+          </span>
+        </p>
+      </div>
+      <PilotSoundDock
+        voiceOn={voiceOn}
+        speaking={speaking}
+        levels={levels}
+        soundOnLabel={copy.soundOn}
+        soundOffLabel={copy.soundOff}
+        onToggle={onToggleSound}
+      />
+      <p className="font-mono text-[9px] leading-relaxed text-sand/55">
+        {copy.interruptHint}
+      </p>
+    </div>
   );
 }
 
@@ -97,5 +239,27 @@ export function PilotVoiceNeed({
     >
       {voiceNeedLine(locale, need)}
     </p>
+  );
+}
+
+function SpeakerOnIcon() {
+  return (
+    <svg viewBox="0 0 16 16" className="h-4 w-4" aria-hidden>
+      <path
+        fill="currentColor"
+        d="M2.2 5.6h2.2L7.8 3.2v9.6L4.4 10.4H2.2A.8.8 0 0 1 1.4 9.6V6.4a.8.8 0 0 1 .8-.8Zm8 5.1a3.6 3.6 0 0 0 0-5.4l1.1-1.1a5.2 5.2 0 0 1 0 7.6L10.2 10.7Zm1.9 1.9a6.4 6.4 0 0 0 0-9.2L13.2 2.3a8 8 0 0 1 0 11.4l-1.1-1.1Z"
+      />
+    </svg>
+  );
+}
+
+function SpeakerOffIcon() {
+  return (
+    <svg viewBox="0 0 16 16" className="h-4 w-4" aria-hidden>
+      <path
+        fill="currentColor"
+        d="M2.2 5.6h2.2L7.8 3.2v9.6L4.4 10.4H2.2A.8.8 0 0 1 1.4 9.6V6.4a.8.8 0 0 1 .8-.8ZM3.2 2.3 14.1 13.2l-1.1 1.1-2.1-2.1A6.3 6.3 0 0 1 9.4 14l-1-1.3a4.8 4.8 0 0 0 1.3-1.3L3.2 5l-1.1-1.1L3.2 2.3Zm8.1 2.2 1.1-1.1a8 8 0 0 1 1.8 7.2L12.9 9.3a6.3 6.3 0 0 0-1.6-4.8Z"
+      />
+    </svg>
   );
 }

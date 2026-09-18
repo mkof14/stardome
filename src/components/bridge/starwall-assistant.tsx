@@ -27,7 +27,7 @@ import { localeMeta, locales, type Locale, isLocale } from "@/lib/i18n/locales";
 import { useAppMode } from "@/lib/mode";
 import { usePathname } from "next/navigation";
 import { pilotDemoCopy } from "@/lib/i18n/pilot-demo-copy";
-import { demoBeats } from "@/lib/pilot-demo";
+import { demoBeats, type DemoBeat } from "@/lib/pilot-demo";
 import {
   isLikelyMaleVoice,
   maleVoiceFor,
@@ -39,6 +39,8 @@ import {
 } from "@/lib/pilot-voice";
 import {
   PilotDemoIcon,
+  PilotDemoStage,
+  PilotSoundDock,
   PilotVoiceNeed,
   PilotWatchCalls,
 } from "@/components/bridge/pilot-demo";
@@ -90,6 +92,9 @@ export function Helm() {
   });
   const [unread, setUnread] = useState(false);
   const [drilling, setDrilling] = useState(false);
+  const [demoBeat, setDemoBeat] = useState<DemoBeat | null>(null);
+  const [demoStep, setDemoStep] = useState(0);
+  const [demoTotal, setDemoTotal] = useState(0);
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [neural, setNeural] = useState<NeuralVoiceStatus>(() => ({
     ready: true,
@@ -111,6 +116,8 @@ export function Helm() {
   const speakGen = useRef(0);
   const neuralRef = useRef<HTMLAudioElement | null>(null);
   const speakAbort = useRef<AbortController | null>(null);
+  const playRaf = useRef<number | null>(null);
+  const playCtx = useRef<AudioContext | null>(null);
   const menuId = useId();
   const desk = pilotDeskCopy(recogLang);
   const demoCopy = pilotDemoCopy(recogLang);
@@ -365,7 +372,10 @@ export function Helm() {
       stopListening();
       return;
     }
-    if (mic === "processing" || mic === "speaking") return;
+    if (mic === "processing") return;
+    if (drillingRef.current || mic === "speaking") {
+      stopDemo();
+    }
 
     const Engine = SpeechEngine();
     if (!Engine) {
@@ -411,6 +421,14 @@ export function Helm() {
   function haltAudio() {
     speakAbort.current?.abort();
     speakAbort.current = null;
+    if (playRaf.current !== null) {
+      window.cancelAnimationFrame(playRaf.current);
+      playRaf.current = null;
+    }
+    if (playCtx.current) {
+      void playCtx.current.close();
+      playCtx.current = null;
+    }
     const clip = neuralRef.current;
     if (clip) {
       clip.onended = null;
@@ -429,6 +447,42 @@ export function Helm() {
     speakGen.current += 1;
     haltAudio();
     setMic((current) => (current === "speaking" ? "idle" : current));
+  }
+
+  function startPlayMeter(audio: HTMLAudioElement) {
+    if (playRaf.current !== null) {
+      window.cancelAnimationFrame(playRaf.current);
+      playRaf.current = null;
+    }
+    if (playCtx.current) {
+      void playCtx.current.close();
+      playCtx.current = null;
+    }
+    const Ctor =
+      window.AudioContext ||
+      (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    if (!Ctor) return;
+    const ctx = new Ctor();
+    playCtx.current = ctx;
+    const source = ctx.createMediaElementSource(audio);
+    const analyser = ctx.createAnalyser();
+    analyser.fftSize = 64;
+    source.connect(analyser);
+    analyser.connect(ctx.destination);
+    const bins = new Uint8Array(analyser.frequencyBinCount);
+    const tick = () => {
+      analyser.getByteFrequencyData(bins);
+      const step = Math.max(1, Math.floor(bins.length / BAR_COUNT));
+      setLevels(
+        Array.from({ length: BAR_COUNT }, (_, i) => {
+          const value = bins[i * step] ?? 0;
+          return Math.max(0.14, value / 255);
+        }),
+      );
+      playRaf.current = window.requestAnimationFrame(tick);
+    };
+    playRaf.current = window.requestAnimationFrame(tick);
+    void ctx.resume();
   }
 
   function toggleSpeaker() {
@@ -456,6 +510,7 @@ export function Helm() {
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = SPEAK_BCP47[locale];
+      utterance.rate = 0.92;
       const installed = window.speechSynthesis.getVoices();
       const match = pickVoice(installed.length ? installed : voices, locale);
       if (match) {
@@ -463,7 +518,9 @@ export function Helm() {
           (voice) => voice.name === match.name && voice.lang === match.lang,
         );
         if (full) utterance.voice = full;
-        if (!isLikelyMaleVoice(match.name)) utterance.pitch = 0.82;
+        utterance.pitch = isLikelyMaleVoice(match.name) ? 0.88 : 0.78;
+      } else {
+        utterance.pitch = 0.88;
       }
       utterance.onend = finish;
       utterance.onerror = finish;
@@ -498,6 +555,7 @@ export function Helm() {
         const url = URL.createObjectURL(blob);
         const clip = new Audio(url);
         neuralRef.current = clip;
+        startPlayMeter(clip);
         await new Promise<void>((resolve) => {
           const finish = () => {
             URL.revokeObjectURL(url);
@@ -530,6 +588,7 @@ export function Helm() {
     demoCancel.current = true;
     drillingRef.current = false;
     setDrilling(false);
+    setDemoBeat(null);
     stopSpeech();
   }
 
@@ -546,8 +605,12 @@ export function Helm() {
     setVoiceOn(true);
     voiceOnRef.current = true;
     const beats = demoBeats(session, recogLang);
-    for (const beat of beats) {
-      if (demoCancel.current) break;
+    setDemoTotal(beats.length);
+    for (let i = 0; i < beats.length; i += 1) {
+      const beat = beats[i];
+      if (!beat || demoCancel.current) break;
+      setDemoStep(i + 1);
+      setDemoBeat(beat);
       if (beat.raise) {
         setRaised((current) => ({ ...current, ...beat.raise }));
       }
@@ -561,13 +624,14 @@ export function Helm() {
         },
       ]);
       if (beat.speak) {
-        await speakReply(beat.text, recogLang, true);
+        await speakReply(beat.text, recogLang, false);
       } else {
-        await new Promise((resolve) => window.setTimeout(resolve, 420));
+        await new Promise((resolve) => window.setTimeout(resolve, 520));
       }
     }
     drillingRef.current = false;
     setDrilling(false);
+    setDemoBeat(null);
   }
 
   async function sendMessage(text: string) {
@@ -696,8 +760,21 @@ export function Helm() {
             raised={raised}
             onRaised={setRaised}
             docked={false}
+            roomy={drilling}
+            highlight={
+              demoBeat?.focus === "instruments" ||
+              demoBeat?.focus === "advice" ||
+              demoBeat?.focus === "comms"
+                ? demoBeat.focus
+                : null
+            }
           />
-        <section className="helm-scope flex h-[min(38rem,calc(100vh-5.5rem))] w-[min(22rem,calc(100vw-1.5rem))] flex-col overflow-hidden border border-stroke bg-[#0b141c] text-sand shadow-[0_20px_56px_rgb(15_25_34/0.38)]">
+        <section className={cn(
+          "helm-scope flex h-[min(40rem,calc(100vh-5.5rem))] flex-col overflow-hidden border border-stroke bg-[#0b141c] text-sand shadow-[0_20px_56px_rgb(15_25_34/0.38)]",
+          drilling
+            ? "w-[min(24rem,calc(100vw-1.5rem))] border-[#38BDF8]/50"
+            : "w-[min(22rem,calc(100vw-1.5rem))]",
+        )}>
           <div className="h-[2px] bg-orange" />
           <header className="relative flex items-center justify-between gap-2 border-b border-sand/15 bg-[#061018] px-3 py-2.5">
             <span
@@ -800,6 +877,18 @@ export function Helm() {
               <PilotVoiceNeed locale={recogLang} need={need} />
             </div>
           </div>
+          {drilling && demoBeat ? (
+            <PilotDemoStage
+              copy={demoCopy}
+              beat={demoBeat}
+              index={demoStep}
+              total={demoTotal}
+              voiceOn={voiceOn}
+              speaking={mic === "speaking"}
+              levels={levels}
+              onToggleSound={toggleSpeaker}
+            />
+          ) : null}
 
           <div
             ref={listRef}
@@ -825,7 +914,9 @@ export function Helm() {
                       ? "ms-auto bg-orange text-white"
                       : item.role === "error"
                         ? "border border-attn text-attn"
-                        : "border-s-2 border-ok bg-[#111820] text-sand",
+                        : drilling && demoBeat?.text === item.text
+                          ? "border-s-2 border-[#38BDF8] bg-[#06202c] text-sand"
+                          : "border-s-2 border-ok bg-[#111820] text-sand",
                   )}
                 >
                   {showing}
@@ -862,45 +953,22 @@ export function Helm() {
                   </svg>
                 )}
               </button>
-              <button
-                type="button"
-                data-testid="assistant-speaker"
-                onClick={toggleSpeaker}
-                aria-pressed={!voiceOn}
-                aria-label={voiceOn ? surface.speakerOn : surface.speakerOff}
-                title={voiceOn ? surface.speakerOn : surface.speakerOff}
-                className={cn(
-                  "flex h-10 w-10 items-center justify-center border",
-                  voiceOn
-                    ? "border-sand/25 text-sand hover:border-orange"
-                    : "border-attn text-attn",
-                )}
-              >
-                {voiceOn ? <SpeakerOnIcon /> : <SpeakerOffIcon />}
-              </button>
-              <div
-                data-testid="assistant-vu"
-                className="flex h-10 min-w-0 flex-1 items-end gap-px border-s-2 border-orange/70 ps-2"
-                title="Sound"
-                aria-hidden
-              >
-                {levels.map((level, index) => (
-                  <span
-                    key={index}
-                    className={cn(
-                      "w-1.5",
-                      mic === "speaking" ? "bg-orange" : "bg-ok",
-                    )}
-                    style={{
-                      height: `${Math.max(16, (mic === "idle" ? 0.2 + (index % 2) * 0.16 : level) * 100)}%`,
-                      opacity:
-                        mic === "listening" || mic === "speaking"
-                          ? Math.max(0.4, level)
-                          : 0.28,
-                    }}
+              {drilling ? (
+                <p className="min-w-0 flex-1 font-mono text-[10px] leading-tight text-[#38BDF8]">
+                  {demoCopy.interruptHint}
+                </p>
+              ) : (
+                <div className="min-w-0 flex-1">
+                  <PilotSoundDock
+                    voiceOn={voiceOn}
+                    speaking={mic === "speaking"}
+                    levels={levels}
+                    soundOnLabel={surface.speakerOn}
+                    soundOffLabel={surface.speakerOff}
+                    onToggle={toggleSpeaker}
                   />
-                ))}
-              </div>
+                </div>
+              )}
             </div>
             {micError ? (
               <p className="mb-2 font-mono text-[10px] text-attn">{micError}</p>
@@ -908,7 +976,7 @@ export function Helm() {
             <div className="mb-2">
               <PilotWatchCalls
                 copy={demoCopy}
-                disabled={mic === "processing" || drilling}
+                disabled={mic === "processing"}
                 onPick={(text) => void sendMessage(text)}
               />
             </div>
@@ -989,28 +1057,6 @@ export function Helm() {
         </div>
       )}
     </div>
-  );
-}
-
-function SpeakerOnIcon() {
-  return (
-    <svg viewBox="0 0 16 16" className="h-4 w-4" aria-hidden>
-      <path
-        fill="currentColor"
-        d="M2.2 5.6h2.2L7.8 3.2v9.6L4.4 10.4H2.2A.8.8 0 0 1 1.4 9.6V6.4a.8.8 0 0 1 .8-.8Zm8 5.1a3.6 3.6 0 0 0 0-5.4l1.1-1.1a5.2 5.2 0 0 1 0 7.6L10.2 10.7Zm1.9 1.9a6.4 6.4 0 0 0 0-9.2L13.2 2.3a8 8 0 0 1 0 11.4l-1.1-1.1Z"
-      />
-    </svg>
-  );
-}
-
-function SpeakerOffIcon() {
-  return (
-    <svg viewBox="0 0 16 16" className="h-4 w-4" aria-hidden>
-      <path
-        fill="currentColor"
-        d="M2.2 5.6h2.2L7.8 3.2v9.6L4.4 10.4H2.2A.8.8 0 0 1 1.4 9.6V6.4a.8.8 0 0 1 .8-.8ZM3.2 2.3 14.1 13.2l-1.1 1.1-2.1-2.1A6.3 6.3 0 0 1 9.4 14l-1-1.3a4.8 4.8 0 0 0 1.3-1.3L3.2 5l-1.1-1.1L3.2 2.3Zm8.1 2.2 1.1-1.1a8 8 0 0 1 1.8 7.2L12.9 9.3a6.3 6.3 0 0 0-1.6-4.8Z"
-      />
-    </svg>
   );
 }
 

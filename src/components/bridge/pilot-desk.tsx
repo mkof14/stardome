@@ -52,12 +52,16 @@ export function PilotDesk({
   raised,
   onRaised,
   docked,
+  highlight,
+  roomy,
 }: {
   session: BridgeSessionValue;
   locale: Locale;
   raised: RaisedScreens;
   onRaised: (next: RaisedScreens) => void;
   docked: boolean;
+  highlight?: "instruments" | "advice" | "comms" | null;
+  roomy?: boolean;
 }) {
   const watch = buildPilotWatch(session, locale);
   const { copy } = watch;
@@ -117,10 +121,13 @@ export function PilotDesk({
     <div
       data-testid="pilot-raised-screens"
       className={cn(
-        "flex w-[min(20.5rem,calc(100vw-1.5rem))] flex-col gap-2",
+        "flex flex-col gap-2",
+        roomy
+          ? "w-[min(24.5rem,calc(100vw-1.5rem))]"
+          : "w-[min(20.5rem,calc(100vw-1.5rem))]",
         docked
           ? "absolute bottom-0 end-[calc(100%+0.75rem)] hidden max-h-[min(42rem,calc(100vh-5.5rem))] overflow-y-auto md:flex"
-          : "mb-2 max-h-[min(22rem,40vh)] overflow-y-auto md:mb-0 md:absolute md:bottom-0 md:end-[calc(100%+0.75rem)] md:max-h-[min(42rem,calc(100vh-5.5rem))]",
+          : "mb-2 max-h-[min(26rem,46vh)] overflow-y-auto md:mb-0 md:absolute md:bottom-0 md:end-[calc(100%+0.75rem)] md:max-h-[min(44rem,calc(100vh-5.5rem))]",
       )}
     >
       {raised.instruments ? (
@@ -128,6 +135,7 @@ export function PilotDesk({
           testId="pilot-instruments"
           kicker={copy.instruments}
           title={copy.post}
+          hot={highlight === "instruments"}
           onClose={() => onRaised({ ...raised, instruments: false })}
           closeLabel={copy.closeCard}
         >
@@ -138,7 +146,7 @@ export function PilotDesk({
                 data-testid={`pilot-instrument-${item.id}`}
                 data-state={item.state}
                 className={cn(
-                  "border px-1.5 py-1.5 font-mono text-[9px] leading-tight",
+                  "border px-2 py-2 font-mono text-[10px] leading-tight",
                   instrumentTone(item.state),
                 )}
               >
@@ -170,6 +178,7 @@ export function PilotDesk({
                 key={`${watch.noteKey}-${card.kind}-${card.title}`}
                 card={card}
                 copy={copy}
+                hot={highlight === "advice"}
                 expanded={Boolean(expanded[card.kind])}
                 onExpand={() =>
                   setExpanded((current) => ({
@@ -201,6 +210,7 @@ export function PilotDesk({
           testId="pilot-comms"
           kicker={copy.comms}
           title={watch.commsLive ? copy.connected : copy.offline}
+          hot={highlight === "comms"}
           onClose={() => onRaised({ ...raised, comms: false })}
           closeLabel={copy.closeCard}
         >
@@ -307,6 +317,7 @@ function PilotFrame({
   onClose,
   closeLabel,
   testId,
+  hot,
 }: {
   kicker: string;
   title: string;
@@ -314,17 +325,29 @@ function PilotFrame({
   onClose: () => void;
   closeLabel: string;
   testId: string;
+  hot?: boolean;
 }) {
   return (
     <section
       data-testid={testId}
-      className="pilot-card-in border border-stroke bg-[#0b141c] text-sand shadow-[0_16px_40px_rgb(15_25_34/0.42)]"
+      data-demo-focus={hot ? "true" : undefined}
+      className={cn(
+        "pilot-card-in border bg-[#0b141c] text-sand shadow-[0_16px_40px_rgb(15_25_34/0.42)]",
+        hot ? "demo-focus-ring border-[#38BDF8]" : "border-stroke",
+      )}
     >
-      <div className="h-[2px] bg-orange" />
-      <header className="flex items-center justify-between gap-2 border-b border-sand/15 px-2.5 py-1.5">
+      <div className={cn("h-[2px]", hot ? "bg-[#38BDF8]" : "bg-orange")} />
+      <header className="flex items-center justify-between gap-2 border-b border-sand/15 px-3 py-2">
         <div className="min-w-0">
-          <p className="font-mono text-[9px] tracking-wider text-orange">{kicker}</p>
-          <p className="truncate font-heading text-sm font-bold">{title}</p>
+          <p
+            className={cn(
+              "font-mono text-[10px] tracking-wider",
+              hot ? "text-[#38BDF8]" : "text-orange",
+            )}
+          >
+            {kicker}
+          </p>
+          <p className="truncate font-heading text-base font-bold">{title}</p>
         </div>
         <button
           type="button"
@@ -335,7 +358,7 @@ function PilotFrame({
           ×
         </button>
       </header>
-      <div className="px-2.5 py-2">{children}</div>
+      <div className="px-3 py-2.5">{children}</div>
     </section>
   );
 }
@@ -344,6 +367,7 @@ function AdviceCard({
   card,
   copy,
   expanded,
+  hot,
   onExpand,
   onAsk,
   onClose,
@@ -351,6 +375,7 @@ function AdviceCard({
   card: PilotAdvice;
   copy: PilotDeskCopy;
   expanded: boolean;
+  hot?: boolean;
   onExpand: () => void;
   onAsk: () => void;
   onClose: () => void;
@@ -368,6 +393,7 @@ function AdviceCard({
       testId={`pilot-card-${card.kind}`}
       kicker={kicker}
       title={card.title}
+      hot={hot}
       onClose={onClose}
       closeLabel={copy.closeCard}
     >

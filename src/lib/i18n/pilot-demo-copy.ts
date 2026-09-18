@@ -24,6 +24,25 @@ export type PilotDemoCopy = {
   sttReady: string;
   sttEngine: string;
   needMic: string;
+  now: string;
+  where: string;
+  step: string;
+  interruptHint: string;
+  soundOn: string;
+  soundOff: string;
+  actionIntro: string;
+  whereIntro: string;
+  actionInstruments: string;
+  whereInstruments: string;
+  actionAdvice: string;
+  whereAdvice: string;
+  actionComms: string;
+  whereComms: string;
+  actionOutro: string;
+  whereOutro: string;
+  actionOfficer: string;
+  whereOfficer: string;
+  actionLive: string;
 };
 
 const DEMO = {
@@ -36,7 +55,7 @@ const DEMO = {
     callAdvice: "Pilot, what do you recommend",
     callNotify: "Pilot, notify the designated",
     intro:
-      "Pilot on watch. I read radar, AIS, cameras, perimeter, sonar, and satcom. I advise. You decide.",
+      "Pilot on watch. Radar, AIS, cameras, perimeter, sonar, satcom — all on me. I advise. You decide.",
     officerStatus: "Pilot, instruments.",
     quietStatus:
       "Instruments are quiet. Radar and AIS on the plot, cameras and perimeter standing by. I am here if the picture changes.",
@@ -58,6 +77,26 @@ const DEMO = {
     sttReady: "I can listen in {lang} after you allow the microphone.",
     sttEngine: "Speech recognition needs Chrome or Edge on this machine.",
     needMic: "Allow the microphone to speak to Pilot in this language.",
+    now: "Now",
+    where: "Where",
+    step: "{n} / {total}",
+    interruptHint:
+      "Tap a watch call, type, or press the mic to cut in. The speaker mutes or restores the voice.",
+    soundOn: "Sound on",
+    soundOff: "Sound off",
+    actionIntro: "Pilot takes the watch",
+    whereIntro: "Voice and instrument cards",
+    actionInstruments: "Reading instruments",
+    whereInstruments: "Instrument cards",
+    actionAdvice: "Advice on the picture",
+    whereAdvice: "Advice window",
+    actionComms: "Watch net and alarm",
+    whereComms: "Comms strip",
+    actionOutro: "End of drill",
+    whereOutro: "Mic and watch calls",
+    actionOfficer: "Watch call",
+    whereOfficer: "Dialogue",
+    actionLive: "LIVE has no sensors",
   },
   es: {
     demo: "Demo",
@@ -90,6 +129,26 @@ const DEMO = {
     sttReady: "Puedo escuchar en {lang} cuando permita el micrófono.",
     sttEngine: "El reconocimiento de voz necesita Chrome o Edge en esta máquina.",
     needMic: "Permita el micrófono para hablar con Pilot en este idioma.",
+    now: "Ahora",
+    where: "Dónde",
+    step: "{n} / {total}",
+    interruptHint:
+      "Toque una llamada, escriba o pulse el micro para cortar. El altavoz silencia o restablece la voz.",
+    soundOn: "Sonido activado",
+    soundOff: "Sonido desactivado",
+    actionIntro: "Pilot toma la guardia",
+    whereIntro: "Voz y tarjetas de instrumentos",
+    actionInstruments: "Lectura de instrumentos",
+    whereInstruments: "Tarjetas de instrumentos",
+    actionAdvice: "Consejo sobre la imagen",
+    whereAdvice: "Ventana de consejo",
+    actionComms: "Red de guardia y alarma",
+    whereComms: "Franja de comunicaciones",
+    actionOutro: "Fin del ejercicio",
+    whereOutro: "Micro y llamadas",
+    actionOfficer: "Llamada de guardia",
+    whereOfficer: "Diálogo",
+    actionLive: "LIVE no tiene sensores",
   },
   fr: {
     demo: "Démo",
@@ -122,6 +181,26 @@ const DEMO = {
     sttReady: "Je peux écouter en {lang} après autorisation du micro.",
     sttEngine: "La reconnaissance vocale demande Chrome ou Edge sur cette machine.",
     needMic: "Autorisez le micro pour parler à Pilot dans cette langue.",
+    now: "Maintenant",
+    where: "Où",
+    step: "{n} / {total}",
+    interruptHint:
+      "Touchez un appel, tapez ou appuyez sur le micro pour couper. Le haut-parleur coupe ou rétablit la voix.",
+    soundOn: "Son allumé",
+    soundOff: "Son coupé",
+    actionIntro: "Pilot prend le quart",
+    whereIntro: "Voix et cartes d’instruments",
+    actionInstruments: "Lecture des instruments",
+    whereInstruments: "Cartes d’instruments",
+    actionAdvice: "Conseil sur l’image",
+    whereAdvice: "Fenêtre de conseil",
+    actionComms: "Réseau de quart et alarme",
+    whereComms: "Bande comms",
+    actionOutro: "Fin de l’exercice",
+    whereOutro: "Micro et appels",
+    actionOfficer: "Appel de quart",
+    whereOfficer: "Dialogue",
+    actionLive: "LIVE n’a aucun capteur",
   },
   de: {
     demo: "Demo",
@@ -154,6 +233,26 @@ const DEMO = {
     sttReady: "Ich höre {lang}, sobald Sie das Mikrofon erlauben.",
     sttEngine: "Spracherkennung braucht Chrome oder Edge auf diesem Rechner.",
     needMic: "Mikrofon erlauben, um mit Pilot in dieser Sprache zu sprechen.",
+    now: "Jetzt",
+    where: "Wo",
+    step: "{n} / {total}",
+    interruptHint:
+      "Wachruf antippen, tippen oder Mikrofon — die Stimme bricht ab. Der Lautsprecher stummschaltet oder stellt sie wieder her.",
+    soundOn: "Ton an",
+    soundOff: "Ton aus",
+    actionIntro: "Pilot übernimmt die Wache",
+    whereIntro: "Stimme und Instrumentenkarten",
+    actionInstruments: "Instrumente lesen",
+    whereInstruments: "Instrumentenkarten",
+    actionAdvice: "Rat zum Lagebild",
+    whereAdvice: "Ratfenster",
+    actionComms: "Wachnetz und Alarm",
+    whereComms: "Comms-Leiste",
+    actionOutro: "Ende der Übung",
+    whereOutro: "Mikrofon und Wachrufe",
+    actionOfficer: "Wachruf",
+    whereOfficer: "Dialog",
+    actionLive: "LIVE hat keine Sensoren",
   },
   ru: {
     demo: "Демо",
@@ -164,7 +263,7 @@ const DEMO = {
     callAdvice: "Pilot, что рекомендуете",
     callNotify: "Pilot, известить назначенного",
     intro:
-      "Pilot на вахте. Читаю радар, AIS, камеры, периметр, сонар и satcom. Советую. Решение за вами.",
+      "Pilot на вахте. Радар, AIS, камеры, периметр, сонар, satcom — всё на мне. Советую. Решение за вами.",
     officerStatus: "Pilot, приборы.",
     quietStatus:
       "Приборы спокойны. Радар и AIS на картине, камеры и периметр наготове. Я здесь, если картина изменится.",
@@ -186,6 +285,26 @@ const DEMO = {
     sttReady: "Слышу {lang}, когда разрешите микрофон.",
     sttEngine: "Распознавание речи здесь нужно в Chrome или Edge.",
     needMic: "Разрешите микрофон, чтобы говорить с Pilot на этом языке.",
+    now: "Сейчас",
+    where: "Где",
+    step: "{n} / {total}",
+    interruptHint:
+      "Реплика, текст или микрофон — голос остановится. Динамик включает и выключает звук.",
+    soundOn: "Звук включён",
+    soundOff: "Звук выключен",
+    actionIntro: "Pilot заступает на вахту",
+    whereIntro: "Голос и карточки приборов",
+    actionInstruments: "Снимаю приборы",
+    whereInstruments: "Карточки приборов",
+    actionAdvice: "Совет по картине",
+    whereAdvice: "Окно совета",
+    actionComms: "Сеть вахты и тревога",
+    whereComms: "Полоса связи",
+    actionOutro: "Конец учения",
+    whereOutro: "Микрофон и реплики",
+    actionOfficer: "Реплика вахты",
+    whereOfficer: "Диалог",
+    actionLive: "В LIVE нет датчиков",
   },
   uk: {
     demo: "Демо",
@@ -218,6 +337,26 @@ const DEMO = {
     sttReady: "Чую {lang}, коли дозволите мікрофон.",
     sttEngine: "Розпізнавання мовлення тут потрібне в Chrome або Edge.",
     needMic: "Дозвольте мікрофон, щоб говорити з Pilot цією мовою.",
+    now: "Зараз",
+    where: "Де",
+    step: "{n} / {total}",
+    interruptHint:
+      "Репліка, текст або мікрофон — голос зупиниться. Динамік вмикає й вимикає звук.",
+    soundOn: "Звук увімкнено",
+    soundOff: "Звук вимкнено",
+    actionIntro: "Pilot заступає на вахту",
+    whereIntro: "Голос і картки приладів",
+    actionInstruments: "Знімаю прилади",
+    whereInstruments: "Картки приладів",
+    actionAdvice: "Порада щодо картини",
+    whereAdvice: "Вікно поради",
+    actionComms: "Мережа вахти й тривога",
+    whereComms: "Смуга зв’язку",
+    actionOutro: "Кінець навчання",
+    whereOutro: "Мікрофон і репліки",
+    actionOfficer: "Репліка вахти",
+    whereOfficer: "Діалог",
+    actionLive: "У LIVE немає датчиків",
   },
   ar: {
     demo: "تجربة",
@@ -250,6 +389,26 @@ const DEMO = {
     sttReady: "أسمع {lang} بعد السماح بالميكروفون.",
     sttEngine: "التعرّف على الكلام يحتاج Chrome أو Edge على هذا الجهاز.",
     needMic: "اسمحوا بالميكروفون للتحدث إلى Pilot بهذه اللغة.",
+    now: "الآن",
+    where: "أين",
+    step: "{n} / {total}",
+    interruptHint:
+      "نداء أو كتابة أو الميكروفون يقطع الصوت. مكبر الصوت يكتم أو يعيد الصوت.",
+    soundOn: "الصوت يعمل",
+    soundOff: "الصوت مغلق",
+    actionIntro: "Pilot يتولى الخفارة",
+    whereIntro: "الصوت وبطاقات الأجهزة",
+    actionInstruments: "قراءة الأجهزة",
+    whereInstruments: "بطاقات الأجهزة",
+    actionAdvice: "نصيحة عن الصورة",
+    whereAdvice: "نافذة النصيحة",
+    actionComms: "شبكة الخفارة والإنذار",
+    whereComms: "شريط الاتصال",
+    actionOutro: "نهاية التمرين",
+    whereOutro: "الميكروفون والنداءات",
+    actionOfficer: "نداء خفارة",
+    whereOfficer: "الحوار",
+    actionLive: "LIVE بلا مستشعرات",
   },
   zh: {
     demo: "演示",
@@ -278,6 +437,25 @@ const DEMO = {
     sttReady: "允许麦克风后我能听 {lang}。",
     sttEngine: "语音识别需要本机上的 Chrome 或 Edge。",
     needMic: "请允许麦克风，以便用当前语言对 Pilot 说话。",
+    now: "现在",
+    where: "位置",
+    step: "{n} / {total}",
+    interruptHint: "点值班口令、打字或按麦克风即可打断。扬声器开关声音。",
+    soundOn: "声音开",
+    soundOff: "声音关",
+    actionIntro: "Pilot 接班",
+    whereIntro: "语音和仪器卡片",
+    actionInstruments: "读取仪器",
+    whereInstruments: "仪器卡片",
+    actionAdvice: "针对画面的建议",
+    whereAdvice: "建议窗口",
+    actionComms: "值班网与警报",
+    whereComms: "通信条",
+    actionOutro: "演练结束",
+    whereOutro: "麦克风和口令",
+    actionOfficer: "值班口令",
+    whereOfficer: "对话",
+    actionLive: "LIVE 没有传感器",
   },
   ja: {
     demo: "デモ",
@@ -310,6 +488,26 @@ const DEMO = {
     sttReady: "マイクを許可すれば {lang} を聞けます。",
     sttEngine: "音声認識はこのマシンの Chrome または Edge が必要です。",
     needMic: "この言語で Pilot に話すにはマイクを許可してください。",
+    now: "いま",
+    where: "どこ",
+    step: "{n} / {total}",
+    interruptHint:
+      "呼びかけ・入力・マイクで音声を止められます。スピーカーで音声のオンオフ。",
+    soundOn: "音声オン",
+    soundOff: "音声オフ",
+    actionIntro: "Pilot が当直につく",
+    whereIntro: "音声と計器カード",
+    actionInstruments: "計器を読む",
+    whereInstruments: "計器カード",
+    actionAdvice: "画面への助言",
+    whereAdvice: "助言ウィンドウ",
+    actionComms: "当直ネットと警報",
+    whereComms: "通信バー",
+    actionOutro: "訓練の終わり",
+    whereOutro: "マイクと呼びかけ",
+    actionOfficer: "当直の呼びかけ",
+    whereOfficer: "対話",
+    actionLive: "LIVE にセンサーなし",
   },
   he: {
     demo: "הדגמה",
@@ -342,6 +540,26 @@ const DEMO = {
     sttReady: "אני שומע {lang} אחרי אישור המיקרופון.",
     sttEngine: "זיהוי דיבור דורש Chrome או Edge במחשב הזה.",
     needMic: "אשרו את המיקרופון כדי לדבר עם Pilot בשפה הזו.",
+    now: "עכשיו",
+    where: "איפה",
+    step: "{n} / {total}",
+    interruptHint:
+      "קריאה, הקלדה או מיקרופון עוצרים את הקול. הרמקול משתיק או מחזיר אותו.",
+    soundOn: "קול פועל",
+    soundOff: "קול כבוי",
+    actionIntro: "Pilot נכנס למשמרת",
+    whereIntro: "קול וכרטיסי מכשירים",
+    actionInstruments: "קריאת מכשירים",
+    whereInstruments: "כרטיסי מכשירים",
+    actionAdvice: "ייעוץ על התמונה",
+    whereAdvice: "חלון ייעוץ",
+    actionComms: "רשת משמרת ואזעקה",
+    whereComms: "פס קשר",
+    actionOutro: "סוף התרגיל",
+    whereOutro: "מיקרופון וקריאות",
+    actionOfficer: "קריאת משמרת",
+    whereOfficer: "דיאלוג",
+    actionLive: "ב־LIVE אין חיישנים",
   },
 } as const satisfies Record<Locale, PilotDemoCopy>;
 

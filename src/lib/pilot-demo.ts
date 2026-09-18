@@ -10,40 +10,104 @@ export type DemoRaise = {
   comms?: boolean;
 };
 
+export type DemoFocus = "instruments" | "advice" | "comms" | "voice" | "calls";
+
 export type DemoBeat = {
   role: "officer" | "pilot";
   text: string;
   raise?: DemoRaise;
   speak: boolean;
+  focus: DemoFocus;
+  action: string;
+  place: string;
 };
 
 export function demoBeats(session: BridgeSessionValue, locale: Locale): DemoBeat[] {
   const copy = pilotDemoCopy(locale);
   if (session.live) {
-    return [{ role: "pilot", text: copy.liveBlock, speak: true }];
+    return [
+      {
+        role: "pilot",
+        text: copy.liveBlock,
+        speak: true,
+        focus: "voice",
+        action: copy.actionLive,
+        place: copy.whereOutro,
+      },
+    ];
   }
   const picture = watchReply(session, locale).trim();
   const status = session.scenarioId ? picture : copy.quietStatus;
   const advice = session.scenarioId ? picture : copy.quietAdvice;
   return [
-    { role: "pilot", text: copy.intro, speak: true, raise: { instruments: true } },
-    { role: "officer", text: copy.officerStatus, speak: false },
+    {
+      role: "pilot",
+      text: copy.intro,
+      speak: true,
+      raise: { instruments: true },
+      focus: "instruments",
+      action: copy.actionIntro,
+      place: copy.whereIntro,
+    },
+    {
+      role: "officer",
+      text: copy.officerStatus,
+      speak: false,
+      focus: "calls",
+      action: copy.actionOfficer,
+      place: copy.whereOfficer,
+    },
     {
       role: "pilot",
       text: status,
       speak: true,
       raise: { instruments: true, advice: true },
+      focus: "instruments",
+      action: copy.actionInstruments,
+      place: copy.whereInstruments,
     },
-    { role: "officer", text: copy.officerAdvice, speak: false },
+    {
+      role: "officer",
+      text: copy.officerAdvice,
+      speak: false,
+      focus: "calls",
+      action: copy.actionOfficer,
+      place: copy.whereOfficer,
+    },
     {
       role: "pilot",
       text: advice,
       speak: true,
       raise: { instruments: true, advice: true, comms: true },
+      focus: "advice",
+      action: copy.actionAdvice,
+      place: copy.whereAdvice,
     },
-    { role: "officer", text: copy.officerNotify, speak: false },
-    { role: "pilot", text: copy.notifyReply, speak: true, raise: { comms: true } },
-    { role: "pilot", text: copy.outro, speak: true },
+    {
+      role: "officer",
+      text: copy.officerNotify,
+      speak: false,
+      focus: "calls",
+      action: copy.actionOfficer,
+      place: copy.whereOfficer,
+    },
+    {
+      role: "pilot",
+      text: copy.notifyReply,
+      speak: true,
+      raise: { comms: true },
+      focus: "comms",
+      action: copy.actionComms,
+      place: copy.whereComms,
+    },
+    {
+      role: "pilot",
+      text: copy.outro,
+      speak: true,
+      focus: "voice",
+      action: copy.actionOutro,
+      place: copy.whereOutro,
+    },
   ];
 }
 
