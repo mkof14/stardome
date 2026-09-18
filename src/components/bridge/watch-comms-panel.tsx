@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { PilotHex } from "@/components/bridge/hud-icons";
 import { cn } from "@/lib/cn";
 import { askPilot, CLEAR_SCREENS_EVENT, WATCH_COMMS_FOCUS_EVENT, type WatchCommsFocus } from "@/lib/helm-events";
 import { watchCommsCopy } from "@/lib/i18n/watch-comms-copy";
@@ -46,7 +47,8 @@ export function WatchCommsPanel() {
     >
       <div className="mx-auto max-w-6xl">
         <p className="font-mono text-[10px] tracking-[0.22em] text-bridge-dim">{copy.kicker}</p>
-        <h2 className="mt-1 font-ui text-xl font-bold tracking-wide text-bridge-text">
+        <h2 className="mt-1 flex items-center gap-2 font-ui text-xl font-bold tracking-wide text-bridge-text">
+          <PilotHex glow />
           {copy.title}
         </h2>
         <p className="mt-2 max-w-3xl text-sm text-bridge-dim">
@@ -81,7 +83,11 @@ export function WatchCommsPanel() {
           ))}
         </div>
 
-        <div className="mt-4 overflow-hidden border border-bridge-line bg-bridge-panel">
+        <div className="hud-panel-bezel relative mt-4 overflow-hidden border border-bridge-line bg-bridge-panel">
+          <span className="hud-panel-tick left-0 top-0 border-b-0 border-r-0" />
+          <span className="hud-panel-tick right-0 top-0 border-b-0 border-l-0" />
+          <span className="hud-panel-tick bottom-0 left-0 border-r-0 border-t-0" />
+          <span className="hud-panel-tick bottom-0 right-0 border-l-0 border-t-0" />
           <div className="grid grid-cols-[4.5rem_minmax(0,1fr)_auto] items-center gap-2 border-b border-bridge-line bg-bridge-bg px-3 py-1.5 font-mono text-[9px] tracking-[0.16em] text-bridge-dim">
             <span>CH</span>
             <span>CIRCUIT</span>

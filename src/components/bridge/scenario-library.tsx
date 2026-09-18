@@ -46,8 +46,12 @@ export function ScenarioLibrary({
       id="scenario-library"
       data-testid="scenario-picker"
       data-open={open ? "true" : "false"}
-      className="relative scroll-mt-20 overflow-hidden border-2 border-bridge-line bg-bridge-panel"
+      className="hud-panel-bezel relative scroll-mt-20 overflow-hidden border-2 border-bridge-line bg-bridge-panel"
     >
+      <span className="hud-panel-tick left-0 top-0 z-10 border-b-0 border-r-0" />
+      <span className="hud-panel-tick right-0 top-0 z-10 border-b-0 border-l-0" />
+      <span className="hud-panel-tick bottom-0 left-0 z-10 border-r-0 border-t-0" />
+      <span className="hud-panel-tick bottom-0 right-0 z-10 border-l-0 border-t-0" />
       <header className="border-b border-bridge-line bg-bridge-bg px-4 py-4 text-bridge-text sm:px-6 sm:py-5">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="min-w-0">

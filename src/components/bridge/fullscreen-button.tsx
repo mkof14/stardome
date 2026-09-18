@@ -3,11 +3,12 @@
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/cn";
 import { useHud } from "@/lib/i18n/use-hud";
+import { HexFrame } from "@/components/bridge/hud-icons";
 import { enterFullscreen, exitFullscreen, fullscreenTarget, isFullscreen, onFullscreenChange } from "@/lib/fullscreen";
 
 function EnterScreenIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0" aria-hidden>
+    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0" aria-hidden>
       <rect
         x="6"
         y="7"
@@ -31,7 +32,7 @@ function EnterScreenIcon() {
 
 function ExitScreenIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0" aria-hidden>
+    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0" aria-hidden>
       <rect
         x="3.5"
         y="4.5"
@@ -106,7 +107,15 @@ export function FullscreenButton() {
           : "border-bridge-text/40 text-bridge-text hover:border-orange hover:text-orange",
       )}
     >
-      {active ? <ExitScreenIcon /> : <EnterScreenIcon />}
+      {active ? (
+        <HexFrame active className="h-7 w-7 text-white">
+          <ExitScreenIcon />
+        </HexFrame>
+      ) : (
+        <HexFrame className="h-7 w-7">
+          <EnterScreenIcon />
+        </HexFrame>
+      )}
       <span className="hidden max-w-[9.5rem] truncate sm:inline">{label}</span>
     </button>
   );

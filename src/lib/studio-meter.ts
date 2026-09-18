@@ -70,6 +70,16 @@ export function waveColor(magnitude: number, peak: boolean): string {
   return VU_GREEN;
 }
 
+export function waveHudColor(index: number, count: number, magnitude: number, peak: boolean): string {
+  if (peak || magnitude >= 0.78) return VU_RED;
+  const t = count <= 1 ? 0.5 : index / (count - 1);
+  const r = Math.round(241 + (56 - 241) * t);
+  const g = Math.round(90 + (189 - 90) * t);
+  const b = Math.round(0 + (248 - 0) * t);
+  const a = Math.max(0.35, Math.min(1, 0.4 + magnitude * 0.75));
+  return `rgb(${r} ${g} ${b} / ${a})`;
+}
+
 export function silenceWave(bins = WAVE_BINS): number[] {
   return Array.from({ length: bins }, () => 0);
 }

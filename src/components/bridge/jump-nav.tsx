@@ -8,6 +8,7 @@ import { useCrisisMode } from "@/lib/crisis-mode";
 import { HELM_STATE_EVENT, focusWatchComms, openHelm, startPilotDemo } from "@/lib/helm-events";
 import { useHud } from "@/lib/i18n/use-hud";
 import { canUseHelm } from "@/lib/rbac";
+import { HexFrame, HudGlyph, PilotHex } from "@/components/bridge/hud-icons";
 import type { WatchParty } from "@/lib/watch-comms";
 
 type JumpKind = "scroll" | "helm" | "link" | "demo";
@@ -23,223 +24,111 @@ type JumpItem = {
   icon: ReactNode;
 };
 
-const ICON = "h-4 w-4";
+const ICON = "h-3.5 w-3.5";
 
 const ITEMS: JumpItem[] = [
   {
     id: "picture",
     kind: "scroll",
     targetId: "situational-picture",
-    icon: (
-      <svg viewBox="0 0 16 16" className={ICON} aria-hidden>
-        <path
-          fill="currentColor"
-          d="M8 1.2A6.8 6.8 0 1 0 14.8 8 6.8 6.8 0 0 0 8 1.2Zm0 1.4A5.4 5.4 0 1 1 2.6 8 5.4 5.4 0 0 1 8 2.6ZM8 4.2A3.8 3.8 0 1 0 11.8 8 3.8 3.8 0 0 0 8 4.2Zm.7 4.1 2.4 1.4-.7 1.2-2.8-1.6V5.4h1.4Z"
-        />
-      </svg>
-    ),
+    icon: <HudGlyph name="picture" className={ICON} />,
   },
   {
     id: "risk",
     kind: "scroll",
     targetId: "risk-level-panel",
     hideInCrisis: true,
-    icon: (
-      <svg viewBox="0 0 16 16" className={ICON} aria-hidden>
-        <path
-          fill="currentColor"
-          d="M8 1.3 2.4 3.4v4.3c0 3.5 2.3 5.8 5.6 7 3.3-1.2 5.6-3.5 5.6-7V3.4L8 1.3Zm0 1.6 4.2 1.5v3.3c0 2.5-1.6 4.3-4.2 5.4-2.6-1.1-4.2-2.9-4.2-5.4V4.4L8 2.9Z"
-        />
-      </svg>
-    ),
+    icon: <HudGlyph name="risk" className={ICON} />,
   },
   {
     id: "systems",
     kind: "scroll",
     targetId: "connected-systems-panel",
     hideInCrisis: true,
-    icon: (
-      <svg viewBox="0 0 16 16" className={ICON} aria-hidden>
-        <path
-          fill="currentColor"
-          d="M7.3 1.2h1.4v3.1h-1.4V1.2ZM3.2 3.1l1 1 2.1-2.1-1-1-2.1 2.1Zm8.6 0 2.1-2.1-1-1-2.1 2.1 1 1ZM2.2 7.3v1.4h3.1V7.3H2.2Zm8.5 0v1.4h3.1V7.3h-3.1ZM8 6.1A1.9 1.9 0 1 0 9.9 8 1.9 1.9 0 0 0 8 6.1ZM4.4 11.4 3.2 14h1.6l.7-1.6H10l.8 1.6H12l-1.2-2.6H4.4Z"
-        />
-      </svg>
-    ),
+    icon: <HudGlyph name="systems" className={ICON} />,
   },
   {
     id: "action",
     kind: "scroll",
     targetId: "recommended-action-panel",
     hideInCrisis: true,
-    icon: (
-      <svg viewBox="0 0 16 16" className={ICON} aria-hidden>
-        <path
-          fill="currentColor"
-          d="M8 1.2A4.6 4.6 0 0 0 3.4 5.8c0 2 1.1 3.3 2.2 4.3V12h4.8v-1.9c1.1-1 2.2-2.3 2.2-4.3A4.6 4.6 0 0 0 8 1.2Zm-1.4 12h2.8v1.2H6.6V13.2Z"
-        />
-      </svg>
-    ),
+    icon: <HudGlyph name="action" className={ICON} />,
   },
   {
     id: "library",
     kind: "scroll",
     targetId: "scenario-library",
     hideInCrisis: true,
-    icon: (
-      <svg viewBox="0 0 16 16" className={ICON} aria-hidden>
-        <path
-          fill="currentColor"
-          d="M2.2 2.2h11.6v2.2H2.2V2.2Zm1.2 3.4h9.2v2.2H3.4V5.6Zm1.2 3.4h6.8v2.2H4.6V9Zm1.2 3.4h4.4V14.6H5.8v-2.2Z"
-        />
-      </svg>
-    ),
+    icon: <HudGlyph name="library" className={ICON} />,
   },
   {
     id: "crisis",
     kind: "scroll",
     targetId: "crisis-protocol-panel",
     crisisOnly: true,
-    icon: (
-      <svg viewBox="0 0 16 16" className={ICON} aria-hidden>
-        <path
-          fill="currentColor"
-          d="M8 1.2 1.2 13.4h13.6L8 1.2Zm0 3.4.2 5.2H7.8L8 4.6Zm0 6.6c.5 0 .9.4.9.9s-.4.9-.9.9-.9-.4-.9-.9.4-.9.9-.9Z"
-        />
-      </svg>
-    ),
+    icon: <HudGlyph name="crisis" className={ICON} />,
   },
   {
     id: "log",
     kind: "scroll",
     targetId: "event-log-panel",
-    icon: (
-      <svg viewBox="0 0 16 16" className={ICON} aria-hidden>
-        <path
-          fill="currentColor"
-          d="M8 1.3A6.7 6.7 0 1 0 14.7 8 6.7 6.7 0 0 0 8 1.3ZM8 2.7A5.3 5.3 0 1 1 2.7 8 5.3 5.3 0 0 1 8 2.7Zm-.7 1.6h1.4v3.3l2.4 2.4-1 1L7.3 8.4V4.3Z"
-        />
-      </svg>
-    ),
+    icon: <HudGlyph name="log" className={ICON} />,
   },
   {
     id: "helm",
     kind: "helm",
-    icon: (
-      <svg viewBox="0 0 16 16" className={ICON} aria-hidden>
-        <path
-          fill="currentColor"
-          d="M8 1.5A2.2 2.2 0 0 0 5.8 3.7v3.1a2.2 2.2 0 1 0 4.4 0V3.7A2.2 2.2 0 0 0 8 1.5Zm-4 5.4a.7.7 0 0 0-1.4 0 5.4 5.4 0 0 0 4.7 5.3v1.6H6.1a.7.7 0 0 0 0 1.4h3.8a.7.7 0 0 0 0-1.4H8.7v-1.6A5.4 5.4 0 0 0 13.4 6.9a.7.7 0 0 0-1.4 0 4 4 0 0 1-8 0Z"
-        />
-      </svg>
-    ),
+    icon: <PilotHex className="h-7 w-7" glow />,
   },
   {
     id: "demo",
     kind: "demo",
-    icon: (
-      <svg viewBox="0 0 16 16" className={ICON} aria-hidden>
-        <path
-          fill="currentColor"
-          d="M8 1.2 14.2 4.6v6.8L8 14.8 1.8 11.4V4.6L8 1.2Zm0 1.7L3.2 5.2v5.6L8 13.1l4.8-2.3V5.2L8 2.9Zm-1 2.4 4.2 2.7-4.2 2.7V5.3Z"
-        />
-      </svg>
-    ),
+    icon: <HudGlyph name="demo" className={ICON} />,
   },
   {
     id: "comms",
     kind: "scroll",
     targetId: "watch-comms-panel",
-    icon: (
-      <svg viewBox="0 0 16 16" className={ICON} aria-hidden>
-        <path
-          fill="currentColor"
-          d="M8 1.4A5.6 5.6 0 0 0 2.4 7v2.2H4V7a4 4 0 1 1 8 0v2.2h1.6V7A5.6 5.6 0 0 0 8 1.4ZM3.2 10.2h1.8V14H3.2v-3.8Zm7.8 0h1.8V14h-1.8v-3.8Z"
-        />
-      </svg>
-    ),
+    icon: <HudGlyph name="comms" className={ICON} />,
   },
   {
     id: "captain",
     kind: "scroll",
     targetId: "watch-comms-panel",
     party: "captain",
-    icon: (
-      <svg viewBox="0 0 16 16" className={ICON} aria-hidden>
-        <path
-          fill="currentColor"
-          d="M8 1.3 2.6 3.4 8 5.6l5.4-2.2L8 1.3ZM4.2 6.2 8 7.8l3.8-1.6V9.2A4.2 4.2 0 0 1 8 13.2 4.2 4.2 0 0 1 4.2 9.2V6.2Z"
-        />
-      </svg>
-    ),
+    icon: <HudGlyph name="captain" className={ICON} />,
   },
   {
     id: "designated",
     kind: "scroll",
     targetId: "watch-comms-panel",
     party: "designated",
-    icon: (
-      <svg viewBox="0 0 16 16" className={ICON} aria-hidden>
-        <path
-          fill="currentColor"
-          d="M8 1.6A2.4 2.4 0 1 1 5.6 4 2.4 2.4 0 0 1 8 1.6ZM3.2 13.2V12A4.8 4.8 0 0 1 8 7.2 4.8 4.8 0 0 1 12.8 12v1.2H3.2Z"
-        />
-      </svg>
-    ),
+    icon: <HudGlyph name="person" className={ICON} />,
   },
   {
     id: "supportTeam",
     kind: "scroll",
     targetId: "watch-comms-panel",
     party: "support",
-    icon: (
-      <svg viewBox="0 0 16 16" className={ICON} aria-hidden>
-        <path
-          fill="currentColor"
-          d="M8 1.5A2.2 2.2 0 1 1 5.8 3.7 2.2 2.2 0 0 1 8 1.5ZM2.4 8.2h2.2V12H2.4V8.2Zm9 0H13.6V12H11.4V8.2ZM4.4 13.2A4.2 4.2 0 0 1 8 10.2a4.2 4.2 0 0 1 3.6 3H4.4Z"
-        />
-      </svg>
-    ),
+    icon: <HudGlyph name="support" className={ICON} />,
   },
   {
     id: "blackbox",
     kind: "scroll",
     targetId: "black-box-panel",
-    icon: (
-      <svg viewBox="0 0 16 16" className={ICON} aria-hidden>
-        <path
-          fill="currentColor"
-          d="M2 2.4h12v3.1H2V2.4Zm0 4.3h12v7H2v-7Zm1.4 1.4v4.2h9.2V8.1H3.4Zm6.8 1.2a.8.8 0 1 1 0 1.6.8.8 0 0 1 0-1.6Z"
-        />
-      </svg>
-    ),
+    icon: <HudGlyph name="drive" className={ICON} />,
   },
   {
     id: "learning",
     kind: "scroll",
     targetId: "adaptive-learning-panel",
     hideInCrisis: true,
-    icon: (
-      <svg viewBox="0 0 16 16" className={ICON} aria-hidden>
-        <path
-          fill="currentColor"
-          d="M1.6 12.8 5.2 7.8l2.6 3 4.1-6.2 2.5 1.6-.8 1.2-1.5-1-3.5 5.3-2.6-3-3.2 4.4H1.6Z"
-        />
-      </svg>
-    ),
+    icon: <HudGlyph name="learn" className={ICON} />,
   },
   {
     id: "map",
     kind: "link",
     href: "/interface/connections",
-    icon: (
-      <svg viewBox="0 0 16 16" className={ICON} aria-hidden>
-        <path
-          fill="currentColor"
-          d="M4.2 3.1a1.6 1.6 0 1 1 1.5 2.3H5.4L3.9 8.2h2.4a1.6 1.6 0 1 1 0 1.4H3.6l1.6 3.2h.3a1.6 1.6 0 1 1-1.3.7L2.2 9.3A1.6 1.6 0 0 1 4.2 3.1Zm7.6 0a1.6 1.6 0 0 1 2 2.4l1.8 3.4a1.6 1.6 0 1 1-1.2.7l-1.7-3.3h-.3L10.6 9.6h.2a1.6 1.6 0 1 1 0 1.4H10l1.6 3.1a1.6 1.6 0 1 1-1.3.7L8.4 11H7.8a1.6 1.6 0 1 1 0-1.4h.9L10.4 6H9.8a1.6 1.6 0 1 1 0-1.4h2Z"
-        />
-      </svg>
-    ),
+    icon: <HudGlyph name="map" className={ICON} />,
   },
 ];
 
@@ -415,8 +304,12 @@ export function JumpNav() {
                     current ? "text-orange" : "text-bridge-text",
                   )}
                 >
-                      {item.icon}
-                    </span>
+                  {item.id === "helm" ? (
+                    item.icon
+                  ) : (
+                    <HexFrame active={current}>{item.icon}</HexFrame>
+                  )}
+                </span>
                     {expanded ? (
                       <>
                         <span className="min-w-0 flex-1 truncate text-left font-ui text-xs">

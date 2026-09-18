@@ -1,12 +1,13 @@
 "use client";
 
 import { cn } from "@/lib/cn";
+import { HexFrame } from "@/components/bridge/hud-icons";
 import { requestClearScreens } from "@/lib/helm-events";
 import { useHud } from "@/lib/i18n/use-hud";
 
 function ClearIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0" aria-hidden>
+    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0" aria-hidden>
       <path
         fill="none"
         stroke="currentColor"
@@ -46,7 +47,9 @@ export function ClearScreensButton({
         "hover:border-orange hover:text-orange",
       )}
     >
-      <ClearIcon />
+      <HexFrame className="h-7 w-7">
+        <ClearIcon />
+      </HexFrame>
       <span>{hud.chrome.clearScreens}</span>
     </button>
   );

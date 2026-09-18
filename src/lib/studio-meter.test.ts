@@ -10,6 +10,7 @@ import {
   vuBarColor,
   WAVE_BINS,
   waveColor,
+  waveHudColor,
 } from "@/lib/studio-meter";
 
 function sine(amplitude: number, length = 2048) {
@@ -45,5 +46,8 @@ describe("studio meter", () => {
     expect(waveColor(0.3, false)).toBe(VU_GREEN);
     expect(waveColor(0.8, false)).toBe(VU_RED);
     expect(waveColor(0.2, true)).toBe(VU_RED);
+    expect(waveHudColor(0, 10, 0.5, false)).toMatch(/241|240/);
+    expect(waveHudColor(9, 10, 0.5, false)).toMatch(/56|57/);
+    expect(waveHudColor(4, 10, 0.9, false)).toBe(VU_RED);
   });
 });

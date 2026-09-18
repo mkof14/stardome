@@ -4,6 +4,7 @@ import { useEffect, useId, useState } from "react";
 import { cn } from "@/lib/cn";
 import type { BridgeSessionValue } from "@/lib/bridge-session-types";
 import { askPilot } from "@/lib/helm-events";
+import { HexFrame, HudGlyph } from "@/components/bridge/hud-icons";
 import { fillDesk, type PilotDeskCopy } from "@/lib/i18n/pilot-desk-copy";
 import type { Locale } from "@/lib/i18n/locales";
 import {
@@ -425,30 +426,35 @@ export function PilotDeskBar({
     label: string;
     testId: string;
     hot: boolean;
+    glyph: "talk" | "instruments" | "advice" | "comms";
   }> = [
     {
       id: "chat",
       label: copy.chat,
       testId: "pilot-screen-chat",
       hot: false,
+      glyph: "talk",
     },
     {
       id: "instruments",
       label: copy.raiseInstruments,
       testId: "pilot-raise-instruments",
       hot: false,
+      glyph: "instruments",
     },
     {
       id: "advice",
       label: copy.raiseAdvice,
       testId: "pilot-raise-advice",
       hot: urgent,
+      glyph: "advice",
     },
     {
       id: "comms",
       label: copy.raiseComms,
       testId: "pilot-raise-comms",
       hot: urgent,
+      glyph: "comms",
     },
   ];
   return (
@@ -461,7 +467,7 @@ export function PilotDeskBar({
           aria-pressed={screen === item.id}
           onClick={() => onScreen(item.id)}
           className={cn(
-            "border px-1 py-1 font-mono text-[9px] leading-tight",
+            "flex items-center justify-center gap-1 border px-1 py-1 font-mono text-[9px] leading-tight",
             screen === item.id
               ? "border-orange bg-orange/10 text-orange"
               : item.hot
@@ -469,7 +475,10 @@ export function PilotDeskBar({
                 : "border-bridge-line text-bridge-dim hover:text-bridge-text",
           )}
         >
-          {item.label}
+          <HexFrame active={screen === item.id} className="h-6 w-6">
+            <HudGlyph name={item.glyph} className="h-3 w-3" />
+          </HexFrame>
+          <span className="hidden min-[22rem]:inline">{item.label}</span>
         </button>
       ))}
     </div>

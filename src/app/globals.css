@@ -299,62 +299,43 @@ body {
     0 12px 28px rgb(56 189 248 / 0.18);
 }
 
-.pilot-talk-hud {
-  background: var(--bridge-panel);
-  color: var(--bridge-text);
-  clip-path: polygon(
-    20px 0,
-    calc(100% - 20px) 0,
-    100% 20px,
-    100% calc(100% - 20px),
-    calc(100% - 20px) 100%,
-    20px 100%,
-    0 calc(100% - 20px),
-    0 20px
-  );
+.hud-bezel {
+  background: color-mix(in srgb, var(--bridge-panel) 86%, transparent);
+  box-shadow: 0 0 36px rgb(241 90 0 / 0.22);
+}
+
+.hud-bezel-glow {
+  position: absolute;
+  inset: 0;
   box-shadow:
-    0 0 0 1px #f15a00,
-    0 0 32px rgb(241 90 0 / 0.22),
-    inset 0 0 48px rgb(241 90 0 / 0.06);
+    0 0 0 1px rgb(241 90 0 / 0.18),
+    inset 0 0 48px rgb(241 90 0 / 0.07);
+}
+
+.hud-bezel-status {
+  text-shadow: 0 0 12px rgb(241 90 0 / 0.45);
+}
+
+.hud-panel-bezel {
+  box-shadow:
+    0 0 0 1px rgb(241 90 0 / 0.16),
+    inset 0 0 0 1px rgb(241 90 0 / 0.12);
+}
+
+.hud-panel-tick {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #f15a00;
+  pointer-events: none;
+}
+
+.pilot-talk-hud {
+  color: var(--bridge-text);
 }
 
 .pilot-talk-hud-frame {
-  position: absolute;
-  inset: 8px;
-  border: 1px solid rgb(241 90 0 / 0.55);
-  clip-path: polygon(
-    14px 0,
-    calc(100% - 14px) 0,
-    100% 14px,
-    100% calc(100% - 14px),
-    calc(100% - 14px) 100%,
-    14px 100%,
-    0 calc(100% - 14px),
-    0 14px
-  );
-}
-
-.pilot-talk-hud-frame::before,
-.pilot-talk-hud-frame::after {
-  content: "";
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  border: 2px solid #f15a00;
-}
-
-.pilot-talk-hud-frame::before {
-  top: -1px;
-  left: -1px;
-  border-right: none;
-  border-bottom: none;
-}
-
-.pilot-talk-hud-frame::after {
-  right: -1px;
-  bottom: -1px;
-  border-left: none;
-  border-top: none;
+  display: none;
 }
 
 @keyframes helm-fab-pulse {

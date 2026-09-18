@@ -5,6 +5,7 @@ import { cn } from "@/lib/cn";
 import { useBlackBox, type BlackBoxRecord, type StorageLocation } from "@/lib/black-box";
 import { useAppMode } from "@/lib/mode";
 import { useHud } from "@/lib/i18n/use-hud";
+import { PilotHex } from "@/components/bridge/hud-icons";
 import { CLEAR_SCREENS_EVENT } from "@/lib/helm-events";
 
 function MicIcon() {
@@ -112,15 +113,18 @@ export function BlackBoxPanel() {
       <section
         id="black-box-panel"
         data-testid="black-box-panel"
-        className="relative mx-auto max-w-6xl scroll-mt-20 border border-bridge-line bg-bridge-panel p-4 text-bridge-text"
+        className="hud-panel-bezel relative mx-auto max-w-6xl scroll-mt-20 border border-bridge-line bg-bridge-panel p-4 text-bridge-text"
       >
-        <span className="pointer-events-none absolute left-0 top-0 h-3 w-3 border-l-2 border-t-2 border-orange" />
-        <span className="pointer-events-none absolute right-0 top-0 h-3 w-3 border-r-2 border-t-2 border-orange" />
-        <span className="pointer-events-none absolute bottom-0 left-0 h-3 w-3 border-b-2 border-l-2 border-orange" />
-        <span className="pointer-events-none absolute bottom-0 right-0 h-3 w-3 border-b-2 border-r-2 border-orange" />
+        <span className="hud-panel-tick left-0 top-0 border-b-0 border-r-0" />
+        <span className="hud-panel-tick right-0 top-0 border-b-0 border-l-0" />
+        <span className="hud-panel-tick bottom-0 left-0 border-r-0 border-t-0" />
+        <span className="hud-panel-tick bottom-0 right-0 border-l-0 border-t-0" />
 
         <header className="mb-3">
-          <h2 className="font-ui text-sm font-semibold tracking-wide">{hud.blackbox.title}</h2>
+          <h2 className="flex items-center gap-2 font-ui text-sm font-semibold tracking-wide">
+            <PilotHex className="h-5 w-5" />
+            {hud.blackbox.title}
+          </h2>
           <p className="mt-2 max-w-3xl text-xs leading-relaxed text-bridge-dim">
             {hud.blackbox.lead}
           </p>

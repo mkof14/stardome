@@ -5,6 +5,7 @@ import {
   STUDIO_BARS,
   vuBarColor,
   waveColor,
+  waveHudColor,
   WAVE_BINS,
 } from "@/lib/studio-meter";
 
@@ -61,10 +62,12 @@ export function StudioWave({
   samples,
   peak,
   live,
+  hud,
 }: {
   samples: number[];
   peak: boolean;
   live: boolean;
+  hud?: boolean;
 }) {
   const wave = samples.length ? samples : Array.from({ length: WAVE_BINS }, () => 0);
   return (
@@ -72,11 +75,18 @@ export function StudioWave({
       data-testid="studio-wave"
       className="relative flex h-full min-h-[9rem] w-full items-center justify-center overflow-hidden"
     >
-      <div className="pointer-events-none absolute inset-x-6 top-1/2 h-px bg-ok/25" />
+      <div
+        className={cn(
+          "pointer-events-none absolute inset-x-6 top-1/2 h-px",
+          hud ? "bg-orange/30" : "bg-ok/25",
+        )}
+      />
       <div className="flex h-[78%] w-full items-center gap-px px-3">
         {wave.map((value, index) => {
-          const mag = live ? Math.min(1, Math.abs(value)) : 0;
-          const color = waveColor(mag, peak && live);
+          const mag = live || hud ? Math.min(1, Math.abs(value)) : 0;
+          const color = hud
+            ? waveHudColor(index, wave.length, mag, peak && live)
+            : waveColor(mag, peak && live);
           return (
             <span
               key={index}
@@ -84,8 +94,8 @@ export function StudioWave({
               style={{
                 height: `${Math.max(2, mag * 100)}%`,
                 background: color,
-                boxShadow: mag > 0.08 ? `0 0 8px ${color}` : "none",
-                opacity: live ? Math.max(0.35, mag + 0.25) : 0.22,
+                boxShadow: mag > 0.08 ? `0 0 10px ${color}` : "none",
+                opacity: live || hud ? Math.max(0.35, mag + 0.25) : 0.22,
               }}
             />
           );

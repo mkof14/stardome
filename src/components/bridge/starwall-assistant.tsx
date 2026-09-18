@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { FlagIcon } from "@/components/flag-icon";
+import { PilotHex } from "@/components/bridge/hud-icons";
 import { cn } from "@/lib/cn";
 import { useBlackBox } from "@/lib/black-box";
 import { useBridgeSession } from "@/lib/bridge-session";
@@ -1037,12 +1038,16 @@ export function Helm() {
       {open ? (
         <div className="relative flex max-h-[calc(100vh-5.5rem)] flex-col items-end">
         <section className={cn(
-          "helm-scope flex h-[min(40rem,calc(100vh-5.5rem))] flex-col overflow-hidden border border-bridge-line bg-bridge-panel text-bridge-text shadow-[0_20px_56px_rgb(15_25_34/0.22)]",
+          "helm-scope hud-panel-bezel relative flex h-[min(40rem,calc(100vh-5.5rem))] flex-col overflow-hidden border border-bridge-line bg-bridge-panel text-bridge-text shadow-[0_20px_56px_rgb(15_25_34/0.22)]",
           drilling
             ? "w-[min(24rem,calc(100vw-1.5rem))] border-[#38BDF8]/50"
             : "w-[min(22rem,calc(100vw-1.5rem))]",
         )}>
           <div className="h-[2px] bg-orange" />
+          <span className="hud-panel-tick left-0 top-0 border-b-0 border-r-0" />
+          <span className="hud-panel-tick right-0 top-0 border-b-0 border-l-0" />
+          <span className="hud-panel-tick bottom-0 left-0 border-r-0 border-t-0" />
+          <span className="hud-panel-tick bottom-0 right-0 border-l-0 border-t-0" />
           <header className="relative flex items-center justify-between gap-2 border-b border-bridge-line bg-bridge-bg px-3 py-2.5">
             <span
               className="helm-fab-sweep pointer-events-none absolute -end-6 -top-10 h-28 w-28 rounded-full opacity-40"
@@ -1054,6 +1059,7 @@ export function Helm() {
             />
             <div className="relative min-w-0">
               <p className="flex items-center gap-2 font-heading text-xl font-bold text-bridge-text">
+                <PilotHex className="h-6 w-6" glow />
                 <span
                   className={cn(
                     "h-2 w-2 rounded-full",
@@ -1345,7 +1351,13 @@ export function Helm() {
               stroke="#F15A00"
               strokeWidth="1.8"
             />
-            <circle cx="24" cy="24" r="3.2" fill="#F15A00" className="helm-idle-led" />
+            <polygon
+              points="24,14 33.5,31 14.5,31"
+              fill="none"
+              stroke="#38BDF8"
+              strokeWidth="1.6"
+            />
+            <circle cx="24" cy="24" r="2.4" fill="#F15A00" className="helm-idle-led" />
           </svg>
         </button>
         </div>
