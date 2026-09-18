@@ -152,7 +152,7 @@ export function BridgeConsole() {
   const { locale, hud } = useHud();
   const { live } = useAppMode();
   const { session } = useAuthSession();
-  const canRunScenarios = canTriggerScenarios(session?.role);
+  const canRunScenarios = !session || canTriggerScenarios(session.role);
   const { setCrisis } = useCrisisMode();
   const { setSession } = useBridgeSession();
   const { recordScenario } = useBlackBox();
