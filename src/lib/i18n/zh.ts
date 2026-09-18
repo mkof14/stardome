@@ -104,7 +104,7 @@ export const zh: Messages = {
     helmHide: "隐藏",
     helmOpen: "打开 Pilot",
     helmEmpty:
-      "Pilot 正在值班。询问当前画面 — 语音或文字。仅供建议，由您决定。",
+      "Pilot 正在值班。可询问 StarWall、Bridge 画面、方案或 AGRON 集装箱 — 语音或文字。仅供建议，由您决定。",
     helmLive: "值班顾问 · LIVE · 无传感器",
     helmSpeakerOn: "扬声器开",
     helmSpeakerOff: "扬声器关",

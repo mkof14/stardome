@@ -1,4 +1,4 @@
-/** Shared NextAuth env for Node routes. Keep this file runtime-safe (no Node-only APIs). */
+/** Shared NextAuth env for server routes. Keep this file runtime-safe. */
 
 const LOOPBACK = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?\/?$/i;
 

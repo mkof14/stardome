@@ -1,6 +1,9 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { NextResponse } from "next/server";
-import { requireActor } from "@/lib/authz";
+import {
+  localPilotReply,
+  PILOT_SITE_BRIEFING,
+} from "@/lib/pilot-knowledge";
 
 type AssistantBody = {
   message?: unknown;
@@ -9,6 +12,8 @@ type AssistantBody = {
     riskLevel?: unknown;
     vessel?: unknown;
     mode?: unknown;
+    locale?: unknown;
+    path?: unknown;
   };
 };
 
@@ -24,11 +29,6 @@ function parseLangTag(raw: string) {
 }
 
 export async function POST(request: Request) {
-  const ready = await requireActor();
-  if (!ready.ok) {
-    return NextResponse.json({ error: ready.error }, { status: ready.status });
-  }
-
   let body: AssistantBody;
   try {
     body = (await request.json()) as AssistantBody;
@@ -44,24 +44,20 @@ export async function POST(request: Request) {
   const scenarioName = asText(body.context?.scenarioName, "Normal watch");
   const riskLevel = asText(body.context?.riskLevel, "NORMAL");
   const vessel = asText(body.context?.vessel, "M/Y AURELIA");
+  const locale = asText(body.context?.locale, "en");
+  const path = asText(body.context?.path, "/");
   const live = body.context?.mode === "live";
-
-  const apiKey = process.env.ANTHROPIC_API_KEY?.trim();
-  if (!apiKey) {
-    return NextResponse.json(
-      {
-        error:
-          "Pilot is not configured. Add ANTHROPIC_API_KEY to .env.local and restart the server.",
-      },
-      { status: 503 },
-    );
-  }
 
   const situation = live
     ? "Current mode is LIVE. There is no live scenario or sensor data. This deployment is not connected to any radar, AIS, camera, or other equipment. If asked about current status, say you do not have live sensor data yet — this vessel is not connected to any equipment. They can ask about StarWall in general, or switch to DEMO mode to see a simulated scenario. Do not invent contacts, risk levels, equipment status, or events."
-    : `Current situation: scenario is '${scenarioName}', risk level is '${riskLevel}', aboard ${vessel}.`;
+    : `Current Bridge picture (DEMO): scenario is '${scenarioName}', risk level is '${riskLevel}', aboard ${vessel}.`;
 
-  const system = `You are Pilot, the watch advisor for StarWall on the AGRON Bridge. You are experienced, calm, and concise. You help the captain or security officer understand the current situation. You are not the decision-maker — you inform and advise, the human decides. Never call yourself Helm. ${situation} Respond in 2-4 sentences unless more detail is needed. IMPORTANT: Respond in the exact same language the user's message is written in. At the very start of your response, output a language code in this exact format on its own first line: [LANG:xx] where xx is the ISO 639-1 code (e.g. [LANG:en], [LANG:ru], [LANG:fr]) — then a newline, then your actual response.`;
+  const apiKey = process.env.ANTHROPIC_API_KEY?.trim();
+  if (!apiKey) {
+    return NextResponse.json(localPilotReply(message, locale));
+  }
+
+  const system = `${PILOT_SITE_BRIEFING} The visitor is on ${path}. ${situation} Respond in 2-4 sentences unless more detail is needed. IMPORTANT: Respond in the exact same language the user's message is written in. At the very start of your response, output a language code in this exact format on its own first line: [LANG:xx] where xx is the ISO 639-1 code (e.g. [LANG:en], [LANG:ru], [LANG:fr]) — then a newline, then your actual response.`;
 
   try {
     const client = new Anthropic({ apiKey });
@@ -79,24 +75,11 @@ export async function POST(request: Request) {
       .trim();
 
     if (!raw) {
-      return NextResponse.json(
-        { error: "Pilot returned an empty reply." },
-        { status: 502 },
-      );
+      return NextResponse.json(localPilotReply(message, locale));
     }
 
     return NextResponse.json(parseLangTag(raw));
-  } catch (error) {
-    const detail =
-      error instanceof Error ? error.message : "Pilot request failed.";
-    const rateLimited = /rate.?limit|429/i.test(detail);
-    return NextResponse.json(
-      {
-        error: rateLimited
-          ? "Pilot is rate-limited. Wait a moment and try again."
-          : detail,
-      },
-      { status: rateLimited ? 429 : 502 },
-    );
+  } catch {
+    return NextResponse.json(localPilotReply(message, locale));
   }
 }

@@ -104,7 +104,7 @@ export const he: Messages = {
     helmHide: "הסתרה",
     helmOpen: "פתיחת Pilot",
     helmEmpty:
-      "Pilot במשמרת. שאלו על התמונה — בדיבור או בכתב. ייעוץ בלבד; ההחלטה שלכם.",
+      "Pilot במשמרת. שאלו על StarWall, תמונת ה-Bridge, התוכניות או מכולות AGRON — בדיבור או בכתב. ייעוץ בלבד; ההחלטה שלכם.",
     helmLive: "יועץ משמרת · LIVE · אין חיישנים",
     helmSpeakerOn: "רמקול דולק",
     helmSpeakerOff: "רמקול כבוי",

@@ -16,11 +16,43 @@ export function FlagIcon({ locale }: { locale: Locale }) {
 const flagArt: Record<Locale, ReactNode> = {
   en: (
     <>
-      <rect width="24" height="16" fill="#012169" />
-      <path d="M0 0 L24 16 M24 0 L0 16" stroke="#fff" strokeWidth="3.2" />
-      <path d="M0 0 L24 16 M24 0 L0 16" stroke="#C8102E" strokeWidth="1.6" />
-      <path d="M12 0 V16 M0 8 H24" stroke="#fff" strokeWidth="5.2" />
-      <path d="M12 0 V16 M0 8 H24" stroke="#C8102E" strokeWidth="2.8" />
+      <rect width="24" height="16" fill="#B22234" />
+      <rect y="1.23" width="24" height="1.23" fill="#fff" />
+      <rect y="3.69" width="24" height="1.23" fill="#fff" />
+      <rect y="6.15" width="24" height="1.23" fill="#fff" />
+      <rect y="8.62" width="24" height="1.23" fill="#fff" />
+      <rect y="11.08" width="24" height="1.23" fill="#fff" />
+      <rect y="13.54" width="24" height="1.23" fill="#fff" />
+      <rect width="9.6" height="8.62" fill="#3C3B6E" />
+      <g fill="#fff">
+        <circle cx="1.5" cy="1.15" r="0.38" />
+        <circle cx="3.3" cy="1.15" r="0.38" />
+        <circle cx="5.1" cy="1.15" r="0.38" />
+        <circle cx="6.9" cy="1.15" r="0.38" />
+        <circle cx="8.5" cy="1.15" r="0.38" />
+        <circle cx="2.4" cy="2.5" r="0.38" />
+        <circle cx="4.2" cy="2.5" r="0.38" />
+        <circle cx="6.0" cy="2.5" r="0.38" />
+        <circle cx="7.8" cy="2.5" r="0.38" />
+        <circle cx="1.5" cy="3.85" r="0.38" />
+        <circle cx="3.3" cy="3.85" r="0.38" />
+        <circle cx="5.1" cy="3.85" r="0.38" />
+        <circle cx="6.9" cy="3.85" r="0.38" />
+        <circle cx="8.5" cy="3.85" r="0.38" />
+        <circle cx="2.4" cy="5.2" r="0.38" />
+        <circle cx="4.2" cy="5.2" r="0.38" />
+        <circle cx="6.0" cy="5.2" r="0.38" />
+        <circle cx="7.8" cy="5.2" r="0.38" />
+        <circle cx="1.5" cy="6.55" r="0.38" />
+        <circle cx="3.3" cy="6.55" r="0.38" />
+        <circle cx="5.1" cy="6.55" r="0.38" />
+        <circle cx="6.9" cy="6.55" r="0.38" />
+        <circle cx="8.5" cy="6.55" r="0.38" />
+        <circle cx="2.4" cy="7.85" r="0.38" />
+        <circle cx="4.2" cy="7.85" r="0.38" />
+        <circle cx="6.0" cy="7.85" r="0.38" />
+        <circle cx="7.8" cy="7.85" r="0.38" />
+      </g>
     </>
   ),
   es: (

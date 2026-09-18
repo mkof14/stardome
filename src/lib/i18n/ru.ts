@@ -140,7 +140,7 @@ export const ru: Messages = {
     helmHide: "Скрыть",
     helmOpen: "Открыть Pilot",
     helmEmpty:
-      "Pilot на вахте. Спросите о картине — голосом или текстом. Это совет; решение за вами.",
+      "Pilot на вахте. Спросите про StarWall, картину Bridge, планы или контейнеры AGRON — голосом или текстом. Это совет; решение за вами.",
     helmLive: "СОВЕТНИК ВАХТЫ · LIVE · нет датчиков",
     helmSpeakerOn: "Динамик включён",
     helmSpeakerOff: "Динамик выключен",

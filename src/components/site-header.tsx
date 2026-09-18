@@ -36,7 +36,7 @@ export function SiteHeader() {
           className="flex h-full shrink-0 items-center"
           onClick={() => setOpen(false)}
         >
-          <BrandLogo priority />
+          <BrandLogo priority className="h-[2.4rem] sm:h-[2.7rem]" />
         </Link>
 
         <nav

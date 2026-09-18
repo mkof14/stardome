@@ -35,7 +35,7 @@ Cloud Agent environments run `scripts/ensure-site.sh` on every boot (`start` in 
 
 The supervisor writes the current public URL to `/tmp/starwall-public-url.txt`. Quick-tunnel hostnames change when cloudflared restarts.
 
-Pilot (the watch advisor) calls Anthropic from `src/app/api/assistant/route.ts`. Copy `.env.local.example` to `.env.local` and set `ANTHROPIC_API_KEY`. `.env*.local` is gitignored. Without the key the panel still opens; sending a message returns a configuration error instead of a reply.
+Pilot (the watch advisor) answers questions about StarWall and this website from `src/app/api/assistant/route.ts`. Copy `.env.local.example` to `.env.local` and set `ANTHROPIC_API_KEY` for model replies. `.env*.local` is gitignored. Without the key Pilot still answers from the on-site briefing (plans, Bridge, containers, contact) — it does not invent prices.
 
 `NEXT_PUBLIC_SITE_URL` is used for canonical metadata, Open Graph, `robots.txt`, and `sitemap.xml`. Locally it defaults to `http://127.0.0.1:3000`. On Vercel it falls back to `https://$VERCEL_URL` if you leave it blank.
 
@@ -133,7 +133,7 @@ This is a standard Next.js 14 App Router app. Do **not** set `output: "standalon
 - `/login` accepts the printed demo accounts (`super@starwall.demo` / `SuperAdmin!23`, and the other role accounts on that page) even before Postgres is attached. Sessions are JWTs.
 - `/interface` is a public Bridge demo. It does not require a session, so a missing `NEXTAUTH_SECRET` never renders NextAuth’s “Server error” page. `NEXTAUTH_URL` is taken from the request host; a leftover `http://127.0.0.1:3000` value is ignored on Vercel.
 - Google sign-in stays hidden until both `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are set.
-- Pilot replies need `ANTHROPIC_API_KEY`. Without it Pilot still opens and says the key is missing.
+- Pilot answers questions about StarWall and this website. With `ANTHROPIC_API_KEY` it uses the model; without the key it still replies from the product briefing and does not invent prices.
 
 Optional, after the first green deploy:
 

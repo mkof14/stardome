@@ -104,7 +104,7 @@ export const ar: Messages = {
     helmHide: "إخفاء",
     helmOpen: "فتح Pilot",
     helmEmpty:
-      "Pilot على الخفارة. اسأل عن الصورة — صوتاً أو كتابة. نصيحة فقط؛ القرار لكم.",
+      "Pilot على الخفارة. اسأل عن StarWall أو صورة Bridge أو الخطط أو حاويات AGRON — صوتاً أو كتابة. نصيحة فقط؛ القرار لكم.",
     helmLive: "مستشار الخفارة · LIVE · لا مستشعرات",
     helmSpeakerOn: "مكبر الصوت يعمل",
     helmSpeakerOff: "مكبر الصوت مغلق",

@@ -346,6 +346,8 @@ export function Helm() {
             riskLevel: session.riskLevel,
             vessel: session.vessel,
             mode: live ? "live" : "demo",
+            locale: recogLang,
+            path: pathname,
           },
         }),
       });

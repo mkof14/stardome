@@ -104,7 +104,7 @@ export const ja: Messages = {
     helmHide: "隠す",
     helmOpen: "Pilot を開く",
     helmEmpty:
-      "Pilot は当直中です。画面について音声または文字で尋ねてください。助言のみ。判断はあなたです。",
+      "Pilot は当直中です。StarWall、Bridge の画面、プラン、AGRON コンテナについて音声または文字で尋ねてください。助言のみ。判断はあなたです。",
     helmLive: "当直アドバイザー · LIVE · センサーなし",
     helmSpeakerOn: "スピーカーオン",
     helmSpeakerOff: "スピーカーオフ",

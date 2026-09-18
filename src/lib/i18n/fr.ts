@@ -104,7 +104,7 @@ export const fr: Messages = {
     helmHide: "Masquer",
     helmOpen: "Ouvrir Pilot",
     helmEmpty:
-      "Pilot est de quart. Interrogez le tableau — voix ou texte. Conseil seulement ; vous décidez.",
+      "Pilot est de quart. Interrogez StarWall, le Bridge, les offres ou les conteneurs AGRON — voix ou texte. Conseil seulement ; vous décidez.",
     helmLive: "CONSEILLER DE QUART · LIVE · aucun capteur",
     helmSpeakerOn: "Haut-parleur allumé",
     helmSpeakerOff: "Haut-parleur coupé",

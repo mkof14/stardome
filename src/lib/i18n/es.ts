@@ -104,7 +104,7 @@ export const es: Messages = {
     helmHide: "Ocultar",
     helmOpen: "Abrir Pilot",
     helmEmpty:
-      "Pilot está de guardia. Pregunte por el cuadro — voz o texto. Solo consejo; usted decide.",
+      "Pilot está de guardia. Pregunte por StarWall, el Bridge, los planes o los contenedores AGRON — voz o texto. Solo consejo; usted decide.",
     helmLive: "ASESOR DE GUARDIA · LIVE · sin sensores",
     helmSpeakerOn: "Altavoz encendido",
     helmSpeakerOff: "Altavoz apagado",

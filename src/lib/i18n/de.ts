@@ -104,7 +104,7 @@ export const de: Messages = {
     helmHide: "Ausblenden",
     helmOpen: "Pilot öffnen",
     helmEmpty:
-      "Pilot hat Wache. Fragen Sie zum Lagebild — Sprache oder Text. Nur Rat; Sie entscheiden.",
+      "Pilot hat Wache. Fragen Sie zu StarWall, dem Bridge-Lagebild, den Plänen oder AGRON-Containern — Sprache oder Text. Nur Rat; Sie entscheiden.",
     helmLive: "WACHBERATER · LIVE · keine Sensoren",
     helmSpeakerOn: "Lautsprecher an",
     helmSpeakerOff: "Lautsprecher aus",

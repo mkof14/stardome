@@ -773,7 +773,7 @@ export const en: Messages = {
     helmHide: "Hide",
     helmOpen: "Open Pilot",
     helmEmpty:
-      "Pilot is on watch. Ask about the picture — speak or type. Advice only; you decide.",
+      "Pilot is on watch. Ask about StarWall, the Bridge picture, plans, or AGRON containers — speak or type. Advice only; you decide.",
     helmLive: "WATCH ADVISOR · LIVE · no sensors",
     helmSpeakerOn: "Speaker on",
     helmSpeakerOff: "Speaker off",
