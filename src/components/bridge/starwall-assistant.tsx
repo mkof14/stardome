@@ -29,10 +29,13 @@ import { usePathname } from "next/navigation";
 import { pilotDemoCopy } from "@/lib/i18n/pilot-demo-copy";
 import { demoBeats } from "@/lib/pilot-demo";
 import {
+  isLikelyMaleVoice,
+  maleVoiceFor,
   pickVoice,
   SPEAK_BCP47,
   SpeechEngine,
   voiceNeed,
+  type NeuralVoiceStatus,
 } from "@/lib/pilot-voice";
 import {
   PilotDemoIcon,
@@ -88,6 +91,11 @@ export function Helm() {
   const [unread, setUnread] = useState(false);
   const [drilling, setDrilling] = useState(false);
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+  const [neural, setNeural] = useState<NeuralVoiceStatus>(() => ({
+    ready: true,
+    voice: maleVoiceFor(locale).voice,
+    provider: "edge",
+  }));
   const listRef = useRef<HTMLDivElement | null>(null);
   const langRef = useRef<HTMLDivElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -100,11 +108,14 @@ export function Helm() {
   const voiceOnRef = useRef(voiceOn);
   const demoCancel = useRef(false);
   const drillingRef = useRef(false);
+  const speakGen = useRef(0);
+  const neuralRef = useRef<HTMLAudioElement | null>(null);
+  const speakAbort = useRef<AbortController | null>(null);
   const menuId = useId();
   const desk = pilotDeskCopy(recogLang);
   const demoCopy = pilotDemoCopy(recogLang);
   const watch = buildPilotWatch(session, recogLang);
-  const need = voiceNeed(recogLang, voices);
+  const need = voiceNeed(recogLang, voices, neural);
   openRef.current = open;
   voiceOnRef.current = voiceOn;
 
@@ -116,6 +127,34 @@ export function Helm() {
     synth.addEventListener("voiceschanged", load);
     return () => synth.removeEventListener("voiceschanged", load);
   }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    const mapped = maleVoiceFor(recogLang);
+    setNeural((current) => ({
+      ready: current.ready,
+      voice: mapped.voice,
+      provider: current.provider,
+    }));
+    fetch(`/api/tts?locale=${encodeURIComponent(recogLang)}`)
+      .then((res) => (res.ok ? res.json() : Promise.reject(new Error("tts"))))
+      .then((data: { ready?: unknown; voice?: unknown; provider?: unknown }) => {
+        if (cancelled) return;
+        setNeural({
+          ready: data.ready !== false,
+          voice: typeof data.voice === "string" ? data.voice : mapped.voice,
+          provider: typeof data.provider === "string" ? data.provider : "edge",
+        });
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setNeural({ ready: false, voice: mapped.voice, provider: null });
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [recogLang]);
 
   useEffect(() => {
     if (!listRef.current) return;
@@ -369,10 +408,26 @@ export function Helm() {
     }
   }
 
-  function stopSpeech() {
+  function haltAudio() {
+    speakAbort.current?.abort();
+    speakAbort.current = null;
+    const clip = neuralRef.current;
+    if (clip) {
+      clip.onended = null;
+      clip.onerror = null;
+      clip.pause();
+      clip.removeAttribute("src");
+      clip.load();
+      neuralRef.current = null;
+    }
     if (typeof window !== "undefined" && window.speechSynthesis) {
       window.speechSynthesis.cancel();
     }
+  }
+
+  function stopSpeech() {
+    speakGen.current += 1;
+    haltAudio();
     setMic((current) => (current === "speaking" ? "idle" : current));
   }
 
@@ -383,26 +438,23 @@ export function Helm() {
     });
   }
 
-  function speakReply(text: string, langCode: string, force = false): Promise<void> {
-    return new Promise((resolve) => {
+  function speakBrowser(text: string, locale: typeof recogLang, gen: number) {
+    return new Promise<void>((resolve) => {
       let settled = false;
       const finish = () => {
         if (settled) return;
         settled = true;
-        setMic((current) => (current === "speaking" ? "idle" : current));
+        if (gen === speakGen.current) {
+          setMic((current) => (current === "speaking" ? "idle" : current));
+        }
         resolve();
       };
-      if (
-        (!voiceOnRef.current && !force) ||
-        typeof window === "undefined" ||
-        !window.speechSynthesis
-      ) {
+      if (typeof window === "undefined" || !window.speechSynthesis) {
         finish();
         return;
       }
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
-      const locale = isLocale(langCode) ? langCode : recogLang;
       utterance.lang = SPEAK_BCP47[locale];
       const installed = window.speechSynthesis.getVoices();
       const match = pickVoice(installed.length ? installed : voices, locale);
@@ -411,13 +463,67 @@ export function Helm() {
           (voice) => voice.name === match.name && voice.lang === match.lang,
         );
         if (full) utterance.voice = full;
+        if (!isLikelyMaleVoice(match.name)) utterance.pitch = 0.82;
       }
       utterance.onend = finish;
       utterance.onerror = finish;
-      setMic("speaking");
       window.speechSynthesis.speak(utterance);
       window.setTimeout(finish, Math.min(22000, 900 + text.length * 70));
     });
+  }
+
+  async function speakReply(text: string, langCode: string, force = false) {
+    if ((!voiceOnRef.current && !force) || typeof window === "undefined") {
+      return;
+    }
+    const spoken = text.trim();
+    if (!spoken) return;
+    const gen = ++speakGen.current;
+    haltAudio();
+    const locale = isLocale(langCode) ? langCode : recogLang;
+    setMic("speaking");
+    try {
+      const controller = new AbortController();
+      speakAbort.current = controller;
+      const res = await fetch("/api/tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: spoken, locale }),
+        signal: controller.signal,
+      });
+      if (gen !== speakGen.current) return;
+      if (res.ok) {
+        const blob = await res.blob();
+        if (gen !== speakGen.current) return;
+        const url = URL.createObjectURL(blob);
+        const clip = new Audio(url);
+        neuralRef.current = clip;
+        await new Promise<void>((resolve) => {
+          const finish = () => {
+            URL.revokeObjectURL(url);
+            resolve();
+          };
+          clip.onended = finish;
+          clip.onerror = finish;
+          void clip.play().catch(finish);
+          window.setTimeout(finish, Math.min(90_000, 2500 + spoken.length * 80));
+        });
+        if (gen === speakGen.current) {
+          setNeural({
+            ready: true,
+            voice: res.headers.get("X-Pilot-Voice") ?? maleVoiceFor(locale).voice,
+            provider: res.headers.get("X-Pilot-Provider") ?? "edge",
+          });
+          setMic((current) => (current === "speaking" ? "idle" : current));
+        }
+        return;
+      }
+    } catch {
+      // Aborted or neural path down — browser male voice next.
+    }
+    if (gen !== speakGen.current) return;
+    setNeural((current) => ({ ...current, ready: false }));
+    await speakBrowser(spoken, locale, gen);
   }
 
   function stopDemo() {

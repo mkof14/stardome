@@ -1,8 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { locales } from "@/lib/i18n/locales";
 import { pilotDemoCopy } from "@/lib/i18n/pilot-demo-copy";
-import { demoBeats } from "@/lib/pilot-demo";
-import { pickVoice, speakTag, voiceNeed } from "@/lib/pilot-voice";
+import { demoBeats, voiceNeedLine } from "@/lib/pilot-demo";
+import {
+  isLikelyMaleVoice,
+  maleVoiceFor,
+  pickVoice,
+  speakTag,
+  voiceNeed,
+} from "@/lib/pilot-voice";
 import type { BridgeSessionValue } from "@/lib/bridge-session-types";
 
 const idle: BridgeSessionValue = {
@@ -55,5 +61,44 @@ describe("pickVoice", () => {
     expect(voiceNeed("ja", []).tts).toBe("none");
     expect(voiceNeed("en", voices).tts).toBe("native");
     expect(voiceNeed("zh", voices).tts).toBe("fallback");
+  });
+
+  it("prefers a male voice over a female voice in the same language", () => {
+    const voices = [
+      { lang: "en-US", name: "Microsoft Zira", localService: true },
+      { lang: "en-US", name: "Microsoft David", localService: false },
+      { lang: "ru-RU", name: "Microsoft Irina", localService: true },
+    ];
+    expect(pickVoice(voices, "en")?.name).toBe("Microsoft David");
+    expect(isLikelyMaleVoice("Microsoft David")).toBe(true);
+    expect(isLikelyMaleVoice("Microsoft Zira")).toBe(false);
+  });
+});
+
+describe("male neural voices", () => {
+  it("maps every site language to a male Neural voice", () => {
+    for (const code of locales) {
+      const male = maleVoiceFor(code);
+      expect(male.voice).toMatch(/Neural$/);
+      expect(male.lang.toLowerCase().startsWith(code === "zh" ? "zh" : code)).toBe(
+        true,
+      );
+      const copy = pilotDemoCopy(code);
+      expect(copy.voiceNeural).toMatch(/\{lang\}/);
+      expect(copy.voiceNeural).toMatch(/\{voice\}/);
+      const line = voiceNeedLine(code, {
+        tts: "neural",
+        stt: "ready",
+        voiceName: male.voice,
+      });
+      expect(line).toContain(male.voice);
+    }
+    expect(
+      voiceNeed("ru", [], {
+        ready: true,
+        voice: "ru-RU-DmitryNeural",
+        provider: "edge",
+      }).tts,
+    ).toBe("neural");
   });
 });

@@ -60,11 +60,13 @@ export function voiceNeedLine(locale: Locale, need: VoiceNeed) {
   const copy = pilotDemoCopy(locale);
   const lang = languageLabel(locale);
   const tts =
-    need.tts === "native"
-      ? fillDemo(copy.voiceReady, { lang })
-      : need.tts === "fallback"
-        ? fillDemo(copy.voiceFallback, { lang })
-        : copy.voiceNone;
+    need.tts === "neural"
+      ? fillDemo(copy.voiceNeural, { lang, voice: need.voiceName ?? "" })
+      : need.tts === "native"
+        ? fillDemo(copy.voiceReady, { lang })
+        : need.tts === "fallback"
+          ? fillDemo(copy.voiceFallback, { lang })
+          : copy.voiceNone;
   const stt =
     need.stt === "ready"
       ? fillDemo(copy.sttReady, { lang })

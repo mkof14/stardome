@@ -37,7 +37,7 @@ The supervisor writes the current public URL to `/tmp/starwall-public-url.txt`. 
 
 Pilot (the watch advisor) sits on the Bridge like a second person on watch. Open Pilot on `/interface` to raise instrument cards, advice windows, and a watch/support/alarm comms strip. The hexagonal play icon next to Pilot runs a spoken DEMO drill in the language selected on Pilot. DEMO follows the current scenario, sensors, and recommended action. LIVE stays honest: no invented contacts, and comms stay offline until a real satcom path exists.
 
-Spoken replies use the browser Speech Synthesis API with a BCP-47 tag per language (`en-US`, `es-ES`, `fr-FR`, `de-DE`, `ru-RU`, `uk-UA`, `ar-SA`, `zh-CN`, `ja-JP`, `he-IL`). Listening uses Web Speech Recognition in Chrome or Edge after the microphone is allowed. Install the matching OS or browser voice pack if a language has no native voice; until then Pilot uses the closest installed voice and still types. Copy `.env.local.example` to `.env.local` and set `ANTHROPIC_API_KEY` for richer spoken answers. `.env*.local` is gitignored. Without the key Pilot still answers from the on-site briefing — it does not invent prices.
+Pilot speaks with a real adult male neural voice in every site language: English Andrew, Spanish Álvaro, French Henri, German Conrad, Russian Dmitry, Ukrainian Ostap, Arabic Hamed, Chinese Yunxi, Japanese Keita, Hebrew Avri. Replies go through `POST /api/tts` and play as MP3. The default path is Microsoft Edge online Neural speech (no API key). Set `AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION` for Azure, `OPENAI_API_KEY` (male voice `onyx`) or `ELEVENLABS_API_KEY` if you have those accounts — they take priority when present. If neural speech is down, Pilot falls back to a male browser voice when one is installed, then types. Listening uses Web Speech Recognition in Chrome or Edge after the microphone is allowed. Copy `.env.local.example` to `.env.local` and set `ANTHROPIC_API_KEY` for richer spoken answers. `.env*.local` is gitignored. Without the key Pilot still answers from the on-site briefing — it does not invent prices.
 
 `NEXT_PUBLIC_SITE_URL` is used for canonical metadata, Open Graph, `robots.txt`, and `sitemap.xml`. Locally it defaults to `http://127.0.0.1:3000`. On Vercel it falls back to `https://$VERCEL_URL` if you leave it blank.
 
@@ -135,7 +135,8 @@ This is a standard Next.js 14 App Router app. Do **not** set `output: "standalon
 - `/login` accepts the printed demo accounts (`super@starwall.demo` / `SuperAdmin!23`, and the other role accounts on that page) even before Postgres is attached. Sessions are JWTs.
 - `/interface` is a public Bridge demo. It does not require a session, so a missing `NEXTAUTH_SECRET` never renders NextAuth’s “Server error” page. `NEXTAUTH_URL` is taken from the request host; a leftover `http://127.0.0.1:3000` value is ignored on Vercel.
 - Google sign-in stays hidden until both `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are set.
-- Pilot answers questions about StarWall and this website. With `ANTHROPIC_API_KEY` it uses the model; without the key it still replies from the product briefing and does not invent prices.
+- `ANTHROPIC_API_KEY` — richer Pilot answers. Without it Pilot still replies from the product briefing.
+- Male neural speech for Pilot needs no key (Edge online voices). Optional: `AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION`, `OPENAI_API_KEY` (voice `onyx`), or `ELEVENLABS_API_KEY`.
 
 Optional, after the first green deploy:
 

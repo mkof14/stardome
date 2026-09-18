@@ -14,6 +14,24 @@ export const SPEAK_BCP47: Record<Locale, string> = {
   he: "he-IL",
 };
 
+/** Locale-matched adult male neural voices (Azure / Edge short names). */
+export const MALE_NEURAL: Record<Locale, { voice: string; lang: string }> = {
+  en: { voice: "en-US-AndrewNeural", lang: "en-US" },
+  es: { voice: "es-ES-AlvaroNeural", lang: "es-ES" },
+  fr: { voice: "fr-FR-HenriNeural", lang: "fr-FR" },
+  de: { voice: "de-DE-ConradNeural", lang: "de-DE" },
+  ru: { voice: "ru-RU-DmitryNeural", lang: "ru-RU" },
+  uk: { voice: "uk-UA-OstapNeural", lang: "uk-UA" },
+  ar: { voice: "ar-SA-HamedNeural", lang: "ar-SA" },
+  zh: { voice: "zh-CN-YunxiNeural", lang: "zh-CN" },
+  ja: { voice: "ja-JP-KeitaNeural", lang: "ja-JP" },
+  he: { voice: "he-IL-AvriNeural", lang: "he-IL" },
+};
+
+export function maleVoiceFor(locale: Locale) {
+  return MALE_NEURAL[locale];
+}
+
 export function speakTag(locale: string): string {
   return isLocale(locale) ? SPEAK_BCP47[locale] : locale;
 }
@@ -31,22 +49,61 @@ function norm(lang: string) {
   return lang.toLowerCase().replaceAll("_", "-");
 }
 
+const MALE_NAME =
+  /male|\bman\b|\bguy\b|andrew|david|daniel|dmitry|dmitri|ostap|alvaro|henri|conrad|killian|hamed|yunxi|yunyang|keita|avri|onyx|echo|thomas|george|james|mark|paul|ryan|brian|eric|christopher|davis|jorge|ichiro|ravi|fred|microsoft david|microsoft mark|microsoft george|google uk english male/i;
+
+const FEMALE_NAME =
+  /female|woman|girl|zira|samantha|karen|susan|helena|katya|hila|nanami|xiaoxiao|aria|jenny|sonia|elvira|denise|katja|dariya|polina|salma|yael|google uk english female|microsoft zira|microsoft helena/i;
+
+export function isLikelyMaleVoice(name: string) {
+  if (!name.trim()) return false;
+  if (FEMALE_NAME.test(name) && !MALE_NAME.test(name)) return false;
+  return MALE_NAME.test(name);
+}
+
+function scoreVoice(
+  voice: Pick<SpeechSynthesisVoice, "lang" | "name" | "localService">,
+  locale: string,
+) {
+  const tag = norm(speakTag(locale));
+  const prefix = (isLocale(locale) ? locale : tag.slice(0, 2)).toLowerCase();
+  const lang = norm(voice.lang);
+  let score = 0;
+  if (lang === tag) score += 100;
+  else if (lang.startsWith(prefix)) score += 50;
+  else return -1;
+  if (isLikelyMaleVoice(voice.name)) score += 40;
+  else if (FEMALE_NAME.test(voice.name)) score -= 35;
+  if (voice.localService) score += 5;
+  return score;
+}
+
 export function pickVoice(
   voices: ReadonlyArray<Pick<SpeechSynthesisVoice, "lang" | "name" | "localService">>,
   locale: string,
 ): Pick<SpeechSynthesisVoice, "lang" | "name" | "localService"> | null {
   if (!voices.length) return null;
-  const tag = norm(speakTag(locale));
-  const prefix = (isLocale(locale) ? locale : tag.slice(0, 2)).toLowerCase();
-  const exact = voices.find((voice) => norm(voice.lang) === tag);
-  if (exact) return exact;
-  const starts = voices.filter((voice) => norm(voice.lang).startsWith(prefix));
-  if (!starts.length) return null;
-  return starts.find((voice) => voice.localService) ?? starts[0];
+  let best: Pick<SpeechSynthesisVoice, "lang" | "name" | "localService"> | null =
+    null;
+  let bestScore = -1;
+  for (const voice of voices) {
+    const score = scoreVoice(voice, locale);
+    if (score > bestScore) {
+      bestScore = score;
+      best = voice;
+    }
+  }
+  return best;
 }
 
+export type NeuralVoiceStatus = {
+  ready: boolean;
+  voice: string | null;
+  provider: string | null;
+};
+
 export type VoiceNeed = {
-  tts: "native" | "fallback" | "none";
+  tts: "neural" | "native" | "fallback" | "none";
   stt: "ready" | "engine" | "none";
   voiceName: string | null;
 };
@@ -54,14 +111,22 @@ export type VoiceNeed = {
 export function voiceNeed(
   locale: Locale,
   voices: ReadonlyArray<Pick<SpeechSynthesisVoice, "lang" | "name" | "localService">>,
+  neural?: NeuralVoiceStatus | null,
 ): VoiceNeed {
+  const stt: VoiceNeed["stt"] = SpeechEngine() ? "ready" : "engine";
+  if (neural?.ready) {
+    return {
+      tts: "neural",
+      stt,
+      voiceName: neural.voice ?? maleVoiceFor(locale).voice,
+    };
+  }
   const native = pickVoice(voices, locale);
   const tts: VoiceNeed["tts"] = native
     ? "native"
     : voices.length
       ? "fallback"
       : "none";
-  const stt: VoiceNeed["stt"] = SpeechEngine() ? "ready" : "engine";
   return {
     tts,
     stt,

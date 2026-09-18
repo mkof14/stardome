@@ -89,7 +89,12 @@ export function PilotVoiceNeed({
   need: VoiceNeed;
 }) {
   return (
-    <p data-testid="pilot-voice-need" className="font-mono text-[9px] leading-relaxed text-sand/50">
+    <p
+      data-testid="pilot-voice-need"
+      data-tts={need.tts}
+      data-voice={need.voiceName ?? ""}
+      className="font-mono text-[9px] leading-relaxed text-sand/50"
+    >
       {voiceNeedLine(locale, need)}
     </p>
   );

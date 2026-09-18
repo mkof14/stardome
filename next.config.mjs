@@ -11,7 +11,13 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ["framer-motion"],
     instrumentationHook: true,
-    serverComponentsExternalPackages: ["@prisma/client", "prisma"],
+    serverComponentsExternalPackages: [
+      "@prisma/client",
+      "prisma",
+      "msedge-tts",
+      "ws",
+      "isomorphic-ws",
+    ],
   },
   compiler: {
     removeConsole:
