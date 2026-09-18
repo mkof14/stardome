@@ -504,10 +504,15 @@ export function perimeterScene(scenarioId: string): PerimeterScene {
   return PERIMETER[scenarioId] ?? PERIMETER.watch;
 }
 
+/** Alarm / crisis red — keep in sync with Tailwind `crit`. */
+export const TONE_CRIT = "#DC2626";
+export const TONE_ATTN = "#E8B23D";
+export const TONE_OK = "#33D3A6";
+
 export function toneColor(tone: ContactTone) {
-  if (tone === "attn") return "#E8B23D";
-  if (tone === "crit") return "#F15A00";
-  return "#33D3A6";
+  if (tone === "attn") return TONE_ATTN;
+  if (tone === "crit") return TONE_CRIT;
+  return TONE_OK;
 }
 
 export function motionTowardOwnShip(x: number, y: number, px: number) {

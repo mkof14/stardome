@@ -215,7 +215,7 @@ export function PilotDesk({
                   "flex-1 border px-1 py-1 font-mono text-[9px]",
                   channel === id
                     ? id === "alarm"
-                      ? "border-attn text-attn"
+                      ? "border-crit bg-crit/15 text-crit"
                       : "border-orange text-orange"
                     : "border-sand/20 text-sand/60 hover:text-sand",
                 )}
@@ -240,10 +240,14 @@ export function PilotDesk({
                   className={cn(
                     "border-s-2 ps-2",
                     line.from === "you"
-                      ? "border-orange"
+                      ? channel === "alarm"
+                        ? "border-crit"
+                        : "border-orange"
                       : line.from === "net"
                         ? "border-ok"
-                        : "border-sand/30",
+                        : channel === "alarm"
+                          ? "border-crit/70"
+                          : "border-sand/30",
                   )}
                 >
                   <span className="me-1.5 font-mono text-[9px] text-sand/40">
@@ -284,7 +288,7 @@ export function PilotDesk({
               setChannel("alarm");
               postComms(copy.notify, "alarm");
             }}
-            className="mt-2 w-full border border-attn/50 px-2 py-1 font-mono text-[10px] text-attn hover:border-attn"
+            className="mt-2 w-full border border-crit/50 px-2 py-1 font-mono text-[10px] text-crit hover:border-crit"
           >
             {copy.notify}
           </button>
@@ -470,7 +474,7 @@ export function PilotDeskBar({
             raised[item.id]
               ? "border-orange text-orange"
               : item.hot
-                ? "border-attn/50 text-attn"
+                ? "border-crit/50 text-crit"
                 : "border-sand/20 text-sand/60 hover:text-sand",
           )}
         >

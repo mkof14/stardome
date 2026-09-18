@@ -1,5 +1,5 @@
 import { HudPanel } from "@/components/bridge/hud-panel";
-import { perimeterScene } from "@/lib/picture-scenes";
+import { perimeterScene, TONE_ATTN, TONE_CRIT, TONE_OK } from "@/lib/picture-scenes";
 
 const MONO = "var(--font-jetbrains), ui-monospace, monospace";
 
@@ -65,8 +65,8 @@ export function PerimeterView({ scenarioId = "" }: { scenarioId?: string }) {
           y="88"
           width="220"
           height="112"
-          fill={scene.variant === "object" ? "rgba(241,90,0,0.08)" : "#0D161C"}
-          stroke={scene.variant === "object" ? "#F15A00" : "#223039"}
+          fill={scene.variant === "object" ? "rgba(220,38,38,0.08)" : "#0D161C"}
+          stroke={scene.variant === "object" ? TONE_CRIT : "#223039"}
           strokeWidth="1"
         />
         <text x="470" y="148" textAnchor="middle" fontFamily={MONO} fontSize="11" fill="#7C8894">
@@ -78,7 +78,7 @@ export function PerimeterView({ scenarioId = "" }: { scenarioId?: string }) {
           width="88"
           height="36"
           fill={scene.variant === "tailgate" ? "rgba(232,178,61,0.12)" : "#0D161C"}
-          stroke={scene.variant === "tailgate" ? "#E8B23D" : "#223039"}
+          stroke={scene.variant === "tailgate" ? TONE_ATTN : "#223039"}
           strokeWidth="1"
         />
         <text x="164" y="358" textAnchor="middle" fontFamily={MONO} fontSize="10" fill="#7C8894">
@@ -89,8 +89,8 @@ export function PerimeterView({ scenarioId = "" }: { scenarioId?: string }) {
           y="300"
           width="56"
           height="72"
-          fill={scene.variant === "vehicle" ? "rgba(241,90,0,0.12)" : "#0D161C"}
-          stroke={scene.variant === "vehicle" ? "#F15A00" : "#223039"}
+          fill={scene.variant === "vehicle" ? "rgba(220,38,38,0.12)" : "#0D161C"}
+          stroke={scene.variant === "vehicle" ? TONE_CRIT : "#223039"}
           strokeWidth="1"
         />
         <text x="572" y="340" textAnchor="middle" fontFamily={MONO} fontSize="10" fill="#7C8894">
@@ -104,19 +104,19 @@ export function PerimeterView({ scenarioId = "" }: { scenarioId?: string }) {
               y="-8"
               width="20"
               height="16"
-              fill="#F15A00"
+              fill={TONE_CRIT}
             />
           </g>
         ) : null}
         {scene.variant === "tailgate" ? (
-          <g transform="translate(164 318)" fill="#E8B23D">
+          <g transform="translate(164 318)" fill={TONE_ATTN}>
             <circle cx="-8" r="4" />
             <circle cx="8" r="4" className="contact-hold" />
           </g>
         ) : null}
         {scene.variant === "vehicle" ? (
           <g transform="translate(572 268)" className="contact-hold">
-            <rect x="-14" y="-8" width="28" height="14" rx="2" fill="#F15A00" />
+            <rect x="-14" y="-8" width="28" height="14" rx="2" fill={TONE_CRIT} />
           </g>
         ) : null}
         <text
@@ -125,13 +125,19 @@ export function PerimeterView({ scenarioId = "" }: { scenarioId?: string }) {
           textAnchor="middle"
           fontFamily={MONO}
           fontSize="11"
-          fill={scene.variant === "watch" ? "#33D3A6" : "#F15A00"}
+          fill={
+            scene.variant === "watch"
+              ? TONE_OK
+              : scene.variant === "vip" || scene.variant === "tailgate"
+                ? TONE_ATTN
+                : TONE_CRIT
+          }
         >
           {scene.callout}
         </text>
         {SENSORS.map((sensor) => {
           const alert = alertId === sensor.id || scene.variant === "vip";
-          const color = scene.variant === "vip" ? "#E8B23D" : alert ? "#F15A00" : "#33D3A6";
+          const color = scene.variant === "vip" ? TONE_ATTN : alert ? TONE_CRIT : TONE_OK;
           return alert && scene.variant !== "vip" ? (
             <g key={sensor.id}>
               <circle

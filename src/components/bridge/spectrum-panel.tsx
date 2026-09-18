@@ -1,5 +1,5 @@
 import { HudPanel } from "@/components/bridge/hud-panel";
-import { spectrumScene } from "@/lib/picture-scenes";
+import { spectrumScene, TONE_ATTN, TONE_CRIT, TONE_OK } from "@/lib/picture-scenes";
 
 const MONO = "var(--font-jetbrains), ui-monospace, monospace";
 
@@ -82,7 +82,7 @@ export function SpectrumView({ scenarioId = "" }: { scenarioId?: string }) {
               : height;
           const x = LEFT + (index / BAR_COUNT) * span;
           const fill = jammed
-            ? "#FF4757"
+            ? TONE_CRIT
             : deadSatcom
               ? "#4B5760"
               : "#3C4750";
@@ -111,7 +111,7 @@ export function SpectrumView({ scenarioId = "" }: { scenarioId?: string }) {
               y={BASE - 110}
               width={width + 1.5}
               height={110}
-              fill={scene.variant === "spoof" ? "#E8B23D" : "#F15A00"}
+              fill={scene.variant === "spoof" ? TONE_ATTN : TONE_CRIT}
             />
             {scene.variant === "spoof" ? (
               <rect
@@ -133,10 +133,10 @@ export function SpectrumView({ scenarioId = "" }: { scenarioId?: string }) {
           fontSize="12"
           fill={
             scene.variant === "watch"
-              ? "#33D3A6"
+              ? TONE_OK
               : scene.variant === "spoof"
-                ? "#E8B23D"
-                : "#F15A00"
+                ? TONE_ATTN
+                : TONE_CRIT
           }
         >
           {scene.callout}

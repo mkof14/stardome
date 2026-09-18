@@ -24,7 +24,7 @@ const config: Config = {
         grey: "#6B7280",
         ok: "#33D3A6",
         attn: "#E8B23D",
-        crit: "#FF4757",
+        crit: "#DC2626",
         bridge: {
           bg: "var(--bridge-bg)",
           panel: "var(--bridge-panel)",
