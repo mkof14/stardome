@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { STARWALL_MARK } from "@/components/brand-logo";
+import { STARWALL_MARK, STARWALL_MARK_H, STARWALL_MARK_W } from "@/components/brand-logo";
 import {
   CONTAINER_BOX,
   CORE,
@@ -501,9 +501,9 @@ export function ConnectionsMap() {
       <Image
         src={STARWALL_MARK}
         alt="StarWall"
-        width={1466}
-        height={543}
-        unoptimized
+        width={STARWALL_MARK_W}
+        height={STARWALL_MARK_H}
+        sizes="80px"
         data-testid="map-core-logo"
         className="pointer-events-none absolute z-[1] h-auto -translate-x-1/2 -translate-y-[58%]"
         style={{

@@ -53,11 +53,11 @@ const nextConfig = {
         ],
       },
       {
-        source: "/SW3.png",
+        source: "/:file(SW3.png|starwall-logo.webp|starwall-logo.avif|favicon.ico|favicon-32.png|apple-touch-icon.png|og-starwall.jpg)",
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=3600, must-revalidate",
+            value: "public, max-age=31536000, immutable",
           },
         ],
       },

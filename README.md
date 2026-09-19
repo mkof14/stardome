@@ -89,7 +89,7 @@ Shared sticky header and footer wrap every route via the root layout. The header
 
 ## Brand, theme, and language
 
-The only site logo is `public/SW3.png` — the chrome oval StarWall badge. Do not recreate the wordmark, generate a substitute, or swap in another file.
+The site logo is the chrome hex StarWall badge. Pages load `public/starwall-logo.webp` (about 50 KB; AVIF sibling is smaller). `public/SW3.png` is the PNG used in proposal PDFs. Favicon and Apple touch icons are separate small files; social previews use `public/og-starwall.jpg`. Rebuild optimized assets with `node scripts/optimize-logo.mjs <source.png>`. Do not recreate the wordmark.
 
 Header and footer include a sun/moon theme switch (light/dark, stored in the browser) and a ten-language menu: English, Spanish, French, German, Russian, Ukrainian, Arabic, Chinese, Japanese, Hebrew. The choice is stored in `localStorage` (`starwall-locale`) and survives navigation. Arabic and Hebrew set `dir="rtl"`; Arabic also loads Noto Sans Arabic for body and headings.
 
