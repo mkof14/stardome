@@ -262,13 +262,11 @@ function Metric({
   value,
   bar,
   inverse,
-  hint,
 }: {
   label: string;
   value: string;
   bar?: number;
   inverse?: boolean;
-  hint?: string;
 }) {
   return (
     <article className="rounded-2xl border border-bridge-line bg-bridge-bg px-4 py-3">
@@ -281,8 +279,6 @@ function Metric({
             style={{ width: `${Math.min(100, bar)}%` }}
           />
         </div>
-      ) : hint ? (
-        <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-bridge-dim">{hint}</p>
       ) : null}
     </article>
   );
@@ -298,7 +294,7 @@ function LearningScene({
   knownLabel: string;
 }) {
   return (
-    <div className="relative aspect-[16/9] overflow-hidden rounded-xl border border-bridge-line bg-[#14181e]">
+    <div className="relative aspect-[16/9] overflow-hidden rounded-xl border border-bridge-line bg-[#12151b]">
       <div
         aria-hidden="true"
         className="absolute inset-0 opacity-40"
@@ -321,7 +317,7 @@ function LearningScene({
         />
       ) : null}
 
-      <div className="absolute left-1/2 top-1/2 z-[1] w-[7.5rem] -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-bridge-line bg-[#1e232b] px-3 py-2 text-center shadow-[0_8px_24px_rgb(0_0_0/0.28)]">
+      <div className="absolute left-1/2 top-1/2 z-[1] w-[7.5rem] -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-bridge-line bg-[var(--panel)] px-3 py-2 text-center shadow-[0_8px_24px_rgb(0_0_0/0.28)]">
         <span className="mx-auto mb-1 block h-2 w-2 rounded-full bg-orange" />
         <span className="block font-body text-xs font-medium text-bridge-text">{objectLabel}</span>
       </div>

@@ -20,16 +20,16 @@
 
 .dark {
   --page: #00091c;
-  --panel: #1e232b;
+  --panel: #1b1f27;
   --ink: #e6e4df;
   --muted: #8d939c;
-  --stroke: #323944;
+  --stroke: #2d333d;
   --header: #000510;
   --callout: #1a140c;
   --navy: #00091c;
   --bridge-bg: #00091c;
-  --bridge-panel: #1e232b;
-  --bridge-line: #323944;
+  --bridge-panel: #1b1f27;
+  --bridge-line: #2d333d;
   --bridge-text: #e6e4df;
   --bridge-dim: #8d939c;
 }
