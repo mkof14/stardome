@@ -19,8 +19,8 @@ export function BrandLogo({ className, priority = false }: BrandLogoProps) {
       alt="StarWall"
       width={STARWALL_MARK_W}
       height={STARWALL_MARK_H}
+      unoptimized
       priority={priority}
-      sizes="180px"
       className={cn(
         "w-auto shrink-0 object-contain object-left",
         className ?? "h-8 sm:h-9",

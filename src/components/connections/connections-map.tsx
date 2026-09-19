@@ -503,7 +503,7 @@ export function ConnectionsMap() {
         alt="StarWall"
         width={STARWALL_MARK_W}
         height={STARWALL_MARK_H}
-        sizes="80px"
+        unoptimized
         data-testid="map-core-logo"
         className="pointer-events-none absolute z-[1] h-auto -translate-x-1/2 -translate-y-[58%]"
         style={{
