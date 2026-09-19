@@ -16,11 +16,11 @@ function InterfaceBody() {
     <div id="bridge-root" className="min-h-screen bg-bridge-bg ps-[4.85rem]" dir="ltr">
       <JumpNav />
       {live ? <LiveModeBanner /> : null}
-      {live ? null : <ScenarioWalkthrough />}
       <BridgeConsole />
+      <BlackBoxPanel />
+      {live ? null : <ScenarioWalkthrough />}
       <WatchCommsPanel />
       <AdaptiveLearningPanel />
-      <BlackBoxPanel />
     </div>
   );
 }

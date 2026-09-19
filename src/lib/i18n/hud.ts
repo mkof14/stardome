@@ -155,6 +155,20 @@ export type HudCopy = {
     heading: string;
     conversation: string;
     scenario: string;
+    body: string;
+    syncLead: string;
+    byTime: string;
+    byTimeBody: string;
+    byCategory: string;
+    byCategoryBody: string;
+    byReality: string;
+    byRealityBody: string;
+    logs: string;
+    logsBody: string;
+    localStore: string;
+    localStoreBody: string;
+    remoteStore: string;
+    remoteStoreBody: string;
   };
   tour: {
     skip: string;
@@ -385,7 +399,7 @@ const en: HudCopy = {
   blackbox: {
     title: "BLACK BOX",
     lead:
-      "All sessions are retained for review — StarWall records locally and syncs to cloud storage for redundancy, so no record depends on a single point of failure.",
+      "The Black Box holds everything that happens in the StarWall system — contacts, decisions, Pilot conversations, alarms, equipment changes, and every watch action. Nothing is left to memory.",
     emptyLive: "No records yet.",
     emptyDemo: "No records yet this session — run a scenario or talk to Pilot.",
     local: "Local",
@@ -406,6 +420,21 @@ const en: HudCopy = {
     heading: "STARWALL BLACK BOX",
     conversation: "Conversation transcript",
     scenario: "Scenario record",
+    body: "Each record is written as it happens and filed by time, category, and whether it was live or a training case. The log files stay available so the whole picture can be reconstructed: what is unfolding now, and what already took place.",
+    syncLead:
+      "Storage uses both local and remote methods. Records are written on the object first, then transmitted and synchronized so the same archive exists in more than one place. The Black Box also sends every record to remote storage — the history does not depend on the vessel staying connected.",
+    byTime: "By time",
+    byTimeBody: "Every entry is stamped and kept in order, so the watch can be replayed minute by minute.",
+    byCategory: "By category",
+    byCategoryBody: "Conversations, scenarios, alarms, and equipment events stay in their own lanes.",
+    byReality: "By what actually happened",
+    byRealityBody: "Live events and training cases stay distinct, so a drill is never mixed with the real watch.",
+    logs: "Reconstruction logs",
+    logsBody: "Full log files remain so the situation can be restored — what was happening, and what had already happened.",
+    localStore: "Local store",
+    localStoreBody: "Written first on the object, so the record exists even if the link drops.",
+    remoteStore: "Remote store",
+    remoteStoreBody: "Every record is transmitted and synced to remote storage for a second, durable copy.",
   },
   tour: {
     skip: "Skip tour",
@@ -665,7 +694,7 @@ const ru = overlay({
   blackbox: {
     title: "ЧЁРНЫЙ ЯЩИК",
     lead:
-      "Все сессии сохраняются для разбора — StarWall пишет локально и дублирует в облако, чтобы запись не зависела от одной точки отказа.",
+      "В Чёрном ящике хранится вся информация, которая происходит в системе StarWall: контакты, решения, разговоры с Pilot, тревоги, изменения оборудования и каждое действие вахты. Ничего не остаётся только в памяти.",
     emptyLive: "Записей пока нет.",
     emptyDemo: "В этой сессии записей нет — запустите сценарий или спросите Pilot.",
     local: "Локально",
@@ -686,6 +715,21 @@ const ru = overlay({
     heading: "STARWALL ЧЁРНЫЙ ЯЩИК",
     conversation: "Расшифровка разговора",
     scenario: "Запись сценария",
+    body: "Каждая запись пишется в момент события и раскладывается по времени, категориям и по тому, было ли это живой вахтой или учебной ситуацией. Лог-файлы сохраняются, чтобы восстановить всю картину: что разворачивается сейчас и что уже произошло.",
+    syncLead:
+      "К хранению подключены локальные и удалённые методы: запись на объекте, передача и синхронизация, чтобы один и тот же архив существовал в нескольких местах. Чёрный ящик также передаёт все данные в удалённое хранилище — история не зависит от того, остаётся ли судно на связи.",
+    byTime: "По времени",
+    byTimeBody: "Каждая запись получает метку и стоит в порядке, чтобы вахту можно было проиграть минута за минутой.",
+    byCategory: "По категориям",
+    byCategoryBody: "Разговоры, сценарии, тревоги и события оборудования лежат в своих лентах.",
+    byReality: "По реальности события",
+    byRealityBody: "Живая вахта и учебные случаи хранятся раздельно, чтобы учение не смешалось с тем, что было на самом деле.",
+    logs: "Логи для восстановления",
+    logsBody: "Полные лог-файлы остаются, чтобы восстановить и то, что происходило, и то, что уже произошло.",
+    localStore: "Локальное хранение",
+    localStoreBody: "Сначала пишется на объекте, поэтому запись есть даже если связь пропала.",
+    remoteStore: "Удалённое хранение",
+    remoteStoreBody: "Каждая запись передаётся и синхронизируется в удалённое хранилище — вторая, устойчивая копия.",
   },
   tour: {
     skip: "Пропустить тур",
@@ -944,6 +988,21 @@ const es = overlay({
     heading: "STARWALL CAJA NEGRA",
     conversation: "Transcripción de la conversación",
     scenario: "Registro del escenario",
+    body: "Cada registro se escribe al ocurrir y se ordena por hora, categoría y si fue un caso en vivo o de adiestramiento. Los archivos de registro permanecen para reconstruir el cuadro completo: lo que se desarrolla ahora y lo que ya ocurrió.",
+    syncLead:
+      "El almacenamiento usa métodos locales y remotos. Primero se escribe en el objeto, luego se transmite y se sincroniza para que el mismo archivo exista en más de un lugar. La caja negra también envía cada registro al almacén remoto: la historia no depende de que el buque siga conectado.",
+    byTime: "Por tiempo",
+    byTimeBody: "Cada entrada lleva marca de tiempo y queda en orden, para rehacer la guardia minuto a minuto.",
+    byCategory: "Por categoría",
+    byCategoryBody: "Conversaciones, escenarios, alarmas y eventos de equipo quedan en sus propias vías.",
+    byReality: "Por lo que ocurrió de verdad",
+    byRealityBody: "Los sucesos en vivo y los casos de adiestramiento se mantienen distintos, para que un ejercicio no se mezcle con la guardia real.",
+    logs: "Registros de reconstrucción",
+    logsBody: "Los archivos de registro completos quedan para restaurar la situación: lo que ocurría y lo que ya había ocurrido.",
+    localStore: "Almacén local",
+    localStoreBody: "Se escribe primero en el objeto, así el registro existe aunque caiga el enlace.",
+    remoteStore: "Almacén remoto",
+    remoteStoreBody: "Cada registro se transmite y se sincroniza al almacén remoto como segunda copia durable.",
   },
   tour: {
     skip: "Saltar recorrido",
@@ -1203,6 +1262,21 @@ const fr = overlay({
     heading: "STARWALL BOÎTE NOIRE",
     conversation: "Transcription de la conversation",
     scenario: "Enregistrement du scénario",
+    body: "Chaque enregistrement est écrit au moment de l'événement et classé par heure, catégorie, et selon qu'il s'agissait d'une veille réelle ou d'un cas d'entraînement. Les journaux restent disponibles pour reconstruire tout le tableau : ce qui se déroule maintenant, et ce qui a déjà eu lieu.",
+    syncLead:
+      "Le stockage combine méthodes locales et distantes. L'écriture se fait d'abord sur l'objet, puis transmission et synchronisation pour que le même archive existe en plusieurs endroits. La boîte noire envoie aussi chaque enregistrement vers le stockage distant — l'historique ne dépend pas du navire restant en ligne.",
+    byTime: "Par le temps",
+    byTimeBody: "Chaque entrée est horodatée et tenue en ordre, pour rejouer la veille minute par minute.",
+    byCategory: "Par catégorie",
+    byCategoryBody: "Conversations, scénarios, alarmes et événements d'équipement restent sur leurs propres lignes.",
+    byReality: "Par ce qui s'est vraiment passé",
+    byRealityBody: "Les événements en direct et les cas d'entraînement restent distincts, pour qu'un exercice ne se mêle jamais à la veille réelle.",
+    logs: "Journaux de reconstruction",
+    logsBody: "Les fichiers journaux complets restent pour restaurer la situation — ce qui se passait, et ce qui s'était déjà passé.",
+    localStore: "Stockage local",
+    localStoreBody: "Écrit d'abord sur l'objet, pour que l'enregistrement existe même si la liaison tombe.",
+    remoteStore: "Stockage distant",
+    remoteStoreBody: "Chaque enregistrement est transmis et synchronisé vers le stockage distant, pour une seconde copie durable.",
   },
   tour: {
     skip: "Passer la visite",
@@ -1462,6 +1536,21 @@ const de = overlay({
     heading: "STARWALL SCHWARZE BOX",
     conversation: "Gesprächsabschrift",
     scenario: "Szenarioaufzeichnung",
+    body: "Jeder Eintrag wird im Moment des Ereignisses geschrieben und nach Zeit, Kategorie und danach sortiert, ob es eine echte Wache oder ein Übungsfall war. Die Protokolldateien bleiben, damit das ganze Bild wiederhergestellt werden kann: was gerade abläuft, und was bereits geschehen ist.",
+    syncLead:
+      "Die Speicherung nutzt lokale und entfernte Verfahren. Zuerst wird an Bord geschrieben, dann übertragen und synchronisiert, damit dasselbe Archiv an mehr als einem Ort existiert. Die Schwarze Box sendet jeden Eintrag auch in den entfernten Speicher — die Geschichte hängt nicht davon ab, dass das Schiff online bleibt.",
+    byTime: "Nach Zeit",
+    byTimeBody: "Jeder Eintrag ist gestempelt und in Reihenfolge, damit die Wache Minute für Minute nachgespielt werden kann.",
+    byCategory: "Nach Kategorie",
+    byCategoryBody: "Gespräche, Szenarien, Alarme und Geräteereignisse bleiben auf eigenen Bahnen.",
+    byReality: "Nach dem, was wirklich geschah",
+    byRealityBody: "Live-Ereignisse und Übungsfälle bleiben getrennt, damit eine Übung nie mit der echten Wache vermischt wird.",
+    logs: "Rekonstruktionsprotokolle",
+    logsBody: "Vollständige Protokolldateien bleiben, um die Lage wiederherzustellen — was geschah, und was bereits geschehen war.",
+    localStore: "Lokaler Speicher",
+    localStoreBody: "Zuerst an Bord geschrieben, damit der Eintrag auch ohne Verbindung existiert.",
+    remoteStore: "Entfernter Speicher",
+    remoteStoreBody: "Jeder Eintrag wird übertragen und in den entfernten Speicher synchronisiert — eine zweite, dauerhafte Kopie.",
   },
   tour: {
     skip: "Rundgang überspringen",
@@ -1721,6 +1810,21 @@ const uk = overlay({
     heading: "STARWALL ЧОРНА СКРИНЬКА",
     conversation: "Розшифровка розмови",
     scenario: "Запис сценарію",
+    body: "Кожен запис пишеться в момент події і розкладається за часом, категоріями та тим, чи це була жива вахта, чи навчальний випадок. Лог-файли зберігаються, щоб відновити всю картину: що розгортається зараз і що вже сталося.",
+    syncLead:
+      "До зберігання підключені локальні й віддалені методи: запис на об'єкті, передача і синхронізація, щоб той самий архів існував у кількох місцях. Чорна скринька також передає всі дані у віддалене сховище — історія не залежить від того, чи судно лишається на зв'язку.",
+    byTime: "За часом",
+    byTimeBody: "Кожен запис має позначку і стоїть у порядку, щоб вахту можна було програти хвилина за хвилиною.",
+    byCategory: "За категоріями",
+    byCategoryBody: "Розмови, сценарії, тривоги й події обладнання лежать у своїх стрічках.",
+    byReality: "За реальністю події",
+    byRealityBody: "Жива вахта і навчальні випадки зберігаються окремо, щоб навчання не змішалося з тим, що було насправді.",
+    logs: "Логи для відновлення",
+    logsBody: "Повні лог-файли лишаються, щоб відновити і те, що відбувалося, і те, що вже сталося.",
+    localStore: "Локальне зберігання",
+    localStoreBody: "Спочатку пишеться на об'єкті, тож запис є навіть якщо зв'язок зник.",
+    remoteStore: "Віддалене зберігання",
+    remoteStoreBody: "Кожен запис передається і синхронізується у віддалене сховище — друга, стійка копія.",
   },
   tour: {
     skip: "Пропустити тур",
@@ -1979,6 +2083,21 @@ const ar = overlay({
     heading: "STARWALL الصندوق الأسود",
     conversation: "نص المحادثة",
     scenario: "سجل السيناريو",
+    body: "تُكتب كل سجلّة لحظة وقوعها وتُرتَّب حسب الوقت والفئة وما إذا كانت حراسة حية أو حالة تدريب. تبقى ملفات السجل لإعادة بناء الصورة كاملة: ما يجري الآن وما سبق أن وقع.",
+    syncLead:
+      "يستخدم التخزين طرقاً محلية وبعيدة. تُكتب السجلات أولاً على الجسم ثم تُنقل وتُزامَن ليوجد الأرشيف نفسه في أكثر من موضع. ينقل الصندوق الأسود أيضاً كل سجل إلى التخزين البعيد — فلا يعتمد التاريخ على بقاء السفينة متصلة.",
+    byTime: "حسب الوقت",
+    byTimeBody: "كل إدخال يحمل ختماً زمنياً ويبقى مرتباً لإعادة تشغيل الحراسة دقيقة بدقيقة.",
+    byCategory: "حسب الفئة",
+    byCategoryBody: "المحادثات والسيناريوهات والإنذارات وأحداث المعدات تبقى في مساراتها.",
+    byReality: "حسب ما وقع فعلاً",
+    byRealityBody: "الأحداث الحية وحالات التدريب تبقى منفصلة حتى لا يختلط التمرين بالحراسة الحقيقية.",
+    logs: "سجلات الاستعادة",
+    logsBody: "تبقى ملفات السجل كاملة لاستعادة الموقف: ما كان يجري وما كان قد وقع.",
+    localStore: "تخزين محلي",
+    localStoreBody: "يُكتب أولاً على الجسم، فيبقى السجل حتى لو انقطع الرابط.",
+    remoteStore: "تخزين بعيد",
+    remoteStoreBody: "يُنقل كل سجل ويُزامَن إلى التخزين البعيد كنسخة ثانية ثابتة.",
   },
   tour: {
     skip: "تخطي الجولة",
@@ -2230,6 +2349,21 @@ const zh = overlay({
     heading: "STARWALL 黑匣子",
     conversation: "对话记录",
     scenario: "场景记录",
+    body: "每条记录在事件发生时写入，并按时间、类别以及属于实况值班还是训练案例归档。日志文件保留，以便还原全貌：正在展开的，以及已经发生的。",
+    syncLead:
+      "存储同时使用本地与远程方式。记录先写在对象上，再传输并同步，使同一份档案存在于多处。黑匣子还将每条记录传到远程存储——历史不依赖船舶保持在线。",
+    byTime: "按时间",
+    byTimeBody: "每条记录带时间戳并按顺序保存，值班可按分钟回放。",
+    byCategory: "按类别",
+    byCategoryBody: "对话、场景、警报与设备事件各自成线。",
+    byReality: "按实际发生",
+    byRealityBody: "实况事件与训练案例分开保存，演练不会与真实值班混在一起。",
+    logs: "还原日志",
+    logsBody: "完整日志文件保留，以便还原当时正在发生的，以及已经发生的。",
+    localStore: "本地存储",
+    localStoreBody: "先写在对象上，链路中断时记录仍在。",
+    remoteStore: "远程存储",
+    remoteStoreBody: "每条记录传输并同步到远程存储，作为第二份耐久副本。",
   },
   tour: {
     skip: "跳过导览",
@@ -2484,6 +2618,21 @@ const ja = overlay({
     heading: "STARWALL ブラックボックス",
     conversation: "会話の書き起こし",
     scenario: "シナリオ記録",
+    body: "各記録は発生時点で書かれ、時刻・区分・実働か訓練かを分けて残します。ログファイルは、今展開していることと既に起きたことの全体を復元できるように保管されます。",
+    syncLead:
+      "保管は現地と遠隔の両方です。まず船上に書き、送信と同期で同じ記録を複数箇所に残します。ブラックボックスは全記録を遠隔保管へも送ります。履歴は船が接続し続けていることには依存しません。",
+    byTime: "時刻順",
+    byTimeBody: "各件に時刻が付き、順序が保たれるので、当直を分単位で再生できます。",
+    byCategory: "区分ごと",
+    byCategoryBody: "会話、シナリオ、警報、機器の出来事はそれぞれの列に残ります。",
+    byReality: "実際に起きたこと",
+    byRealityBody: "実働の出来事と訓練は分けておき、演習が実当直と混ざりません。",
+    logs: "復元用ログ",
+    logsBody: "完全なログファイルが残り、当時進行していたことと既に起きていたことを復元できます。",
+    localStore: "現地保管",
+    localStoreBody: "まず船上に書くので、回線が切れても記録は残ります。",
+    remoteStore: "遠隔保管",
+    remoteStoreBody: "各記録は遠隔保管へ送信・同期され、第二の耐久コピーになります。",
   },
   tour: {
     skip: "ツアーをスキップ",
@@ -2742,6 +2891,21 @@ const he = overlay({
     heading: "STARWALL קופסה שחורה",
     conversation: "תמלול השיחה",
     scenario: "רשומת תרחיש",
+    body: "כל רשומה נכתבת ברגע האירוע ומסודרת לפי זמן, קטגוריה, והאם הייתה זו משמרת חיה או מקרה אימון. קובצי היומן נשארים כדי לשחזר את התמונה המלאה: מה מתפתח עכשיו ומה כבר התרחש.",
+    syncLead:
+      "האחסון משתמש בשיטות מקומיות ומרוחקות. תחילה נכתב על הכלי, אחר כך מועבר ומסונכרן כדי שאותו ארכיון יהיה ביותר ממקום אחד. הקופסה השחורה גם שולחת כל רשומה לאחסון מרוחק — ההיסטוריה אינה תלויה בכך שהכלי נשאר מחובר.",
+    byTime: "לפי זמן",
+    byTimeBody: "כל רשומה מסומנת בחותמת זמן ועומדת בסדר, כדי להשמיע את המשמרת דקה אחר דקה.",
+    byCategory: "לפי קטגוריה",
+    byCategoryBody: "שיחות, תרחישים, התראות ואירועי ציוד נשארים במסלולים נפרדים.",
+    byReality: "לפי מה שקרה באמת",
+    byRealityBody: "אירועים חיים ומקרי אימון נשארים נפרדים, כדי שתרגול לא יתערבב עם המשמרת האמיתית.",
+    logs: "יומני שחזור",
+    logsBody: "קובצי יומן מלאים נשארים כדי לשחזר את המצב — מה התרחש ומה כבר התרחש.",
+    localStore: "אחסון מקומי",
+    localStoreBody: "נכתב תחילה על הכלי, כך שהרשומה קיימת גם אם הקישור נופל.",
+    remoteStore: "אחסון מרוחק",
+    remoteStoreBody: "כל רשומה מועברת ומסונכרנת לאחסון מרוחק כעותק שני ועמיד.",
   },
   tour: {
     skip: "דילוג על הסיור",

@@ -75,6 +75,12 @@ const ITEMS: JumpItem[] = [
     icon: <HudGlyph name="log" className={ICON} />,
   },
   {
+    id: "blackbox",
+    kind: "scroll",
+    targetId: "black-box-panel",
+    icon: <HudGlyph name="drive" className={ICON} />,
+  },
+  {
     id: "helm",
     kind: "helm",
     icon: <HudGlyph name="talk" className={ICON} />,
@@ -110,12 +116,6 @@ const ITEMS: JumpItem[] = [
     targetId: "watch-comms-panel",
     party: "support",
     icon: <HudGlyph name="support" className={ICON} />,
-  },
-  {
-    id: "blackbox",
-    kind: "scroll",
-    targetId: "black-box-panel",
-    icon: <HudGlyph name="drive" className={ICON} />,
   },
   {
     id: "learning",

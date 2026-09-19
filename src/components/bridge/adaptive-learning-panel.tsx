@@ -95,7 +95,7 @@ export function AdaptiveLearningPanel() {
   if (crisis) return null;
 
   return (
-    <div className="bg-bridge-bg px-4 pb-10 md:px-6">
+    <div className="bg-bridge-bg px-4 pb-28 md:px-6">
       <div className="mx-auto max-w-6xl">
         <HudPanel
           id="adaptive-learning-panel"

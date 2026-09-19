@@ -109,23 +109,49 @@ export function BlackBoxPanel() {
   }
 
   return (
-    <div className="bg-bridge-bg px-4 pb-28 md:px-6 lg:pe-[26rem]">
+    <div className="bg-bridge-bg px-4 pb-10 md:px-6 lg:pe-[26rem]">
           <section
             id="black-box-panel"
             data-testid="black-box-panel"
             className="relative mx-auto max-w-6xl scroll-mt-20 overflow-hidden rounded-2xl border border-bridge-line bg-bridge-panel p-5 text-bridge-text shadow-[0_10px_28px_rgb(15_25_34/0.08)]"
           >
 
-            <header className="relative z-[1] mb-3">
+            <header className="relative z-[1] mb-5">
               <h2 className="flex items-center gap-2 font-body text-base font-semibold tracking-tight">
                 <IconWell className="h-8 w-8 text-orange">
                   <HudGlyph name="drive" className="h-4 w-4" />
                 </IconWell>
                 {hud.blackbox.title}
               </h2>
-          <p className="mt-2 max-w-3xl font-body text-sm leading-relaxed text-bridge-dim">
+          <p className="mt-3 max-w-3xl font-body text-sm leading-relaxed text-bridge-text">
             {hud.blackbox.lead}
           </p>
+          <p className="mt-2 max-w-3xl font-body text-sm leading-relaxed text-bridge-dim">
+            {hud.blackbox.body}
+          </p>
+          <p className="mt-2 max-w-3xl font-body text-sm leading-relaxed text-bridge-dim">
+            {hud.blackbox.syncLead}
+          </p>
+          <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {(
+              [
+                [hud.blackbox.byTime, hud.blackbox.byTimeBody],
+                [hud.blackbox.byCategory, hud.blackbox.byCategoryBody],
+                [hud.blackbox.byReality, hud.blackbox.byRealityBody],
+                [hud.blackbox.logs, hud.blackbox.logsBody],
+                [hud.blackbox.localStore, hud.blackbox.localStoreBody],
+                [hud.blackbox.remoteStore, hud.blackbox.remoteStoreBody],
+              ] as const
+            ).map(([title, body]) => (
+              <li
+                key={title}
+                className="rounded-xl border border-bridge-line bg-bridge-bg px-3 py-3"
+              >
+                <p className="font-body text-sm font-semibold text-bridge-text">{title}</p>
+                <p className="mt-1 text-xs leading-relaxed text-bridge-dim">{body}</p>
+              </li>
+            ))}
+          </ul>
         </header>
 
         <div className="relative z-[1]">
