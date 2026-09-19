@@ -18,9 +18,9 @@ export NEXTAUTH_URL="${NEXTAUTH_URL:-http://127.0.0.1:3000}"
 export NEXT_PUBLIC_SITE_URL="${NEXT_PUBLIC_SITE_URL:-http://127.0.0.1:3000}"
 
 exec 9>"$LOCK"
-if ! flock -n 9; then
-  echo "[ensure] waiting for the other start to finish…"
-  flock 9
+if ! flock -w 90 9; then
+  echo "[ensure] another start is still running — skip"
+  exit 0
 fi
 
 alive() {
