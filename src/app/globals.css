@@ -20,18 +20,18 @@
 
 .dark {
   --page: #00091c;
-  --panel: #000c24;
-  --ink: #e9e4da;
-  --muted: #8b9bb0;
-  --stroke: #163d6e;
+  --panel: #1e232b;
+  --ink: #e6e4df;
+  --muted: #8d939c;
+  --stroke: #323944;
   --header: #000510;
   --callout: #1a140c;
   --navy: #00091c;
   --bridge-bg: #00091c;
-  --bridge-panel: #000c24;
-  --bridge-line: #163d6e;
-  --bridge-text: #e7ecef;
-  --bridge-dim: #8b9bb0;
+  --bridge-panel: #1e232b;
+  --bridge-line: #323944;
+  --bridge-text: #e6e4df;
+  --bridge-dim: #8d939c;
 }
 
 body {
