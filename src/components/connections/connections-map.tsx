@@ -226,11 +226,11 @@ export function ConnectionsMap() {
             </feMerge>
           </filter>
           <pattern id="map-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#163764" strokeWidth="0.6" />
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#122e52" strokeWidth="0.6" />
           </pattern>
           <radialGradient id="map-vignette" cx="50%" cy="50%" r="70%">
-            <stop offset="0%" stopColor="#001436" stopOpacity="0" />
-            <stop offset="100%" stopColor="#000c24" stopOpacity="0.55" />
+            <stop offset="0%" stopColor="#00091c" stopOpacity="0" />
+            <stop offset="100%" stopColor="#000408" stopOpacity="0.55" />
           </radialGradient>
         </defs>
 
@@ -347,7 +347,7 @@ export function ConnectionsMap() {
             width={CONTAINER_BOX.w}
             height={CONTAINER_BOX.h}
             rx="18"
-            fill={containerHot ? "rgba(241,90,0,0.06)" : "rgba(0,20,54,0.72)"}
+            fill={containerHot ? "rgba(241,90,0,0.06)" : "rgba(0,9,28,0.72)"}
             stroke={containerHot ? "#F15A00" : live ? "#4B5760" : "#3A5166"}
             strokeWidth="1.6"
             strokeDasharray="10 8"
