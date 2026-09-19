@@ -33,7 +33,7 @@ function Box({
 }) {
   return (
     <g>
-      <rect x={x} y={y} width={BOX_W} height={BOX_H} fill="#0F1922" />
+      <rect x={x} y={y} width={BOX_W} height={BOX_H} fill="var(--navy)" />
       {starwall ? (
         <text
           x={x + BOX_W / 2}

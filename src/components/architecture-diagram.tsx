@@ -34,7 +34,7 @@ export function ArchitectureDiagram() {
 
           return (
             <g key={`${stage.name}-${index}`}>
-              <rect x={x} y={y} width={BOX_W} height={BOX_H} fill="#0F1922" />
+              <rect x={x} y={y} width={BOX_W} height={BOX_H} fill="var(--navy)" />
               <text
                 x={x + BOX_W / 2}
                 y={y + 32}

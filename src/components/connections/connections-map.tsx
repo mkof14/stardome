@@ -226,15 +226,15 @@ export function ConnectionsMap() {
             </feMerge>
           </filter>
           <pattern id="map-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#152028" strokeWidth="0.6" />
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#163764" strokeWidth="0.6" />
           </pattern>
           <radialGradient id="map-vignette" cx="50%" cy="50%" r="70%">
-            <stop offset="0%" stopColor="#0A0F14" stopOpacity="0" />
-            <stop offset="100%" stopColor="#05080C" stopOpacity="0.55" />
+            <stop offset="0%" stopColor="#000c24" stopOpacity="0" />
+            <stop offset="100%" stopColor="#000617" stopOpacity="0.55" />
           </radialGradient>
         </defs>
 
-        <rect width={MAP_W} height={MAP_H} fill="#0A0F14" />
+        <rect width={MAP_W} height={MAP_H} fill="var(--navy)" />
         <rect width={MAP_W} height={MAP_H} fill="url(#map-grid)" />
         <rect width={MAP_W} height={MAP_H} fill="url(#map-vignette)" />
         {[210, 320, 430].map((r) => (
@@ -347,7 +347,7 @@ export function ConnectionsMap() {
             width={CONTAINER_BOX.w}
             height={CONTAINER_BOX.h}
             rx="18"
-            fill={containerHot ? "rgba(241,90,0,0.06)" : "rgba(13,22,28,0.72)"}
+            fill={containerHot ? "rgba(241,90,0,0.06)" : "rgba(0,12,36,0.72)"}
             stroke={containerHot ? "#F15A00" : live ? "#4B5760" : "#3A5166"}
             strokeWidth="1.6"
             strokeDasharray="10 8"
@@ -392,7 +392,7 @@ export function ConnectionsMap() {
             cx={CORE.x}
             cy={CORE.y}
             r={CORE.r}
-            fill="#111820"
+            fill="var(--navy)"
             stroke={live ? "#4B5760" : "#F15A00"}
             strokeWidth={2.2}
           />
@@ -451,7 +451,7 @@ export function ConnectionsMap() {
             >
               <circle
                 r={R}
-                fill="#111820"
+                fill="var(--navy)"
                 stroke={
                   live ? "#4B5760" : lit ? (item.flow === "out" ? "#F15A00" : "#33D3A6") : "#3A5166"
                 }

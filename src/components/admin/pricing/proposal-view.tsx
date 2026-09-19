@@ -93,7 +93,7 @@ export function ProposalView({ quoteId }: { quoteId: string }) {
       </div>
 
       <article className="mx-auto max-w-3xl border border-stroke bg-[#F7F1E8] text-[#1B2A3A] shadow-[0_12px_40px_rgb(15_25_34/0.12)]">
-        <header className="bg-[#0F1922] px-8 py-7 text-[#E9E4DA]">
+        <header className="bg-navy px-8 py-7 text-[#E9E4DA]">
           <div className={`h-[4px] ${look.bar}`} />
           <div className="mt-5 flex flex-wrap items-end justify-between gap-4">
             <div>

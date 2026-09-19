@@ -10,6 +10,7 @@
   --stroke: #b7c9d8;
   --header: #e0edf6;
   --callout: #fff1e8;
+  --navy: #000c24;
   --bridge-bg: #d4e6f2;
   --bridge-panel: #e4f0f8;
   --bridge-line: #a9bfd0;
@@ -18,18 +19,19 @@
 }
 
 .dark {
-  --page: #0f1922;
-  --panel: #111820;
+  --page: #000c24;
+  --panel: #001840;
   --ink: #e9e4da;
-  --muted: #9ca3af;
-  --stroke: #1c2830;
-  --header: #0a0f14;
-  --callout: #2a1a10;
-  --bridge-bg: #0a0f14;
-  --bridge-panel: #111820;
-  --bridge-line: #1c2830;
+  --muted: #8b9bb0;
+  --stroke: #163764;
+  --header: #000817;
+  --callout: #1a140c;
+  --navy: #000c24;
+  --bridge-bg: #000c24;
+  --bridge-panel: #001840;
+  --bridge-line: #163764;
   --bridge-text: #e7ecef;
-  --bridge-dim: #7c8894;
+  --bridge-dim: #8b9bb0;
 }
 
 body {
@@ -300,7 +302,7 @@ body {
 }
 
 .hud-bezel {
-  background: #0c141c;
+  background: var(--navy);
   box-shadow:
     0 0 0 1px rgb(241 90 0 / 0.45),
     0 0 48px rgb(241 90 0 / 0.28),

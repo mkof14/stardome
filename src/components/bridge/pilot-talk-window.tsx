@@ -82,7 +82,7 @@ export function PilotTalkWindow({
         closeTestId="pilot-talk-close"
       >
         <div className="relative grid min-h-0 flex-1 gap-4 pb-8 sm:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]">
-          <section className="relative flex min-h-[18rem] flex-col overflow-hidden rounded-2xl bg-[#111820] shadow-[0_16px_40px_rgb(0_0_0/0.35)]">
+          <section className="relative flex min-h-[18rem] flex-col overflow-hidden rounded-2xl bg-[var(--panel)] shadow-[0_16px_40px_rgb(0_0_0/0.35)]">
             <header className="relative z-[1] flex items-center justify-between px-3 py-2">
               <p className="font-body text-lg font-semibold tracking-tight text-[#E7ECEF]">
                 {title}
@@ -130,13 +130,13 @@ export function PilotTalkWindow({
                           ? "bg-orange text-white"
                           : item.role === "error"
                             ? "border border-attn text-attn"
-                            : "bg-[#0a0f14] text-[#E7ECEF]",
+                            : "bg-[var(--page)] text-[#E7ECEF]",
                       )}
                     >
                       {showing}
                     </p>
                     {item.role === "user" ? (
-                      <span className="mb-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-[#1c2830] bg-[#0a0f14] text-[#7c8894]">
+                      <span className="mb-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-[var(--stroke)] bg-[var(--page)] text-[#7c8894]">
                         <HudGlyph name="person" className="h-3.5 w-3.5" />
                       </span>
                     ) : null}
@@ -149,7 +149,7 @@ export function PilotTalkWindow({
                 event.preventDefault();
                 onSend(draft);
               }}
-              className="relative z-[1] flex items-center gap-2 bg-[#0a0f14] px-3 py-2"
+              className="relative z-[1] flex items-center gap-2 bg-[var(--page)] px-3 py-2"
             >
               <input
                 data-testid="pilot-talk-input"
