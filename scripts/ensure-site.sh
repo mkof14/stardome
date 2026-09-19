@@ -10,23 +10,46 @@ HOST="${STARWALL_HOST:-0.0.0.0}"
 PORTS="${STARWALL_PORTS:-3000 43180}"
 NEXT_LOG="${STARWALL_NEXT_LOG:-/tmp/starwall-next.log}"
 PG_LOG="${STARWALL_PG_LOG:-/tmp/starwall-pg.log}"
+LOCK="${STARWALL_LOCK:-/tmp/starwall-ensure.lock}"
 
 export DATABASE_URL="${DATABASE_URL:-postgresql://starwall:starwall@127.0.0.1:5432/starwall}"
 export NEXTAUTH_SECRET="${NEXTAUTH_SECRET:-starwall-dev-secret-not-for-production}"
 export NEXTAUTH_URL="${NEXTAUTH_URL:-http://127.0.0.1:3000}"
 export NEXT_PUBLIC_SITE_URL="${NEXT_PUBLIC_SITE_URL:-http://127.0.0.1:3000}"
 
+exec 9>"$LOCK"
+if ! flock -n 9; then
+  echo "[ensure] waiting for the other start to finish…"
+  flock 9
+fi
+
 alive() {
   local port="$1"
   curl -sf -o /dev/null --max-time 3 "http://127.0.0.1:${port}/"
 }
 
+build_ok() {
+  [ -f "$ROOT/.next/BUILD_ID" ] && [ -f "$ROOT/.next/prerender-manifest.json" ]
+}
+
+stop_next() {
+  pkill -f "next start -H" >/dev/null 2>&1 || true
+  pkill -f "next-server" >/dev/null 2>&1 || true
+  sleep 0.4
+}
+
 ensure_postgres() {
-  if pg_isready -h 127.0.0.1 -p 5432 >/dev/null 2>&1; then
+  if command -v pg_isready >/dev/null 2>&1 && pg_isready -h 127.0.0.1 -p 5432 >/dev/null 2>&1; then
     return 0
   fi
   echo "[ensure] starting Postgres…" | tee -a "$PG_LOG"
-  sudo pg_ctlcluster 16 main start >>"$PG_LOG" 2>&1 || sudo service postgresql start >>"$PG_LOG" 2>&1 || true
+  if command -v pg_ctlcluster >/dev/null 2>&1; then
+    sudo pg_ctlcluster 16 main start >>"$PG_LOG" 2>&1 || sudo service postgresql start >>"$PG_LOG" 2>&1 || true
+  fi
+  if ! command -v pg_isready >/dev/null 2>&1; then
+    echo "[ensure] WARN: Postgres tools not installed — marketing pages still serve." | tee -a "$PG_LOG"
+    return 0
+  fi
   for _ in 1 2 3 4 5 6 7 8 9 10; do
     pg_isready -h 127.0.0.1 -p 5432 >/dev/null 2>&1 && return 0
     sleep 1
@@ -41,17 +64,31 @@ ensure_deps() {
   fi
 }
 
+run_build() {
+  rm -rf "$ROOT/.next/export"
+  npm run build
+}
+
 ensure_build() {
   local stamp="$ROOT/.next/BUILD_ID"
   local stale=""
   if [ -f "$stamp" ]; then
     stale="$(find "$ROOT/src" "$ROOT/package.json" "$ROOT/next.config.mjs" "$ROOT/prisma" -newer "$stamp" -print -quit 2>/dev/null || true)"
   fi
-  if [ ! -f "$stamp" ] || [ -n "$stale" ]; then
-    echo "[ensure] building Next.js…"
-    pkill -f "next start -H" >/dev/null 2>&1 || true
-    pkill -f "next-server" >/dev/null 2>&1 || true
-    npm run build
+  if build_ok && [ -z "$stale" ]; then
+    return 0
+  fi
+  echo "[ensure] building Next.js…"
+  stop_next
+  if ! run_build || ! build_ok; then
+    echo "[ensure] build incomplete — cleaning .next and retrying"
+    stop_next
+    rm -rf "$ROOT/.next"
+    run_build
+  fi
+  if ! build_ok; then
+    echo "[ensure] Next.js build failed" >&2
+    return 1
   fi
 }
 
@@ -74,7 +111,10 @@ start_port() {
 
 ensure_postgres
 ensure_deps
-ensure_build
+if ! ensure_build; then
+  echo "[ensure] StarWall did not come up" >&2
+  exit 1
+fi
 
 ok=0
 for port in $PORTS; do
