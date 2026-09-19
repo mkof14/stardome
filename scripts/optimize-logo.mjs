@@ -74,7 +74,7 @@ const ogLogo = await sharp(buffer)
 await write(
   "og-starwall.jpg",
   sharp({
-    create: { width: 1200, height: 630, channels: 3, background: { r: 0, g: 12, b: 36 } },
+    create: { width: 1200, height: 630, channels: 3, background: { r: 0, g: 20, b: 54 } },
   })
     .composite([{ input: ogLogo, gravity: "center" }])
     .jpeg({ quality: 84, mozjpeg: true }),

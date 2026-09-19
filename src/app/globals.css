@@ -10,7 +10,7 @@
   --stroke: #b7c9d8;
   --header: #e0edf6;
   --callout: #fff1e8;
-  --navy: #000c24;
+  --navy: #001436;
   --bridge-bg: #d4e6f2;
   --bridge-panel: #e4f0f8;
   --bridge-line: #a9bfd0;
@@ -19,17 +19,17 @@
 }
 
 .dark {
-  --page: #000c24;
+  --page: #001436;
   --panel: #001840;
   --ink: #e9e4da;
   --muted: #8b9bb0;
-  --stroke: #163764;
-  --header: #000817;
+  --stroke: #1a4a80;
+  --header: #00102c;
   --callout: #1a140c;
-  --navy: #000c24;
-  --bridge-bg: #000c24;
+  --navy: #001436;
+  --bridge-bg: #001436;
   --bridge-panel: #001840;
-  --bridge-line: #163764;
+  --bridge-line: #1a4a80;
   --bridge-text: #e7ecef;
   --bridge-dim: #8b9bb0;
 }

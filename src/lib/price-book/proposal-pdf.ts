@@ -34,7 +34,7 @@ export type ProposalPdfInput = {
   validity?: string;
 };
 
-const NAVY = rgb(0 / 255, 12 / 255, 36 / 255);
+const NAVY = rgb(0 / 255, 20 / 255, 54 / 255);
 const WALL = rgb(241 / 255, 90 / 255, 0);
 const SAND = rgb(233 / 255, 228 / 255, 218 / 255);
 const INK = rgb(27 / 255, 42 / 255, 58 / 255);
