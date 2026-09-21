@@ -99,7 +99,7 @@ start_port() {
     return 0
   fi
   echo "[ensure] starting next start on :${port}"
-  nohup npx next start -H "$HOST" -p "$port" >>"$NEXT_LOG" 2>&1 &
+  nohup npx next start -H "$HOST" -p "$port" >>"$NEXT_LOG" 2>&1 9>&- &
   local i
   for i in $(seq 1 40); do
     alive "$port" && return 0
