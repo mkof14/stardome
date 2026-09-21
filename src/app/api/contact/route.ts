@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
+import { clientKey, rateLimit, rateLimitResponse } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
+  const limited = rateLimit(clientKey(request, "contact"), 8, 60_000);
+  if (!limited.ok) return rateLimitResponse(limited.retryAfterMs);
+
   let body: unknown;
   try {
     body = await request.json();

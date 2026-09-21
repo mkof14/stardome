@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { requireActor, writeAudit } from "@/lib/authz";
+import { requireActor, requireRole, writeAudit } from "@/lib/authz";
 import { prismaReady } from "@/lib/prisma";
 
 export async function GET() {
-  const ready = await requireActor();
+  const ready = await requireRole("Admin");
   if (!ready.ok) {
     return NextResponse.json({ error: ready.error }, { status: ready.status });
   }

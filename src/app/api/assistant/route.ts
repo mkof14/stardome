@@ -6,6 +6,7 @@ import {
 } from "@/lib/pilot-knowledge";
 import { isLocale } from "@/lib/i18n/locales";
 import { sessionFromAssistantContext, watchReply } from "@/lib/pilot-watch";
+import { clientKey, rateLimit, rateLimitResponse } from "@/lib/rate-limit";
 
 type AssistantBody = {
   message?: unknown;
@@ -38,6 +39,9 @@ function parseLangTag(raw: string) {
 }
 
 export async function POST(request: Request) {
+  const limited = rateLimit(clientKey(request, "assistant"), 30, 60_000);
+  if (!limited.ok) return rateLimitResponse(limited.retryAfterMs);
+
   let body: AssistantBody;
   try {
     body = (await request.json()) as AssistantBody;

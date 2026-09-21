@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
 import { createUser } from "@/lib/user-store";
+import { clientKey, rateLimit, rateLimitResponse } from "@/lib/rate-limit";
 
 // TODO: replace with a real database (e.g. Postgres via Prisma) before production use.
 
 export async function POST(request: Request) {
+  const limited = rateLimit(clientKey(request, "register"), 5, 60_000);
+  if (!limited.ok) return rateLimitResponse(limited.retryAfterMs);
+
   let body: unknown;
   try {
     body = await request.json();

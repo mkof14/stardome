@@ -5,6 +5,7 @@ import {
   synthesizePilotSpeech,
   ttsPlan,
 } from "@/lib/pilot-tts";
+import { clientKey, rateLimit, rateLimitResponse } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -23,6 +24,9 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const limited = rateLimit(clientKey(request, "tts"), 20, 60_000);
+  if (!limited.ok) return rateLimitResponse(limited.retryAfterMs);
+
   let body: { text?: unknown; locale?: unknown };
   try {
     body = (await request.json()) as { text?: unknown; locale?: unknown };

@@ -71,6 +71,17 @@ export async function requireCloudActor(sessionId: string): Promise<
   if (!watchId) {
     return { ok: false, status: 400, error: "missing_session" };
   }
+  try {
+    const prisma = getPrisma();
+    if (prisma) {
+      const existing = await prisma.session.findUnique({ where: { id: watchId } });
+      if (existing && existing.userId !== ready.user.userId) {
+        return { ok: false, status: 403, error: "forbidden" };
+      }
+    }
+  } catch {
+    return { ok: false, status: 503, error: "cloud_unavailable" };
+  }
   return {
     ok: true,
     actor: { ...ready.user, sessionId: watchId },
