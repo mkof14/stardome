@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { siteUrl } from "@/lib/site-url";
 import {
   Cormorant_Garamond,
@@ -62,49 +63,66 @@ const notoHebrew = Noto_Sans_Hebrew({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl()),
-  title: {
-    default: "StarWall by AGRON — Maritime Security Intelligence",
-    template: "%s",
-  },
-  description:
-    "Intelligence, integration, and decision support for yacht, marina, port, and private island security.",
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
-    ],
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
-    shortcut: "/favicon.ico",
-  },
-  openGraph: {
-    title: "StarWall by AGRON — Maritime Security Intelligence",
+function requestOrigin() {
+  try {
+    const h = headers();
+    const host = (h.get("x-forwarded-host") || h.get("host") || "").split(",")[0].trim();
+    if (!host) return siteUrl();
+    const proto =
+      h.get("x-forwarded-proto")?.split(",")[0].trim() ||
+      (host.startsWith("localhost") || host.startsWith("127.0.0.1") ? "http" : "https");
+    return `${proto}://${host}`;
+  } catch {
+    return siteUrl();
+  }
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const origin = requestOrigin();
+  return {
+    metadataBase: new URL(origin),
+    title: {
+      default: "StarWall by AGRON — Maritime Security Intelligence",
+      template: "%s",
+    },
     description:
       "Intelligence, integration, and decision support for yacht, marina, port, and private island security.",
-    type: "website",
-    url: siteUrl(),
-    siteName: "StarWall",
-    images: [
-      {
-        url: "/og-starwall.jpg",
-        width: 1200,
-        height: 630,
-        alt: "StarWall",
-        type: "image/jpeg",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "StarWall by AGRON — Maritime Security Intelligence",
-    description:
-      "Intelligence, integration, and decision support for yacht, marina, port, and private island security.",
-    images: ["/og-starwall.jpg"],
-  },
-  robots: { index: true, follow: true },
-};
+    icons: {
+      icon: [
+        { url: "/favicon.ico", sizes: "any" },
+        { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
+        { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      ],
+      apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+      shortcut: "/favicon.ico",
+    },
+    openGraph: {
+      title: "StarWall by AGRON — Maritime Security Intelligence",
+      description:
+        "Intelligence, integration, and decision support for yacht, marina, port, and private island security.",
+      type: "website",
+      url: origin,
+      siteName: "StarWall",
+      images: [
+        {
+          url: "/og-starwall.jpg",
+          width: 1200,
+          height: 630,
+          alt: "StarWall",
+          type: "image/jpeg",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "StarWall by AGRON — Maritime Security Intelligence",
+      description:
+        "Intelligence, integration, and decision support for yacht, marina, port, and private island security.",
+      images: ["/og-starwall.jpg"],
+    },
+    robots: { index: true, follow: true },
+  };
+}
 
 export default function RootLayout({
   children,
