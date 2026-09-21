@@ -8,6 +8,7 @@ import { AuthShell } from "@/components/auth/auth-shell";
 import { GoogleButton } from "@/components/auth/google-button";
 import { PasswordField } from "@/components/auth/password-field";
 import { safeNextPath } from "@/lib/auth-session";
+import { usePreferences } from "@/lib/i18n/context";
 
 export function LoginView({
   next,
@@ -18,19 +19,20 @@ export function LoginView({
   google?: boolean;
   error?: string | null;
 }) {
+  const { t } = usePreferences();
   const router = useRouter();
   const nextPath = safeNextPath(next);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(() =>
-    initialError ? "Sign-in could not finish on this host. Try email and password." : null,
+    initialError ? t.auth.googleHostError : null,
   );
   const [busy, setBusy] = useState(false);
 
   async function submit() {
     setError(null);
     if (!email.trim() || !password) {
-      setError("Enter your email and password.");
+      setError(t.auth.enterCredentials);
       return;
     }
     setBusy(true);
@@ -41,7 +43,7 @@ export function LoginView({
     });
     setBusy(false);
     if (!result || result.error) {
-      setError("Those credentials were not recognised.");
+      setError(t.auth.credentialsError);
       return;
     }
     router.push(nextPath);
@@ -54,7 +56,7 @@ export function LoginView({
   }
 
   return (
-    <AuthShell title="Sign in to StarWall">
+    <AuthShell title={t.auth.title}>
       <form
         data-testid="auth-form"
         className="mt-6"
@@ -64,7 +66,7 @@ export function LoginView({
         }}
       >
         <label className="block text-sm" htmlFor="login-email">
-          <span className="text-[#55687A]">Email or demo</span>
+          <span className="text-[#55687A]">{t.auth.emailLabel}</span>
           <input
             id="login-email"
             data-testid="auth-email"
@@ -80,7 +82,7 @@ export function LoginView({
         </label>
         <PasswordField
           id="login-password"
-          label="Password"
+          label={t.auth.passwordLabel}
           value={password}
           onChange={(value) => {
             setPassword(value);
@@ -93,7 +95,7 @@ export function LoginView({
             data-testid="auth-forgot"
             className="text-sm text-orange hover:underline"
           >
-            Forgot password?
+            {t.auth.forgotLink}
           </Link>
         </p>
         {error ? (
@@ -107,7 +109,7 @@ export function LoginView({
           disabled={busy}
           className="mt-5 w-full bg-orange px-3 py-2.5 font-ui text-sm font-medium text-white hover:bg-orange/90 disabled:opacity-60"
         >
-          {busy ? "Signing in…" : "Sign in"}
+          {busy ? t.auth.signingIn : t.auth.signIn}
         </button>
       </form>
 
@@ -116,7 +118,7 @@ export function LoginView({
           <div className="my-5 flex items-center gap-3">
             <span className="h-px flex-1 bg-[#B7C9D8]" />
             <span className="font-mono text-[11px] uppercase tracking-wider text-[#55687A]">
-              or
+              {t.auth.orDivider}
             </span>
             <span className="h-px flex-1 bg-[#B7C9D8]" />
           </div>
@@ -126,9 +128,9 @@ export function LoginView({
       ) : null}
 
       <p className="mt-6 text-center text-sm text-[#55687A]">
-        Don&apos;t have an account?{" "}
+        {t.auth.noAccount}{" "}
         <Link href="/signup" className="text-orange hover:underline">
-          Sign up
+          {t.auth.signUpLink}
         </Link>
       </p>
 
@@ -137,15 +139,10 @@ export function LoginView({
         className="mt-6 border border-[#B7C9D8] bg-[#F7FBFD] px-3 py-3 text-start"
       >
         <p className="font-mono text-[10px] tracking-wider text-[#55687A]">
-          IDEA DEMONSTRATION
+          {t.auth.demoAccounts}
         </p>
-        <p className="mt-2 font-mono text-[11px] text-navyText">
-          demo · demo
-        </p>
-        <p className="mt-2 text-xs leading-relaxed text-[#55687A]">
-          This is a product idea demo. One shared sign-in opens the Super Admin
-          walkthrough. No unique passwords are published here.
-        </p>
+        <p className="mt-2 font-mono text-[11px] text-navyText">demo · demo</p>
+        <p className="mt-2 text-xs leading-relaxed text-[#55687A]">{t.auth.demoHint}</p>
       </div>
     </AuthShell>
   );

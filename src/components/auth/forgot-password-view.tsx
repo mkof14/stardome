@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { useState } from "react";
 import { AuthShell } from "@/components/auth/auth-shell";
+import { usePreferences } from "@/lib/i18n/context";
 
 export function ForgotPasswordView() {
+  const { t } = usePreferences();
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
 
@@ -13,14 +15,11 @@ export function ForgotPasswordView() {
   }
 
   return (
-    <AuthShell title="Reset your password">
-      <p className="mt-4 text-sm leading-relaxed text-[#55687A]">
-        This idea demonstration does not send reset mail. Sign in with demo /
-        demo.
-      </p>
+    <AuthShell title={t.auth.forgotTitle}>
+      <p className="mt-4 text-sm leading-relaxed text-[#55687A]">{t.auth.forgotLead}</p>
       {sent ? (
         <p data-testid="reset-sent" className="mt-6 text-center text-sm text-[#55687A]">
-          No email was sent. Use demo / demo to open the walkthrough.
+          {t.auth.forgotSent}
         </p>
       ) : (
         <form
@@ -32,7 +31,7 @@ export function ForgotPasswordView() {
           }}
         >
           <label className="block text-sm" htmlFor="forgot-email">
-            <span className="text-[#55687A]">Email</span>
+            <span className="text-[#55687A]">{t.auth.emailLabel}</span>
             <input
               id="forgot-email"
               data-testid="forgot-email"
@@ -49,13 +48,13 @@ export function ForgotPasswordView() {
             data-testid="forgot-submit"
             className="mt-5 w-full bg-orange px-3 py-2.5 font-ui text-sm font-medium text-white hover:bg-orange/90"
           >
-            Continue
+            {t.auth.forgotSubmit}
           </button>
         </form>
       )}
       <p className="mt-6 text-center text-sm text-[#55687A]">
         <Link href="/login" className="text-orange hover:underline">
-          ← Back to sign in
+          {t.auth.backToSignIn}
         </Link>
       </p>
     </AuthShell>

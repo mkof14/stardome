@@ -7,8 +7,10 @@ import { signIn } from "next-auth/react";
 import { AuthShell } from "@/components/auth/auth-shell";
 import { GoogleButton } from "@/components/auth/google-button";
 import { PasswordField } from "@/components/auth/password-field";
+import { usePreferences } from "@/lib/i18n/context";
 
 export function SignupView({ google = false }: { google?: boolean }) {
+  const { t } = usePreferences();
   const router = useRouter();
   const [name, setName] = useState("");
   const [organization, setOrganization] = useState("");
@@ -21,19 +23,19 @@ export function SignupView({ google = false }: { google?: boolean }) {
   async function submit() {
     setError(null);
     if (!name.trim()) {
-      setError("Enter your name.");
+      setError(t.auth.enterName);
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      setError("Enter a valid email.");
+      setError(t.auth.enterValidEmail);
       return;
     }
     if (password.length < 8) {
-      setError("Password must be at least 8 characters.");
+      setError(t.auth.passwordShort);
       return;
     }
     if (password !== confirm) {
-      setError("Passwords do not match.");
+      setError(t.auth.passwordMismatch);
       return;
     }
     setBusy(true);
@@ -50,7 +52,7 @@ export function SignupView({ google = false }: { google?: boolean }) {
     const payload = (await response.json()) as { error?: string };
     if (!response.ok) {
       setBusy(false);
-      setError(payload.error ?? "Could not create the account.");
+      setError(payload.error ?? t.auth.signupFailed);
       return;
     }
     const result = await signIn("credentials", {
@@ -60,7 +62,7 @@ export function SignupView({ google = false }: { google?: boolean }) {
     });
     setBusy(false);
     if (!result || result.error) {
-      setError("Account created. Sign in from the login page.");
+      setError(t.auth.signupThenLogin);
       return;
     }
     router.push("/interface");
@@ -73,7 +75,7 @@ export function SignupView({ google = false }: { google?: boolean }) {
   }
 
   return (
-    <AuthShell title="Create a StarWall account">
+    <AuthShell title={t.auth.signUpTitle}>
       <form
         data-testid="signup-form"
         className="mt-6"
@@ -85,7 +87,7 @@ export function SignupView({ google = false }: { google?: boolean }) {
         <Field
           id="signup-name"
           testId="signup-name"
-          label="Name"
+          label={t.auth.nameLabel}
           value={name}
           onChange={setName}
           autoComplete="name"
@@ -93,7 +95,7 @@ export function SignupView({ google = false }: { google?: boolean }) {
         <Field
           id="signup-org"
           testId="signup-organization"
-          label="Organization (optional)"
+          label={t.auth.organizationOptional}
           value={organization}
           onChange={setOrganization}
           autoComplete="organization"
@@ -101,7 +103,7 @@ export function SignupView({ google = false }: { google?: boolean }) {
         <Field
           id="signup-email"
           testId="signup-email"
-          label="Email"
+          label={t.auth.emailLabel}
           type="email"
           value={email}
           onChange={setEmail}
@@ -109,7 +111,7 @@ export function SignupView({ google = false }: { google?: boolean }) {
         />
         <PasswordField
           id="signup-password"
-          label="Password"
+          label={t.auth.passwordLabel}
           value={password}
           onChange={setPassword}
           autoComplete="new-password"
@@ -117,7 +119,7 @@ export function SignupView({ google = false }: { google?: boolean }) {
         />
         <PasswordField
           id="signup-confirm"
-          label="Confirm Password"
+          label={t.auth.confirmPassword}
           value={confirm}
           onChange={setConfirm}
           autoComplete="new-password"
@@ -134,7 +136,7 @@ export function SignupView({ google = false }: { google?: boolean }) {
           disabled={busy}
           className="mt-5 w-full bg-orange px-3 py-2.5 font-ui text-sm font-medium text-white hover:bg-orange/90 disabled:opacity-60"
         >
-          {busy ? "Creating account…" : "Sign up"}
+          {busy ? t.auth.creatingAccount : t.auth.signUpAction}
         </button>
       </form>
 
@@ -143,7 +145,7 @@ export function SignupView({ google = false }: { google?: boolean }) {
           <div className="my-5 flex items-center gap-3">
             <span className="h-px flex-1 bg-[#B7C9D8]" />
             <span className="font-mono text-[11px] uppercase tracking-wider text-[#55687A]">
-              or
+              {t.auth.orDivider}
             </span>
             <span className="h-px flex-1 bg-[#B7C9D8]" />
           </div>
@@ -153,9 +155,9 @@ export function SignupView({ google = false }: { google?: boolean }) {
       ) : null}
 
       <p className="mt-6 text-center text-sm text-[#55687A]">
-        Already have an account?{" "}
+        {t.auth.hasAccount}{" "}
         <Link href="/login" className="text-orange hover:underline">
-          Sign in
+          {t.auth.signIn}
         </Link>
       </p>
     </AuthShell>

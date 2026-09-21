@@ -125,7 +125,7 @@ Generate `NEXTAUTH_SECRET` with `openssl rand -base64 32`. After a successful si
 
 Translated now: marketing chrome (nav, footer), all public pages, the Bridge Interface HUD (jump rail, library, crisis protocol, Pilot chrome, connections map labels), the LIVE banner, `/backend`, and `/tasks`. The watch picture itself stays `dir="ltr"` so Arabic and Hebrew do not mirror radar and instruments. Arabic and Hebrew also load Noto Sans for body and headings.
 
-Still English: sign-in / sign-up / forgot-password forms (credentials and role names stay as printed), instrument skins on the radar/sonar/spectrum drawings (HF SONAR, CORE, range rings), product names (StarWall, Bridge, Support Center, Pilot, tier codes LIGHT / ADVANCED / INTELLIGENCE / CUSTOM), and Pilot replies (those follow the spoken/typed language when an API key is set).
+Still English: instrument skins on the radar/sonar/spectrum drawings (HF SONAR, CORE, range rings), product names (StarWall, Bridge, Support Center, Pilot, tier codes LIGHT / ADVANCED / INTELLIGENCE / CUSTOM), and Pilot replies (those follow the spoken/typed language when an API key is set). Sign-in, sign-up, and forgot-password now follow the site language. The demonstration sign-in stays `demo` / `demo`.
 
 ## Deploy on Vercel
 

@@ -283,6 +283,33 @@ export type Messages = {
     openTask: string;
     lockedHint: string;
     useAccount: string;
+    passwordLabel: string;
+    forgotLink: string;
+    signingIn: string;
+    credentialsError: string;
+    enterCredentials: string;
+    demoHint: string;
+    noAccount: string;
+    hasAccount: string;
+    signUpLink: string;
+    signUpTitle: string;
+    organizationOptional: string;
+    confirmPassword: string;
+    creatingAccount: string;
+    signUpAction: string;
+    forgotTitle: string;
+    forgotSent: string;
+    forgotSubmit: string;
+    forgotLead: string;
+    backToSignIn: string;
+    orDivider: string;
+    enterName: string;
+    enterValidEmail: string;
+    passwordShort: string;
+    passwordMismatch: string;
+    signupFailed: string;
+    signupThenLogin: string;
+    googleHostError: string;
     bodies: {
       health: string;
       equipment: string;
@@ -940,25 +967,25 @@ export const en: Messages = {
     kicker: "AUTHORIZATION",
     title: "Sign in to StarWall",
     lead:
-      "Sign in with email and password, or Google. Pre-pilot role accounts are listed on the login page. New accounts start as Operator.",
+      "This is an idea demonstration. Sign in with demo / demo. New accounts start as Operator when a database is attached.",
     leadLive:
-      "Sign in with the same accounts in LIVE. No sensors are connected yet; administration still uses this signed-in session.",
+      "Same demonstration accounts in LIVE. No sensors are connected yet; administration still uses this signed-in session.",
     nameLabel: "Name",
-    emailLabel: "Email (optional)",
+    emailLabel: "Email or demo",
     roleLabel: "Role",
     namePlaceholder: "Your name",
     emailPlaceholder: "name@example.com",
     signIn: "Sign in",
     signOut: "Sign out",
     signedInAs: "Signed in as",
-    demoAccounts: "Pre-pilot role accounts",
+    demoAccounts: "Idea demonstration",
     liveEmptyAccounts: "No accounts on this deployment yet.",
     sessionNotice:
       "Signed-in session for Bridge and Backend. Roles are enforced on write actions.",
     sessionNoticeLive:
       "Same accounts as DEMO. LIVE still has no connected sensors.",
     nameRequired: "Enter a name to continue.",
-    emailInvalid: "Enter a valid email, or leave it blank.",
+    emailInvalid: "Enter a valid email.",
     loading: "Loading session…",
     error: "The saved session could not be read.",
     retry: "Clear and retry",
@@ -977,6 +1004,35 @@ export const en: Messages = {
     openTask: "Open",
     lockedHint: "Sign in to open this surface.",
     useAccount: "Use this account",
+    passwordLabel: "Password",
+    forgotLink: "Forgot password?",
+    signingIn: "Signing in…",
+    credentialsError: "Those credentials were not recognised.",
+    enterCredentials: "Enter your email and password.",
+    demoHint:
+      "This is a product idea demo. Sign in with demo / demo. No unique passwords are published here.",
+    noAccount: "Don't have an account?",
+    hasAccount: "Already have an account?",
+    signUpLink: "Sign up",
+    signUpTitle: "Create a StarWall account",
+    organizationOptional: "Organization (optional)",
+    confirmPassword: "Confirm password",
+    creatingAccount: "Creating account…",
+    signUpAction: "Sign up",
+    forgotTitle: "Reset your password",
+    forgotSent: "No email was sent. Use demo / demo to open the walkthrough.",
+    forgotSubmit: "Continue",
+    forgotLead:
+      "This idea demonstration does not send reset mail. Sign in with demo / demo.",
+    backToSignIn: "← Back to sign in",
+    orDivider: "or",
+    enterName: "Enter your name.",
+    enterValidEmail: "Enter a valid email.",
+    passwordShort: "Password must be at least 8 characters.",
+    passwordMismatch: "Passwords do not match.",
+    signupFailed: "Could not create the account.",
+    signupThenLogin: "Account created. Sign in from the login page.",
+    googleHostError: "Sign-in could not finish on this host. Try email and password.",
     bodies: {
       health: "Heartbeat, links, and backup paths for this deployment.",
       equipment: "Diagnostics and self-checks for connected equipment.",
@@ -1233,7 +1289,7 @@ export const en: Messages = {
     title: "What you can buy. The number is not here.",
     lead: "LIGHT, ADVANCED, INTELLIGENCE, CUSTOM — names and what they include are open. Pick an object, a plan, a container if you need metal. The person who will write the contract names the price.",
     mostPopular: "Most popular",
-    perMonth: "/mo",
+    perMonth: "quoted",
     equipmentPrefix: "+",
     equipmentSuffix: "one-time equipment",
     contactUs: "Contact us",
@@ -1268,7 +1324,7 @@ export const en: Messages = {
       monthlyLabel: "Monthly",
       oneTimeLabel: "One-time equipment",
       oneTimeShort: "one-time",
-      perMonth: "/mo",
+      perMonth: "quoted",
       contactPricing: "Contact us for pricing",
       customQuote: "Contact AGRON for a custom quote",
       requestQuote: "Ask the person on the contract",
