@@ -18,11 +18,8 @@ const PATHS = [
   "/containers/deployment",
   "/about",
   "/contact",
-  "/backend",
   "/login",
   "/signup",
-  "/forgot-password",
-  "/tasks",
   "/privacy",
   "/terms",
 ];
