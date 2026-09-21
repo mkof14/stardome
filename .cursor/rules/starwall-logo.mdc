@@ -9,8 +9,8 @@ The official StarWall mark is the chrome hex badge supplied by AGRON.
 
 - Web UI, header, footer, login, and CORE map: `public/starwall-logo.webp` (AVIF sibling `starwall-logo.avif`).
 - PDF, PNG fallback: `public/SW3.png`.
-- Favicon / Apple: `public/favicon-32.png`, `public/apple-touch-icon.png`.
-- Open Graph / Twitter: `public/og-starwall.jpg`.
+- Favicon / Apple: `public/favicon.ico`, `public/favicon-16.png`, `public/favicon-32.png`, `public/apple-touch-icon.png`. App Router copies: `src/app/icon.png`, `src/app/apple-icon.png`.
+- Open Graph / link previews (star-wall.com): `public/og-starwall.jpg` and `src/app/opengraph-image.jpg`.
 
 Regenerate with `node scripts/optimize-logo.mjs <source.png>`.
 

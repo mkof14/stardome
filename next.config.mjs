@@ -53,11 +53,20 @@ const nextConfig = {
         ],
       },
       {
-        source: "/:file(SW3.png|starwall-logo.webp|starwall-logo.avif|favicon.ico|favicon-32.png|apple-touch-icon.png|og-starwall.jpg)",
+        source: "/:file(SW3.png|starwall-logo.webp|starwall-logo.avif|favicon.ico|favicon-16.png|favicon-32.png|apple-touch-icon.png)",
         headers: [
           {
             key: "Cache-Control",
             value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        source: "/:file(og-starwall.jpg|opengraph-image.jpg)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=86400, stale-while-revalidate=604800",
           },
         ],
       },

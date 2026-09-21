@@ -72,10 +72,12 @@ export const metadata: Metadata = {
     "Intelligence, integration, and decision support for yacht, marina, port, and private island security.",
   icons: {
     icon: [
-      { url: "/favicon.ico" },
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
       { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
     ],
-    apple: "/apple-touch-icon.png",
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+    shortcut: "/favicon.ico",
   },
   openGraph: {
     title: "StarWall by AGRON — Maritime Security Intelligence",
@@ -83,8 +85,16 @@ export const metadata: Metadata = {
       "Intelligence, integration, and decision support for yacht, marina, port, and private island security.",
     type: "website",
     url: siteUrl(),
-    siteName: "StarWall by AGRON",
-    images: [{ url: "/og-starwall.jpg", width: 1200, height: 630, alt: "StarWall" }],
+    siteName: "StarWall",
+    images: [
+      {
+        url: "/og-starwall.jpg",
+        width: 1200,
+        height: 630,
+        alt: "StarWall",
+        type: "image/jpeg",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
