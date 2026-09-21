@@ -27,5 +27,10 @@ export async function POST(request: Request) {
     );
   }
 
-  return NextResponse.json({ ok: true, delivered: false });
+  return NextResponse.json({
+    ok: true,
+    delivered: false,
+    demo: true,
+    notice: "Idea demonstration — the request is acknowledged, not emailed.",
+  });
 }

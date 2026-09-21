@@ -119,7 +119,7 @@ DATABASE_URL=
 
 Generate `NEXTAUTH_SECRET` with `openssl rand -base64 32`. After a successful sign-in the site opens `/interface` and the header shows an initial avatar with **Sign out**.
 
-`/signup` creates a credentials account. `/forgot-password` shows a standard confirmation without revealing whether the email exists. Reset mail is not wired yet (Resend or similar before launch).
+`/signup` creates a credentials account when Postgres is attached. `/forgot-password` is honest: this idea demo does not send reset mail. Use `demo` / `demo`.
 
 `/backend` and `/tasks` still require a signed-in session.
 
@@ -142,7 +142,7 @@ Optional, after the first green deploy:
 
 - `DATABASE_URL` — Neon / Vercel Postgres (add `?sslmode=require` if it is missing). The build runs `prisma migrate deploy` only for a hosted URL, using a direct (non-pooler) connection. Seed accounts are written on first backend request.
 - `NEXT_PUBLIC_SITE_URL` / `NEXTAUTH_URL` — custom production origin, if it is not the `*.vercel.app` host.
-- `NEXTAUTH_SECRET` — `openssl rand -base64 32`. A built-in fallback is used if this is empty so sessions still verify.
+- `NEXTAUTH_SECRET` — `openssl rand -base64 32`. This idea demo falls back to a labeled local secret if the variable is empty so sessions still verify. Do not reuse that fallback on a real install.
 
 `vercel.json` pins the framework, `npm run build`, and region `iad1`. Prisma generates an Amazon Linux (`rhel-openssl-3.0.x`) engine so serverless functions can query Postgres.
 
@@ -203,4 +203,4 @@ npm start
 
 `/pricing` is the public Plans page and never shows dollar figures. After sign-in, Super Admin, Admin, and people with an assigned commercial role (`admin`, `sales`, `engineering`) open the commercial desk from **Plans** at `/pricing/desk`: a pipeline board, catalog shelf, quote tickets, and a branded PDF proposal (`/api/admin/starwall/pricing/quotes/[id]/pdf`) on AGRON Inc. letterhead with the StarWall mark. Older `/admin/starwall/pricing` URLs redirect there. Seeded desk accounts: `sales@starwall.demo` and `engineering@starwall.demo`. License list prices are seeded (LIGHT $6,000, ADVANCED $18,000, INTELLIGENCE $42,000, CUSTOM starting $75,000). Every other catalog row is PRICE REQUIRED until AGRON enters real costs. Public APIs never return this book. The customer PDF never includes cost or margin.
 
-`/api/contact` accepts briefing requests and acknowledges them (no inbox is wired by default). `/backend` writes through `/api/equipment`, `/api/notifications`, `/api/audit`, `/api/integrations`, and `/api/users`. Unauthorized writes return 403.
+`/api/contact` acknowledges briefing requests and returns `delivered: false`. This idea demo has no inbox. `/backend` writes through `/api/equipment`, `/api/notifications`, `/api/audit`, `/api/integrations`, and `/api/users`. Unauthorized writes return 403.

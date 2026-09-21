@@ -68,7 +68,7 @@ export const fr: Messages = {
     privacySections: [
       { title: "Qui est responsable", body: "AGRON Inc. est derrière StarWall. Questions de confidentialité : formulaire de contact ou agron1.com. Si un déploiement contractuel désigne un contact protection des données, il figure dans l'accord écrit." },
       { title: "Ce qu'est ce site", body: "Les pages publiques sont le produit. Le Bridge sur /interface est un tableau de quart illustratif : DEMO utilise des contacts, événements et statuts d'équipement simulés. LIVE montre l'état réel de ce déploiement — vide tant qu'aucun capteur n'est relié. La démo publique n'est pas un flux live d'un yacht, d'une marina ou d'un port, sauf accord écrit avec AGRON." },
-      { title: "Quelles informations nous traitons", body: "Si vous créez un compte, nous conservons l'e-mail et le hash du mot de passe (ou l'identifiant du fournisseur d'accès) et le rôle. Le formulaire de contact transmet ce que vous saisissez. Le navigateur conserve langue, thème et DEMO/LIVE. Journaux, Black Box et conversations Pilot s'écrivent d'abord sur l'appareil ; ils n'atteignent la base du déploiement que si elle est configurée. Nous n'utilisons pas le contenu Bridge ou Pilot pour entraîner des modèles." },
+      { title: "Quelles informations nous traitons", body: "Si vous créez un compte, nous conservons l'e-mail et le hash du mot de passe (ou l'identifiant du fournisseur d'accès) et le rôle. Le formulaire de contact enregistre ce que vous saisissez dans cette démonstration ; aucune boîte n'est encore branchée. Le navigateur conserve langue, thème et DEMO/LIVE. Journaux, Black Box et conversations Pilot s'écrivent d'abord sur l'appareil ; ils n'atteignent la base du déploiement que si elle est configurée. Nous n'utilisons pas le contenu Bridge ou Pilot pour entraîner des modèles." },
       { title: "Cookies et stockage similaire", body: "Un cookie de session maintient la connexion ; le stockage local sert à la langue, au thème et au mode. Pas de cookies publicitaires, pas de vente de données personnelles." },
       { title: "Accès et partage", body: "L'accès suit les rôles Backend : Super Admin, Admin, Operator et Viewer. L'hébergement et la base traitent les données sur nos instructions lorsqu'un déploiement est connecté. Anthropic reçoit le message envoyé à Pilot pour que le conseiller réponde, pas pour le marketing AGRON." },
       { title: "Vos droits et conservation", body: "Vous pouvez demander l'accès, la correction ou la suppression via la page contact. Dans l'UE, l'EEE, le Royaume-Uni ou Monaco, le RGPD ou une loi équivalente peut ajouter des droits. Nous conservons les enregistrements tant que le compte ou le contrat en a besoin. Ceci décrit la pratique actuelle, ce n'est pas un tampon de certification." },
@@ -227,7 +227,7 @@ export const fr: Messages = {
       "Basculement vers {name}... (basculement multi-objets complet disponible au niveau Premium/Custom)",
     notifyTitle: "ROUTAGE DES ALERTES",
     notifyNote:
-      "Les routes enregistrées sont stockées en base. L'envoi réel exige encore un prestataire (p. ex. Twilio pour appels/SMS) avant la mise en service.",
+      "Cette démonstration stocke uniquement la table de routage. E-mail, SMS, appels et messagerie ne partent pas de cet aperçu.",
     notifyAttention: "Attention",
     notifyElevated: "Elevated",
     notifyCritical: "Critical",
@@ -766,7 +766,10 @@ export const fr: Messages = {
     message: "Message",
     messagePlaceholder: "Parlez-nous de votre objet et de ce que vous recherchez",
     send: "Envoyer",
-    success: "Merci — nous vous recontacterons sous peu.",
+    sending: "Enregistrement…",
+    success:
+      "Enregistré dans cette démonstration. Aucun e-mail n'est envoyé — aperçu d'idée, pas une boîte réelle.",
+    error: "La demande n'a pas pu être enregistrée. Réessayez.",
     required: "Ce champ est obligatoire.",
     invalidEmail: "Saisissez une adresse valide.",
   },

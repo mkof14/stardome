@@ -40,6 +40,8 @@ export function ContactForm({ initialMessage = "" }: { initialMessage?: string }
   const [values, setValues] = useState<Values>({ ...empty, message: initialMessage });
   const [errors, setErrors] = useState<Partial<Record<Field, string>>>({});
   const [sent, setSent] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   function setField<K extends keyof Values>(key: K, value: Values[K]) {
     setValues((current) => ({ ...current, [key]: value }));
@@ -57,23 +59,38 @@ export function ContactForm({ initialMessage = "" }: { initialMessage?: string }
     return nextErrors;
   }
 
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const nextErrors = validate(values);
     setErrors(nextErrors);
+    setSubmitError(null);
     if (Object.keys(nextErrors).length) return;
 
-    // TODO: wire this up to an actual email/form service (e.g. Resend, Formspree) before launch — currently just logs to console.
-    console.log({
-      name: values.name.trim(),
-      organization: values.organization.trim(),
-      email: values.email.trim(),
-      assetType:
-        t.contact.assets[ASSET_KEYS.indexOf(values.asset as (typeof ASSET_KEYS)[number])] ??
-        values.asset,
-      message: values.message.trim(),
-    });
-    setSent(true);
+    setBusy(true);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: values.name.trim(),
+          organization: values.organization.trim(),
+          email: values.email.trim(),
+          assetType:
+            t.contact.assets[ASSET_KEYS.indexOf(values.asset as (typeof ASSET_KEYS)[number])] ??
+            values.asset,
+          message: values.message.trim(),
+        }),
+      });
+      if (!response.ok) {
+        setSubmitError(t.contact.error);
+        return;
+      }
+      setSent(true);
+    } catch {
+      setSubmitError(t.contact.error);
+    } finally {
+      setBusy(false);
+    }
   }
 
   if (sent) {
@@ -199,11 +216,18 @@ export function ContactForm({ initialMessage = "" }: { initialMessage?: string }
         ) : null}
       </div>
 
+      {submitError ? (
+        <p className="text-sm text-crit" role="alert">
+          {submitError}
+        </p>
+      ) : null}
+
       <button
         type="submit"
-        className="bg-orange px-4 py-2.5 text-sm font-medium text-white hover:bg-orange/90"
+        disabled={busy}
+        className="bg-orange px-4 py-2.5 text-sm font-medium text-white hover:bg-orange/90 disabled:opacity-60"
       >
-        {t.contact.send}
+        {busy ? t.contact.sending : t.contact.send}
       </button>
     </form>
   );

@@ -9,15 +9,18 @@ export function ForgotPasswordView() {
   const [sent, setSent] = useState(false);
 
   function submit() {
-    // TODO: wire up real password reset emails via a service like Resend before launch.
     setSent(true);
   }
 
   return (
     <AuthShell title="Reset your password">
+      <p className="mt-4 text-sm leading-relaxed text-[#55687A]">
+        This idea demonstration does not send reset mail. Sign in with demo /
+        demo.
+      </p>
       {sent ? (
         <p data-testid="reset-sent" className="mt-6 text-center text-sm text-[#55687A]">
-          If an account exists for this email, a reset link has been sent.
+          No email was sent. Use demo / demo to open the walkthrough.
         </p>
       ) : (
         <form
@@ -46,7 +49,7 @@ export function ForgotPasswordView() {
             data-testid="forgot-submit"
             className="mt-5 w-full bg-orange px-3 py-2.5 font-ui text-sm font-medium text-white hover:bg-orange/90"
           >
-            Send reset link
+            Continue
           </button>
         </form>
       )}

@@ -538,7 +538,9 @@ export type Messages = {
     message: string;
     messagePlaceholder: string;
     send: string;
+    sending: string;
     success: string;
+    error: string;
     required: string;
     invalidEmail: string;
   };
@@ -709,7 +711,7 @@ export const en: Messages = {
       },
       {
         title: "Information we process",
-        body: "If you create an account we store the email and password hash (or the identifier from a sign-in provider you choose) and the role assigned to you. The contact form sends the details you type so we can reply. The browser keeps language, theme, and DEMO/LIVE locally. Event logs, session reports, Black Box records, and Pilot conversations are written on the device first; they sync to the deployment database only when that database is configured. We do not use Bridge or Pilot content to train models.",
+        body: "If you create an account we store the email and password hash (or the identifier from a sign-in provider you choose) and the role assigned to you. The contact form records what you type for this demonstration; no inbox is wired yet. The browser keeps language, theme, and DEMO/LIVE locally. Event logs, session reports, Black Box records, and Pilot conversations are written on the device first; they sync to the deployment database only when that database is configured. We do not use Bridge or Pilot content to train models.",
       },
       {
         title: "Cookies and similar storage",
@@ -896,7 +898,7 @@ export const en: Messages = {
       "Switching to {name}... (full multi-object switching available at Premium/Custom tier)",
     notifyTitle: "NOTIFICATION ROUTING",
     notifyNote:
-      "Saved routes are stored in the database. Actual delivery still needs a provider (for example Twilio for calls/SMS) before going live.",
+      "This demonstration stores the routing table only. Email, SMS, calls, and messenger are not sent from this idea preview.",
     notifyAttention: "Attention",
     notifyElevated: "Elevated",
     notifyCritical: "Critical",
@@ -1463,7 +1465,10 @@ export const en: Messages = {
     message: "Message",
     messagePlaceholder: "Tell us about your object and what you're looking for",
     send: "Send",
-    success: "Thanks — we'll be in touch shortly.",
+    sending: "Recording…",
+    success:
+      "Recorded on this demonstration. No email is sent yet — this is an idea preview, not a live inbox.",
+    error: "The request could not be recorded. Try again.",
     required: "This field is required.",
     invalidEmail: "Enter a valid email address.",
   },

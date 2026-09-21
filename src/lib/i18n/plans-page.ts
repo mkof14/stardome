@@ -300,7 +300,7 @@ const en: PlansPageCopy = {
     optional: "optional",
     submit: "Request Configuration",
     success:
-      "Received. An AGRON specialist will review the note and follow up with a configuration discussion — not a public price list.",
+      "Recorded on this idea demonstration. No specialist mail is sent yet — use this form to see the request flow, not a live inbox.",
     required: "Required",
     invalidEmail: "Enter a valid email",
   },
@@ -526,7 +526,7 @@ const ru: PlansPageCopy = {
     optional: "необязательно",
     submit: "Запросить конфигурацию",
     success:
-      "Заявка получена. Специалист AGRON разберёт её и вернётся с разговором о конфигурации — не с публичным прайсом.",
+      "Записано в этой демонстрации идеи. Письмо специалисту пока не уходит — форма показывает ход заявки, не живой ящик.",
     required: "Обязательное поле",
     invalidEmail: "Укажите корректный email",
   },
@@ -745,7 +745,7 @@ const es: PlansPageCopy = {
     optional: "opcional",
     submit: "Solicitar configuración",
     success:
-      "Recibido. Un especialista de AGRON revisará la nota y continuará con una conversación de configuración, no con una lista pública de precios.",
+      "Registrado en esta demostración. Aún no se envía correo a un especialista — el formulario muestra el flujo, no un buzón real.",
     required: "Obligatorio",
     invalidEmail: "Introduzca un correo válido",
   },
@@ -964,7 +964,7 @@ const fr: PlansPageCopy = {
     optional: "facultatif",
     submit: "Demander une configuration",
     success:
-      "Reçu. Un spécialiste AGRON relira la note et reviendra pour une discussion de configuration — pas une grille tarifaire publique.",
+      "Enregistré dans cette démonstration. Aucun mail n'est envoyé à un spécialiste — le formulaire montre le flux, pas une boîte réelle.",
     required: "Obligatoire",
     invalidEmail: "Indiquez un e-mail valide",
   },
@@ -1183,7 +1183,7 @@ const de: PlansPageCopy = {
     optional: "optional",
     submit: "Konfiguration anfragen",
     success:
-      "Eingegangen. Ein AGRON-Spezialist liest die Notiz und kommt mit einem Konfigurationsgespräch zurück — nicht mit einer öffentlichen Preisliste.",
+      "In dieser Demonstration gespeichert. Es geht noch keine Mail an einen Spezialisten — das Formular zeigt den Ablauf, kein Postfach.",
     required: "Pflichtfeld",
     invalidEmail: "Gültige E-Mail angeben",
   },
@@ -1399,7 +1399,7 @@ const uk: PlansPageCopy = {
     optional: "необов’язково",
     submit: "Запитати конфігурацію",
     success:
-      "Заявку отримано. Фахівець AGRON розбере її і повернеться з розмовою про конфігурацію — не з публічним прайсом.",
+      "Записано в цій демонстрації ідеї. Лист фахівцю поки не надсилається — форма показує хід заявки, не живу скриньку.",
     required: "Обов’язкове поле",
     invalidEmail: "Вкажіть коректний email",
   },

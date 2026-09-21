@@ -68,7 +68,7 @@ export const zh: Messages = {
     privacySections: [
       { title: "责任方", body: "StarWall 由 AGRON Inc. 提供。隐私问题请通过联系表单或 agron1.com。若合同部署指定了数据保护联系人，会写在书面协议中。" },
       { title: "本站是什么", body: "公开页面是产品介绍。/interface 上的 Bridge 是说明性值班画面：DEMO 使用模拟目标、事件与设备状态。LIVE 显示本部署的真实状态——在传感器接入前为空。除非与 AGRON 另有书面约定，公开演示不是游艇、码头或港口的实时源。" },
-      { title: "我们处理哪些信息", body: "若您创建账户，我们保存电子邮件与密码哈希（或登录提供方标识）以及角色。联系表单发送您填写的内容。浏览器在本地保存语言、主题和 DEMO/LIVE。事件日志、Black Box 与 Pilot 对话先写在设备上；仅在部署数据库已配置时才会同步。我们不用 Bridge 或 Pilot 内容训练模型。" },
+      { title: "我们处理哪些信息", body: "若您创建账户，我们保存电子邮件与密码哈希（或登录提供方标识）以及角色。联系表单把您填写的内容记在此演示中；尚未接入真实收件箱。浏览器在本地保存语言、主题和 DEMO/LIVE。事件日志、Black Box 与 Pilot 对话先写在设备上；仅在部署数据库已配置时才会同步。我们不用 Bridge 或 Pilot 内容训练模型。" },
       { title: "Cookie 与类似存储", body: "会话 cookie 用于保持登录；本地存储用于语言、主题和值班模式。我们不下发广告 cookie，也不出售个人数据。" },
       { title: "访问与共享", body: "访问遵循 Backend 角色：Super Admin、Admin、Operator、Viewer。托管与数据库在部署已连接时按我们的指示处理数据。Anthropic 收到您发给 Pilot 的内容以便顾问回复，而非用于 AGRON 营销。" },
       { title: "您的权利与保存期限", body: "您可通过联系页请求查阅、更正或删除。在欧盟、欧洲经济区、英国或摩纳哥，GDPR 或同等法律可能赋予更多权利。记录在账户或合同需要期间保存。这是现行做法的说明，不是认证印章。" },
@@ -227,7 +227,7 @@ export const zh: Messages = {
       "正在切换到 {name}...（完整多对象切换在 Premium/Custom 级别可用）",
     notifyTitle: "通知路由",
     notifyNote:
-      "已保存的路由写入数据库。实际上线前仍需接入服务商（例如用 Twilio 发送电话/短信）。",
+      "此演示只保存路由表。邮件、短信、电话和即时通讯不会从此想法预览发出。",
     notifyAttention: "Attention",
     notifyElevated: "Elevated",
     notifyCritical: "Critical",
@@ -763,7 +763,10 @@ export const zh: Messages = {
     message: "留言",
     messagePlaceholder: "请说明您的对象以及您在寻找什么",
     send: "发送",
-    success: "谢谢 — 我们很快会与您联系。",
+    sending: "记录中…",
+    success:
+      "已记录在此演示中。尚未发送邮件 — 这是想法预览，不是真实收件箱。",
+    error: "无法记录请求。请重试。",
     required: "此项为必填。",
     invalidEmail: "请输入有效的电子邮箱。",
   },
