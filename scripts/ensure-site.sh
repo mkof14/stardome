@@ -13,7 +13,7 @@ PG_LOG="${STARWALL_PG_LOG:-/tmp/starwall-pg.log}"
 LOCK="${STARWALL_LOCK:-/tmp/starwall-ensure.lock}"
 
 export DATABASE_URL="${DATABASE_URL:-postgresql://starwall:starwall@127.0.0.1:5432/starwall}"
-export NEXTAUTH_SECRET="${NEXTAUTH_SECRET:-starwall-dev-secret-not-for-production}"
+export NEXTAUTH_SECRET="${NEXTAUTH_SECRET:-starwall-idea-demo-secret}"
 export NEXTAUTH_URL="${NEXTAUTH_URL:-http://127.0.0.1:3000}"
 export NEXT_PUBLIC_SITE_URL="${NEXT_PUBLIC_SITE_URL:-http://127.0.0.1:3000}"
 

@@ -6,11 +6,14 @@ export function isLoopbackOrigin(value: string | undefined | null) {
   return Boolean(value && LOOPBACK.test(value.trim()));
 }
 
+/** Local idea-demo fallback. Set NEXTAUTH_SECRET before any real install. */
+const DEMO_AUTH_SECRET = "starwall-idea-demo-secret";
+
 export function authSecret() {
   return (
     process.env.NEXTAUTH_SECRET?.trim() ||
     process.env.AUTH_SECRET?.trim() ||
-    "starwall-dev-secret-not-for-production"
+    DEMO_AUTH_SECRET
   );
 }
 
