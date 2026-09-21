@@ -742,7 +742,7 @@ export function BridgeConsole() {
           </div>
         </div>
 
-        <HudFrame variant="window" status="WATCH LIVE">
+        <HudFrame variant="window" status={live ? "WATCH LIVE" : "WATCH DEMO"}>
         <div
           data-testid="telemetry-strip"
           className="grid grid-cols-2 gap-3 bg-bridge-panel px-4 py-3 sm:grid-cols-4 lg:grid-cols-7"
