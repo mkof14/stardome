@@ -1,6 +1,7 @@
 import { randomBytes } from "crypto";
 import {
   fallbackAccounts,
+  normalizeLogin,
   parseStoredRole,
 } from "@/lib/ensure-seed";
 import { hashPassword, verifyPassword } from "@/lib/password";
@@ -49,7 +50,7 @@ function toStored(user: {
 
 function fromFallback(email: string): StoredUser | null {
   const account = fallbackAccounts().find(
-    (item) => item.email === email.trim().toLowerCase(),
+    (item) => item.email === normalizeLogin(email),
   );
   if (!account) return null;
   return {
@@ -70,7 +71,7 @@ async function findStoredByEmail(email: string) {
   const prisma = await prismaReady();
   if (!prisma) return null;
   const row = await prisma.user.findUnique({
-    where: { email: email.trim().toLowerCase() },
+    where: { email: normalizeLogin(email) },
   });
   return row ? toStored(row) : null;
 }
@@ -139,7 +140,7 @@ export async function createUser(input: {
 }
 
 export async function authenticateUser(email: string, password: string) {
-  const normalized = email.trim().toLowerCase();
+  const normalized = normalizeLogin(email);
   try {
     const user = await findStoredByEmail(normalized);
     if (user && !user.pending && user.passwordHash && verifyPassword(password, user.passwordHash)) {

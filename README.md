@@ -102,7 +102,7 @@ Pilot, the watch advisor, sits as a living icon at the bottom-right of every pag
 Sign-in is NextAuth.js (Auth.js) at `/api/auth/[...nextauth]`:
 
 - **Credentials** — email + password, stored in Prisma (`User.role`, `passwordHash`, `lastSignInAt`). New sign-ups default to **Operator**.
-- Pre-pilot role accounts (local Postgres seed): `super@starwall.demo` / Super Admin, `admin@starwall.demo` / Admin, `operator@starwall.demo` / Operator, `viewer@starwall.demo` / Viewer. Passwords are listed on `/login`.
+- Demonstration sign-in: `demo` / `demo` (Super Admin). Role and commercial accounts share that same password and are not printed on `/login`.
 - **Google** — “Continue with Google”. This needs a real OAuth client that only you can create.
 
 Create a Google Cloud OAuth app: **Google Cloud Console → APIs & Services → Credentials → Create credentials → OAuth client ID** (Web application). Add authorized redirect URI `https://YOUR_DOMAIN/api/auth/callback/google` (and `http://127.0.0.1:3000/api/auth/callback/google` for local). Copy the client ID and secret into `.env.local`. These values cannot be generated here.
@@ -132,7 +132,7 @@ Still English: sign-in / sign-up / forgot-password forms (credentials and role n
 This is a standard Next.js 14 App Router app. Do **not** set `output: "standalone"`. Connect the GitHub repo, leave the Framework Preset as Next.js, and deploy. The first production URL (including `*.vercel.app`) should load without extra env vars:
 
 - Marketing pages work immediately.
-- `/login` accepts the printed demo accounts (`super@starwall.demo` / `SuperAdmin!23`, and the other role accounts on that page) even before Postgres is attached. Sessions are JWTs.
+- `/login` accepts `demo` / `demo` even before Postgres is attached. Sessions are JWTs.
 - `/interface` is a public Bridge demo. It does not require a session, so a missing `NEXTAUTH_SECRET` never renders NextAuth’s “Server error” page. `NEXTAUTH_URL` is taken from the request host; a leftover `http://127.0.0.1:3000` value is ignored on Vercel.
 - Google sign-in stays hidden until both `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are set.
 - `ANTHROPIC_API_KEY` — richer Pilot answers. Without it Pilot still replies from the product briefing.

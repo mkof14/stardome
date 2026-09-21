@@ -64,12 +64,12 @@ export function LoginView({
         }}
       >
         <label className="block text-sm" htmlFor="login-email">
-          <span className="text-[#55687A]">Email</span>
+          <span className="text-[#55687A]">Email or demo</span>
           <input
             id="login-email"
             data-testid="auth-email"
-            type="email"
-            autoComplete="email"
+            type="text"
+            autoComplete="username"
             value={email}
             onChange={(event) => {
               setEmail(event.target.value);
@@ -137,14 +137,15 @@ export function LoginView({
         className="mt-6 border border-[#B7C9D8] bg-[#F7FBFD] px-3 py-3 text-start"
       >
         <p className="font-mono text-[10px] tracking-wider text-[#55687A]">
-          PRE-PILOT ROLE ACCOUNTS
+          IDEA DEMONSTRATION
         </p>
-        <ul className="mt-2 space-y-1 font-mono text-[11px] text-navyText">
-          <li>super@starwall.demo · SuperAdmin!23 · Super Admin</li>
-          <li>admin@starwall.demo · AdminPass!23 · Admin</li>
-          <li>operator@starwall.demo · Operator!23 · Operator</li>
-          <li>viewer@starwall.demo · ViewerPass!23 · Viewer</li>
-        </ul>
+        <p className="mt-2 font-mono text-[11px] text-navyText">
+          demo · demo
+        </p>
+        <p className="mt-2 text-xs leading-relaxed text-[#55687A]">
+          This is a product idea demo. One shared sign-in opens the Super Admin
+          walkthrough. No unique passwords are published here.
+        </p>
       </div>
     </AuthShell>
   );

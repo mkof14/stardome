@@ -7,6 +7,19 @@ import { INTEGRATION_CATALOG } from "@/lib/integrations";
 import { isUserRole, type UserRole } from "@/lib/rbac";
 import { ensurePriceBookSeed } from "@/lib/price-book/seed";
 
+/** Shared demonstration password. Printed on /login as demo / demo. */
+export const DEMO_PASSWORD = "demo";
+export const DEMO_LOGIN = "demo";
+export const DEMO_EMAIL = "demo@starwall.demo";
+
+const RETIRED_OWNER_EMAIL = "dnainform@gmail.com";
+
+export function normalizeLogin(value: string) {
+  const raw = value.trim().toLowerCase();
+  if (raw === DEMO_LOGIN || raw === DEMO_EMAIL) return DEMO_EMAIL;
+  return raw;
+}
+
 export const DEMO_ACCOUNTS: {
   id: string;
   email: string;
@@ -16,12 +29,20 @@ export const DEMO_ACCOUNTS: {
   password: string;
 }[] = [
   {
+    id: "usr-demo",
+    email: DEMO_EMAIL,
+    name: "Demo",
+    organization: "AGRON",
+    role: "Super Admin",
+    password: DEMO_PASSWORD,
+  },
+  {
     id: "usr-super",
     email: "super@starwall.demo",
     name: "Super Admin",
     organization: "AGRON",
     role: "Super Admin",
-    password: "SuperAdmin!23",
+    password: DEMO_PASSWORD,
   },
   {
     id: "usr-admin",
@@ -29,7 +50,7 @@ export const DEMO_ACCOUNTS: {
     name: "Admin",
     organization: "AGRON",
     role: "Admin",
-    password: "AdminPass!23",
+    password: DEMO_PASSWORD,
   },
   {
     id: "usr-operator",
@@ -37,7 +58,7 @@ export const DEMO_ACCOUNTS: {
     name: "Operator",
     organization: "AGRON",
     role: "Operator",
-    password: "Operator!23",
+    password: DEMO_PASSWORD,
   },
   {
     id: "usr-viewer",
@@ -45,7 +66,7 @@ export const DEMO_ACCOUNTS: {
     name: "Viewer",
     organization: "AGRON",
     role: "Viewer",
-    password: "ViewerPass!23",
+    password: DEMO_PASSWORD,
   },
 ];
 
@@ -81,7 +102,7 @@ export const COMMERCIAL_DEMO_ACCOUNTS = [
     organization: "AGRON",
     role: "Operator" as const,
     commercialRole: "sales",
-    password: "SalesPass!23",
+    password: DEMO_PASSWORD,
   },
   {
     id: "usr-engineering",
@@ -90,49 +111,77 @@ export const COMMERCIAL_DEMO_ACCOUNTS = [
     organization: "AGRON",
     role: "Operator" as const,
     commercialRole: "engineering",
-    password: "Engineer!23",
+    password: DEMO_PASSWORD,
   },
 ] as const;
 
 export function fallbackAccounts() {
-  return [...DEMO_ACCOUNTS, ownerAccount(), ...COMMERCIAL_DEMO_ACCOUNTS];
+  const owner = ownerAccount();
+  return owner
+    ? [...DEMO_ACCOUNTS, owner, ...COMMERCIAL_DEMO_ACCOUNTS]
+    : [...DEMO_ACCOUNTS, ...COMMERCIAL_DEMO_ACCOUNTS];
 }
 
 export function ownerAccount() {
-  const email = (
-    process.env.STARWALL_OWNER_EMAIL?.trim() || "dnainform@gmail.com"
-  ).toLowerCase();
-  const password = process.env.STARWALL_OWNER_PASSWORD?.trim() || "Mkof1@3@5";
+  const email = process.env.STARWALL_OWNER_EMAIL?.trim().toLowerCase() ?? "";
+  const password = process.env.STARWALL_OWNER_PASSWORD?.trim() ?? "";
+  if (!email || !password) return null;
   return {
     id: "usr-owner",
     email,
-    name: "DNA Inform",
+    name: "Owner",
     organization: "AGRON",
     role: "Super Admin" as const,
     password,
   };
 }
 
-async function ensureOwnerAccount(prisma: PrismaClient) {
-  const account = ownerAccount();
+async function retireDefaultOwner(prisma: PrismaClient) {
+  const existing = await prisma.user.findUnique({
+    where: { email: RETIRED_OWNER_EMAIL },
+  });
+  if (!existing) return;
+  await prisma.user.update({
+    where: { email: RETIRED_OWNER_EMAIL },
+    data: { pending: true, passwordHash: "" },
+  });
+}
+
+async function upsertSeedAccount(
+  prisma: PrismaClient,
+  account: {
+    id: string;
+    email: string;
+    name: string;
+    organization: string;
+    role: UserRole;
+    password: string;
+    commercialRole?: string;
+  },
+) {
   const existing = await prisma.user.findUnique({ where: { email: account.email } });
   const passwordOk = Boolean(
     existing?.passwordHash && verifyPassword(account.password, existing.passwordHash),
   );
-  if (existing && existing.role === account.role && passwordOk && !existing.pending) {
-    return;
-  }
   const data = {
     name: existing?.name || account.name,
     organization: existing?.organization || account.organization,
     role: account.role,
-    passwordHash: passwordOk && existing?.passwordHash
-      ? existing.passwordHash
-      : hashPassword(account.password),
+    commercialRole: account.commercialRole ?? existing?.commercialRole ?? "none",
+    passwordHash:
+      passwordOk && existing?.passwordHash
+        ? existing.passwordHash
+        : hashPassword(account.password),
     pending: false,
   };
   if (existing) {
-    await prisma.user.update({ where: { email: account.email }, data });
+    const roleChanged = existing.role !== account.role;
+    const commercialChanged =
+      Boolean(account.commercialRole) &&
+      existing.commercialRole !== account.commercialRole;
+    if (!passwordOk || roleChanged || commercialChanged || existing.pending) {
+      await prisma.user.update({ where: { email: account.email }, data });
+    }
     return;
   }
   await prisma.user.create({
@@ -144,35 +193,20 @@ async function ensureOwnerAccount(prisma: PrismaClient) {
   });
 }
 
+async function ensureOwnerAccount(prisma: PrismaClient) {
+  const account = ownerAccount();
+  if (!account) {
+    await retireDefaultOwner(prisma);
+    return;
+  }
+  await upsertSeedAccount(prisma, account);
+}
+
 export async function ensureBackendSeed(prisma: PrismaClient) {
   await ensureOwnerAccount(prisma);
 
   for (const account of DEMO_ACCOUNTS) {
-    const existing = await prisma.user.findUnique({ where: { email: account.email } });
-    if (existing) {
-      if (existing.role !== account.role || !existing.passwordHash) {
-        await prisma.user.update({
-          where: { email: account.email },
-          data: {
-            role: account.role,
-            passwordHash: existing.passwordHash || hashPassword(account.password),
-            pending: false,
-          },
-        });
-      }
-      continue;
-    }
-    await prisma.user.create({
-      data: {
-        id: account.id,
-        email: account.email,
-        name: account.name,
-        organization: account.organization,
-        role: account.role,
-        passwordHash: hashPassword(account.password),
-        pending: false,
-      },
-    });
+    await upsertSeedAccount(prisma, account);
   }
 
   for (const legacy of readLegacyUsers()) {
@@ -241,30 +275,8 @@ export async function ensureBackendSeed(prisma: PrismaClient) {
     });
   }
 
-  const commercial = COMMERCIAL_DEMO_ACCOUNTS;
-  for (const account of commercial) {
-    const existing = await prisma.user.findUnique({ where: { email: account.email } });
-    if (existing) {
-      if (existing.commercialRole !== account.commercialRole) {
-        await prisma.user.update({
-          where: { email: account.email },
-          data: { commercialRole: account.commercialRole, pending: false },
-        });
-      }
-      continue;
-    }
-    await prisma.user.create({
-      data: {
-        id: account.id,
-        email: account.email,
-        name: account.name,
-        organization: account.organization,
-        role: account.role,
-        commercialRole: account.commercialRole,
-        passwordHash: hashPassword(account.password),
-        pending: false,
-      },
-    });
+  for (const account of COMMERCIAL_DEMO_ACCOUNTS) {
+    await upsertSeedAccount(prisma, account);
   }
 
   await ensurePriceBookSeed(prisma, "system");
