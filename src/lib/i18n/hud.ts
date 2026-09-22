@@ -259,7 +259,7 @@ export type HudCopy = {
 const en: HudCopy = {
   jump: {
     kicker: "JUMP",
-    sections: "Bridge sections",
+    sections: "AGRON 1 sections",
     pin: "Pin section jump",
     unpin: "Collapse section jump",
     picture: "Situational Picture",
@@ -558,7 +558,7 @@ function overlay(locale: Partial<HudCopy>): HudCopy {
 const ru = overlay({
   jump: {
     kicker: "ПЕРЕХОД",
-    sections: "Разделы Bridge",
+    sections: "Разделы AGRON 1",
     pin: "Закрепить переходы",
     unpin: "Свернуть переходы",
     picture: "Обстановка",
@@ -831,7 +831,7 @@ const ru = overlay({
 const es = overlay({
   jump: {
     kicker: "SALTO",
-    sections: "Secciones Bridge",
+    sections: "Secciones AGRON 1",
     pin: "Fijar salto de sección",
     unpin: "Plegar salto de sección",
     picture: "Imagen situacional",
@@ -1105,7 +1105,7 @@ const es = overlay({
 const fr = overlay({
   jump: {
     kicker: "SAUT",
-    sections: "Sections Bridge",
+    sections: "Sections AGRON 1",
     pin: "Épingler le saut de section",
     unpin: "Replier le saut de section",
     picture: "Image situationnelle",
@@ -1379,7 +1379,7 @@ const fr = overlay({
 const de = overlay({
   jump: {
     kicker: "SPRUNG",
-    sections: "Bridge-Abschnitte",
+    sections: "AGRON 1-Abschnitte",
     pin: "Abschnittswechsel anheften",
     unpin: "Abschnittswechsel einklappen",
     picture: "Lagebild",
@@ -1653,7 +1653,7 @@ const de = overlay({
 const uk = overlay({
   jump: {
     kicker: "ПЕРЕХІД",
-    sections: "Розділи Bridge",
+    sections: "Розділи AGRON 1",
     pin: "Закріпити переходи",
     unpin: "Згорнути переходи",
     picture: "Обстановка",
@@ -1926,7 +1926,7 @@ const uk = overlay({
 const ar = overlay({
   jump: {
     kicker: "انتقال",
-    sections: "أقسام Bridge",
+    sections: "أقسام AGRON 1",
     pin: "تثبيت انتقال الأقسام",
     unpin: "طي انتقال الأقسام",
     picture: "الصورة الموقفية",
@@ -2199,7 +2199,7 @@ const ar = overlay({
 const zh = overlay({
   jump: {
     kicker: "跳转",
-    sections: "Bridge 分区",
+    sections: "AGRON 1 分区",
     pin: "固定分区跳转",
     unpin: "收起分区跳转",
     picture: "态势图",
@@ -2465,7 +2465,7 @@ const zh = overlay({
 const ja = overlay({
   jump: {
     kicker: "ジャンプ",
-    sections: "Bridge 区画",
+    sections: "AGRON 1 区画",
     pin: "区画ジャンプを固定",
     unpin: "区画ジャンプを折りたたむ",
     picture: "状況図",
@@ -2734,7 +2734,7 @@ const ja = overlay({
 const he = overlay({
   jump: {
     kicker: "קפיצה",
-    sections: "מדורי Bridge",
+    sections: "מדורי AGRON 1",
     pin: "נעיצת קפיצת מדור",
     unpin: "קיפול קפיצת מדור",
     picture: "תמונת מצב",

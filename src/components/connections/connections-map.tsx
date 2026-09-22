@@ -161,7 +161,7 @@ function endpointCopy(item: MapEndpoint, hud: HudCopy) {
     case "support":
       return { label: "Support Center", tip: hud.map.supportTip };
     case "bridge":
-      return { label: "AGRON Bridge", tip: hud.map.bridgeTip };
+      return { label: "AGRON 1", tip: hud.map.bridgeTip };
     default:
       return { label: item.label, tip: item.tip };
   }

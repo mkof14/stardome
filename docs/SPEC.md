@@ -13,7 +13,7 @@ A marketing and product site for StarWall by AGRON — an intelligence, integrat
 - **Framework:** Next.js 14+ (App Router), TypeScript
 - **Styling:** Tailwind CSS, using the design tokens in section 4 as the Tailwind theme config — don't hardcode colors inline
 - **Animation:** Framer Motion, used sparingly (see section 6 — one deliberate moment of motion per page, not decoration everywhere)
-- **Fonts:** Google Fonts self-hosted via `next/font` — Cormorant Garamond (headings, marketing pages), Space Grotesk (the Bridge interface only), JetBrains Mono (data/coordinates in the Bridge interface only), Inter (body text)
+- **Fonts:** Google Fonts self-hosted via `next/font` — Cormorant Garamond (headings, marketing pages), Space Grotesk (the AGRON 1 interface only), JetBrains Mono (data/coordinates in the AGRON 1 interface only), Inter (body text)
 - **Deployment target:** Vercel (or static export if hosting requirements differ — flag this if so, changes the routing setup)
 - **Forms:** a simple contact/CTA form component posting to an email service (Resend, Formspree, or whatever the team already uses elsewhere at AGRON) — confirm before building, don't assume
 
@@ -22,7 +22,7 @@ A marketing and product site for StarWall by AGRON — an intelligence, integrat
 ```
 /                 Overview — short hero + link cards to the sections below
 /how-it-works     Capabilities, architecture diagram, scenario walkthrough
-/interface        Interactive Bridge demo (AGRON Bridge)
+/interface        Interactive AGRON 1 demo
 /levels           Subscription tiers + Assess/Protect/Intelligence+Support mapping
 /technology       Equipment integration catalog, OEM partner tiers
 /faq              FAQ
@@ -39,7 +39,7 @@ Global: header (logo + nav across all 6 sections), footer (© AGRON Inc., link b
 --navy-text:     #1B2A3A   (dark text on light backgrounds)
 --sand:          #E9E4DA   (muted text on dark backgrounds)
 --grey:          #6B7280   (muted text on light backgrounds)
---ok:            #33D3A6   (risk level: normal — Bridge interface only)
+--ok:            #33D3A6   (risk level: normal — AGRON 1 interface only)
 --attn:          #E8B23D   (risk level: attention)
 --crit:          #FF4757   (risk level: critical)
 ```
@@ -48,7 +48,7 @@ Wordmark rule (hard requirement, not a preference): "Star" and "Wall" always ren
 
 Logo assets: use the files in `StarWall_Logo_Kit_v0.1.zip` (dark/light horizontal lockup SVGs, monogram SVGs, favicon.ico) — don't recreate the logo in code.
 
-**Banned terms — enforce in a lint/review pass, not just in the initial copy:** "Node" (use "Unit"/"Kit"/"Gateway"), "Command" as a feature name (use "Bridge"), "Dominate", "Autonomous" (in the sense of unsupervised physical action).
+**Banned terms — enforce in a lint/review pass, not just in the initial copy:** "Node" (use "Unit"/"Kit"/"Gateway"), "Command" as a feature name (use "AGRON 1"), "Dominate", "Autonomous" (in the sense of unsupervised physical action).
 
 ### 5. Content source mapping
 
@@ -64,11 +64,11 @@ Logo assets: use the files in `StarWall_Logo_Kit_v0.1.zip` (dark/light horizonta
 All of these documents exist already — pull exact wording from them for first-draft copy rather than re-generating it; only trim for length.
 
 ### 6. Motion & interaction principles
-- One deliberate moment of motion per page — not ambient animation everywhere. The Bridge interface's radar sweep and the "Simulate alert" state change are the reference examples of motion that's justified by the subject matter.
+- One deliberate moment of motion per page — not ambient animation everywhere. The AGRON 1 interface's radar sweep and the "Simulate alert" state change are the reference examples of motion that's justified by the subject matter.
 - No animation that fires on scroll for its own sake (fade-ins on every section, staggered card reveals) — these read as generic template behavior.
 - The `/` page hero may include a small decorative radar visual (ambient, no interactivity) per `CURSOR_TASK_StarWall_Enhancements.md` section 3.
 
-### 7. The Interface page — integration detail
+### 7. The AGRON 1 page — integration detail
 `agron_bridge.html` is a complete, working, self-contained prototype (inline SVG radar, vanilla JS state management for risk level / event log / simulate-alert flow). For this build:
 - Port the markup to a React component (`app/interface/page.tsx` + child components for the radar, telemetry strip, event log, risk panel).
 - Port the vanilla JS logic to React state (`useState` for risk level, event log array, contact visibility) — the state machine is simple (2 states: NORMAL / ELEVATED, toggled by two buttons) and should translate directly.

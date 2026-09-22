@@ -4,7 +4,7 @@ export const es: Messages = {
   nav: {
     home: "Inicio",
     howItWorks: "Cómo funciona",
-    interface: "Interfaz",
+    interface: "AGRON 1",
     levels: "Niveles",
     pricing: "Planes",
     technology: "Tecnología",
@@ -38,7 +38,7 @@ export const es: Messages = {
   seo: {
     home: "StarWall by AGRON — inteligencia de seguridad marítima",
     howItWorks: "Cómo funciona StarWall — StarWall by AGRON",
-    interface: "AGRON Bridge — demostración interactiva — StarWall by AGRON",
+    interface: "AGRON 1 — demostración interactiva — StarWall by AGRON",
     levels: "Niveles de suscripción — StarWall by AGRON",
     pricing: "Planes — StarWall by AGRON",
     technology: "Equipos e integración — StarWall by AGRON",
@@ -64,11 +64,11 @@ export const es: Messages = {
     privacyTitle: "Política de privacidad",
     privacyUpdated: "Actualizado: 7 de septiembre de 2026",
     privacyIntro:
-      "Esta política explica cómo AGRON Inc. («AGRON», «nosotros») trata la información cuando usa el sitio StarWall, el AGRON Bridge ilustrativo, Pilot y las pantallas de administración. Describe el producto tal como existe hoy, incluidos DEMO y LIVE.",
+      "Esta política explica cómo AGRON Inc. («AGRON», «nosotros») trata la información cuando usa el sitio StarWall, AGRON 1 ilustrativo, Pilot y las pantallas de administración. Describe el producto tal como existe hoy, incluidos DEMO y LIVE.",
     privacySections: [
       { title: "Quién responde", body: "AGRON Inc. está detrás de StarWall. Preguntas de privacidad: formulario de contacto o agron1.com. Si un despliegue contratado nombra un contacto de protección de datos, consta en el acuerdo escrito." },
-      { title: "Qué es este sitio", body: "Las páginas públicas son el producto. El Bridge en /interface es un cuadro de guardia ilustrativo: DEMO usa contactos, eventos y estado de equipo simulados. LIVE muestra el estado real de este despliegue — vacío hasta que haya sensores. La demo pública no es un feed en vivo de un yate, marina o puerto salvo acuerdo escrito con AGRON." },
-      { title: "Qué información tratamos", body: "Si crea una cuenta guardamos el email y el hash de la contraseña (o el identificador del proveedor de acceso) y el rol. El formulario de contacto registra lo que usted escribe en esta demostración; aún no hay buzón. El navegador guarda idioma, tema y DEMO/LIVE. Registros, Black Box y conversaciones con Pilot se escriben primero en el dispositivo; solo llegan a la base del despliegue si está configurada. No usamos el contenido del Bridge ni de Pilot para entrenar modelos." },
+      { title: "Qué es este sitio", body: "Las páginas públicas son el producto. El AGRON 1 en /interface es un cuadro de guardia ilustrativo: DEMO usa contactos, eventos y estado de equipo simulados. LIVE muestra el estado real de este despliegue — vacío hasta que haya sensores. La demo pública no es un feed en vivo de un yate, marina o puerto salvo acuerdo escrito con AGRON." },
+      { title: "Qué información tratamos", body: "Si crea una cuenta guardamos el email y el hash de la contraseña (o el identificador del proveedor de acceso) y el rol. El formulario de contacto registra lo que usted escribe en esta demostración; aún no hay buzón. El navegador guarda idioma, tema y DEMO/LIVE. Registros, Black Box y conversaciones con Pilot se escriben primero en el dispositivo; solo llegan a la base del despliegue si está configurada. No usamos el contenido de AGRON 1 ni de Pilot para entrenar modelos." },
       { title: "Cookies y almacenamiento similar", body: "Una cookie de sesión mantiene el acceso; el almacenamiento local guarda idioma, tema y modo. No colocamos cookies publicitarias ni vendemos datos personales." },
       { title: "Acceso y cesión", body: "El acceso sigue los roles de Backend: Super Admin, Admin, Operator y Viewer. El alojamiento y la base tratan datos bajo nuestras instrucciones cuando hay despliegue conectado. Anthropic recibe el mensaje que envía a Pilot para que el asesor responda, no para marketing de AGRON." },
       { title: "Sus derechos y conservación", body: "Puede pedir acceso, corrección o supresión a través de la página de contacto. En la UE, el EEE, el Reino Unido o Mónaco, el RGPD u otra ley equivalente puede añadir derechos. Conservamos los registros mientras los necesite la cuenta o el contrato. Esto describe la práctica actual, no es un sello de certificación." },
@@ -76,10 +76,10 @@ export const es: Messages = {
     termsTitle: "Términos de servicio",
     termsUpdated: "Actualizado: 7 de septiembre de 2026",
     termsIntro:
-      "Estos términos rigen el sitio StarWall y las pantallas ilustrativas de Bridge, Pilot y Backend. El uso operativo de StarWall en un buque o emplazamiento exige un acuerdo escrito aparte con AGRON.",
+      "Estos términos rigen el sitio StarWall y las pantallas ilustrativas de AGRON 1, Pilot y Backend. El uso operativo de StarWall en un buque o emplazamiento exige un acuerdo escrito aparte con AGRON.",
     termsSections: [
       { title: "Aceptación", body: "Al usar este sitio acepta estos términos. AGRON puede actualizarlos; rige la fecha al inicio de la página." },
-      { title: "Bridge ilustrativo", body: "DEMO es un cuadro de formación. No es un feed de sensores. LIVE muestra el despliegue real: si no hay equipo, el cuadro está vacío. Las acciones recomendadas y las respuestas de Pilot son consejo para quien está de guardia. No sustituyen su juicio." },
+      { title: "AGRON 1 ilustrativo", body: "DEMO es un cuadro de formación. No es un feed de sensores. LIVE muestra el despliegue real: si no hay equipo, el cuadro está vacío. Las acciones recomendadas y las respuestas de Pilot son consejo para quien está de guardia. No sustituyen su juicio." },
       { title: "Cuentas", body: "Usted responde de las credenciales. Los datos de demostración en el inicio de sesión, si se muestran, ilustran roles: cámbielos antes de un despliegue real." },
       { title: "Uso aceptable", body: "No intente acceso no autorizado; no use StarWall para dañar a personas o bienes; no presente el servicio como un feed operativo en vivo." },
       { title: "Autorización humana y derecho local", body: "El equipo especializado y cualquier capacidad de respuesta siguen bajo autorización humana y la ley del lugar. StarWall no otorga licencia para sistemas restringidos." },
@@ -90,12 +90,12 @@ export const es: Messages = {
     connectionsKicker: "AGRON BRIDGE · TOPOLOGÍA",
     connectionsTitle: "Mapa de conexiones del sistema",
     connectionsLead:
-      "Topología en vivo del cuadro de entrenamiento: los sensores alimentan StarWall Core; el núcleo envía la misma imagen a AGRON Bridge y al Support Center.",
+      "Topología en vivo del cuadro de entrenamiento: los sensores alimentan StarWall Core; el núcleo envía la misma imagen a AGRON 1 y al Support Center.",
     connectionsLeadLive:
       "El mismo esquema del cuadro operativo — cada unidad espera instalación. Aún no hay sensores en vivo.",
-    connectionsBack: "← Volver al Bridge",
+    connectionsBack: "← Volver a AGRON 1",
     connectionsIn: "Datos de entrada (sensores → núcleo)",
-    connectionsOut: "Información de salida (núcleo → Bridge / Support)",
+    connectionsOut: "Información de salida (núcleo → AGRON 1 / Support)",
     connectionsOff: "Sin conexión",
     helmTitle: "Pilot",
     helmAdvisor: "ASESOR DE GUARDIA",
@@ -104,7 +104,7 @@ export const es: Messages = {
     helmHide: "Ocultar",
     helmOpen: "Abrir Pilot",
     helmEmpty:
-      "Pilot está de guardia. Pregunte por StarWall, el Bridge, los planes o los contenedores AGRON — voz o texto. Solo consejo; usted decide.",
+      "Pilot está de guardia. Pregunte por StarWall, AGRON 1, los planes o los contenedores AGRON — voz o texto. Solo consejo; usted decide.",
     helmLive: "ASESOR DE GUARDIA · LIVE · sin sensores",
     helmSpeakerOn: "Altavoz encendido",
     helmSpeakerOff: "Altavoz apagado",
@@ -115,7 +115,7 @@ export const es: Messages = {
     kicker: "STARWALL BACKEND",
     title: "Administración del sistema",
     lead:
-      "Conectividad, salud del equipo, control de acceso y supervisión — incluido el hardware de contenedores AGRON. Más denso que el Bridge: para administradores, no para una mirada rápida.",
+      "Conectividad, salud del equipo, control de acceso y supervisión — incluido el hardware de contenedores AGRON. Más denso que AGRON 1: para administradores, no para una mirada rápida.",
     demoNotice:
       "Administración pre-piloto — roles, comprobaciones de equipo, enrutado de avisos y el registro de auditoría se escriben en la base de datos local. Aún no hay sensores físicos conectados.",
     sectionsNav: "Secciones del backend",
@@ -188,10 +188,10 @@ export const es: Messages = {
     roleViewerDetail: "Solo lectura de informes.",
     blackboxTitle: "BLACK BOX",
     blackboxLead:
-      "Registros de esta sesión en el navegador — conversaciones de Pilot y escenarios — escritos en el Bridge y retenidos en local.",
+      "Registros de esta sesión en el navegador — conversaciones de Pilot y escenarios — escritos en AGRON 1 y retenidos en local.",
     blackboxLeadLive: "Aún no hay registros de este despliegue.",
     blackboxEmpty: "Aún no hay registros.",
-    blackboxOpen: "Abrir el registrador en el Bridge →",
+    blackboxOpen: "Abrir el registrador en AGRON 1 →",
     conversation: "Conversación",
     scenarioRun: "Escenario",
     integrationsTitle: "REGISTRO DE INTEGRACIONES",
@@ -206,7 +206,7 @@ export const es: Messages = {
     testOk: "Enlace confirmado",
     testFail: "Sin flujo",
     auditTitle: "REGISTRO DE AUDITORÍA",
-    auditLead: "Acciones administrativas — distintas del registro de eventos del Bridge.",
+    auditLead: "Acciones administrativas — distintas del registro de eventos de AGRON 1.",
     noAudit: "Aún no hay acciones administrativas.",
     exportAudit: "Exportar registro",
     justNow: "ahora mismo",
@@ -283,7 +283,7 @@ export const es: Messages = {
     demoAccounts: "Demostración de idea",
     liveEmptyAccounts: "Aún no hay cuentas en este despliegue.",
     sessionNotice:
-      "Sesión de acceso para Bridge y Backend. Los roles se aplican en las escrituras.",
+      "Sesión de acceso para AGRON 1 y Backend. Los roles se aplican en las escrituras.",
     sessionNoticeLive:
       "Las mismas cuentas que en DEMO. LIVE sigue sin sensores.",
     nameRequired: "Escriba un nombre para continuar.",
@@ -339,13 +339,13 @@ export const es: Messages = {
       health: "Latido del servicio, enlaces y rutas de copia de seguridad.",
       equipment: "Diagnósticos y autocomprobaciones del equipo conectado.",
       access: "Jerarquía de roles. Super Admin gestiona usuarios.",
-      blackbox: "Registros de sesión del Bridge guardados en este navegador.",
+      blackbox: "Registros de sesión de AGRON 1 guardados en este navegador.",
       integrations: "Registro de flujos — radar, AIS, cámaras, satcom.",
-      audit: "Acciones administrativas, distintas del registro de eventos del Bridge.",
+      audit: "Acciones administrativas, distintas del registro de eventos de AGRON 1.",
       overview: "Resumen y tarjetas de entrada del sitio público.",
       how: "Conectar, comprender, decidir — arquitectura y capacidades.",
-      bridge: "AGRON Bridge — imagen situacional y escenarios.",
-      connections: "Mapa del núcleo, sensores, Bridge y Support Center.",
+      bridge: "AGRON 1 — imagen situacional y escenarios.",
+      connections: "Mapa del núcleo, sensores, AGRON 1 y Support Center.",
       levels: "LIGHT / ADVANCED / INTELLIGENCE / CUSTOM y lo que está disponible ahora.",
       pricing: "Configure el coste mensual y el pago único por objeto, software, contenedor y extras.",
       technology: "Categorías de equipo y cómo StarWall se apoya en sistemas existentes.",
@@ -358,7 +358,7 @@ export const es: Messages = {
   home: {
     kicker: "StarWall, AGRON",
     title: "La guardia la lleva una persona. Las pantallas no deberían discutir entre ellas.",
-    lead: "En el yate, la marina, el puerto o la isla el radar y las cámaras casi siempre ya están. El lío es que no comparten reloj. StarWall lee lo que ya pagó y lo pone en un Bridge. Luego dice qué haría. Usted lo toma o no.",
+    lead: "En el yate, la marina, el puerto o la isla el radar y las cámaras casi siempre ya están. El lío es que no comparten reloj. StarWall lee lo que ya pagó y lo pone en un AGRON 1. Luego dice qué haría. Usted lo toma o no.",
     points: [
       "Funciona con el equipo que ya tiene — no hace falta sustituirlo",
       "Aprende su buque o emplazamiento y gana precisión cuanto más tiempo opera",
@@ -368,15 +368,15 @@ export const es: Messages = {
     pdfCta: "Descargar resumen (PDF)",
     cards: [
       { title: "Cómo funciona", body: "Conectar, comprender, decidir — en tres pasos" },
-      { title: "Véalo en acción", body: "Una mirada interactiva a la interfaz Bridge" },
+      { title: "Véalo en acción", body: "Una mirada interactiva a la interfaz AGRON 1" },
       { title: "Niveles", body: "Del seguimiento esencial a una construcción totalmente a medida" },
       { title: "Equipos", body: "A qué se conecta y cómo" },
     ],
-    interfaceKicker: "AGRON Bridge",
-    interfaceTitle: "Qué hay de verdad en Interface",
+    interfaceKicker: "AGRON 1",
+    interfaceTitle: "Qué hay hoy en AGRON 1",
     interfaceLead:
-      "El Bridge es el cuadro de trabajo, no una diapositiva. Estas son las partes ya construidas en /interface, incluido un LIVE honesto cuando aún no hay nada conectado.",
-    interfaceCta: "Abrir Interface",
+      "El AGRON 1 es el cuadro de trabajo, no una diapositiva. Estas son las partes ya construidas en /interface, incluido un LIVE honesto cuando aún no hay nada conectado.",
+    interfaceCta: "Abrir AGRON 1",
     interfacePoints: [
       { title: "Situational Picture", body: "Un mapa de contactos desde las fuentes del cuadro — radar, cámaras, AIS y el resto — en lugar de una pila de pantallas." },
       { title: "Nivel de riesgo", body: "Normal, Attention, Elevated, Critical. El motivo del cambio se ve, no se esconde detrás de un color." },
@@ -385,7 +385,7 @@ export const es: Messages = {
       { title: "Jump rail", body: "Salto directo entre cuadro, riesgo, sistemas, registro, aprendizaje, Black Box, Pilot y el mapa de conexiones." },
       { title: "DEMO y LIVE", body: "DEMO es la guardia simulada completa para aprender el diseño. LIVE es este despliegue tal cual: vacío hasta instalar equipo." },
       { title: "Adaptive Learning", body: "Un perfil de objeto que puede crecer con el tiempo. Sin puntuaciones inventadas. LIVE permanece vacío sin historia real." },
-      { title: "Black Box, mapa, Pilot", body: "Registros de sesión en Black Box, mapa de topología de sensores al núcleo y al Bridge, y Pilot — el asesor de guardia." },
+      { title: "Black Box, mapa, Pilot", body: "Registros de sesión en Black Box, mapa de topología de sensores al núcleo y a AGRON 1, y Pilot — el asesor de guardia." },
     ],
     containersLink: "StarWall también funciona dentro del equipo de contenedor desplegable de AGRON →",
   },
@@ -454,12 +454,12 @@ export const es: Messages = {
     steps: [
       "02:14 — un contacto entra en el alcance de 6 NM sin señal AIS, en un rumbo que podría interceptar el de M/Y Aurelia.",
       "StarWall correlaciona el radar y el AIS en segundos y pasa el nivel de riesgo a Elevated.",
-      "Bridge muestra una recomendación clara: llamar por VHF ch.16, reforzar la guardia y estar listo para alterar el rumbo si la distancia baja de 1.0 NM.",
+      "AGRON 1 muestra una recomendación clara: llamar por VHF ch.16, reforzar la guardia y estar listo para alterar el rumbo si la distancia baja de 1.0 NM.",
       "El suceso se registra automáticamente, con marca de tiempo, listo para el parte de la mañana — no hay que redactar nada a mano.",
     ],
   },
   bridge: {
-    title: "AGRON Bridge",
+    title: "AGRON 1",
     subtitle: "INTERFAZ DEL CAPITÁN / OFICIAL DE SEGURIDAD",
     mobileNotice: "Esta interfaz se ve mejor en una pantalla grande.",
     riskLevel: "NIVEL DE RIESGO",
@@ -551,7 +551,7 @@ export const es: Messages = {
       "Integración de equipos (Gateway)",
       "Imagen situacional unificada",
       "Niveles de riesgo basados en reglas",
-      "Interfaz Bridge",
+      "AGRON 1",
       "Escalado manual al Support Center",
     ],
     inDevelopment: [

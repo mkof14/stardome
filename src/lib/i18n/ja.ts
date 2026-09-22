@@ -4,7 +4,7 @@ export const ja: Messages = {
   nav: {
     home: "ホーム",
     howItWorks: "仕組み",
-    interface: "インターフェース",
+    interface: "AGRON 1",
     levels: "レベル",
     pricing: "プラン",
     technology: "技術",
@@ -38,7 +38,7 @@ export const ja: Messages = {
   seo: {
     home: "StarWall by AGRON — 海上セキュリティインテリジェンス",
     howItWorks: "StarWall の仕組み — StarWall by AGRON",
-    interface: "AGRON Bridge — インタラクティブデモ — StarWall by AGRON",
+    interface: "AGRON 1 — インタラクティブデモ — StarWall by AGRON",
     levels: "サブスクリプションレベル — StarWall by AGRON",
     pricing: "プラン — StarWall by AGRON",
     technology: "装備と統合 — StarWall by AGRON",
@@ -64,11 +64,11 @@ export const ja: Messages = {
     privacyTitle: "プライバシーポリシー",
     privacyUpdated: "最終更新: 2026年9月7日",
     privacyIntro:
-      "本ポリシーは、StarWall サイト、説明用 AGRON Bridge、Pilot、管理画面の利用時に AGRON Inc.（「AGRON」「当社」）が情報をどう扱うかを説明します。DEMO と LIVE を含む、今日の製品の姿を述べます。",
+      "本ポリシーは、StarWall サイト、説明用 AGRON 1、Pilot、管理画面の利用時に AGRON Inc.（「AGRON」「当社」）が情報をどう扱うかを説明します。DEMO と LIVE を含む、今日の製品の姿を述べます。",
     privacySections: [
       { title: "責任者", body: "StarWall の背後は AGRON Inc. です。プライバシーの問い合わせは連絡フォームまたは agron1.com。契約展開でデータ保護の連絡先を置く場合は書面契約に記します。" },
-      { title: "このサイトは何か", body: "公開ページは製品サイトです。/interface の Bridge は説明用の当直画面です。DEMO は模擬の物標・事象・装備状態を使います。LIVE はこの展開の実状態で、センサー未接続なら空です。AGRON との書面が無い限り、公開デモはヨット・マリーナ・港のライブ源ではありません。" },
-      { title: "取り扱う情報", body: "アカウント作成時はメールとパスワードハッシュ（またはログイン提供者の識別子）と役割を保存します。連絡フォームは入力内容をこのデモに記録します。実メールボックスはまだありません。ブラウザは言語・テーマ・DEMO/LIVE をローカルに保ちます。イベントログ、Black Box、Pilot の会話はまず端末に書き、展開用データベースが設定されているときだけ同期します。Bridge や Pilot の内容をモデル学習には使いません。" },
+      { title: "このサイトは何か", body: "公開ページは製品サイトです。/interface の AGRON 1 は説明用の当直画面です。DEMO は模擬の物標・事象・装備状態を使います。LIVE はこの展開の実状態で、センサー未接続なら空です。AGRON との書面が無い限り、公開デモはヨット・マリーナ・港のライブ源ではありません。" },
+      { title: "取り扱う情報", body: "アカウント作成時はメールとパスワードハッシュ（またはログイン提供者の識別子）と役割を保存します。連絡フォームは入力内容をこのデモに記録します。実メールボックスはまだありません。ブラウザは言語・テーマ・DEMO/LIVE をローカルに保ちます。イベントログ、Black Box、Pilot の会話はまず端末に書き、展開用データベースが設定されているときだけ同期します。AGRON 1 や Pilot の内容をモデル学習には使いません。" },
       { title: "Cookie と類似の保存", body: "セッション Cookie でログインを維持し、ローカル保存は言語・テーマ・当直モード用です。広告 Cookie は置かず、個人データは販売しません。" },
       { title: "アクセスと共有", body: "アクセスは Backend の役割に従います（Super Admin、Admin、Operator、Viewer）。ホスティングとデータベースは展開が接続されているとき当社の指示で処理します。Anthropic は Pilot へ送った内容を受け取り、助言者が返信するためであり、AGRON の宣伝のためではありません。" },
       { title: "権利と保管", body: "連絡ページからアクセス、訂正、削除を求められます。EU・EEA・英国・モナコでは GDPR 等により追加の権利がある場合があります。記録はアカウントまたは契約が必要とする間保管します。これは現行実務の説明であり、認証ではありません。" },
@@ -76,10 +76,10 @@ export const ja: Messages = {
     termsTitle: "利用規約",
     termsUpdated: "最終更新: 2026年9月7日",
     termsIntro:
-      "本規約は StarWall サイトと、ここに公開する Bridge、Pilot、Backend の説明画面に適用します。運用システムとしての利用には AGRON との別途書面契約が必要です。",
+      "本規約は StarWall サイトと、ここに公開する AGRON 1、Pilot、Backend の説明画面に適用します。運用システムとしての利用には AGRON との別途書面契約が必要です。",
     termsSections: [
       { title: "承諾", body: "本サイトの利用により本規約に同意したものとします。AGRON は更新でき、ページ先頭の日付が適用されます。" },
-      { title: "説明用 Bridge", body: "DEMO は訓練用の絵でありセンサー源ではありません。LIVE は実展開です。装備が無ければ空です。推奨行動と Pilot の返信は当直者への助言であり、判断の代わりではありません。" },
+      { title: "説明用 AGRON 1", body: "DEMO は訓練用の絵でありセンサー源ではありません。LIVE は実展開です。装備が無ければ空です。推奨行動と Pilot の返信は当直者への助言であり、判断の代わりではありません。" },
       { title: "アカウント", body: "認証情報は利用者が責任を負います。ログインページのデモ口座は役割の説明用です。実展開の前に変更してください。" },
       { title: "利用の範囲", body: "無断アクセスを試みてはなりません。人や財産を害する目的で StarWall を使ってはなりません。本サービスをライブ運用源と称してはなりません。" },
       { title: "人の許可と現地法", body: "特殊装備とあらゆる対応能力は、人の許可と現地法の下に残ります。StarWall は制限システムの免許を与えません。" },
@@ -90,12 +90,12 @@ export const ja: Messages = {
     connectionsKicker: "AGRON BRIDGE · トポロジ",
     connectionsTitle: "システム接続マップ",
     connectionsLead:
-      "訓練画面のライブ・トポロジ：センサーが StarWall Core に送り、コアが同じ画面を AGRON Bridge と Support Center に渡します。",
+      "訓練画面のライブ・トポロジ：センサーが StarWall Core に送り、コアが同じ画面を AGRON 1 と Support Center に渡します。",
     connectionsLeadLive:
       "稼働画面と同じ配置 — 各ユニットは設置待ちです。ライブセンサーはまだありません。",
-    connectionsBack: "← Bridge に戻る",
+    connectionsBack: "← AGRON 1 に戻る",
     connectionsIn: "データ入力（センサー → コア）",
-    connectionsOut: "情報出力（コア → Bridge / Support）",
+    connectionsOut: "情報出力（コア → AGRON 1 / Support）",
     connectionsOff: "未接続",
     helmTitle: "Pilot",
     helmAdvisor: "当直アドバイザー",
@@ -104,7 +104,7 @@ export const ja: Messages = {
     helmHide: "隠す",
     helmOpen: "Pilot を開く",
     helmEmpty:
-      "Pilot は当直中です。StarWall、Bridge の画面、プラン、AGRON コンテナについて音声または文字で尋ねてください。助言のみ。判断はあなたです。",
+      "Pilot は当直中です。StarWall、AGRON 1 の画面、プラン、AGRON コンテナについて音声または文字で尋ねてください。助言のみ。判断はあなたです。",
     helmLive: "当直アドバイザー · LIVE · センサーなし",
     helmSpeakerOn: "スピーカーオン",
     helmSpeakerOff: "スピーカーオフ",
@@ -115,7 +115,7 @@ export const ja: Messages = {
     kicker: "STARWALL BACKEND",
     title: "システム管理",
     lead:
-      "接続、機器の健全性、アクセス制御、監視 — AGRON コンテナ機器を含む。Bridge より密度が高い：一目の当直ではなく管理者向け。",
+      "接続、機器の健全性、アクセス制御、監視 — AGRON コンテナ機器を含む。AGRON 1 より密度が高い：一目の当直ではなく管理者向け。",
     demoNotice:
       "プレパイロットの管理 — 役割、機器点検、通知ルーティング、監査ログはローカルデータベースに書き込まれます。物理センサーはまだ接続されていません。",
     sectionsNav: "バックエンド区画",
@@ -188,10 +188,10 @@ export const ja: Messages = {
     roleViewerDetail: "レポートの読み取りのみ。",
     blackboxTitle: "BLACK BOX",
     blackboxLead:
-      "このブラウザのセッション記録 — Pilot の会話とシナリオ実行 — は Bridge に書かれ、ローカルに保持されます。",
+      "このブラウザのセッション記録 — Pilot の会話とシナリオ実行 — は AGRON 1 に書かれ、ローカルに保持されます。",
     blackboxLeadLive: "この展開の記録はまだありません。",
     blackboxEmpty: "記録はまだありません。",
-    blackboxOpen: "Bridge の記録器を開く →",
+    blackboxOpen: "AGRON 1 の記録器を開く →",
     conversation: "会話",
     scenarioRun: "シナリオ",
     integrationsTitle: "連携レジストリ",
@@ -206,7 +206,7 @@ export const ja: Messages = {
     testOk: "ハンドシェイク成功",
     testFail: "フィードなし",
     auditTitle: "監査ログ",
-    auditLead: "管理操作 — Bridge のイベントログとは別です。",
+    auditLead: "管理操作 — AGRON 1 のイベントログとは別です。",
     noAudit: "管理操作はまだありません。",
     exportAudit: "ログを書き出す",
     justNow: "たった今",
@@ -283,7 +283,7 @@ export const ja: Messages = {
     demoAccounts: "アイデアのデモ",
     liveEmptyAccounts: "この配備にはまだアカウントがありません。",
     sessionNotice:
-      "Bridge と Backend のサインインセッション。書き込みで役割を確認します。",
+      "AGRON 1 と Backend のサインインセッション。書き込みで役割を確認します。",
     sessionNoticeLive:
       "DEMO と同じアカウントです。LIVE はまだセンサーがありません。",
     nameRequired: "続行するには名前を入力してください。",
@@ -337,13 +337,13 @@ export const ja: Messages = {
       health: "サービスの心拍、回線、バックアップ経路。",
       equipment: "接続機器の診断と自己点検。",
       access: "役割階層。Super Admin がユーザーを管理します。",
-      blackbox: "このブラウザに残る Bridge セッション記録。",
+      blackbox: "このブラウザに残る AGRON 1 セッション記録。",
       integrations: "フィード登録 — レーダー、AIS、カメラ、satcom。",
-      audit: "管理操作。Bridge のイベントログとは別です。",
+      audit: "管理操作。AGRON 1 のイベントログとは別です。",
       overview: "公開サイトの概要と入口カード。",
       how: "つなぐ、理解する、決める — 構成と能力。",
-      bridge: "AGRON Bridge — 状況図とシナリオ。",
-      connections: "コア、センサー、Bridge、Support Center の地図。",
+      bridge: "AGRON 1 — 状況図とシナリオ。",
+      connections: "コア、センサー、AGRON 1、Support Center の地図。",
       levels: "LIGHT / ADVANCED / INTELLIGENCE / CUSTOM と、今使える範囲。",
       pricing: "対象、ソフトウェア、コンテナ、追加装備で月額と一時費用を構成します。",
       technology: "機器カテゴリと、既存システム上での StarWall の位置。",
@@ -356,7 +356,7 @@ export const ja: Messages = {
   home: {
     kicker: "StarWall, AGRON",
     title: "当直は人の仕事です。画面同士が言い争う必要はありません。",
-    lead: "ヨットでもマリーナでも、レーダーとカメラはたいてい既にあります。問題は時計が違うことです。StarWall は既に払った装備を読み、一つの Bridge に置きます。次に自分が取る手を言います。取るかどうかは当直です。",
+    lead: "ヨットでもマリーナでも、レーダーとカメラはたいてい既にあります。問題は時計が違うことです。StarWall は既に払った装備を読み、一つの AGRON 1 に置きます。次に自分が取る手を言います。取るかどうかは当直です。",
     points: [
       "既設の装備で動作します — 入れ替えは不要です",
       "船舶やサイトを学習し、稼働が長いほど精度が上がります",
@@ -366,15 +366,15 @@ export const ja: Messages = {
     pdfCta: "概要をダウンロード（PDF）",
     cards: [
       { title: "仕組み", body: "接続、理解、判断 — 三つの手順" },
-      { title: "実際の動きを見る", body: "Bridge インターフェースのインタラクティブな確認" },
+      { title: "実際の動きを見る", body: "AGRON 1 インターフェースのインタラクティブな確認" },
       { title: "レベル", body: "必須の監視から完全な個別構築まで" },
       { title: "装備", body: "何に、どのように接続するか" },
     ],
-    interfaceKicker: "AGRON Bridge",
-    interfaceTitle: "Interface に実際にあるもの",
+    interfaceKicker: "AGRON 1",
+    interfaceTitle: "AGRON 1 に今あるもの",
     interfaceLead:
-      "Bridge は作業用の絵であり、スライドではありません。/interface に今日入っている部分です。何もつながっていないときの正直な LIVE も含みます。",
-    interfaceCta: "Interface を開く",
+      "AGRON 1 は作業用の絵であり、スライドではありません。/interface に今日入っている部分です。何もつながっていないときの正直な LIVE も含みます。",
+    interfaceCta: "AGRON 1 を開く",
     interfacePoints: [
       { title: "Situational Picture", body: "絵の中の源 — レーダー、カメラ、AIS など — からの物標を一枚の地図に。別画面の山ではありません。" },
       { title: "リスクレベル", body: "Normal、Attention、Elevated、Critical。変化の理由は色の後ろに隠れません。" },
@@ -383,7 +383,7 @@ export const ja: Messages = {
       { title: "Jump rail", body: "絵、リスク、システム、ログ、学習、Black Box、Pilot、接続図の間を直接移ります。" },
       { title: "DEMO と LIVE", body: "DEMO は配置を学ぶための完全な模擬当直です。LIVE はこの展開の実状で、装備がなければ空です。" },
       { title: "Adaptive Learning", body: "時間とともに育ちうる対象プロファイル。作った点数はありません。実履歴がなければ LIVE は空のままです。" },
-      { title: "Black Box、地図、Pilot", body: "Black Box のセッション記録、センサーからコア、Bridge への位相図、そして話せる当直アドバイザー Pilot。" },
+      { title: "Black Box、地図、Pilot", body: "Black Box のセッション記録、センサーからコア、AGRON 1 への位相図、そして話せる当直アドバイザー Pilot。" },
     ],
     containersLink: "StarWall は AGRON の展開可能なコンテナハードウェアでも稼働します →",
   },
@@ -452,12 +452,12 @@ export const ja: Messages = {
     steps: [
       "02:14 — AIS 信号のない物標が 6 NM 圏内に入り、M/Y Aurelia の針路を横切る方位です。",
       "StarWall は数秒でレーダーと AIS を照合し、リスクレベルを Elevated に上げます。",
-      "Bridge は一つの明確な推奨を示します。VHF ch.16 で呼び出し、当直を強化し、距離が 1.0 NM を下回れば変針の準備。",
+      "AGRON 1 は一つの明確な推奨を示します。VHF ch.16 で呼び出し、当直を強化し、距離が 1.0 NM を下回れば変針の準備。",
       "事象は自動で記録され、時刻印が付き、朝の報告にそのまま使えます — 手書きは不要です。",
     ],
   },
   bridge: {
-    title: "AGRON Bridge",
+    title: "AGRON 1",
     subtitle: "船長 / 保安士官インターフェース",
     mobileNotice: "このインターフェースは大きな画面での表示が適しています。",
     riskLevel: "リスクレベル",
@@ -549,7 +549,7 @@ export const ja: Messages = {
       "装備統合（Gateway）",
       "統一された状況図",
       "ルールに基づくリスクレベル",
-      "Bridge インターフェース",
+      "AGRON 1",
       "Support Center への手動エスカレーション",
     ],
     inDevelopment: [

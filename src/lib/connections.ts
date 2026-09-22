@@ -121,7 +121,7 @@ export const ENDPOINTS: MapEndpoint[] = [
   },
   {
     id: "bridge",
-    label: "AGRON Bridge",
+    label: "AGRON 1",
     x: 1200,
     y: 780,
     kind: "console",

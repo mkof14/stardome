@@ -12,12 +12,12 @@ describe("localPilotReply", () => {
     expect(reply).not.toMatch(/\$/);
   });
 
-  it("answers English Bridge questions from the site copy", () => {
+  it("answers English AGRON 1 questions from the site copy", () => {
     const { reply, langCode } = localPilotReply(
-      "What is on the Interface?",
+      "What is on AGRON 1?",
       "en",
     );
     expect(langCode).toBe("en");
-    expect(reply.toLowerCase()).toMatch(/demo|interface|bridge/);
+    expect(reply.toLowerCase()).toMatch(/demo|agron 1|interface/);
   });
 });

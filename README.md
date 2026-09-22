@@ -2,6 +2,8 @@
 
 Scaffold for the StarWall marketing and product site — a maritime security intelligence product.
 
+**Names.** StarWall is the security system and the platform. **AGRON 1** is the official name of the program — this version of the watch software and the code behind it. Later major versions will be AGRON 2, and so on. AGRON Inc. is the company. AGRON Container is the hardware box. Pilot is the watch advisor. The old working name “AGRON Bridge” is retired.
+
 ## Stack
 
 - Next.js 14, TypeScript, App Router, `src/`
@@ -35,7 +37,7 @@ Cloud Agent environments run `scripts/ensure-site.sh` on every boot (`start` in 
 
 The supervisor writes the current public URL to `/tmp/starwall-public-url.txt`. Quick-tunnel hostnames change when cloudflared restarts.
 
-Pilot (the watch advisor) sits on the Bridge as a single watch display. Open Pilot on `/interface` and switch Talk / Instruments / Advice / Comms with labeled tabs. The D next to Pilot runs a spoken DEMO drill in the language selected on Pilot. DEMO follows the current scenario, sensors, and recommended action. LIVE stays honest: no invented contacts, and comms stay offline until a real satcom path exists. While Pilot is speaking, a HUD talk window opens (chat on the left, studio waveform on the right). Bridge panels use rounded cards and Inter for readable labels. The jump rail shows an icon with its name underneath — no hex frames. The meter is a real green/red VU from the audio itself — not a simulated bounce. Speak, type, or tap a watch call and Pilot stops at once and takes your words first. **Clear** and labeled fullscreen sit in the sticky header on `/interface`. Light and dark theme tokens apply to Pilot, talk HUD, jump nav, library, and watch circuits.
+Pilot (the watch advisor) sits in AGRON 1 as a single watch display. Open Pilot on `/interface` and switch Talk / Instruments / Advice / Comms with labeled tabs. The D next to Pilot runs a spoken DEMO drill in the language selected on Pilot. DEMO follows the current scenario, sensors, and recommended action. LIVE stays honest: no invented contacts, and comms stay offline until a real satcom path exists. While Pilot is speaking, a HUD talk window opens (chat on the left, studio waveform on the right). AGRON 1 panels use rounded cards and Inter for readable labels. The jump rail shows an icon with its name underneath — no hex frames. The meter is a real green/red VU from the audio itself — not a simulated bounce. Speak, type, or tap a watch call and Pilot stops at once and takes your words first. **Clear** and labeled fullscreen sit in the sticky header on `/interface`. Light and dark theme tokens apply to Pilot, talk HUD, jump nav, library, and watch circuits.
 
 Pilot speaks with a real adult male neural voice in every site language: English Andrew, Spanish Álvaro, French Henri, German Conrad, Russian Dmitry, Ukrainian Ostap, Arabic Hamed, Chinese Yunxi, Japanese Keita, Hebrew Avri. Replies go through `POST /api/tts` and play as MP3. The default path is Microsoft Edge online Neural speech (no API key). Set `AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION` for Azure, `OPENAI_API_KEY` (male voice `onyx`) or `ELEVENLABS_API_KEY` if you have those accounts — they take priority when present. If neural speech is down, Pilot falls back to a male browser voice when one is installed, then types. Listening uses Web Speech Recognition in Chrome or Edge after the microphone is allowed. Copy `.env.local.example` to `.env.local` and set `ANTHROPIC_API_KEY` for richer spoken answers. `.env*.local` is gitignored. Without the key Pilot still answers from the on-site briefing — it does not invent prices.
 
@@ -47,7 +49,7 @@ The homepage “Download overview (PDF)” button uses the one-page leaflet in `
 
 The Technology page embeds the briefing deck `public/starwall-intelligence-platform.pdf`.
 
-Bridge walkthrough stills go in `public/bridge/`:
+AGRON 1 walkthrough stills go in `public/bridge/`:
 
 - `public/bridge/radar-normal.png`
 - `public/bridge/risk-elevated.png`
@@ -62,7 +64,7 @@ Shared sticky header and footer wrap every route via the root layout. The header
 |---|---|
 | `/` | StarWall — Overview |
 | `/how-it-works` | How it works |
-| `/interface` | Interface (public Bridge demo — no sign-in) |
+| `/interface` | Interface (public AGRON 1 demo — no sign-in) |
 | `/interface/connections` | System Connections Map |
 | `/levels` | Levels |
 | `/pricing` | Plans — four levels, comparison, how pricing is built, request form |
@@ -123,9 +125,9 @@ Generate `NEXTAUTH_SECRET` with `openssl rand -base64 32`. After a successful si
 
 `/backend` and `/tasks` still require a signed-in session.
 
-Translated now: marketing chrome (nav, footer), all public pages, the Bridge Interface HUD (jump rail, library, crisis protocol, Pilot chrome, connections map labels), the LIVE banner, `/backend`, and `/tasks`. The watch picture itself stays `dir="ltr"` so Arabic and Hebrew do not mirror radar and instruments. Arabic and Hebrew also load Noto Sans for body and headings.
+Translated now: marketing chrome (nav, footer), all public pages, the AGRON 1 HUD (jump rail, library, crisis protocol, Pilot chrome, connections map labels), the LIVE banner, `/backend`, and `/tasks`. The watch picture itself stays `dir="ltr"` so Arabic and Hebrew do not mirror radar and instruments. Arabic and Hebrew also load Noto Sans for body and headings.
 
-Still English: instrument skins on the radar/sonar/spectrum drawings (HF SONAR, CORE, range rings), product names (StarWall, Bridge, Support Center, Pilot, tier codes LIGHT / ADVANCED / INTELLIGENCE / CUSTOM), and Pilot replies (those follow the spoken/typed language when an API key is set). Sign-in, sign-up, and forgot-password now follow the site language. The demonstration sign-in stays `demo` / `demo`.
+Still English: instrument skins on the radar/sonar/spectrum drawings (HF SONAR, CORE, range rings), product names (StarWall, AGRON 1, Support Center, Pilot, tier codes LIGHT / ADVANCED / INTELLIGENCE / CUSTOM), and Pilot replies (those follow the spoken/typed language when an API key is set). Sign-in, sign-up, and forgot-password now follow the site language. The demonstration sign-in stays `demo` / `demo`.
 
 ## Deploy on Vercel
 
@@ -133,7 +135,7 @@ This is a standard Next.js 14 App Router app. Do **not** set `output: "standalon
 
 - Marketing pages work immediately.
 - `/login` accepts `demo` / `demo` even before Postgres is attached. Sessions are JWTs.
-- `/interface` is a public Bridge demo. It does not require a session, so a missing `NEXTAUTH_SECRET` never renders NextAuth’s “Server error” page. `NEXTAUTH_URL` is taken from the request host; a leftover `http://127.0.0.1:3000` value is ignored on Vercel.
+- `/interface` is a public AGRON 1 demo. It does not require a session, so a missing `NEXTAUTH_SECRET` never renders NextAuth’s “Server error” page. `NEXTAUTH_URL` is taken from the request host; a leftover `http://127.0.0.1:3000` value is ignored on Vercel.
 - Google sign-in stays hidden until both `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are set.
 - `ANTHROPIC_API_KEY` — richer Pilot answers. Without it Pilot still replies from the product briefing.
 - Male neural speech for Pilot needs no key (Edge online voices). Optional: `AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION`, `OPENAI_API_KEY` (voice `onyx`), or `ELEVENLABS_API_KEY`.
@@ -148,7 +150,7 @@ Optional, after the first green deploy:
 
 ## Postgres on Vercel (required)
 
-SQLite (`file:./dev.db`) is not used. Serverless hosts cannot keep a local file, so accounts, audit rows, and cloud copies of Bridge records need a hosted Postgres database.
+SQLite (`file:./dev.db`) is not used. Serverless hosts cannot keep a local file, so accounts, audit rows, and cloud copies of AGRON 1 records need a hosted Postgres database.
 
 **Use Neon via Vercel Storage.** That is the recommended production database for this project (Vercel’s current Postgres offering is Neon). A self-hosted Postgres or a generic “bring your own server” setup is more work than this site needs. Supabase works if you already have a project there, but Neon is the shorter path on Vercel.
 
@@ -179,7 +181,7 @@ npm run dev
 Two layers, local first:
 
 - **IndexedDB** (via `idb`) in the browser — `events`, `conversations`, `sessionReports`, plus a local Black Box index. A refresh during a DEMO session restores the Event Log, Pilot history, and Black Box list. Switching to **LIVE** wipes those four stores so DEMO records cannot come back. The signed-in NextAuth session is left alone. Switching back to DEMO starts a fresh idle watch (seed Event Log lines only — not the previous scenario history) and an empty Black Box.
-- **Prisma / Postgres** — accounts, RBAC, equipment checks, notification routes, integrations, the audit log, and the optional cloud copy of Bridge records. A Bridge record is written locally first (`Local`), then the badge becomes `Local + Cloud` only after `/api/blackbox` confirms the write.
+- **Prisma / Postgres** — accounts, RBAC, equipment checks, notification routes, integrations, the audit log, and the optional cloud copy of AGRON 1 records. A AGRON 1 record is written locally first (`Local`), then the badge becomes `Local + Cloud` only after `/api/blackbox` confirms the write.
 
 Schema: `prisma/schema.prisma` (`User`, `Session`, `Event`, `Conversation`, `BlackBoxRecord`, `Equipment`, `NotificationRoute`, `AuditLog`, `Integration`).
 
@@ -188,7 +190,7 @@ npx prisma generate
 npx prisma migrate deploy
 ```
 
-`/backend` is a working pre-pilot admin: Super Admin only on `/backend/users`; Admin and above can run diagnostics and save notification routing; Operators can view and use the Bridge; Viewers see reports and the Black Box only. Equipment is checked every 30 seconds while `/backend` is open (simulated heartbeat until hardware is connected). DEMO/LIVE switches, role changes, diagnostics, and notify saves write real audit rows.
+`/backend` is a working pre-pilot admin: Super Admin only on `/backend/users`; Admin and above can run diagnostics and save notification routing; Operators can view and use the AGRON 1; Viewers see reports and the Black Box only. Equipment is checked every 30 seconds while `/backend` is open (simulated heartbeat until hardware is connected). DEMO/LIVE switches, role changes, diagnostics, and notify saves write real audit rows.
 
 Production checks locally before a deploy:
 

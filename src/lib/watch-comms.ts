@@ -17,7 +17,7 @@ export type WatchCircuit = {
   bearer: WatchBearer;
 };
 
-/** Watch circuits the officer can raise from Interface. */
+/** Watch circuits the officer can raise from AGRON 1. */
 export const WATCH_CIRCUITS: WatchCircuit[] = [
   { id: "captain-ship-phone", party: "captain", bearer: "shipPhone" },
   { id: "captain-mobile", party: "captain", bearer: "mobile" },

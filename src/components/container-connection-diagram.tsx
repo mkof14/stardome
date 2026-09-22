@@ -90,7 +90,7 @@ export function ContainerConnectionDiagram() {
         <svg
           viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
           role="img"
-          aria-label="AGRON Container hardware feeds StarWall, which sends alerts and recommendations to the operator on AGRON Bridge."
+          aria-label="AGRON Container hardware feeds StarWall, which sends alerts and recommendations to the operator on AGRON 1."
           className="h-auto w-full min-w-[720px]"
           preserveAspectRatio="xMinYMid meet"
         >
@@ -134,7 +134,7 @@ export function ContainerConnectionDiagram() {
             x={right}
             y={y}
             title="OPERATOR"
-            lines={["AGRON Bridge interface"]}
+            lines={["AGRON 1"]}
           />
         </svg>
       </div>

@@ -4,7 +4,7 @@ export const zh: Messages = {
   nav: {
     home: "首页",
     howItWorks: "工作原理",
-    interface: "界面",
+    interface: "AGRON 1",
     levels: "层级",
     pricing: "方案",
     technology: "技术",
@@ -38,7 +38,7 @@ export const zh: Messages = {
   seo: {
     home: "StarWall by AGRON — 海上安全情报",
     howItWorks: "StarWall 如何工作 — StarWall by AGRON",
-    interface: "AGRON Bridge — 交互演示 — StarWall by AGRON",
+    interface: "AGRON 1 — 交互演示 — StarWall by AGRON",
     levels: "订阅层级 — StarWall by AGRON",
     pricing: "方案 — StarWall by AGRON",
     technology: "设备与集成 — StarWall by AGRON",
@@ -64,11 +64,11 @@ export const zh: Messages = {
     privacyTitle: "隐私政策",
     privacyUpdated: "更新日期：2026年9月7日",
     privacyIntro:
-      "本政策说明 AGRON Inc.（「AGRON」「我们」）在您使用 StarWall 网站、说明性 AGRON Bridge、Pilot 及相关管理界面时如何处理信息。它描述产品的现状，包括 DEMO 与 LIVE。",
+      "本政策说明 AGRON Inc.（「AGRON」「我们」）在您使用 StarWall 网站、说明性 AGRON 1、Pilot 及相关管理界面时如何处理信息。它描述产品的现状，包括 DEMO 与 LIVE。",
     privacySections: [
       { title: "责任方", body: "StarWall 由 AGRON Inc. 提供。隐私问题请通过联系表单或 agron1.com。若合同部署指定了数据保护联系人，会写在书面协议中。" },
-      { title: "本站是什么", body: "公开页面是产品介绍。/interface 上的 Bridge 是说明性值班画面：DEMO 使用模拟目标、事件与设备状态。LIVE 显示本部署的真实状态——在传感器接入前为空。除非与 AGRON 另有书面约定，公开演示不是游艇、码头或港口的实时源。" },
-      { title: "我们处理哪些信息", body: "若您创建账户，我们保存电子邮件与密码哈希（或登录提供方标识）以及角色。联系表单把您填写的内容记在此演示中；尚未接入真实收件箱。浏览器在本地保存语言、主题和 DEMO/LIVE。事件日志、Black Box 与 Pilot 对话先写在设备上；仅在部署数据库已配置时才会同步。我们不用 Bridge 或 Pilot 内容训练模型。" },
+      { title: "本站是什么", body: "公开页面是产品介绍。/interface 上的 AGRON 1 是说明性值班画面：DEMO 使用模拟目标、事件与设备状态。LIVE 显示本部署的真实状态——在传感器接入前为空。除非与 AGRON 另有书面约定，公开演示不是游艇、码头或港口的实时源。" },
+      { title: "我们处理哪些信息", body: "若您创建账户，我们保存电子邮件与密码哈希（或登录提供方标识）以及角色。联系表单把您填写的内容记在此演示中；尚未接入真实收件箱。浏览器在本地保存语言、主题和 DEMO/LIVE。事件日志、Black Box 与 Pilot 对话先写在设备上；仅在部署数据库已配置时才会同步。我们不用 AGRON 1 或 Pilot 内容训练模型。" },
       { title: "Cookie 与类似存储", body: "会话 cookie 用于保持登录；本地存储用于语言、主题和值班模式。我们不下发广告 cookie，也不出售个人数据。" },
       { title: "访问与共享", body: "访问遵循 Backend 角色：Super Admin、Admin、Operator、Viewer。托管与数据库在部署已连接时按我们的指示处理数据。Anthropic 收到您发给 Pilot 的内容以便顾问回复，而非用于 AGRON 营销。" },
       { title: "您的权利与保存期限", body: "您可通过联系页请求查阅、更正或删除。在欧盟、欧洲经济区、英国或摩纳哥，GDPR 或同等法律可能赋予更多权利。记录在账户或合同需要期间保存。这是现行做法的说明，不是认证印章。" },
@@ -76,10 +76,10 @@ export const zh: Messages = {
     termsTitle: "服务条款",
     termsUpdated: "更新日期：2026年9月7日",
     termsIntro:
-      "本条款适用于 StarWall 网站以及此处发布的说明性 Bridge、Pilot 与 Backend 界面。将 StarWall 作为作业系统使用，须另与 AGRON 签订书面协议。",
+      "本条款适用于 StarWall 网站以及此处发布的说明性 AGRON 1、Pilot 与 Backend 界面。将 StarWall 作为作业系统使用，须另与 AGRON 签订书面协议。",
     termsSections: [
       { title: "接受", body: "使用本网站即表示接受本条款。AGRON 可更新条款；以页首日期为准。" },
-      { title: "说明性 Bridge", body: "DEMO 是训练画面，不是传感器源。LIVE 显示真实部署：无设备则画面为空。推荐行动与 Pilot 回复是给值班人员的建议，不能代替其判断。" },
+      { title: "说明性 AGRON 1", body: "DEMO 是训练画面，不是传感器源。LIVE 显示真实部署：无设备则画面为空。推荐行动与 Pilot 回复是给值班人员的建议，不能代替其判断。" },
       { title: "账户", body: "您对登录凭据负责。登录页上的演示账户若展示，仅用于说明角色——真实部署前请更换。" },
       { title: "可接受使用", body: "不得尝试未经授权的访问；不得用 StarWall 伤害人或财产；不得把本服务表述为实时作业源。" },
       { title: "人工授权与当地法律", body: "专用设备及任何响应能力仍须经人工授权并遵守当地法律。StarWall 不授予受限系统的许可。" },
@@ -90,12 +90,12 @@ export const zh: Messages = {
     connectionsKicker: "AGRON BRIDGE · 拓扑",
     connectionsTitle: "系统连接图",
     connectionsLead:
-      "训练画面的实时拓扑：传感器送入 StarWall Core；核心把同一画面推送到 AGRON Bridge 与 Support Center。",
+      "训练画面的实时拓扑：传感器送入 StarWall Core；核心把同一画面推送到 AGRON 1 与 Support Center。",
     connectionsLeadLive:
       "与工作画面相同的布局 — 每个单元都在等待安装。尚未接入实时传感器。",
-    connectionsBack: "← 返回 Bridge",
+    connectionsBack: "← 返回 AGRON 1",
     connectionsIn: "数据入（传感器 → 核心）",
-    connectionsOut: "信息出（核心 → Bridge / Support）",
+    connectionsOut: "信息出（核心 → AGRON 1 / Support）",
     connectionsOff: "未连接",
     helmTitle: "Pilot",
     helmAdvisor: "值班顾问",
@@ -104,7 +104,7 @@ export const zh: Messages = {
     helmHide: "隐藏",
     helmOpen: "打开 Pilot",
     helmEmpty:
-      "Pilot 正在值班。可询问 StarWall、Bridge 画面、方案或 AGRON 集装箱 — 语音或文字。仅供建议，由您决定。",
+      "Pilot 正在值班。可询问 StarWall、AGRON 1 画面、方案或 AGRON 集装箱 — 语音或文字。仅供建议，由您决定。",
     helmLive: "值班顾问 · LIVE · 无传感器",
     helmSpeakerOn: "扬声器开",
     helmSpeakerOff: "扬声器关",
@@ -115,7 +115,7 @@ export const zh: Messages = {
     kicker: "STARWALL BACKEND",
     title: "系统管理",
     lead:
-      "连通性、设备健康、访问控制与监控 — 包括 AGRON 集装箱硬件。比 Bridge 更密：面向管理员，而非一瞥值守。",
+      "连通性、设备健康、访问控制与监控 — 包括 AGRON 集装箱硬件。比 AGRON 1 更密：面向管理员，而非一瞥值守。",
     demoNotice:
       "试运行管理 — 角色、设备检查、通知路由和审计日志写入本地数据库。尚未接入实体传感器。",
     sectionsNav: "后台分区",
@@ -188,10 +188,10 @@ export const zh: Messages = {
     roleViewerDetail: "仅只读报告。",
     blackboxTitle: "BLACK BOX",
     blackboxLead:
-      "本浏览器会话记录 — Pilot 对话与场景运行 — 在 Bridge 写入并本地保留。",
+      "本浏览器会话记录 — Pilot 对话与场景运行 — 在 AGRON 1 写入并本地保留。",
     blackboxLeadLive: "此部署尚无记录。",
     blackboxEmpty: "尚无记录。",
-    blackboxOpen: "在 Bridge 打开记录器 →",
+    blackboxOpen: "在 AGRON 1 打开记录器 →",
     conversation: "对话",
     scenarioRun: "场景",
     integrationsTitle: "集成登记",
@@ -206,7 +206,7 @@ export const zh: Messages = {
     testOk: "握手成功",
     testFail: "无数据流",
     auditTitle: "审计日志",
-    auditLead: "管理操作 — 与 Bridge 事件日志分开。",
+    auditLead: "管理操作 — 与 AGRON 1 事件日志分开。",
     noAudit: "尚无管理操作。",
     exportAudit: "导出日志",
     justNow: "刚刚",
@@ -283,7 +283,7 @@ export const zh: Messages = {
     demoAccounts: "想法演示",
     liveEmptyAccounts: "此部署尚无账户。",
     sessionNotice:
-      "用于 Bridge 与 Backend 的登录会话。写入操作会检查角色。",
+      "用于 AGRON 1 与 Backend 的登录会话。写入操作会检查角色。",
     sessionNoticeLive:
       "与 DEMO 相同的账户。LIVE 仍无传感器。",
     nameRequired: "请输入姓名以继续。",
@@ -337,13 +337,13 @@ export const zh: Messages = {
       health: "服务心跳、链路与备份路径。",
       equipment: "已连接设备的诊断与自检。",
       access: "角色层级。Super Admin 管理用户。",
-      blackbox: "保存在本浏览器的 Bridge 会话记录。",
+      blackbox: "保存在本浏览器的 AGRON 1 会话记录。",
       integrations: "数据流登记 — 雷达、AIS、摄像、卫通。",
-      audit: "管理操作，独立于 Bridge 事件日志。",
+      audit: "管理操作，独立于 AGRON 1 事件日志。",
       overview: "公开站点概览与入口卡片。",
       how: "连接、理解、决策 — 架构与能力。",
-      bridge: "AGRON Bridge — 态势图与场景。",
-      connections: "核心、传感器、Bridge 与 Support Center 的地图。",
+      bridge: "AGRON 1 — 态势图与场景。",
+      connections: "核心、传感器、AGRON 1 与 Support Center 的地图。",
       levels: "LIGHT / ADVANCED / INTELLIGENCE / CUSTOM 以及当前可用项。",
       pricing: "按对象、软件、集装箱与附加项配置月费和一次性费用。",
       technology: "设备类别，以及 StarWall 如何叠在现有系统上。",
@@ -356,7 +356,7 @@ export const zh: Messages = {
   home: {
     kicker: "StarWall, AGRON",
     title: "值班的是人。屏幕不该互相打架。",
-    lead: "游艇、码头、港口或岛上多半已有雷达和摄像机。麻烦是它们不同步。StarWall 读已经买过的设备，放到一块 Bridge 上。然后说出它会走哪一步。你接不接，是你的事。",
+    lead: "游艇、码头、港口或岛上多半已有雷达和摄像机。麻烦是它们不同步。StarWall 读已经买过的设备，放到一块 AGRON 1 上。然后说出它会走哪一步。你接不接，是你的事。",
     points: [
       "对接现有设备即可工作 — 无需更换",
       "学习您的船舶或场地，运行越久越精准",
@@ -366,15 +366,15 @@ export const zh: Messages = {
     pdfCta: "下载概览（PDF）",
     cards: [
       { title: "工作原理", body: "接入、理解、决策 — 三步完成" },
-      { title: "看实际效果", body: "交互查看 Bridge 界面" },
+      { title: "看实际效果", body: "交互查看 AGRON 1 界面" },
       { title: "层级", body: "从必要监测到完全定制构建" },
       { title: "设备", body: "对接什么，如何对接" },
     ],
-    interfaceKicker: "AGRON Bridge",
-    interfaceTitle: "Interface 里实际有什么",
+    interfaceKicker: "AGRON 1",
+    interfaceTitle: "AGRON 1 上现在有什么",
     interfaceLead:
-      "Bridge 是工作态势，不是幻灯片。以下是今天已做进 /interface 的部分，包括尚未接入设备时诚实的 LIVE。",
-    interfaceCta: "打开 Interface",
+      "AGRON 1 是工作态势，不是幻灯片。以下是今天已做进 /interface 的部分，包括尚未接入设备时诚实的 LIVE。",
+    interfaceCta: "打开 AGRON 1",
     interfacePoints: [
       { title: "Situational Picture", body: "把画面中的来源——雷达、摄像机、AIS 等——合成一张目标图，而不是一叠独立屏幕。" },
       { title: "风险等级", body: "Normal、Attention、Elevated、Critical。等级变化的原因可见，不藏在颜色后面。" },
@@ -383,7 +383,7 @@ export const zh: Messages = {
       { title: "Jump rail", body: "在态势、风险、系统、日志、学习、Black Box、Pilot 与连接图之间直接跳转。" },
       { title: "DEMO 与 LIVE", body: "DEMO 是完整模拟值班，用来熟悉布局。LIVE 是本部署的真实状态：设备未装则空。" },
       { title: "Adaptive Learning", body: "可随时间增长的对象档案。没有编造分数。没有真实历史时 LIVE 保持为空。" },
-      { title: "Black Box、地图、Pilot", body: "Black Box 中的会话记录、从传感器到核心再到 Bridge 的拓扑，以及可说可写的值班顾问 Pilot。" },
+      { title: "Black Box、地图、Pilot", body: "Black Box 中的会话记录、从传感器到核心再到 AGRON 1 的拓扑，以及可说可写的值班顾问 Pilot。" },
     ],
     containersLink: "StarWall 也可运行于 AGRON 可部署集装箱硬件之中 →",
   },
@@ -452,12 +452,12 @@ export const zh: Messages = {
     steps: [
       "02:14 — 一个无 AIS 信号的目标进入 6 NM 范围，方位可能截击 M/Y Aurelia 的航向。",
       "StarWall 在数秒内关联雷达与 AIS 馈送，并将风险等级升至 Elevated。",
-      "Bridge 给出一条明确建议：在 VHF ch.16 呼叫，加强值班，若距离降至 1.0 NM 以下则准备改向。",
+      "AGRON 1 给出一条明确建议：在 VHF ch.16 呼叫，加强值班，若距离降至 1.0 NM 以下则准备改向。",
       "事件自动记录并加盖时间戳，可直接用于晨报 — 无需手工撰写。",
     ],
   },
   bridge: {
-    title: "AGRON Bridge",
+    title: "AGRON 1",
     subtitle: "船长 / 安保官界面",
     mobileNotice: "此界面在较大屏幕上查看效果更好。",
     riskLevel: "风险等级",
@@ -549,7 +549,7 @@ export const zh: Messages = {
       "设备集成（Gateway）",
       "统一态势图",
       "基于规则的风险等级",
-      "Bridge 界面",
+      "AGRON 1",
       "手动升级至 Support Center",
     ],
     inDevelopment: [

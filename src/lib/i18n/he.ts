@@ -4,7 +4,7 @@ export const he: Messages = {
   nav: {
     home: "בית",
     howItWorks: "איך זה עובד",
-    interface: "ממשק",
+    interface: "AGRON 1",
     levels: "רמות",
     pricing: "תוכניות",
     technology: "טכנולוגיה",
@@ -38,7 +38,7 @@ export const he: Messages = {
   seo: {
     home: "StarWall by AGRON — מודיעין אבטחה ימי",
     howItWorks: "איך StarWall עובד — StarWall by AGRON",
-    interface: "AGRON Bridge — הדגמה אינטראקטיבית — StarWall by AGRON",
+    interface: "AGRON 1 — הדגמה אינטראקטיבית — StarWall by AGRON",
     levels: "רמות מנוי — StarWall by AGRON",
     pricing: "תוכניות — StarWall by AGRON",
     technology: "ציוד ואינטגרציה — StarWall by AGRON",
@@ -64,11 +64,11 @@ export const he: Messages = {
     privacyTitle: "מדיניות פרטיות",
     privacyUpdated: "עודכן: 7 בספטמבר 2026",
     privacyIntro:
-      "מדיניות זו מסבירה כיצד AGRON Inc. («AGRON», «אנחנו») מטפלת במידע כשמשתמשים באתר StarWall, ב־AGRON Bridge ההמחשה, ב־Pilot ובמסכי הניהול. היא מתארת את המוצר כפי שהוא היום, כולל DEMO ו־LIVE.",
+      "מדיניות זו מסבירה כיצד AGRON Inc. («AGRON», «אנחנו») מטפלת במידע כשמשתמשים באתר StarWall, ב־AGRON 1 ההמחשה, ב־Pilot ובמסכי הניהול. היא מתארת את המוצר כפי שהוא היום, כולל DEMO ו־LIVE.",
     privacySections: [
       { title: "מי אחראי", body: "מאחורי StarWall עומדת AGRON Inc. לשאלות פרטיות: טופס יצירת קשר או agron1.com. אם לפריסה חוזית מונה איש קשר להגנת מידע, שמו מופיע בהסכם הכתוב." },
-      { title: "מה האתר הזה", body: "הדפים הציבוריים הם המוצר. ה־Bridge ב־/interface הוא תמונת משמרת להמחשה: DEMO משתמש במגעים, אירועים וסטטוס ציוד מדומים. LIVE מציג את המצב האמיתי של הפריסה הזו — ריק עד שחיישנים מחוברים. הדמו הציבורי אינו פיד חי מיאכטה, מרינה או נמל אלא אם הסכם כתוב עם AGRON קובע אחרת." },
-      { title: "איזה מידע מעבדים", body: "אם יוצרים חשבון נשמרים האימייל וגיבוב הסיסמה (או מזהה ספק הכניסה) והתפקיד. טופס יצירת הקשר רושם את מה שהקלדתם בהדגמה זו; אין עדיין תיבת דואר חיה. הדפדפן שומר שפה, ערכת נושא ו־DEMO/LIVE מקומית. יומנים, Black Box ושיחות Pilot נכתבים קודם במכשיר; הם מגיעים למסד הפריסה רק אם הוא מוגדר. איננו משתמשים בתוכן Bridge או Pilot לאימון מודלים." },
+      { title: "מה האתר הזה", body: "הדפים הציבוריים הם המוצר. ה־AGRON 1 ב־/interface הוא תמונת משמרת להמחשה: DEMO משתמש במגעים, אירועים וסטטוס ציוד מדומים. LIVE מציג את המצב האמיתי של הפריסה הזו — ריק עד שחיישנים מחוברים. הדמו הציבורי אינו פיד חי מיאכטה, מרינה או נמל אלא אם הסכם כתוב עם AGRON קובע אחרת." },
+      { title: "איזה מידע מעבדים", body: "אם יוצרים חשבון נשמרים האימייל וגיבוב הסיסמה (או מזהה ספק הכניסה) והתפקיד. טופס יצירת הקשר רושם את מה שהקלדתם בהדגמה זו; אין עדיין תיבת דואר חיה. הדפדפן שומר שפה, ערכת נושא ו־DEMO/LIVE מקומית. יומנים, Black Box ושיחות Pilot נכתבים קודם במכשיר; הם מגיעים למסד הפריסה רק אם הוא מוגדר. איננו משתמשים בתוכן AGRON 1 או Pilot לאימון מודלים." },
       { title: "עוגיות ואחסון דומה", body: "עוגיית הפעלה שומרת את הכניסה; אחסון מקומי לשפה, לערכת נושא ולמצב המשמרת. אין עוגיות פרסום ואין מכירת מידע אישי." },
       { title: "גישה ושיתוף", body: "הגישה לפי תפקידי Backend: Super Admin, Admin, Operator ו־Viewer. האחסון והמסד מעבדים נתונים לפי הוראותינו כשיש פריסה מחוברת. Anthropic מקבלת את ההודעה שנשלחת ל־Pilot כדי שהיועץ יענה, לא לשיווק AGRON." },
       { title: "זכויותיכם ושמירה", body: "ניתן לבקש עיון, תיקון או מחיקה דרך דף יצירת הקשר. באיחוד האירופי, ב־EEA, בבריטניה או במונקו GDPR או חוק מקביל עשויים להוסיף זכויות. שומרים רשומות כל עוד החשבון או החוזה זקוקים להן. זה תיאור הפרקטיקה הנוכחית, לא חותמת הסמכה." },
@@ -76,10 +76,10 @@ export const he: Messages = {
     termsTitle: "תנאי שימוש",
     termsUpdated: "עודכן: 7 בספטמבר 2026",
     termsIntro:
-      "תנאים אלה חלים על אתר StarWall ועל מסכי Bridge, Pilot ו־Backend ההמחשה. שימוש תפעולי ב־StarWall דורש הסכם כתוב נפרד עם AGRON.",
+      "תנאים אלה חלים על אתר StarWall ועל מסכי AGRON 1, Pilot ו־Backend ההמחשה. שימוש תפעולי ב־StarWall דורש הסכם כתוב נפרד עם AGRON.",
     termsSections: [
       { title: "הסכמה", body: "בשימוש באתר אתם מקבלים תנאים אלה. AGRON רשאית לעדכן; התאריך בראש העמוד הוא הקובע." },
-      { title: "Bridge להמחשה", body: "DEMO הוא תמונת אימון, לא פיד חיישנים. LIVE מציג את הפריסה האמיתית: בלי ציוד התמונה ריקה. פעולות מומלצות ותשובות Pilot הן עצה למי שבמשמרת ואינן מחליפות את שיקול דעתו." },
+      { title: "AGRON 1 להמחשה", body: "DEMO הוא תמונת אימון, לא פיד חיישנים. LIVE מציג את הפריסה האמיתית: בלי ציוד התמונה ריקה. פעולות מומלצות ותשובות Pilot הן עצה למי שבמשמרת ואינן מחליפות את שיקול דעתו." },
       { title: "חשבונות", body: "אתם אחראים לפרטי הכניסה. חשבונות הדגמה בדף הכניסה, אם מוצגים, נועדו להמחיש תפקידים — החליפו אותם לפני פריסה אמיתית." },
       { title: "שימוש מותר", body: "אין לנסות גישה לא מורשית; אין להשתמש ב־StarWall לפגיעה באנשים או ברכוש; אין להציג את השירות כפיד תפעולי חי." },
       { title: "הרשאה אנושית ודין מקומי", body: "ציוד ייעודי וכל יכולת תגובה נשארים תחת הרשאה אנושית ודין המקום. StarWall אינו מעניק רישיון למערכות מוגבלות." },
@@ -90,12 +90,12 @@ export const he: Messages = {
     connectionsKicker: "AGRON BRIDGE · טופולוגיה",
     connectionsTitle: "מפת חיבורי המערכת",
     connectionsLead:
-      "טופולוגיה חיה של תמונת האימון: חיישנים מזינים את StarWall Core; הליבה דוחפת את אותה תמונה ל־AGRON Bridge ול־Support Center.",
+      "טופולוגיה חיה של תמונת האימון: חיישנים מזינים את StarWall Core; הליבה דוחפת את אותה תמונה ל־AGRON 1 ול־Support Center.",
     connectionsLeadLive:
       "אותו פריסה כמו התמונה התפעולית — כל יחידה ממתינה להתקנה. אין עדיין חיישנים חיים.",
-    connectionsBack: "← חזרה ל־Bridge",
+    connectionsBack: "← חזרה ל־AGRON 1",
     connectionsIn: "נתונים נכנסים (חיישנים → ליבה)",
-    connectionsOut: "מידע יוצא (ליבה → Bridge / Support)",
+    connectionsOut: "מידע יוצא (ליבה → AGRON 1 / Support)",
     connectionsOff: "לא מחובר",
     helmTitle: "Pilot",
     helmAdvisor: "יועץ משמרת",
@@ -104,7 +104,7 @@ export const he: Messages = {
     helmHide: "הסתרה",
     helmOpen: "פתיחת Pilot",
     helmEmpty:
-      "Pilot במשמרת. שאלו על StarWall, תמונת ה-Bridge, התוכניות או מכולות AGRON — בדיבור או בכתב. ייעוץ בלבד; ההחלטה שלכם.",
+      "Pilot במשמרת. שאלו על StarWall, תמונת ה-AGRON 1, התוכניות או מכולות AGRON — בדיבור או בכתב. ייעוץ בלבד; ההחלטה שלכם.",
     helmLive: "יועץ משמרת · LIVE · אין חיישנים",
     helmSpeakerOn: "רמקול דולק",
     helmSpeakerOff: "רמקול כבוי",
@@ -115,7 +115,7 @@ export const he: Messages = {
     kicker: "STARWALL BACKEND",
     title: "ניהול מערכת",
     lead:
-      "קישוריות, בריאות ציוד, בקרת גישה וניטור — כולל חומרת מכולות AGRON. צפוף יותר מ־Bridge: למנהלים, לא למבט חטוף.",
+      "קישוריות, בריאות ציוד, בקרת גישה וניטור — כולל חומרת מכולות AGRON. צפוף יותר מ־AGRON 1: למנהלים, לא למבט חטוף.",
     demoNotice:
       "ניהול טרום-פיילוט — תפקידים, בדיקות ציוד, ניתוב התראות ויומן הביקורת נכתבים למסד המקומי. עדיין אין חיישנים פיזיים מחוברים.",
     sectionsNav: "מדורי ה־backend",
@@ -188,10 +188,10 @@ export const he: Messages = {
     roleViewerDetail: "קריאה בלבד של דוחות.",
     blackboxTitle: "BLACK BOX",
     blackboxLead:
-      "רשומות הסשן בדפדפן זה — שיחות Pilot והרצות תרחישים — נכתבות ב־Bridge ונשמרות מקומית.",
+      "רשומות הסשן בדפדפן זה — שיחות Pilot והרצות תרחישים — נכתבות ב־AGRON 1 ונשמרות מקומית.",
     blackboxLeadLive: "אין עדיין רשומות לפריסה זו.",
     blackboxEmpty: "אין עדיין רשומות.",
-    blackboxOpen: "פתיחת הרשמקול ב־Bridge →",
+    blackboxOpen: "פתיחת הרשמקול ב־AGRON 1 →",
     conversation: "שיחה",
     scenarioRun: "תרחיש",
     integrationsTitle: "רישום אינטגרציות",
@@ -206,7 +206,7 @@ export const he: Messages = {
     testOk: "לחיצת יד הצליחה",
     testFail: "אין הזנה",
     auditTitle: "יומן ביקורת",
-    auditLead: "פעולות ניהול — נפרדות מיומן האירועים של Bridge.",
+    auditLead: "פעולות ניהול — נפרדות מיומן האירועים של AGRON 1.",
     noAudit: "אין עדיין פעולות ניהול.",
     exportAudit: "ייצוא יומן",
     justNow: "עכשיו",
@@ -283,7 +283,7 @@ export const he: Messages = {
     demoAccounts: "הדגמת רעיון",
     liveEmptyAccounts: "עדיין אין חשבונות בפריסה זו.",
     sessionNotice:
-      "הפעלת כניסה ל־Bridge ול־Backend. תפקידים נאכפים בכתיבה.",
+      "הפעלת כניסה ל־AGRON 1 ול־Backend. תפקידים נאכפים בכתיבה.",
     sessionNoticeLive:
       "אותם חשבונות כמו ב־DEMO. ב־LIVE עדיין אין חיישנים.",
     nameRequired: "הזינו שם כדי להמשיך.",
@@ -337,13 +337,13 @@ export const he: Messages = {
       health: "פעימת השירות, קישורי תקשורת ונתיבי גיבוי.",
       equipment: "אבחון ובדיקות עצמיות לציוד המחובר.",
       access: "היררכיית תפקידים. Super Admin מנהל משתמשים.",
-      blackbox: "רשומות הפעלה של Bridge השמורות בדפדפן זה.",
+      blackbox: "רשומות הפעלה של AGRON 1 השמורות בדפדפן זה.",
       integrations: "רישום הזנות — מכ״ם, AIS, מצלמות, satcom.",
-      audit: "פעולות ניהול, נפרדות מיומן האירועים של Bridge.",
+      audit: "פעולות ניהול, נפרדות מיומן האירועים של AGRON 1.",
       overview: "סקירה וכרטיסי כניסה לאתר הציבורי.",
       how: "לחבר, להבין, להחליט — ארכיטקטורה ויכולות.",
-      bridge: "AGRON Bridge — תמונת מצב ותרחישים.",
-      connections: "מפת הליבה, החיישנים, Bridge ו־Support Center.",
+      bridge: "AGRON 1 — תמונת מצב ותרחישים.",
+      connections: "מפת הליבה, החיישנים, AGRON 1 ו־Support Center.",
       levels: "LIGHT / ADVANCED / INTELLIGENCE / CUSTOM ומה זמין כעת.",
       pricing: "הגדירו עלות חודשית וחד־פעמית לפי אובייקט, תוכנה, מכולה ותוספות.",
       technology: "קטגוריות ציוד וכיצד StarWall יושב על מערכות קיימות.",
@@ -356,7 +356,7 @@ export const he: Messages = {
   home: {
     kicker: "StarWall, AGRON",
     title: "את המשמרת מנהל אדם. המסכים לא צריכים להתווכח.",
-    lead: "ביאכטה, במרינה, בנמל או באי כבר יש בדרך כלל מכ״ם ומצלמות. הבעיה שהשעון שלהם לא משותף. StarWall קורא מה שכבר שולם ומניח את זה על Bridge אחד. אחר כך אומר מה היה עושה. אתם לוקחים או לא.",
+    lead: "ביאכטה, במרינה, בנמל או באי כבר יש בדרך כלל מכ״ם ומצלמות. הבעיה שהשעון שלהם לא משותף. StarWall קורא מה שכבר שולם ומניח את זה על AGRON 1 אחד. אחר כך אומר מה היה עושה. אתם לוקחים או לא.",
     points: [
       "עובד עם הציוד שכבר יש לכם — אין צורך בהחלפה",
       "לומד את כלי השיט או האתר, ונעשה חד יותר ככל שהוא פועל",
@@ -366,15 +366,15 @@ export const he: Messages = {
     pdfCta: "הורדת סקירה (PDF)",
     cards: [
       { title: "איך זה עובד", body: "חיבור, הבנה, החלטה — בשלושה צעדים" },
-      { title: "לראות בפעולה", body: "מבט אינטראקטיבי בממשק Bridge" },
+      { title: "לראות בפעולה", body: "מבט אינטראקטיבי בממשק AGRON 1" },
       { title: "רמות", body: "מניטור חיוני ועד בנייה מותאמת במלואה" },
       { title: "ציוד", body: "אל מה זה מתחבר, וכיצד" },
     ],
-    interfaceKicker: "AGRON Bridge",
-    interfaceTitle: "מה באמת יש ב־Interface",
+    interfaceKicker: "AGRON 1",
+    interfaceTitle: "מה יש היום ב-AGRON 1",
     interfaceLead:
-      "ה־Bridge הוא תמונת העבודה, לא שקף. אלה החלקים שנבנו ב־/interface היום, כולל LIVE כנה כשעדיין לא מחובר דבר.",
-    interfaceCta: "לפתוח את Interface",
+      "ה־AGRON 1 הוא תמונת העבודה, לא שקף. אלה החלקים שנבנו ב־/interface היום, כולל LIVE כנה כשעדיין לא מחובר דבר.",
+    interfaceCta: "לפתוח את AGRON 1",
     interfacePoints: [
       { title: "Situational Picture", body: "מפת מגעים אחת ממקורות התמונה — מכ״ם, מצלמות, AIS והשאר — במקום ערמת מסכים." },
       { title: "רמת סיכון", body: "Normal, Attention, Elevated, Critical. סיבת השינוי נראית, לא מוסתרת מאחורי צבע." },
@@ -383,7 +383,7 @@ export const he: Messages = {
       { title: "Jump rail", body: "מעבר ישיר בין תמונה, סיכון, מערכות, יומן, למידה, Black Box, Pilot ומפת החיבורים." },
       { title: "DEMO ו־LIVE", body: "DEMO הוא משמרת מדומה מלאה ללמידת הפריסה. LIVE הוא הפריסה הזו כפי שהיא: ריק עד שמותקן ציוד." },
       { title: "Adaptive Learning", body: "פרופיל עצם שיכול לגדול עם הזמן. בלי ציונים בדויים. LIVE נשאר ריק בלי היסטוריה אמיתית." },
-      { title: "Black Box, מפה, Pilot", body: "רשומות סשן ב־Black Box, מפת טופולוגיה מחיישנים לליבה ול־Bridge, ו־Pilot — יועץ המשמרת." },
+      { title: "Black Box, מפה, Pilot", body: "רשומות סשן ב־Black Box, מפת טופולוגיה מחיישנים לליבה ול־AGRON 1, ו־Pilot — יועץ המשמרת." },
     ],
     containersLink: "StarWall פועל גם בתוך חומרת המכולות הפריסה של AGRON →",
   },
@@ -452,12 +452,12 @@ export const he: Messages = {
     steps: [
       "02:14 — מגע נכנס לטווח 6 NM בלי אות AIS, באזימוט שעלול לחתוך את מסלול M/Y Aurelia.",
       "StarWall מתאם את הזנת המכ״ם וה־AIS תוך שניות ומעלה את רמת הסיכון ל־Elevated.",
-      "Bridge מציג המלצה אחת ברורה: קריאה ב־VHF ch.16, חיזוק המשמרת, ומוכנות לשינוי מסלול אם הטווח יורד מתחת ל־1.0 NM.",
+      "AGRON 1 מציג המלצה אחת ברורה: קריאה ב־VHF ch.16, חיזוק המשמרת, ומוכנות לשינוי מסלול אם הטווח יורד מתחת ל־1.0 NM.",
       "האירוע נרשם אוטומטית, עם חותמת זמן, מוכן לדוח הבוקר — אין צורך לכתוב דבר ביד.",
     ],
   },
   bridge: {
-    title: "AGRON Bridge",
+    title: "AGRON 1",
     subtitle: "ממשק רב־חובל / קצין אבטחה",
     mobileNotice: "הממשק הזה נראה טוב יותר במסך גדול.",
     riskLevel: "רמת סיכון",
@@ -549,7 +549,7 @@ export const he: Messages = {
       "אינטגרציית ציוד (Gateway)",
       "תמונת מצב מאוחדת",
       "רמות סיכון מבוססות כללים",
-      "ממשק Bridge",
+      "AGRON 1",
       "הסלמה ידנית אל Support Center",
     ],
     inDevelopment: [

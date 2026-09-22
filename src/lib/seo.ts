@@ -7,17 +7,17 @@ export const pageMeta = {
   howItWorks: {
     title: "How StarWall Works — StarWall by AGRON",
     description:
-      "How StarWall connects existing equipment, builds one picture, and supports a decision on the Bridge.",
+      "How StarWall connects existing equipment, builds one picture, and supports a decision on AGRON 1.",
   },
   interface: {
-    title: "AGRON Bridge — Interactive Demo — StarWall by AGRON",
+    title: "AGRON 1 — Interactive Demo — StarWall by AGRON",
     description:
-      "Interactive AGRON Bridge demo: radar, telemetry, risk levels, and an event log with illustrative data.",
+      "Interactive AGRON 1 demo: radar, telemetry, risk levels, and an event log with illustrative data.",
   },
   connections: {
     title: "System Connections Map — StarWall by AGRON",
     description:
-      "Radial map of StarWall Core, the AGRON Container, standalone sensors, AGRON Bridge, and Support Center.",
+      "Radial map of StarWall Core, the AGRON Container, standalone sensors, AGRON 1, and Support Center.",
   },
   levels: {
     title: "Subscription Levels — StarWall by AGRON",
@@ -108,6 +108,6 @@ export const pageMeta = {
   },
   terms: {
     title: "Terms of Service — StarWall by AGRON",
-    description: "Terms for using StarWall, the Bridge, Backend, and Pilot.",
+    description: "Terms for using StarWall, AGRON 1, Backend, and Pilot.",
   },
 } as const;

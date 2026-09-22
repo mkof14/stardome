@@ -4,7 +4,7 @@ export const fr: Messages = {
   nav: {
     home: "Accueil",
     howItWorks: "Fonctionnement",
-    interface: "Interface",
+    interface: "AGRON 1",
     levels: "Niveaux",
     pricing: "Plans",
     technology: "Technologie",
@@ -38,7 +38,7 @@ export const fr: Messages = {
   seo: {
     home: "StarWall by AGRON — renseignement de sécurité maritime",
     howItWorks: "Comment fonctionne StarWall — StarWall by AGRON",
-    interface: "AGRON Bridge — démonstration interactive — StarWall by AGRON",
+    interface: "AGRON 1 — démonstration interactive — StarWall by AGRON",
     levels: "Niveaux d'abonnement — StarWall by AGRON",
     pricing: "Plans — StarWall by AGRON",
     technology: "Équipements et intégration — StarWall by AGRON",
@@ -64,11 +64,11 @@ export const fr: Messages = {
     privacyTitle: "Politique de confidentialité",
     privacyUpdated: "Mis à jour : 7 septembre 2026",
     privacyIntro:
-      "Cette politique explique comment AGRON Inc. (« AGRON », « nous ») traite les informations lorsque vous utilisez le site StarWall, le AGRON Bridge illustratif, Pilot et les écrans d'administration. Elle décrit le produit tel qu'il existe aujourd'hui, y compris DEMO et LIVE.",
+      "Cette politique explique comment AGRON Inc. (« AGRON », « nous ») traite les informations lorsque vous utilisez le site StarWall, AGRON 1 illustratif, Pilot et les écrans d'administration. Elle décrit le produit tel qu'il existe aujourd'hui, y compris DEMO et LIVE.",
     privacySections: [
       { title: "Qui est responsable", body: "AGRON Inc. est derrière StarWall. Questions de confidentialité : formulaire de contact ou agron1.com. Si un déploiement contractuel désigne un contact protection des données, il figure dans l'accord écrit." },
-      { title: "Ce qu'est ce site", body: "Les pages publiques sont le produit. Le Bridge sur /interface est un tableau de quart illustratif : DEMO utilise des contacts, événements et statuts d'équipement simulés. LIVE montre l'état réel de ce déploiement — vide tant qu'aucun capteur n'est relié. La démo publique n'est pas un flux live d'un yacht, d'une marina ou d'un port, sauf accord écrit avec AGRON." },
-      { title: "Quelles informations nous traitons", body: "Si vous créez un compte, nous conservons l'e-mail et le hash du mot de passe (ou l'identifiant du fournisseur d'accès) et le rôle. Le formulaire de contact enregistre ce que vous saisissez dans cette démonstration ; aucune boîte n'est encore branchée. Le navigateur conserve langue, thème et DEMO/LIVE. Journaux, Black Box et conversations Pilot s'écrivent d'abord sur l'appareil ; ils n'atteignent la base du déploiement que si elle est configurée. Nous n'utilisons pas le contenu Bridge ou Pilot pour entraîner des modèles." },
+      { title: "Ce qu'est ce site", body: "Les pages publiques sont le produit. Le AGRON 1 sur /interface est un tableau de quart illustratif : DEMO utilise des contacts, événements et statuts d'équipement simulés. LIVE montre l'état réel de ce déploiement — vide tant qu'aucun capteur n'est relié. La démo publique n'est pas un flux live d'un yacht, d'une marina ou d'un port, sauf accord écrit avec AGRON." },
+      { title: "Quelles informations nous traitons", body: "Si vous créez un compte, nous conservons l'e-mail et le hash du mot de passe (ou l'identifiant du fournisseur d'accès) et le rôle. Le formulaire de contact enregistre ce que vous saisissez dans cette démonstration ; aucune boîte n'est encore branchée. Le navigateur conserve langue, thème et DEMO/LIVE. Journaux, Black Box et conversations Pilot s'écrivent d'abord sur l'appareil ; ils n'atteignent la base du déploiement que si elle est configurée. Nous n'utilisons pas le contenu AGRON 1 ou Pilot pour entraîner des modèles." },
       { title: "Cookies et stockage similaire", body: "Un cookie de session maintient la connexion ; le stockage local sert à la langue, au thème et au mode. Pas de cookies publicitaires, pas de vente de données personnelles." },
       { title: "Accès et partage", body: "L'accès suit les rôles Backend : Super Admin, Admin, Operator et Viewer. L'hébergement et la base traitent les données sur nos instructions lorsqu'un déploiement est connecté. Anthropic reçoit le message envoyé à Pilot pour que le conseiller réponde, pas pour le marketing AGRON." },
       { title: "Vos droits et conservation", body: "Vous pouvez demander l'accès, la correction ou la suppression via la page contact. Dans l'UE, l'EEE, le Royaume-Uni ou Monaco, le RGPD ou une loi équivalente peut ajouter des droits. Nous conservons les enregistrements tant que le compte ou le contrat en a besoin. Ceci décrit la pratique actuelle, ce n'est pas un tampon de certification." },
@@ -76,10 +76,10 @@ export const fr: Messages = {
     termsTitle: "Conditions d'utilisation",
     termsUpdated: "Mis à jour : 7 septembre 2026",
     termsIntro:
-      "Ces conditions régissent le site StarWall et les écrans illustratifs Bridge, Pilot et Backend. L'usage opérationnel de StarWall sur un navire ou un site exige un accord écrit distinct avec AGRON.",
+      "Ces conditions régissent le site StarWall et les écrans illustratifs AGRON 1, Pilot et Backend. L'usage opérationnel de StarWall sur un navire ou un site exige un accord écrit distinct avec AGRON.",
     termsSections: [
       { title: "Acceptation", body: "En utilisant ce site, vous acceptez ces conditions. AGRON peut les mettre à jour ; la date en tête de page s'applique." },
-      { title: "Bridge illustratif", body: "DEMO est un tableau de formation. Ce n'est pas un flux capteurs. LIVE montre le déploiement réel : sans équipement, le tableau est vide. Actions recommandées et réponses Pilot sont un conseil pour la personne de quart. Elles ne remplacent pas son jugement." },
+      { title: "AGRON 1 illustratif", body: "DEMO est un tableau de formation. Ce n'est pas un flux capteurs. LIVE montre le déploiement réel : sans équipement, le tableau est vide. Actions recommandées et réponses Pilot sont un conseil pour la personne de quart. Elles ne remplacent pas son jugement." },
       { title: "Comptes", body: "Vous êtes responsable des identifiants. Les comptes de démonstration sur la page de connexion, s'ils sont affichés, illustrent les rôles : changez-les avant un déploiement réel." },
       { title: "Usage acceptable", body: "Pas d'accès non autorisé ; pas d'usage de StarWall pour nuire aux personnes ou aux biens ; ne pas présenter le service comme un flux opérationnel live." },
       { title: "Autorisation humaine et droit local", body: "Les équipements spécialisés et toute capacité de réponse restent sous autorisation humaine et le droit du lieu. StarWall n'accorde pas de licence pour des systèmes restreints." },
@@ -90,12 +90,12 @@ export const fr: Messages = {
     connectionsKicker: "AGRON BRIDGE · TOPOLOGIE",
     connectionsTitle: "Carte des connexions système",
     connectionsLead:
-      "Topologie en direct du tableau d'entraînement : les capteurs alimentent StarWall Core ; le noyau envoie la même image à AGRON Bridge et au Support Center.",
+      "Topologie en direct du tableau d'entraînement : les capteurs alimentent StarWall Core ; le noyau envoie la même image à AGRON 1 et au Support Center.",
     connectionsLeadLive:
       "Le même schéma que le tableau opérationnel — chaque unité attend l'installation. Aucun capteur en direct pour l'instant.",
-    connectionsBack: "← Retour au Bridge",
+    connectionsBack: "← Retour à AGRON 1",
     connectionsIn: "Données entrantes (capteurs → noyau)",
-    connectionsOut: "Information sortante (noyau → Bridge / Support)",
+    connectionsOut: "Information sortante (noyau → AGRON 1 / Support)",
     connectionsOff: "Non connecté",
     helmTitle: "Pilot",
     helmAdvisor: "CONSEILLER DE QUART",
@@ -104,7 +104,7 @@ export const fr: Messages = {
     helmHide: "Masquer",
     helmOpen: "Ouvrir Pilot",
     helmEmpty:
-      "Pilot est de quart. Interrogez StarWall, le Bridge, les offres ou les conteneurs AGRON — voix ou texte. Conseil seulement ; vous décidez.",
+      "Pilot est de quart. Interrogez StarWall, AGRON 1, les offres ou les conteneurs AGRON — voix ou texte. Conseil seulement ; vous décidez.",
     helmLive: "CONSEILLER DE QUART · LIVE · aucun capteur",
     helmSpeakerOn: "Haut-parleur allumé",
     helmSpeakerOff: "Haut-parleur coupé",
@@ -115,7 +115,7 @@ export const fr: Messages = {
     kicker: "STARWALL BACKEND",
     title: "Administration système",
     lead:
-      "Connectivité, santé des équipements, contrôle d'accès et supervision — y compris le matériel de conteneurs AGRON. Plus dense que le Bridge : pour les administrateurs, pas pour un coup d'œil.",
+      "Connectivité, santé des équipements, contrôle d'accès et supervision — y compris le matériel de conteneurs AGRON. Plus dense qu'AGRON 1 : pour les administrateurs, pas pour un coup d'œil.",
     demoNotice:
       "Administration pré-pilote — rôles, contrôles d'équipement, routage des alertes et journal d'audit s'écrivent dans la base locale. Aucun capteur physique n'est encore connecté.",
     sectionsNav: "Sections du backend",
@@ -188,10 +188,10 @@ export const fr: Messages = {
     roleViewerDetail: "Lecture seule des rapports.",
     blackboxTitle: "BLACK BOX",
     blackboxLead:
-      "Enregistrements de cette session dans le navigateur — conversations Pilot et scénarios — écrits sur le Bridge et conservés en local.",
+      "Enregistrements de cette session dans le navigateur — conversations Pilot et scénarios — écrits dans AGRON 1 et conservés en local.",
     blackboxLeadLive: "Aucun enregistrement de ce déploiement pour l'instant.",
     blackboxEmpty: "Aucun enregistrement pour l'instant.",
-    blackboxOpen: "Ouvrir l'enregistreur sur le Bridge →",
+    blackboxOpen: "Ouvrir l'enregistreur dans AGRON 1 →",
     conversation: "Conversation",
     scenarioRun: "Scénario",
     integrationsTitle: "REGISTRE DES INTÉGRATIONS",
@@ -206,7 +206,7 @@ export const fr: Messages = {
     testOk: "Liaison confirmée",
     testFail: "Aucun flux",
     auditTitle: "JOURNAL D'AUDIT",
-    auditLead: "Actions administratives — distinctes du journal d'événements du Bridge.",
+    auditLead: "Actions administratives — distinctes du journal d'événements du AGRON 1.",
     noAudit: "Aucune action administrative pour l'instant.",
     exportAudit: "Exporter le journal",
     justNow: "à l'instant",
@@ -283,7 +283,7 @@ export const fr: Messages = {
     demoAccounts: "Démonstration d'idée",
     liveEmptyAccounts: "Aucun compte sur ce déploiement pour l'instant.",
     sessionNotice:
-      "Session d'accès pour Bridge et Backend. Les rôles sont appliqués sur les écritures.",
+      "Session d'accès pour AGRON 1 et Backend. Les rôles sont appliqués sur les écritures.",
     sessionNoticeLive:
       "Les mêmes comptes qu'en DEMO. LIVE n'a toujours pas de capteurs.",
     nameRequired: "Saisissez un nom pour continuer.",
@@ -339,13 +339,13 @@ export const fr: Messages = {
       health: "Battement du service, liaisons et chemins de sauvegarde.",
       equipment: "Diagnostics et autocontrôles de l'équipement connecté.",
       access: "Hiérarchie des rôles. Super Admin gère les utilisateurs.",
-      blackbox: "Enregistrements de session du Bridge conservés dans ce navigateur.",
+      blackbox: "Enregistrements de session du AGRON 1 conservés dans ce navigateur.",
       integrations: "Registre des flux — radar, AIS, caméras, satcom.",
-      audit: "Actions administratives, distinctes du journal d'événements du Bridge.",
+      audit: "Actions administratives, distinctes du journal d'événements du AGRON 1.",
       overview: "Présentation et cartes d'entrée du site public.",
       how: "Connecter, comprendre, décider — architecture et capacités.",
-      bridge: "AGRON Bridge — image situationnelle et scénarios.",
-      connections: "Carte du cœur, des capteurs, du Bridge et du Support Center.",
+      bridge: "AGRON 1 — image situationnelle et scénarios.",
+      connections: "Carte du cœur, des capteurs, du AGRON 1 et du Support Center.",
       levels: "LIGHT / ADVANCED / INTELLIGENCE / CUSTOM et ce qui est disponible maintenant.",
       pricing: "Configurez le coût mensuel et le paiement unique selon l'objet, le logiciel, le conteneur et les options.",
       technology: "Catégories d'équipement et la façon dont StarWall s'appuie sur l'existant.",
@@ -358,7 +358,7 @@ export const fr: Messages = {
   home: {
     kicker: "StarWall, AGRON",
     title: "Le quart reste une personne. Les écrans n'ont pas à se disputer.",
-    lead: "Sur un yacht, une marina, un port ou une île, radar et caméras sont souvent déjà là. Le problème, c'est qu'ils n'ont pas la même horloge. StarWall lit ce qui est déjà payé et le pose sur un Bridge. Ensuite il dit ce qu'il ferait. Vous prenez, ou pas.",
+    lead: "Sur un yacht, une marina, un port ou une île, radar et caméras sont souvent déjà là. Le problème, c'est qu'ils n'ont pas la même horloge. StarWall lit ce qui est déjà payé et le pose sur un AGRON 1. Ensuite il dit ce qu'il ferait. Vous prenez, ou pas.",
     points: [
       "Fonctionne avec l'équipement que vous avez déjà — aucun remplacement requis",
       "Apprend votre navire ou votre site, et gagne en précision avec le temps",
@@ -368,15 +368,15 @@ export const fr: Messages = {
     pdfCta: "Télécharger la présentation (PDF)",
     cards: [
       { title: "Fonctionnement", body: "Connecter, comprendre, décider — en trois étapes" },
-      { title: "Voir en action", body: "Un aperçu interactif de l'interface Bridge" },
+      { title: "Voir en action", body: "Un aperçu interactif de l'interface AGRON 1" },
       { title: "Niveaux", body: "Du suivi essentiel à une construction entièrement sur mesure" },
       { title: "Équipements", body: "À quoi cela se connecte, et comment" },
     ],
-    interfaceKicker: "AGRON Bridge",
-    interfaceTitle: "Ce qui est vraiment dans Interface",
+    interfaceKicker: "AGRON 1",
+    interfaceTitle: "Ce qui est sur AGRON 1 aujourd'hui",
     interfaceLead:
-      "Le Bridge est le tableau de travail, pas une diapositive. Voici les parties déjà construites sur /interface, y compris un LIVE honnête quand rien n'est encore relié.",
-    interfaceCta: "Ouvrir Interface",
+      "Le AGRON 1 est le tableau de travail, pas une diapositive. Voici les parties déjà construites sur /interface, y compris un LIVE honnête quand rien n'est encore relié.",
+    interfaceCta: "Ouvrir AGRON 1",
     interfacePoints: [
       { title: "Situational Picture", body: "Une carte des contacts depuis les sources du tableau — radar, caméras, AIS et le reste — au lieu d'une pile d'écrans." },
       { title: "Niveau de risque", body: "Normal, Attention, Elevated, Critical. La raison d'un changement reste visible, pas cachée derrière une couleur." },
@@ -385,7 +385,7 @@ export const fr: Messages = {
       { title: "Jump rail", body: "Aller droit entre tableau, risque, systèmes, journal, apprentissage, Black Box, Pilot et la carte des liaisons." },
       { title: "DEMO et LIVE", body: "DEMO est le quart simulé complet pour apprendre la disposition. LIVE est ce déploiement tel quel : vide tant que l'équipement n'est pas installé." },
       { title: "Adaptive Learning", body: "Un profil d'objet qui peut grandir avec le temps. Pas de scores inventés. LIVE reste vide sans historique réel." },
-      { title: "Black Box, carte, Pilot", body: "Enregistrements de session dans la Black Box, carte de topologie des capteurs vers le cœur et le Bridge, et Pilot — le conseiller de quart." },
+      { title: "Black Box, carte, Pilot", body: "Enregistrements de session dans la Black Box, carte de topologie des capteurs vers le cœur et AGRON 1, et Pilot — le conseiller de quart." },
     ],
     containersLink: "StarWall fonctionne aussi dans le matériel conteneur déployable d'AGRON →",
   },
@@ -454,12 +454,12 @@ export const fr: Messages = {
     steps: [
       "02:14 — un contact entre dans la portée de 6 NM sans signal AIS, sur un relèvement qui pourrait couper la route de M/Y Aurelia.",
       "StarWall corrèle le radar et l'AIS en quelques secondes et fait passer le niveau de risque à Elevated.",
-      "Bridge affiche une recommandation claire : appeler sur VHF ch.16, renforcer la veille, être prêt à modifier la route si la distance passe sous 1.0 NM.",
+      "AGRON 1 affiche une recommandation claire : appeler sur VHF ch.16, renforcer la veille, être prêt à modifier la route si la distance passe sous 1.0 NM.",
       "L'événement est consigné automatiquement, horodaté, prêt pour le rapport du matin — rien n'a à être rédigé à la main.",
     ],
   },
   bridge: {
-    title: "AGRON Bridge",
+    title: "AGRON 1",
     subtitle: "INTERFACE CAPITAINE / OFFICIER DE SÉCURITÉ",
     mobileNotice: "Cette interface se consulte mieux sur un grand écran.",
     riskLevel: "NIVEAU DE RISQUE",
@@ -551,7 +551,7 @@ export const fr: Messages = {
       "Intégration d'équipements (Gateway)",
       "Image situationnelle unifiée",
       "Niveaux de risque fondés sur des règles",
-      "Interface Bridge",
+      "AGRON 1",
       "Montée manuelle vers le Support Center",
     ],
     inDevelopment: [

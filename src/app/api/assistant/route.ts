@@ -63,7 +63,7 @@ export async function POST(request: Request) {
 
   const situation = live
     ? "Current mode is LIVE. There is no live scenario or sensor data. This deployment is not connected to any radar, AIS, camera, or other equipment. If asked about current status, say you do not have live sensor data yet — this vessel is not connected to any equipment. They can ask about StarWall in general, or switch to DEMO mode to see a simulated scenario. Do not invent contacts, risk levels, equipment status, or events."
-    : `Current Bridge picture (DEMO): scenario is '${watchSession.scenarioName}', risk level is '${watchSession.riskLevel}', aboard ${watchSession.vessel}. Panel: ${watchSession.panelType}. ${watchBrief} Advice only — the person on watch decides.`;
+    : `Current AGRON 1 picture (DEMO): scenario is '${watchSession.scenarioName}', risk level is '${watchSession.riskLevel}', aboard ${watchSession.vessel}. Panel: ${watchSession.panelType}. ${watchBrief} Advice only — the person on watch decides.`;
 
   const apiKey = process.env.ANTHROPIC_API_KEY?.trim();
   if (!apiKey) {

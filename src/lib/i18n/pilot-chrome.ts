@@ -23,7 +23,7 @@ const PILOT_CHROME = {
     hide: "Hide",
     open: "Open Pilot",
     empty:
-      "Pilot is on watch. Ask about StarWall, the Bridge picture, plans, or AGRON containers — speak or type. Advice only; you decide.",
+      "Pilot is on watch. Ask about StarWall, the AGRON 1 picture, plans, or AGRON containers — speak or type. Advice only; you decide.",
     live: "WATCH ADVISOR · LIVE · no sensors",
     speakerOn: "Speaker on",
     speakerOff: "Speaker off",
@@ -36,7 +36,7 @@ const PILOT_CHROME = {
     hide: "Ocultar",
     open: "Abrir Pilot",
     empty:
-      "Pilot está de guardia. Pregunte por StarWall, el Bridge, los planes o los contenedores AGRON — voz o texto. Solo consejo; usted decide.",
+      "Pilot está de guardia. Pregunte por StarWall, AGRON 1, los planes o los contenedores AGRON — voz o texto. Solo consejo; usted decide.",
     live: "ASESOR DE GUARDIA · LIVE · sin sensores",
     speakerOn: "Altavoz encendido",
     speakerOff: "Altavoz apagado",
@@ -49,7 +49,7 @@ const PILOT_CHROME = {
     hide: "Masquer",
     open: "Ouvrir Pilot",
     empty:
-      "Pilot est de quart. Interrogez StarWall, le Bridge, les offres ou les conteneurs AGRON — voix ou texte. Conseil seulement ; vous décidez.",
+      "Pilot est de quart. Interrogez StarWall, AGRON 1, les offres ou les conteneurs AGRON — voix ou texte. Conseil seulement ; vous décidez.",
     live: "CONSEILLER DE QUART · LIVE · aucun capteur",
     speakerOn: "Haut-parleur allumé",
     speakerOff: "Haut-parleur coupé",
@@ -62,7 +62,7 @@ const PILOT_CHROME = {
     hide: "Ausblenden",
     open: "Pilot öffnen",
     empty:
-      "Pilot hat Wache. Fragen Sie zu StarWall, dem Bridge-Lagebild, den Plänen oder AGRON-Containern — Sprache oder Text. Nur Rat; Sie entscheiden.",
+      "Pilot hat Wache. Fragen Sie zu StarWall, dem AGRON 1-Lagebild, den Plänen oder AGRON-Containern — Sprache oder Text. Nur Rat; Sie entscheiden.",
     live: "WACHBERATER · LIVE · keine Sensoren",
     speakerOn: "Lautsprecher an",
     speakerOff: "Lautsprecher aus",
@@ -75,7 +75,7 @@ const PILOT_CHROME = {
     hide: "Скрыть",
     open: "Открыть Pilot",
     empty:
-      "Pilot на вахте. Спросите про StarWall, картину Bridge, планы или контейнеры AGRON — голосом или текстом. Это совет; решение за вами.",
+      "Pilot на вахте. Спросите про StarWall, картину AGRON 1, планы или контейнеры AGRON — голосом или текстом. Это совет; решение за вами.",
     live: "СОВЕТНИК ВАХТЫ · LIVE · нет датчиков",
     speakerOn: "Динамик включён",
     speakerOff: "Динамик выключен",
@@ -88,7 +88,7 @@ const PILOT_CHROME = {
     hide: "Сховати",
     open: "Відкрити Pilot",
     empty:
-      "Pilot на вахті. Запитайте про StarWall, картину Bridge, плани або контейнери AGRON — голосом або текстом. Це порада; рішення за вами.",
+      "Pilot на вахті. Запитайте про StarWall, картину AGRON 1, плани або контейнери AGRON — голосом або текстом. Це порада; рішення за вами.",
     live: "РАДНИК ВАХТИ · LIVE · немає датчиків",
     speakerOn: "Динамік увімкнено",
     speakerOff: "Динамік вимкнено",
@@ -101,7 +101,7 @@ const PILOT_CHROME = {
     hide: "إخفاء",
     open: "فتح Pilot",
     empty:
-      "Pilot على الخفارة. اسأل عن StarWall أو صورة Bridge أو الخطط أو حاويات AGRON — صوتاً أو كتابة. نصيحة فقط؛ القرار لكم.",
+      "Pilot على الخفارة. اسأل عن StarWall أو صورة AGRON 1 أو الخطط أو حاويات AGRON — صوتاً أو كتابة. نصيحة فقط؛ القرار لكم.",
     live: "مستشار الخفارة · LIVE · لا مستشعرات",
     speakerOn: "مكبر الصوت يعمل",
     speakerOff: "مكبر الصوت مغلق",
@@ -114,7 +114,7 @@ const PILOT_CHROME = {
     hide: "隐藏",
     open: "打开 Pilot",
     empty:
-      "Pilot 正在值班。可询问 StarWall、Bridge 画面、方案或 AGRON 集装箱 — 语音或文字。仅供建议，由您决定。",
+      "Pilot 正在值班。可询问 StarWall、AGRON 1 画面、方案或 AGRON 集装箱 — 语音或文字。仅供建议，由您决定。",
     live: "值班顾问 · LIVE · 无传感器",
     speakerOn: "扬声器开",
     speakerOff: "扬声器关",
@@ -127,7 +127,7 @@ const PILOT_CHROME = {
     hide: "隠す",
     open: "Pilot を開く",
     empty:
-      "Pilot は当直中です。StarWall、Bridge の画面、プラン、AGRON コンテナについて音声または文字で尋ねてください。助言のみ。判断はあなたです。",
+      "Pilot は当直中です。StarWall、AGRON 1 の画面、プラン、AGRON コンテナについて音声または文字で尋ねてください。助言のみ。判断はあなたです。",
     live: "当直アドバイザー · LIVE · センサーなし",
     speakerOn: "スピーカーオン",
     speakerOff: "スピーカーオフ",
@@ -140,7 +140,7 @@ const PILOT_CHROME = {
     hide: "הסתרה",
     open: "פתיחת Pilot",
     empty:
-      "Pilot במשמרת. שאלו על StarWall, תמונת ה-Bridge, התוכניות או מכולות AGRON — בדיבור או בכתב. ייעוץ בלבד; ההחלטה שלכם.",
+      "Pilot במשמרת. שאלו על StarWall, תמונת ה-AGRON 1, התוכניות או מכולות AGRON — בדיבור או בכתב. ייעוץ בלבד; ההחלטה שלכם.",
     live: "יועץ משמרת · LIVE · אין חיישנים",
     speakerOn: "רמקול דולק",
     speakerOff: "רמקול כבוי",
