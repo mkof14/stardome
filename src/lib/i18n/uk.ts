@@ -460,7 +460,10 @@ export const uk: Messages = {
   },
   bridge: {
     title: "AGRON 1",
-    subtitle: "ІНТЕРФЕЙС КАПІТАНА / ОФІЦЕРА ОХОРОНИ",
+    watchKicker: "ВАХТА",
+    subtitle: "Вахта капітана та офіцера охорони",
+    roleCaptain: "Капітан",
+    roleOfficer: "Офіцер охорони",
     mobileNotice: "Цей інтерфейс краще дивитися на великому екрані.",
     riskLevel: "РІВЕНЬ РИЗИКУ",
     situational: "ОБСТАНОВКА",

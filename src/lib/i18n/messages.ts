@@ -397,7 +397,10 @@ export type Messages = {
   };
   bridge: {
     title: string;
+    watchKicker: string;
     subtitle: string;
+    roleCaptain: string;
+    roleOfficer: string;
     mobileNotice: string;
     riskLevel: string;
     situational: string;
@@ -1182,7 +1185,10 @@ export const en: Messages = {
   },
   bridge: {
     title: "AGRON 1",
-    subtitle: "CAPTAIN / SECURITY OFFICER INTERFACE",
+    watchKicker: "WATCH",
+    subtitle: "Watch for the captain and the officer",
+    roleCaptain: "Captain",
+    roleOfficer: "Officer of the watch",
     mobileNotice: "This interface is best viewed on a larger screen.",
     riskLevel: "RISK LEVEL",
     situational: "SITUATIONAL PICTURE",

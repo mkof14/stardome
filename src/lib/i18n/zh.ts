@@ -458,7 +458,10 @@ export const zh: Messages = {
   },
   bridge: {
     title: "AGRON 1",
-    subtitle: "船长 / 安保官界面",
+    watchKicker: "值班",
+    subtitle: "船长与值班军官的值班台",
+    roleCaptain: "船长",
+    roleOfficer: "值班军官",
     mobileNotice: "此界面在较大屏幕上查看效果更好。",
     riskLevel: "风险等级",
     situational: "态势图",

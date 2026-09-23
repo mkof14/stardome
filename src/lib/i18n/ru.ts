@@ -520,7 +520,10 @@ export const ru: Messages = {
   },
   bridge: {
     title: "AGRON 1",
-    subtitle: "ИНТЕРФЕЙС КАПИТАНА / ОФИЦЕРА ОХРАНЫ",
+    watchKicker: "ВАХТА",
+    subtitle: "Вахта капитана и офицера охраны",
+    roleCaptain: "Капитан",
+    roleOfficer: "Офицер охраны",
     mobileNotice: "Этот интерфейс лучше смотреть на большом экране.",
     riskLevel: "УРОВЕНЬ РИСКА",
     situational: "ОБСТАНОВКА",

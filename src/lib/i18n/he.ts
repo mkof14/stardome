@@ -458,7 +458,10 @@ export const he: Messages = {
   },
   bridge: {
     title: "AGRON 1",
-    subtitle: "ממשק רב־חובל / קצין אבטחה",
+    watchKicker: "משמרת",
+    subtitle: "משמרת לרב־חובל ולקצין",
+    roleCaptain: "רב־חובל",
+    roleOfficer: "קצין משמרת",
     mobileNotice: "הממשק הזה נראה טוב יותר במסך גדול.",
     riskLevel: "רמת סיכון",
     situational: "תמונת מצב",

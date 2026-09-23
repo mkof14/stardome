@@ -684,17 +684,48 @@ export function BridgeConsole() {
           {t.bridge.mobileNotice}
         </p>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div>
-            <h1 className="font-ui text-3xl font-bold tracking-wide">
+          <div className="min-w-0">
+            <p
+              data-testid="watch-station-kicker"
+              className="font-body text-sm font-semibold uppercase tracking-[0.28em] text-orange"
+            >
+              {t.bridge.watchKicker}
+            </p>
+            <h1
+              data-testid="watch-station-title"
+              className={cn(
+                "mt-1 font-ui font-bold tracking-tight text-bridge-text",
+                density === "compact" ? "text-4xl sm:text-5xl" : "text-5xl sm:text-6xl",
+              )}
+            >
               {t.bridge.title}
             </h1>
-            <p className="mt-1 font-mono text-[12px] tracking-[0.18em] text-bridge-dim">
+            <p
+              data-testid="watch-station-role"
+              className={cn(
+                "mt-2 max-w-2xl font-body font-semibold leading-snug text-bridge-text",
+                density === "compact" ? "text-lg sm:text-xl" : "text-xl sm:text-2xl",
+              )}
+            >
               {t.bridge.subtitle}
             </p>
+            <div
+              data-testid="watch-station-roles"
+              className="mt-3 flex flex-wrap gap-2"
+            >
+              <span className="inline-flex items-center gap-2 rounded-2xl border border-orange/40 bg-orange/10 px-3 py-2 font-body text-sm font-semibold text-orange sm:text-base">
+                <HudGlyph name="captain" className="h-5 w-5" />
+                {t.bridge.roleCaptain}
+              </span>
+              <span className="inline-flex items-center gap-2 rounded-2xl border border-bridge-line bg-bridge-panel px-3 py-2 font-body text-sm font-semibold text-bridge-text sm:text-base">
+                <HudGlyph name="person" className="h-5 w-5" />
+                {t.bridge.roleOfficer}
+              </span>
+            </div>
             {!live && selectedId === FLAGSHIP_SCENARIO_ID ? (
               <p
                 data-testid="partner-demo-cue"
-                className="mt-2 max-w-xl font-body text-sm leading-relaxed text-orange"
+                className="mt-3 max-w-xl font-body text-sm leading-relaxed text-orange"
               >
                 {hud.chrome.partnerCue}
               </p>

@@ -460,7 +460,10 @@ export const es: Messages = {
   },
   bridge: {
     title: "AGRON 1",
-    subtitle: "INTERFAZ DEL CAPITÁN / OFICIAL DE SEGURIDAD",
+    watchKicker: "GUARDIA",
+    subtitle: "Guardia del capitán y del oficial",
+    roleCaptain: "Capitán",
+    roleOfficer: "Oficial de guardia",
     mobileNotice: "Esta interfaz se ve mejor en una pantalla grande.",
     riskLevel: "NIVEL DE RIESGO",
     situational: "IMAGEN SITUACIONAL",

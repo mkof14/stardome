@@ -458,7 +458,10 @@ export const ja: Messages = {
   },
   bridge: {
     title: "AGRON 1",
-    subtitle: "船長 / 保安士官インターフェース",
+    watchKicker: "当直",
+    subtitle: "船長と当直士官の当直",
+    roleCaptain: "船長",
+    roleOfficer: "当直士官",
     mobileNotice: "このインターフェースは大きな画面での表示が適しています。",
     riskLevel: "リスクレベル",
     situational: "状況図",

@@ -460,7 +460,10 @@ export const ar: Messages = {
   },
   bridge: {
     title: "AGRON 1",
-    subtitle: "واجهة الربان / ضابط الأمن",
+    watchKicker: "خفارة",
+    subtitle: "خفارة الربان وضابط الأمن",
+    roleCaptain: "الربان",
+    roleOfficer: "ضابط الخفارة",
     mobileNotice: "تُعرض هذه الواجهة بأفضل شكل على شاشة أكبر.",
     riskLevel: "مستوى المخاطر",
     situational: "الصورة الموقفية",
