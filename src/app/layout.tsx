@@ -18,6 +18,7 @@ import { AuthSessionProvider } from "@/lib/auth-session";
 import { BlackBoxProvider } from "@/lib/black-box";
 import { BridgeSessionProvider } from "@/lib/bridge-session";
 import { PreferencesProvider } from "@/lib/i18n/context";
+import { AgronViewProvider } from "@/lib/agron-view";
 import { ModeProvider } from "@/lib/mode";
 import "./globals.css";
 
@@ -143,12 +144,14 @@ export default function RootLayout({
           <PreferencesProvider>
             <AuthSessionProvider>
               <BridgeSessionProvider>
+                <AgronViewProvider>
                 <BlackBoxProvider>
                   <SiteHeader />
                   <main className="flex-1">{children}</main>
                   <SiteFooter />
                   <Helm />
                 </BlackBoxProvider>
+                </AgronViewProvider>
               </BridgeSessionProvider>
             </AuthSessionProvider>
           </PreferencesProvider>

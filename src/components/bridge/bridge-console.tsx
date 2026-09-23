@@ -20,7 +20,6 @@ import { ScenarioLibrary } from "@/components/bridge/scenario-library";
 import { SessionReport } from "@/components/bridge/session-report";
 import { SituationalScope } from "@/components/bridge/situational-scope";
 import { TrainingTour } from "@/components/bridge/training-tour";
-import { CompressScreenButton } from "@/components/bridge/compress-screen-button";
 import { ViewSwitcher } from "@/components/bridge/view-switcher";
 import { WatchKitPanel } from "@/components/bridge/watch-kit-panel";
 import { UtcClock } from "@/components/bridge/utc-clock";
@@ -651,7 +650,6 @@ export function BridgeConsole() {
             <ViewSwitcher />
           </div>
           <div className="flex flex-wrap items-start justify-end gap-3">
-            <CompressScreenButton />
             <Link
               href="/interface/connections"
               data-testid="connections-map-link"

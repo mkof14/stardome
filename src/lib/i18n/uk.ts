@@ -87,7 +87,7 @@ export const uk: Messages = {
     ],
   },
   surface: {
-    connectionsKicker: "AGRON BRIDGE · ТОПОЛОГІЯ",
+    connectionsKicker: "STARWALL · ТОПОЛОГІЯ",
     connectionsTitle: "Карта системних з'єднань",
     connectionsLead:
       "Жива топологія навчальної картини: датчики живлять StarWall Core; ядро передає ту саму картину на AGRON 1 і в Support Center.",

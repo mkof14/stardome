@@ -1,13 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { STARWALL_MARK, STARWALL_MARK_H, STARWALL_MARK_W } from "@/components/brand-logo";
 import {
   CONTAINER_BOX,
   CORE,
-  coreLogoWidthPct,
   ENDPOINTS,
   MAP_H,
   MAP_W,
@@ -108,35 +105,6 @@ function DeviceMark({ id }: { id: string }) {
       <rect x="-10" y="-7" width="20" height="14" rx="1.5" />
       <path d="M-6,-2 H6 M-6,2 H3" />
     </g>
-  );
-}
-
-function Hex({
-  cx,
-  cy,
-  r,
-  fill,
-  stroke,
-  strokeWidth,
-}: {
-  cx: number;
-  cy: number;
-  r: number;
-  fill: string;
-  stroke: string;
-  strokeWidth: number;
-}) {
-  const points = Array.from({ length: 6 }, (_, i) => {
-    const a = (Math.PI / 180) * (60 * i - 30);
-    return `${cx + r * Math.cos(a)},${cy + r * Math.sin(a)}`;
-  }).join(" ");
-  return (
-    <polygon
-      points={points}
-      fill={fill}
-      stroke={stroke}
-      strokeWidth={strokeWidth}
-    />
   );
 }
 
@@ -366,55 +334,47 @@ export function ConnectionsMap() {
           </text>
         </g>
 
-        <g filter={live ? undefined : "url(#core-glow)"}>
+        <g filter={live ? undefined : "url(#core-glow)"} data-testid="map-agron-core">
           <circle
             cx={CORE.x}
             cy={CORE.y}
-            r="108"
+            r={CORE.r + 36}
             fill="#F15A00"
             className={live ? "opacity-5" : "core-glow-ring"}
           />
           <circle
             cx={CORE.x}
             cy={CORE.y}
-            r="86"
+            r={CORE.r + 16}
             fill="#F15A00"
-            opacity={live ? 0.05 : 0.14}
+            opacity={live ? 0.08 : 0.22}
           />
           <circle
             cx={CORE.x}
             cy={CORE.y}
-            r="70"
-            fill="#F15A00"
-            opacity={live ? 0.06 : 0.2}
-          />
-          <Hex
-            cx={CORE.x}
-            cy={CORE.y}
             r={CORE.r}
-            fill="var(--navy)"
-            stroke={live ? "#4B5760" : "#F15A00"}
-            strokeWidth={2.2}
+            fill="#F15A00"
+            stroke={live ? "#4B5760" : "#FF8A3D"}
+            strokeWidth="2.4"
           />
-        </g>
-        <g>
           <text
             x={CORE.x}
-            y={CORE.y + 28}
+            y={CORE.y + 6}
             textAnchor="middle"
-            fill="#9CA3AF"
-            fontFamily="var(--font-jetbrains), ui-monospace, monospace"
-            fontSize="10"
-            letterSpacing="0.22em"
+            fill="#0A0F14"
+            fontFamily="var(--font-space-grotesk), system-ui, sans-serif"
+            fontSize="22"
+            fontWeight="700"
+            letterSpacing="0.08em"
           >
-            CORE
+            AGRON 1
           </text>
           {live ? (
             <text
               x={CORE.x}
-              y={CORE.y + 36}
+              y={CORE.y + 28}
               textAnchor="middle"
-              fill="#4B5760"
+              fill="#2A1A10"
               fontFamily="var(--font-jetbrains), ui-monospace, monospace"
               fontSize="9"
               letterSpacing="0.08em"
@@ -423,8 +383,8 @@ export function ConnectionsMap() {
             </text>
           ) : null}
           <circle
-            cx={CORE.x + 38}
-            cy={CORE.y - 34}
+            cx={CORE.x + CORE.r - 10}
+            cy={CORE.y - CORE.r + 16}
             r="4"
             fill={live ? "#4B5760" : "#33D3A6"}
           />
@@ -498,20 +458,6 @@ export function ConnectionsMap() {
           );
         })}
       </svg>
-      <Image
-        src={STARWALL_MARK}
-        alt="StarWall"
-        width={STARWALL_MARK_W}
-        height={STARWALL_MARK_H}
-        unoptimized
-        data-testid="map-core-logo"
-        className="pointer-events-none absolute z-[1] h-auto -translate-x-1/2 -translate-y-[58%]"
-        style={{
-          left: `${(CORE.x / MAP_W) * 100}%`,
-          top: `${(CORE.y / MAP_H) * 100}%`,
-          width: `${coreLogoWidthPct()}%`,
-        }}
-      />
 
       {tipAt && (hovered || showContainerTip) ? (
         <div

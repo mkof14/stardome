@@ -87,7 +87,7 @@ export const he: Messages = {
     ],
   },
   surface: {
-    connectionsKicker: "AGRON BRIDGE · טופולוגיה",
+    connectionsKicker: "STARWALL · טופולוגיה",
     connectionsTitle: "מפת חיבורי המערכת",
     connectionsLead:
       "טופולוגיה חיה של תמונת האימון: חיישנים מזינים את StarWall Core; הליבה דוחפת את אותה תמונה ל־AGRON 1 ול־Support Center.",

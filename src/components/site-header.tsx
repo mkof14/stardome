@@ -9,6 +9,7 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { AccountMenu } from "@/components/auth/account-menu";
 import { FullscreenButton } from "@/components/bridge/fullscreen-button";
+import { CompressScreenButton } from "@/components/bridge/compress-screen-button";
 import { ClearScreensButton } from "@/components/bridge/clear-screens-button";
 import { isAuthRoute, isInternalDesk, useAuthSession } from "@/lib/auth-session";
 import { sessionHasDeskAccess } from "@/lib/commercial-rbac";
@@ -92,6 +93,7 @@ export function SiteHeader() {
               className="relative flex shrink-0 items-center gap-0.5 rounded-xl px-0.5 py-0.5"
             >
               <FullscreenButton />
+              <CompressScreenButton />
               <ClearScreensButton />
             </div>
           ) : null}
@@ -163,6 +165,7 @@ export function SiteHeader() {
             {pathname.startsWith("/interface") ? (
               <div data-testid="bridge-header-chrome-mobile" className="flex items-center gap-1">
                 <FullscreenButton compact />
+                <CompressScreenButton compact />
                 <ClearScreensButton compact />
               </div>
             ) : null}

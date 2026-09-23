@@ -7,7 +7,7 @@ import { JumpNav } from "@/components/bridge/jump-nav";
 import { ScenarioWalkthrough } from "@/components/bridge/scenario-walkthrough";
 import { WatchCommsPanel } from "@/components/bridge/watch-comms-panel";
 import { LiveModeBanner } from "@/components/live-mode-banner";
-import { AgronViewProvider, useAgronView } from "@/lib/agron-view";
+import { useAgronView } from "@/lib/agron-view";
 import { CrisisModeProvider } from "@/lib/crisis-mode";
 import { useAppMode } from "@/lib/mode";
 import { cn } from "@/lib/cn";
@@ -40,9 +40,7 @@ function InterfaceBody() {
 export default function InterfacePage() {
   return (
     <CrisisModeProvider>
-      <AgronViewProvider>
-        <InterfaceBody />
-      </AgronViewProvider>
+      <InterfaceBody />
     </CrisisModeProvider>
   );
 }

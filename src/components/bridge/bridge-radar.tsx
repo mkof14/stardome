@@ -4,6 +4,7 @@ import { useId, useState, type MouseEvent } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "@/lib/cn";
 import {
+  SCOPE,
   motionTowardOwnShip,
   radarScene,
   toneColor,
@@ -29,7 +30,24 @@ type BridgeRadarProps = {
   onSelect?: (id: string) => void;
 };
 
-const TICKS = Array.from({ length: 36 }, (_, index) => index * 10);
+const { size: SZ, cx: CX, cy: CY, ring: RING, maxNm: MAX_NM } = SCOPE;
+const RANGE_RINGS = [1, 2, 3, 4, 5, 6] as const;
+const BEARING_TICKS = Array.from({ length: 72 }, (_, index) => index * 5);
+const CARDINALS: Array<{ deg: number; label: string; major: boolean }> = [
+  { deg: 0, label: "N", major: true },
+  { deg: 45, label: "NE", major: false },
+  { deg: 90, label: "E", major: true },
+  { deg: 135, label: "SE", major: false },
+  { deg: 180, label: "S", major: true },
+  { deg: 225, label: "SW", major: false },
+  { deg: 270, label: "W", major: true },
+  { deg: 315, label: "NW", major: false },
+];
+
+function polarPoint(deg: number, radius: number) {
+  const rad = ((deg - 90) * Math.PI) / 180;
+  return { x: CX + radius * Math.cos(rad), y: CY + radius * Math.sin(rad) };
+}
 
 function motionClass(motion?: ContactMotion) {
   if (motion === "close") return "contact-close";
@@ -128,88 +146,124 @@ export function BridgeRadar({
         <span className="hidden truncate sm:inline">{scene.extra}</span>
         <span>GAIN 72 · SEA 18 · RAIN 0 · TRAILS 6M</span>
       </div>
-      <svg viewBox="0 0 680 428" className="h-auto w-full">
+      <svg viewBox={`0 0 ${SZ} ${SZ}`} className="h-auto w-full" data-testid="radar-ppi">
         <defs>
           <linearGradient id={`sweepGrad-${uid}`} x1="0" y1="1" x2="1" y2="0">
             <stop offset="0%" stopColor="#2EE59A" stopOpacity="0" />
-            <stop offset="100%" stopColor="#2EE59A" stopOpacity="0.28" />
+            <stop offset="100%" stopColor="#2EE59A" stopOpacity="0.32" />
           </linearGradient>
           <radialGradient id={`scopeGlow-${uid}`} cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#0A2A18" />
+            <stop offset="0%" stopColor="#0C321C" />
+            <stop offset="72%" stopColor="#052014" />
             <stop offset="100%" stopColor="#03140C" />
           </radialGradient>
         </defs>
-        <rect width="680" height="428" fill={`url(#scopeGlow-${uid})`} />
-        <path
-          d="M0,50 L100,44 L156,84 L132,140 L66,152 L0,116 Z"
-          fill="#062016"
-          stroke="#13432C"
-          strokeWidth="1"
-        />
-        <path
-          d="M630,380 L680,356 L680,428 L580,428 L568,398 Z"
-          fill="#062016"
-          stroke="#13432C"
-          strokeWidth="1"
-        />
-        <circle cx="340" cy="214" r="168" fill="none" stroke="#1A5C3A" strokeWidth="1.2" />
-        <circle cx="340" cy="214" r="112" fill="none" stroke="#164E32" strokeWidth="1" />
-        <circle cx="340" cy="214" r="56" fill="none" stroke="#164E32" strokeWidth="1" />
-        <text x="345" y="207" fontFamily="monospace" fontSize="11" fill="#2F6B4A">
-          6NM
-        </text>
-        <text x="345" y="151" fontFamily="monospace" fontSize="11" fill="#2F6B4A">
-          4NM
-        </text>
-        <text x="345" y="95" fontFamily="monospace" fontSize="11" fill="#2F6B4A">
-          2NM
-        </text>
-        {TICKS.map((deg) => {
-          const rad = ((deg - 90) * Math.PI) / 180;
-          const longer = deg % 30 === 0;
-          const inner = longer ? 158 : 164;
+        <rect width={SZ} height={SZ} fill={`url(#scopeGlow-${uid})`} />
+        <circle cx={CX} cy={CY} r={RING + 36} fill="none" stroke="#0F3A24" strokeWidth="22" />
+        <circle cx={CX} cy={CY} r={RING + 24} fill="none" stroke="#1A5C3A" strokeWidth="1.2" />
+        {RANGE_RINGS.map((nm) => {
+          const r = (nm / MAX_NM) * RING;
+          return (
+            <g key={nm}>
+              <circle
+                cx={CX}
+                cy={CY}
+                r={r}
+                fill="none"
+                stroke={nm === MAX_NM ? "#2A7A4C" : "#164E32"}
+                strokeWidth={nm === MAX_NM ? 1.6 : nm % 2 === 0 ? 1.1 : 0.7}
+                strokeDasharray={nm % 2 === 0 ? undefined : "2 5"}
+              />
+              <text
+                x={CX + 8}
+                y={CY - r + 4}
+                fontFamily="monospace"
+                fontSize="13"
+                fill="#4C8A64"
+              >
+                {nm} NM
+              </text>
+            </g>
+          );
+        })}
+        <line x1={CX - RING} y1={CY} x2={CX + RING} y2={CY} stroke="#164E32" strokeWidth="0.7" />
+        <line x1={CX} y1={CY - RING} x2={CX} y2={CY + RING} stroke="#164E32" strokeWidth="0.7" />
+        {BEARING_TICKS.map((deg) => {
+          const major = deg % 30 === 0;
+          const ten = deg % 10 === 0;
+          const inner = RING - (major ? 18 : ten ? 12 : 7);
+          const a = polarPoint(deg, inner);
+          const b = polarPoint(deg, RING);
           return (
             <line
               key={deg}
-              x1={340 + inner * Math.cos(rad)}
-              y1={214 + inner * Math.sin(rad)}
-              x2={340 + 168 * Math.cos(rad)}
-              y2={214 + 168 * Math.sin(rad)}
-              stroke="#1A5C3A"
-              strokeWidth={longer ? 1.4 : 1}
+              x1={a.x}
+              y1={a.y}
+              x2={b.x}
+              y2={b.y}
+              stroke={major ? "#3E8A58" : "#1A5C3A"}
+              strokeWidth={major ? 1.8 : ten ? 1.2 : 0.8}
             />
           );
         })}
-        <text x="340" y="34" textAnchor="middle" fontFamily="monospace" fontSize="11" fill="#7DCF9A" fontWeight="bold">
-          N
-        </text>
-        <text x="340" y="402" textAnchor="middle" fontFamily="monospace" fontSize="11" fill="#3E7A58">
-          S
-        </text>
-        <text x="626" y="219" textAnchor="middle" fontFamily="monospace" fontSize="11" fill="#3E7A58">
-          E
-        </text>
-        <text x="54" y="219" textAnchor="middle" fontFamily="monospace" fontSize="11" fill="#3E7A58">
-          W
-        </text>
+        {BEARING_TICKS.filter((deg) => deg % 10 === 0).map((deg) => {
+          const p = polarPoint(deg, RING + 20);
+          return (
+            <text
+              key={`brg-${deg}`}
+              x={p.x}
+              y={p.y}
+              textAnchor="middle"
+              dominantBaseline="middle"
+              fontFamily="monospace"
+              fontSize={deg % 30 === 0 ? 13 : 10}
+              fill={deg % 30 === 0 ? "#7DCF9A" : "#3E7A58"}
+            >
+              {String(deg).padStart(3, "0")}
+            </text>
+          );
+        })}
+        {CARDINALS.map((item) => {
+          const p = polarPoint(item.deg, RING + 40);
+          return (
+            <text
+              key={item.label}
+              x={p.x}
+              y={p.y}
+              textAnchor="middle"
+              dominantBaseline="middle"
+              fontFamily="monospace"
+              fontSize={item.major ? 18 : 12}
+              fontWeight={item.major ? "bold" : "normal"}
+              fill={item.major ? "#7DCF9A" : "#4C8A64"}
+            >
+              {item.label}
+            </text>
+          );
+        })}
         <line
-          x1="340"
-          y1="214"
-          x2="479"
-          y2="45"
+          x1={CX}
+          y1={CY}
+          x2={polarPoint(22, RING).x}
+          y2={polarPoint(22, RING).y}
           stroke="#2A6A48"
           strokeWidth="1"
-          strokeDasharray="2 4"
+          strokeDasharray="3 5"
         />
         {degraded === "radar" || empty ? null : (
           <g className="bridge-sweep">
-            <path d={`M340,214 L340,46 A168,168 0 0,1 483,124 Z`} fill={`url(#sweepGrad-${uid})`} />
+            <path
+              d={`M${CX},${CY} L${CX},${CY - RING} A${RING},${RING} 0 0,1 ${polarPoint(42, RING).x},${polarPoint(42, RING).y} Z`}
+              fill={`url(#sweepGrad-${uid})`}
+            />
           </g>
         )}
-        <g transform="translate(340,214)">
-          <path d="M0,-11 L8,10 L0,6 L-8,10 Z" fill="#E7ECEF" />
+        <g transform={`translate(${CX},${CY})`}>
+          <circle r="16" fill="none" stroke="#7DCF9A" strokeWidth="1" />
+          <circle r="4" fill="#E7ECEF" />
+          <path d="M0,-20 L7,12 L0,6 L-7,12 Z" fill="#E7ECEF" />
           {empty ? null : (
-            <text x="12" y="16" fontFamily="monospace" fontSize="9" fill="#5A9A72">
+            <text x="18" y="28" fontFamily="monospace" fontSize="12" fill="#7DCF9A">
               {scene.heading}
             </text>
           )}
@@ -217,22 +271,22 @@ export function BridgeRadar({
         {selected && !empty ? (
           <g pointerEvents="none">
             <line
-              x1="340"
-              y1="214"
+              x1={CX}
+              y1={CY}
               x2={selected.x}
               y2={selected.y}
               stroke={trackHue(selected)}
-              strokeWidth="1"
+              strokeWidth="1.2"
               strokeDasharray="3 4"
               opacity="0.75"
             />
             <circle
               cx={selected.x}
               cy={selected.y}
-              r="22"
+              r="26"
               fill="none"
               stroke={trackHue(selected)}
-              strokeWidth="1.2"
+              strokeWidth="1.4"
             />
           </g>
         ) : null}

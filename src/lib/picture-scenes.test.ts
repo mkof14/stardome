@@ -1,16 +1,28 @@
 import { describe, expect, it } from "vitest";
 import { SCENARIOS } from "@/lib/scenarios";
 import {
+  SCOPE,
   TONE_ATTN,
   TONE_CRIT,
   TONE_OK,
   TRACK_HUES,
+  polar,
   primaryTrack,
   radarScene,
   sceneTracks,
   toneColor,
   trackHue,
 } from "@/lib/picture-scenes";
+
+describe("scope ring", () => {
+  it("keeps a large PPI ring so contacts plot on a detailed circle", () => {
+    expect(SCOPE.ring).toBeGreaterThan(300);
+    expect(SCOPE.size).toBeGreaterThan(SCOPE.ring * 2);
+    const north = polar(0, SCOPE.maxNm);
+    expect(north.x).toBeCloseTo(SCOPE.cx);
+    expect(north.y).toBeCloseTo(SCOPE.cy - SCOPE.ring);
+  });
+});
 
 describe("toneColor", () => {
   it("uses alarm red for critical contacts, not brand orange", () => {

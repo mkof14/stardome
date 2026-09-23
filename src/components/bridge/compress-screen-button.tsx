@@ -5,31 +5,35 @@ import { useAgronView } from "@/lib/agron-view";
 import { useHud } from "@/lib/i18n/use-hud";
 import { HudGlyph } from "@/components/bridge/hud-icons";
 
-export function CompressScreenButton() {
+export function CompressScreenButton({
+  compact,
+}: {
+  compact?: boolean;
+}) {
   const { hud } = useHud();
   const { density, toggleDensity } = useAgronView();
-  const compact = density === "compact";
-  const label = compact ? hud.chrome.expandScreen : hud.chrome.compressScreen;
-  const tip = compact ? hud.chrome.expandScreenTip : hud.chrome.compressScreenTip;
+  const squeezed = density === "compact";
+  const label = squeezed ? hud.chrome.expandScreen : hud.chrome.compressScreen;
+  const tip = squeezed ? hud.chrome.expandScreenTip : hud.chrome.compressScreenTip;
 
   return (
     <button
       type="button"
       data-testid="compress-screen"
-      data-mode={compact ? "expand" : "compress"}
+      data-mode={squeezed ? "expand" : "compress"}
       onClick={toggleDensity}
-      aria-pressed={compact}
+      aria-pressed={squeezed}
       aria-label={label}
       title={tip}
       className={cn(
-        "inline-flex h-9 items-center gap-1.5 rounded-xl border px-2.5 font-body text-sm",
-        compact
-          ? "border-[color:var(--watch-accent)] bg-[color:var(--watch-accent)] text-white"
-          : "border-bridge-text/40 text-bridge-text hover:border-[color:var(--watch-accent)] hover:text-[color:var(--watch-accent)]",
+        "inline-flex h-10 shrink-0 flex-col items-center justify-center gap-0.5 rounded-xl px-2 font-body text-[11px] font-medium",
+        squeezed ? "bg-orange/10 text-orange" : "text-ink hover:bg-page hover:text-orange",
       )}
     >
-      <HudGlyph name={compact ? "expand" : "compress"} className="h-4 w-4" />
-      {label}
+      <HudGlyph name={squeezed ? "expand" : "compress"} className="h-4 w-4" />
+      {compact ? null : (
+        <span className="hidden max-w-[8.5rem] truncate xl:inline">{label}</span>
+      )}
     </button>
   );
 }

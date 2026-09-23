@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { locales } from "@/lib/i18n/locales";
 import { hudFor } from "@/lib/i18n/hud";
+import { messagesFor } from "@/lib/i18n/dictionaries";
 import { watchCommsCopy } from "@/lib/i18n/watch-comms-copy";
 import { WATCH_CIRCUITS } from "@/lib/watch-comms";
-import { CORE, CORE_LOGO_WIDTH, coreLogoWidthPct, MAP_W } from "@/lib/connections";
+import { CORE } from "@/lib/connections";
 
 describe("watch circuits", () => {
   it("covers captain, designated, vessel radio, and Support Live Team", () => {
@@ -39,12 +40,9 @@ describe("watchCommsCopy", () => {
   });
 });
 
-describe("core logo size", () => {
-  it("is small enough to sit inside the CORE hex", () => {
-    const hexWidth = CORE.r * Math.sqrt(3);
-    expect(CORE_LOGO_WIDTH).toBeLessThan(hexWidth);
-    expect(coreLogoWidthPct()).toBeLessThan(6);
-    expect((CORE_LOGO_WIDTH / MAP_W) * 100).toBe(coreLogoWidthPct());
+describe("connections hub", () => {
+  it("keeps a large orange AGRON 1 hub", () => {
+    expect(CORE.r).toBeGreaterThan(70);
   });
 });
 
@@ -60,6 +58,7 @@ describe("bridge chrome", () => {
       expect(chrome.compressScreen.length).toBeGreaterThan(0);
       expect(chrome.expandScreen.length).toBeGreaterThan(0);
       expect(chrome.compressScreen).not.toBe(chrome.expandScreen);
+      expect(chrome.fullscreenEnter.length).toBeGreaterThan(2);
     }
   });
 });
@@ -74,6 +73,8 @@ describe("jump labels", () => {
       expect(jump.captain.length).toBeGreaterThan(0);
       expect(jump.comms.length).toBeGreaterThan(0);
       expect(jump.starlink).toMatch(/Starlink/);
+      expect(messagesFor(code).surface.connectionsKicker).toMatch(/STARWALL/);
+      expect(messagesFor(code).surface.connectionsKicker).not.toMatch(/BRIDGE/);
     }
   });
 });

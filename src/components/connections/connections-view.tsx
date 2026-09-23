@@ -22,7 +22,7 @@ export function ConnectionsView() {
       {live ? <LiveModeBanner /> : null}
 
       <div className="mx-auto max-w-[1600px] px-4 py-6 md:px-8">
-        <HudFrame variant="window" className="bg-bridge-panel px-5 py-6" status="CORE LINK">
+        <HudFrame variant="window" className="bg-bridge-panel px-5 py-6" status="STARWALL">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="font-body text-xs font-medium text-bridge-dim">
@@ -69,6 +69,12 @@ export function ConnectionsView() {
         </HudFrame>
       </div>
 
+      <p
+        className="mb-3 text-center font-ui text-4xl font-semibold tracking-[0.22em] text-orange md:text-5xl"
+        data-testid="connections-brand"
+      >
+        StarWall
+      </p>
       <ConnectionsMap />
     </div>
   );

@@ -1,6 +1,7 @@
 import { HudPanel } from "@/components/bridge/hud-panel";
 import { cn } from "@/lib/cn";
 import {
+  SCOPE,
   motionTowardOwnShip,
   sonarScene,
   toneColor,
@@ -8,6 +9,12 @@ import {
 } from "@/lib/picture-scenes";
 
 const MONO = "var(--font-jetbrains), ui-monospace, monospace";
+const { size: SZ, cx: CX, cy: CY, ring: RING } = SCOPE;
+const DEPTH_RINGS = [
+  { frac: 1 / 3, label: "0–20 m" },
+  { frac: 2 / 3, label: "20–50 m" },
+  { frac: 1, label: "50 m+" },
+] as const;
 
 export function SonarView({
   scenarioId = "",
@@ -30,37 +37,59 @@ export function SonarView({
         <span>HF SONAR · 200 kHz</span>
         <span>PASSIVE / ACTIVE · DEPTH SCALE</span>
       </div>
-      <svg viewBox="0 0 680 428" className="h-auto w-full">
-        <rect width="680" height="428" fill="#02161C" />
-        <circle cx="340" cy="214" r="168" fill="none" stroke="#0E4A55" strokeWidth="1.2" />
-        <circle cx="340" cy="214" r="112" fill="none" stroke="#0A3A44" strokeWidth="1" />
-        <circle cx="340" cy="214" r="56" fill="none" stroke="#0A3A44" strokeWidth="1" />
-        <text x="348" y="95" fontFamily={MONO} fontSize="11" fill="#1A6A78">
-          0-20M
-        </text>
-        <text x="348" y="151" fontFamily={MONO} fontSize="11" fill="#3C4750">
-          20-50M
-        </text>
-        <text x="348" y="207" fontFamily={MONO} fontSize="11" fill="#3C4750">
-          50M+
-        </text>
+      <svg viewBox={`0 0 ${SZ} ${SZ}`} className="h-auto w-full" data-testid="sonar-ppi">
+        <rect width={SZ} height={SZ} fill="#02161C" />
+        <circle cx={CX} cy={CY} r={RING + 28} fill="none" stroke="#083038" strokeWidth="18" />
+        {DEPTH_RINGS.map((item) => {
+          const r = RING * item.frac;
+          return (
+            <g key={item.label}>
+              <circle
+                cx={CX}
+                cy={CY}
+                r={r}
+                fill="none"
+                stroke={item.frac === 1 ? "#1A6A78" : "#0A3A44"}
+                strokeWidth={item.frac === 1 ? 1.6 : 1}
+              />
+              <text x={CX + 10} y={CY - r + 5} fontFamily={MONO} fontSize="13" fill="#3C8A98">
+                {item.label}
+              </text>
+            </g>
+          );
+        })}
+        {Array.from({ length: 36 }, (_, i) => i * 10).map((deg) => {
+          const rad = ((deg - 90) * Math.PI) / 180;
+          const inner = RING - (deg % 30 === 0 ? 16 : 8);
+          return (
+            <line
+              key={deg}
+              x1={CX + inner * Math.cos(rad)}
+              y1={CY + inner * Math.sin(rad)}
+              x2={CX + RING * Math.cos(rad)}
+              y2={CY + RING * Math.sin(rad)}
+              stroke="#0E4A55"
+              strokeWidth={deg % 30 === 0 ? 1.6 : 1}
+            />
+          );
+        })}
         <circle
           className="sonar-ping-ring"
-          cx="340"
-          cy="214"
-          r="168"
+          cx={CX}
+          cy={CY}
+          r={RING}
           fill="none"
           stroke="#2DD4E8"
-          strokeWidth="1.4"
+          strokeWidth="1.6"
         />
-        <circle cx="340" cy="214" r="3" fill="#2DD4E8" />
-        <circle cx="340" cy="214" r="7" fill="none" stroke="#2DD4E8" strokeWidth="1" />
+        <circle cx={CX} cy={CY} r="4" fill="#2DD4E8" />
+        <circle cx={CX} cy={CY} r="10" fill="none" stroke="#2DD4E8" strokeWidth="1.2" />
         <text
-          x="340"
-          y="404"
+          x={CX}
+          y={SZ - 22}
           textAnchor="middle"
           fontFamily={MONO}
-          fontSize="10"
+          fontSize="13"
           fill="#7C8894"
         >
           {scene.note}

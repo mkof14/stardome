@@ -87,7 +87,7 @@ export const ja: Messages = {
     ],
   },
   surface: {
-    connectionsKicker: "AGRON BRIDGE · トポロジ",
+    connectionsKicker: "STARWALL · トポロジ",
     connectionsTitle: "システム接続マップ",
     connectionsLead:
       "訓練画面のライブ・トポロジ：センサーが StarWall Core に送り、コアが同じ画面を AGRON 1 と Support Center に渡します。",

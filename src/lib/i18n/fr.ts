@@ -87,7 +87,7 @@ export const fr: Messages = {
     ],
   },
   surface: {
-    connectionsKicker: "AGRON BRIDGE · TOPOLOGIE",
+    connectionsKicker: "STARWALL · TOPOLOGIE",
     connectionsTitle: "Carte des connexions système",
     connectionsLead:
       "Topologie en direct du tableau d'entraînement : les capteurs alimentent StarWall Core ; le noyau envoie la même image à AGRON 1 et au Support Center.",

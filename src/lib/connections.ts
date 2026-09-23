@@ -14,13 +14,7 @@ export type MapEndpoint = {
 
 export const MAP_W = 1600;
 export const MAP_H = 980;
-export const CORE = { x: 820, y: 500, r: 70 };
-/** Logo width in SVG units so the oval sits inside the CORE hex. */
-export const CORE_LOGO_WIDTH = Math.round(CORE.r * 1.05);
-
-export function coreLogoWidthPct() {
-  return (CORE_LOGO_WIDTH / MAP_W) * 100;
-}
+export const CORE = { x: 820, y: 500, r: 82 };
 
 export const CONTAINER_BOX = {
   id: "container",

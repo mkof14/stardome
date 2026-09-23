@@ -87,7 +87,7 @@ export const ar: Messages = {
     ],
   },
   surface: {
-    connectionsKicker: "AGRON BRIDGE · الطوبولوجيا",
+    connectionsKicker: "STARWALL · الطوبولوجيا",
     connectionsTitle: "خريطة اتصالات النظام",
     connectionsLead:
       "طوبولوجيا حيّة للصورة التدريبية: تغذي المستشعرات StarWall Core؛ ويدفع النواة الصورة نفسها إلى AGRON 1 وSupport Center.",

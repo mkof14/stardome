@@ -68,9 +68,18 @@ export type PerimeterScene = {
 
 export type PictureScene = RadarScene | SonarScene | SpectrumScene | PerimeterScene;
 
-const CX = 340;
-const CY = 214;
-const RING = 168;
+/** Square PPI: larger ring, room for bearing numerals. */
+export const SCOPE = {
+  size: 820,
+  cx: 410,
+  cy: 410,
+  ring: 348,
+  maxNm: 6,
+} as const;
+
+const CX = SCOPE.cx;
+const CY = SCOPE.cy;
+const RING = SCOPE.ring;
 
 export function polar(bearingDeg: number, nm: number, maxNm = 6) {
   const r = Math.min(nm / maxNm, 1) * RING;
@@ -675,8 +684,6 @@ const SONAR: Record<string, SonarScene> = {
       depthM: 15,
       idStatus: "unidentified",
       primary: true,
-      x: 468,
-      y: 118,
     }),
   ]),
   "stealth-uuv": sonarOf("RANGE 1.0 NM", "WEAK RETURN · BRG 200", [

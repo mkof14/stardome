@@ -123,7 +123,7 @@ export const ru: Messages = {
     ],
   },
   surface: {
-    connectionsKicker: "AGRON BRIDGE · ТОПОЛОГИЯ",
+    connectionsKicker: "STARWALL · ТОПОЛОГИЯ",
     connectionsTitle: "Карта соединений системы",
     connectionsLead:
       "Живая топология учебной картины: датчики питают StarWall Core; ядро передаёт ту же картину на AGRON 1 и в Support Center.",

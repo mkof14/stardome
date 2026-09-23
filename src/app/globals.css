@@ -605,14 +605,14 @@ body {
 .agron-roomy .instrument-sonar,
 .agron-roomy .instrument-spectrum,
 .agron-roomy .instrument-perimeter {
-  min-height: 28rem;
+  min-height: 42rem;
 }
 
 .agron-compact .instrument-radar,
 .agron-compact .instrument-sonar,
 .agron-compact .instrument-spectrum,
 .agron-compact .instrument-perimeter {
-  min-height: 18rem;
+  min-height: 26rem;
 }
 
 #bridge-root[data-view="watch"] {

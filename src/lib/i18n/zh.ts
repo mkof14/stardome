@@ -87,7 +87,7 @@ export const zh: Messages = {
     ],
   },
   surface: {
-    connectionsKicker: "AGRON BRIDGE · 拓扑",
+    connectionsKicker: "STARWALL · 拓扑",
     connectionsTitle: "系统连接图",
     connectionsLead:
       "训练画面的实时拓扑：传感器送入 StarWall Core；核心把同一画面推送到 AGRON 1 与 Support Center。",
