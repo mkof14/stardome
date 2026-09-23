@@ -59,6 +59,9 @@ export function PilotDesk({
 }) {
   const watch = buildPilotWatch(session, locale);
   const { copy } = watch;
+  const starlinkKey = watch.starlink
+    .map((link) => `${link.id}:${link.state}:${link.latencyMs}:${link.downMbps}`)
+    .join("|");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [hiddenKinds, setHiddenKinds] = useState<string[]>([]);
   const [channel, setChannel] = useState<Channel>("watch");
@@ -92,7 +95,7 @@ export function PilotDesk({
     setDraft("");
     setHiddenKinds([]);
     setExpanded({});
-  }, [watch.noteKey, watch.commsLive, copy.demoComms, copy.liveComms, copy.starlinkOffline]);
+  }, [watch.noteKey, watch.commsLive, starlinkKey, copy.demoComms, copy.liveComms, copy.starlinkOffline]);
 
   function postComms(text: string, nextChannel: Channel = channel) {
     const clean = text.trim();
