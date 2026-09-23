@@ -3,6 +3,7 @@
 import { cn } from "@/lib/cn";
 import {
   STUDIO_BARS,
+  vuBand,
   vuBarColor,
   waveColor,
   waveHudColor,
@@ -32,24 +33,27 @@ export function StudioVu({
       className={cn(
         "flex",
         vertical
-          ? "h-full w-4 flex-col-reverse items-center gap-px"
-          : "h-8 min-w-0 flex-1 items-end gap-px",
+          ? "h-full w-4 flex-col-reverse items-center gap-0.5"
+          : "h-10 min-w-0 flex-1 items-end gap-0.5",
       )}
       aria-hidden
     >
       {bars.map((level, index) => {
         const lit = vertical ? index < litCount : live && level > 0.04;
+        const band = vuBand(index, bars.length);
         const color = vuBarColor(index, bars.length, lit, peak && live);
-        const size = live ? Math.max(8, level * 100) : 8;
+        const size = live ? Math.max(18, level * 100) : 22;
         return (
           <span
             key={index}
-            className={vertical ? "w-full min-h-[3px] flex-1" : "w-1.5"}
+            data-band={band}
+            data-lit={lit ? "1" : "0"}
+            className={vertical ? "w-full min-h-[3px] flex-1" : "w-2"}
             style={{
               height: vertical ? undefined : `${size}%`,
               background: color,
-              boxShadow: lit ? `0 0 6px ${color}` : "none",
-              opacity: lit ? 1 : 0.35,
+              boxShadow: lit ? `0 0 8px ${color}` : "none",
+              opacity: lit ? 1 : 0.85,
             }}
           />
         );

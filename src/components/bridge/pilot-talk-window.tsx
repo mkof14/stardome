@@ -33,6 +33,8 @@ export function PilotTalkWindow({
   onSend,
   onClose,
   onMic,
+  onStop,
+  stopLabel,
   onToggleSound,
   onToggleCues,
 }: {
@@ -54,6 +56,8 @@ export function PilotTalkWindow({
   onSend: (text: string) => void;
   onClose: () => void;
   onMic: () => void;
+  onStop?: () => void;
+  stopLabel?: string;
   onToggleSound: () => void;
   onToggleCues: () => void;
 }) {
@@ -166,6 +170,16 @@ export function PilotTalkWindow({
               }}
               className="mt-2 flex items-center gap-2"
             >
+              {mic === "speaking" && onStop && stopLabel ? (
+                <button
+                  type="button"
+                  data-testid="pilot-talk-stop"
+                  onClick={onStop}
+                  className="flex h-9 shrink-0 items-center justify-center rounded-xl bg-attn px-3 font-body text-sm font-semibold text-white"
+                >
+                  {stopLabel}
+                </button>
+              ) : null}
               <input
                 data-testid="pilot-talk-input"
                 value={draft}

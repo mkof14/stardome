@@ -102,6 +102,14 @@ export function isListenOrder(heard: string) {
   return words.every((word) => LISTEN.has(word));
 }
 
+/** A real watch ask, not a one-word mutter or a halt. Used to cut speech and answer. */
+export function isOfficerAsk(heard: string) {
+  if (isHaltOrder(heard) || isListenOrder(heard)) return false;
+  const words = normalizeHeard(heard).split(" ").filter(Boolean);
+  if (!words.length) return false;
+  return words.length >= 2 || words.join("").length >= 8;
+}
+
 export function pilotOrder(heard: string): PilotOrder {
   if (isHaltOrder(heard)) return "halt";
   if (isListenOrder(heard)) return "listen";

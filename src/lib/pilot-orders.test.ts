@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isHaltOrder, isListenOrder, pilotOrder } from "@/lib/pilot-orders";
+import { isHaltOrder, isListenOrder, isOfficerAsk, pilotOrder } from "@/lib/pilot-orders";
 
 describe("pilot orders", () => {
   it("halts on stop in every StarWall language", () => {
@@ -50,5 +50,15 @@ describe("pilot orders", () => {
     expect(isListenOrder("слушай")).toBe(true);
     expect(pilotOrder("listen please")).toBe("listen");
     expect(pilotOrder("Pilot, listen to the radar")).toBe("ask");
+  });
+
+  it("treats a real question as an ask that can cut speech", () => {
+    expect(isOfficerAsk("Ты меня слышишь?")).toBe(true);
+    expect(isOfficerAsk("Can you hear me")).toBe(true);
+    expect(isOfficerAsk("Pilot, instruments")).toBe(true);
+    expect(isOfficerAsk("стоп")).toBe(false);
+    expect(isOfficerAsk("слушай")).toBe(false);
+    expect(isOfficerAsk("да")).toBe(false);
+    expect(isOfficerAsk("ok")).toBe(false);
   });
 });

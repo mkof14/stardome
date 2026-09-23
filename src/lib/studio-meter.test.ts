@@ -7,6 +7,8 @@ import {
   STUDIO_BARS,
   VU_GREEN,
   VU_RED,
+  VU_YELLOW,
+  vuBand,
   vuBarColor,
   WAVE_BINS,
   waveColor,
@@ -33,17 +35,23 @@ describe("studio meter", () => {
     expect(silenceBars()).toHaveLength(STUDIO_BARS);
   });
 
-  it("lights green then red from real amplitude, never a simulated floor", () => {
+  it("lights green, yellow, then red from real amplitude, never a simulated floor", () => {
     const soft = meterFromTimeDomain(sine(0.25));
     expect(soft.peak).toBe(false);
     expect(soft.bars.some((bar) => bar > 0)).toBe(true);
+    expect(vuBand(0, STUDIO_BARS)).toBe("green");
+    expect(vuBand(6, STUDIO_BARS)).toBe("yellow");
+    expect(vuBand(STUDIO_BARS - 1, STUDIO_BARS)).toBe("red");
     expect(vuBarColor(0, STUDIO_BARS, true, false)).toBe(VU_GREEN);
+    expect(vuBarColor(6, STUDIO_BARS, true, false)).toBe(VU_YELLOW);
     expect(vuBarColor(STUDIO_BARS - 1, STUDIO_BARS, true, false)).toBe(VU_RED);
-    expect(vuBarColor(0, STUDIO_BARS, false, false)).toMatch(/0\.16/);
+    expect(vuBarColor(0, STUDIO_BARS, false, false)).toMatch(/0\.18/);
+    expect(vuBarColor(6, STUDIO_BARS, false, false)).toMatch(/245 197 24/);
 
     const hot = meterFromTimeDomain(sine(PEAK_SAMPLE + 0.05));
     expect(hot.peak).toBe(true);
     expect(waveColor(0.3, false)).toBe(VU_GREEN);
+    expect(waveColor(0.5, false)).toBe(VU_YELLOW);
     expect(waveColor(0.8, false)).toBe(VU_RED);
     expect(waveColor(0.2, true)).toBe(VU_RED);
     expect(waveHudColor(0, 10, 0.5, false)).toMatch(/241|240/);

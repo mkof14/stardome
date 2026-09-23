@@ -222,14 +222,6 @@ export function PilotSoundDock({
         />
       ) : null}
       <StudioVu levels={levels} peak={Boolean(peak)} live={live} />
-      <p
-        className={cn(
-          "hidden shrink-0 font-body text-xs font-medium sm:block",
-          voiceOn ? "text-ok" : "text-attn",
-        )}
-      >
-        {voiceOn ? soundOnLabel : soundOffLabel}
-      </p>
     </div>
   );
 }
@@ -239,29 +231,15 @@ export function PilotDemoStage({
   beat,
   index,
   total,
-  voiceOn,
   speaking,
-  listening,
-  levels,
-  peak,
   warn,
-  onToggleSound,
-  cuesOn,
-  onToggleCues,
 }: {
   copy: PilotDemoCopy;
   beat: DemoBeat;
   index: number;
   total: number;
-  voiceOn: boolean;
   speaking: boolean;
-  listening?: boolean;
-  levels: number[];
-  peak?: boolean;
   warn?: boolean;
-  onToggleSound: () => void;
-  cuesOn?: boolean;
-  onToggleCues?: () => void;
 }) {
   return (
     <div
@@ -270,7 +248,7 @@ export function PilotDemoStage({
       data-speaking={speaking ? "true" : undefined}
       data-tone={beat.tone}
       className={cn(
-        "space-y-2 border-b px-3 py-2",
+        "shrink-0 border-b px-3 py-2",
         speaking && warn
           ? "pilot-speak-focus-warn border-attn/50 bg-attn/10"
           : speaking
@@ -285,30 +263,6 @@ export function PilotDemoStage({
         <span className="font-body text-xs text-bridge-dim">
           {fillDemo(copy.step, { n: String(index), total: String(total) })}
         </span>
-      </div>
-      <div className="grid gap-1.5 sm:grid-cols-2">
-        <p className="min-w-0">
-          <span className="block font-body text-xs font-medium text-[#38BDF8]">
-            {copy.now}
-          </span>
-          <span className="block font-body text-sm font-semibold leading-tight text-bridge-text">
-            {beat.action}
-          </span>
-        </p>
-        <p className="min-w-0">
-          <span className="block font-body text-xs font-medium text-[#38BDF8]">
-            {copy.where}
-          </span>
-          <span className="block font-body text-sm font-semibold leading-tight text-bridge-text">
-            {beat.place}
-          </span>
-        </p>
-      </div>
-      <div
-        data-testid="pilot-demo-turn"
-        data-speaker={beat.role}
-        className="rounded-xl border border-bridge-line bg-bridge-bg/70 px-2.5 py-2"
-      >
         <span
           data-testid="pilot-demo-speaker"
           className={cn(
@@ -320,29 +274,19 @@ export function PilotDemoStage({
         >
           {beat.role === "officer" ? copy.whoOfficer : copy.whoPilot}
         </span>
-        <p
-          data-testid="pilot-demo-line"
-          className="mt-1 font-body text-sm leading-snug text-bridge-text"
-        >
-          {beat.text}
-        </p>
       </div>
-      <PilotSoundDock
-        voiceOn={voiceOn}
-        speaking={speaking}
-        listening={listening}
-        levels={levels}
-        peak={peak}
-        soundOnLabel={copy.soundOn}
-        soundOffLabel={copy.soundOff}
-        onToggle={onToggleSound}
-        cuesOn={cuesOn}
-        cuesOnLabel={copy.signalsOn}
-        cuesOffLabel={copy.signalsOff}
-        onToggleCues={onToggleCues}
-      />
-      <p className="font-body text-sm leading-relaxed text-bridge-dim">
-        {copy.interruptHint}
+      <p
+        data-testid="pilot-demo-turn"
+        data-speaker={beat.role}
+        className="sr-only"
+      >
+        {beat.role}
+      </p>
+      <p
+        data-testid="pilot-demo-line"
+        className="mt-1.5 font-body text-sm font-medium leading-snug text-bridge-text"
+      >
+        {beat.text}
       </p>
     </div>
   );

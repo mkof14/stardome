@@ -77,7 +77,7 @@ import {
   vadHotFrames,
   vadTriggered,
 } from "@/lib/barge-in";
-import { isHaltOrder, isListenOrder } from "@/lib/pilot-orders";
+import { isHaltOrder, isListenOrder, isOfficerAsk } from "@/lib/pilot-orders";
 import {
   meterFromTimeDomain,
   silenceBars,
@@ -172,6 +172,8 @@ export function Helm() {
   const speakStartedAt = useRef(0);
   const speakEndedAt = useRef(0);
   const wantListen = useRef(false);
+  const sendingRef = useRef(false);
+  const askGen = useRef(0);
   const cutLock = useRef(false);
   const keepListen = useRef(false);
   const vadRaf = useRef<number | null>(null);
@@ -587,12 +589,32 @@ export function Helm() {
   }
 
   function resumeListen() {
-    if (!wantListen.current || drillingRef.current) return;
+    if (!wantListen.current) return;
     keepListen.current = true;
+    if (
+      listenMode.current === "push" &&
+      recognitionRef.current &&
+      streamRef.current
+    ) {
+      startMeter(streamRef.current);
+      setMic("listening");
+      return;
+    }
     void startListen("push");
   }
 
+  function afterSpeech() {
+    markSpeechEnded();
+    if (wantListen.current) {
+      resumeListen();
+      return;
+    }
+    setMic((current) => (current === "speaking" ? "idle" : current));
+  }
+
   function haltWatch() {
+    askGen.current += 1;
+    sendingRef.current = false;
     stopDemo();
     stopSpeech();
     setTalkHud(false);
@@ -621,13 +643,30 @@ export function Helm() {
     const text = said.trim();
     if (!text) return;
     if (isEchoOfSpoken(text, spokenText.current)) return;
+    if (sendingRef.current) {
+      if (isHaltOrder(text)) haltWatch();
+      return;
+    }
     const talking = heardWhilePilotTalks(
       micRef.current === "speaking",
       speakEndedAt.current,
       performance.now(),
     );
     if (talking) {
-      if (isHaltOrder(text)) haltWatch();
+      if (isHaltOrder(text)) {
+        haltWatch();
+        return;
+      }
+      if (isFinal && isOfficerAsk(text)) {
+        stopDemo();
+        stopSpeech();
+        setTalkHud(false);
+        publishPilotSpeakFocus({ focus: null, speaking: false });
+        cutLock.current = true;
+        markSpeechEnded();
+        wantListen.current = true;
+        void sendRef.current(text);
+      }
       return;
     }
     if (isHaltOrder(text)) {
@@ -656,7 +695,9 @@ export function Helm() {
       listenMode.current === "push" &&
       recognitionRef.current &&
       streamRef.current &&
-      micRef.current === "listening"
+      (micRef.current === "listening" ||
+        micRef.current === "speaking" ||
+        micRef.current === "processing")
     ) {
       return true;
     }
@@ -690,7 +731,9 @@ export function Helm() {
         wantListen.current = true;
         keepListen.current = true;
         startMeter(stream);
-        setMic("listening");
+        if (micRef.current !== "speaking" && micRef.current !== "processing") {
+          setMic("listening");
+        }
         cue("listen");
       } else {
         bargeArmed.current = true;
@@ -717,11 +760,7 @@ export function Helm() {
         setMicError(helmHud.micStopped);
       };
       recognition.onend = () => {
-        if (
-          wantListen.current &&
-          listenMode.current === "push" &&
-          !drillingRef.current
-        ) {
+        if (wantListen.current && listenMode.current === "push") {
           try {
             recognition.start();
           } catch {
@@ -982,11 +1021,9 @@ export function Helm() {
             };
           });
           if (!drillingRef.current) releaseBarge();
-          setMic((current) => (current === "speaking" ? "idle" : current));
           if (!drillingRef.current) setTalkHud(false);
           clearMeter();
-          markSpeechEnded();
-          resumeListen();
+          afterSpeech();
         }
         return;
       }
@@ -1000,8 +1037,7 @@ export function Helm() {
       if (!drillingRef.current) releaseBarge();
       if (!drillingRef.current) setTalkHud(false);
       clearMeter();
-      markSpeechEnded();
-      resumeListen();
+      afterSpeech();
     }
   }
 
@@ -1056,6 +1092,8 @@ export function Helm() {
     setUnread(false);
     setVoiceOn(true);
     voiceOnRef.current = true;
+    wantListen.current = true;
+    void startListen("push");
     cue("demo");
     const beats = demoBeats(session, recogLang);
     const start = Math.max(0, from ?? 0);
@@ -1072,15 +1110,6 @@ export function Helm() {
       } else {
         setScreen("chat");
       }
-      const id = messageId();
-      setMessages((current) => [
-        ...current,
-        {
-          id,
-          role: beat.role === "officer" ? "user" : "assistant",
-          text: beat.text,
-        },
-      ]);
       cue(cueForDemoBeat(beat));
       if (beat.speak) {
         publishPilotSpeakFocus({
@@ -1109,8 +1138,8 @@ export function Helm() {
     setTalkHud(false);
     publishPilotSpeakFocus({ focus: null, speaking: false });
     releaseBarge();
-    setMic("idle");
     cue("stop");
+    resumeListen();
   }
 
   async function sendMessage(text: string) {
@@ -1123,11 +1152,14 @@ export function Helm() {
     if (isListenOrder(clean)) {
       stopSpeech();
       setTalkHud(false);
-      void startListen("push");
+      wantListen.current = true;
+      resumeListen();
       return;
     }
+    sendingRef.current = true;
+    const ticket = ++askGen.current;
     stopDemo();
-    stopListening(true);
+    if (!wantListen.current) stopListening(true);
     const userId = messageId();
     const userAt = new Date().toISOString();
     setMessages((current) => [
@@ -1173,6 +1205,10 @@ export function Helm() {
         langCode?: string;
         error?: string;
       };
+      if (ticket !== askGen.current) {
+        sendingRef.current = false;
+        return;
+      }
       if (!response.ok || !data.reply) {
         const errorText = data.error ?? helmHud.noReply;
         const errorId = messageId();
@@ -1194,6 +1230,8 @@ export function Helm() {
         setMic("idle");
         setTalkHud(false);
         cue("error");
+        sendingRef.current = false;
+        resumeListen();
         return;
       }
       const assistantId = messageId();
@@ -1212,7 +1250,12 @@ export function Helm() {
         summary: `Pilot exchange — ${clean.slice(0, 72)}`,
         fullContent: `Officer: ${clean}\n\nPilot: ${data.reply}`,
       });
+      if (ticket !== askGen.current) {
+        sendingRef.current = false;
+        return;
+      }
       setTypingId(assistantId);
+      sendingRef.current = false;
       speakReply(
         data.reply,
         data.langCode ?? "en",
@@ -1239,6 +1282,8 @@ export function Helm() {
       setMic("idle");
       setTalkHud(false);
       cue("error");
+      sendingRef.current = false;
+      resumeListen();
     }
   }
 
@@ -1286,17 +1331,19 @@ export function Helm() {
             setTalkHud(false);
           }}
           onMic={() => void toggleMic()}
+          onStop={haltWatch}
+          stopLabel={surface.stop}
           onToggleSound={toggleSpeaker}
           onToggleCues={toggleCues}
         />
       ) : null}
       {open ? (
-        <div className="relative flex max-h-[calc(100vh-5.5rem)] flex-col items-end">
+        <div className="relative flex max-h-[calc(100vh-8.5rem)] flex-col items-end">
         <section className={cn(
-          "helm-scope relative flex h-[min(40rem,calc(100vh-5.5rem))] flex-col overflow-hidden rounded-2xl border border-bridge-line bg-bridge-panel text-bridge-text shadow-[0_20px_56px_rgb(15_25_34/0.18)]",
+          "helm-scope relative flex h-[min(34rem,calc(100vh-8.5rem))] flex-col overflow-hidden rounded-2xl border border-bridge-line bg-bridge-panel text-bridge-text shadow-[0_20px_56px_rgb(15_25_34/0.18)]",
           "w-[min(24rem,calc(100vw-1.5rem))]",
         )}>
-          <header className="relative z-[1] flex items-center justify-between gap-2 border-b border-bridge-line bg-bridge-bg px-3 py-3">
+          <header className="relative z-[1] flex shrink-0 items-center justify-between gap-2 border-b border-bridge-line bg-bridge-bg px-3 py-2">
             <span
               className="helm-fab-sweep pointer-events-none absolute -end-6 -top-10 h-28 w-28 rounded-full opacity-40"
               style={{
@@ -1384,7 +1431,7 @@ export function Helm() {
               </button>
             </div>
           </header>
-          <div className="relative z-[1] border-b border-bridge-line bg-bridge-bg px-3 py-1.5">
+          <div className="relative z-[1] shrink-0 border-b border-bridge-line bg-bridge-bg px-3 py-1.5">
             <PilotDeskBar
               copy={desk}
               screen={screen}
@@ -1397,9 +1444,11 @@ export function Helm() {
                 if (next === "advice") setNotePulse(false);
               }}
             />
-            <div className="mt-1.5">
-              <PilotVoiceNeed locale={recogLang} need={need} />
-            </div>
+            {!drilling ? (
+              <div className="mt-1.5">
+                <PilotVoiceNeed locale={recogLang} need={need} />
+              </div>
+            ) : null}
           </div>
           {drilling && demoBeat ? (
             <PilotDemoStage
@@ -1407,19 +1456,12 @@ export function Helm() {
               beat={demoBeat}
               index={demoStep}
               total={demoTotal}
-              voiceOn={voiceOn}
               speaking={mic === "speaking"}
-              listening={mic === "listening"}
-              levels={levels}
-              peak={peak}
               warn={demoBeat.tone === "warn"}
-              onToggleSound={toggleSpeaker}
-              cuesOn={cuesOn}
-              onToggleCues={toggleCues}
             />
           ) : null}
 
-          {screen === "chat" ? (
+          {screen === "chat" && !drilling ? (
           <div
             ref={listRef}
             data-testid="assistant-chat"
@@ -1458,7 +1500,7 @@ export function Helm() {
               );
             })}
           </div>
-          ) : (
+          ) : screen !== "chat" ? (
             <PilotDesk
               session={session}
               locale={recogLang}
@@ -1468,10 +1510,23 @@ export function Helm() {
               highlight={spokenScreen}
               speaking={mic === "speaking"}
             />
+          ) : (
+            <div className="min-h-0 flex-1" />
           )}
 
-          <div className="border-t border-bridge-line bg-bridge-bg px-3 py-3">
-            <div className="mb-3 flex items-center gap-2">
+          <div className="relative z-20 shrink-0 border-t border-bridge-line bg-bridge-bg px-3 py-2.5">
+            <div className="mb-2 flex items-center gap-2">
+              {mic === "speaking" || drilling ? (
+                <button
+                  type="button"
+                  data-testid="assistant-stop"
+                  onClick={haltWatch}
+                  aria-label={surface.stop}
+                  className="flex h-11 shrink-0 items-center justify-center rounded-xl bg-attn px-3 font-body text-sm font-semibold text-white hover:bg-attn/90"
+                >
+                  {surface.stop}
+                </button>
+              ) : null}
               <button
                 type="button"
                 data-testid="assistant-mic"
@@ -1498,39 +1553,31 @@ export function Helm() {
                   </svg>
                 )}
               </button>
-              {drilling ? (
-                <p className="min-w-0 flex-1 font-body text-sm leading-snug text-[#38BDF8]">
-                  {demoCopy.interruptHint}
-                </p>
-              ) : (
-                <div className="min-w-0 flex-1">
-                  <PilotSoundDock
-                    voiceOn={voiceOn}
-                    speaking={mic === "speaking"}
-                    listening={mic === "listening"}
-                    levels={levels}
-                    peak={peak}
-                    soundOnLabel={surface.speakerOn}
-                    soundOffLabel={surface.speakerOff}
-                    onToggle={toggleSpeaker}
-                    cuesOn={cuesOn}
-                    cuesOnLabel={demoCopy.signalsOn}
-                    cuesOffLabel={demoCopy.signalsOff}
-                    onToggleCues={toggleCues}
-                  />
-                </div>
-              )}
+              <div className="min-w-0 flex-1">
+                <PilotSoundDock
+                  voiceOn={voiceOn}
+                  speaking={mic === "speaking"}
+                  listening={mic === "listening"}
+                  levels={levels}
+                  peak={peak}
+                  soundOnLabel={surface.speakerOn}
+                  soundOffLabel={surface.speakerOff}
+                  onToggle={toggleSpeaker}
+                />
+              </div>
             </div>
             {micError ? (
               <p className="mb-2 font-body text-sm text-attn">{micError}</p>
             ) : null}
-            <div className="mb-2">
-              <PilotWatchCalls
-                copy={demoCopy}
-                disabled={mic === "processing"}
-                onPick={(text) => void sendMessage(text)}
-              />
-            </div>
+            {!drilling && mic !== "speaking" ? (
+              <div className="mb-2">
+                <PilotWatchCalls
+                  copy={demoCopy}
+                  disabled={mic === "processing"}
+                  onPick={(text) => void sendMessage(text)}
+                />
+              </div>
+            ) : null}
             <form
               onSubmit={(event) => {
                 event.preventDefault();

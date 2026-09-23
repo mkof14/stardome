@@ -1,10 +1,27 @@
 export const VU_GREEN = "#33D3A6";
+export const VU_YELLOW = "#F5C518";
 export const VU_RED = "#DC2626";
 export const STUDIO_BARS = 12;
 export const WAVE_BINS = 96;
+export const VU_YELLOW_RATIO = 0.48;
 export const VU_RED_RATIO = 0.72;
 export const PEAK_RMS = 0.42;
 export const PEAK_SAMPLE = 0.78;
+
+export type VuBand = "green" | "yellow" | "red";
+
+export function vuBand(index: number, count: number): VuBand {
+  const ratio = count <= 0 ? 1 : (index + 1) / count;
+  if (ratio >= VU_RED_RATIO) return "red";
+  if (ratio >= VU_YELLOW_RATIO) return "yellow";
+  return "green";
+}
+
+export function vuBandColor(band: VuBand, lit: boolean): string {
+  if (band === "red") return lit ? VU_RED : "rgb(220 38 38 / 0.22)";
+  if (band === "yellow") return lit ? VU_YELLOW : "rgb(245 197 24 / 0.22)";
+  return lit ? VU_GREEN : "rgb(51 211 166 / 0.18)";
+}
 
 export type StudioReading = {
   rms: number;
@@ -59,14 +76,14 @@ export function vuBarColor(
   lit: boolean,
   peak: boolean,
 ): string {
-  if (!lit) return "rgb(51 211 166 / 0.16)";
-  const ratio = count <= 0 ? 1 : (index + 1) / count;
-  if (ratio >= VU_RED_RATIO || (peak && ratio >= 0.55)) return VU_RED;
-  return VU_GREEN;
+  const band = vuBand(index, count);
+  if (peak && lit && band !== "green") return VU_RED;
+  return vuBandColor(band, lit);
 }
 
 export function waveColor(magnitude: number, peak: boolean): string {
   if (peak || magnitude >= 0.72) return VU_RED;
+  if (magnitude >= 0.42) return VU_YELLOW;
   return VU_GREEN;
 }
 

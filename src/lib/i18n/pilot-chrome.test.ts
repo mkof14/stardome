@@ -31,8 +31,24 @@ describe("pilotChrome", () => {
       expect(chrome.advisor).toBe(surface.helmAdvisor);
       expect(pilotHide(code)).toBe(surface.helmHide);
       expect(chrome.hide.length).toBeGreaterThan(0);
+      expect(chrome.stop.length).toBeGreaterThan(0);
       if (previous) expect(chrome.hide).not.toBe(previous);
       previous = chrome.hide;
     }
+  });
+
+  it("labels Stop in every StarWall language", () => {
+    expect(Object.fromEntries(locales.map((code) => [code, pilotChrome(code).stop]))).toEqual({
+      en: "Stop",
+      es: "Parar",
+      fr: "Stop",
+      de: "Stopp",
+      ru: "Стоп",
+      uk: "Стоп",
+      ar: "توقف",
+      zh: "停止",
+      ja: "停止",
+      he: "עצור",
+    });
   });
 });
