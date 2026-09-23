@@ -27,6 +27,7 @@ describe("barge-in", () => {
       true,
     );
     expect(shouldCutIn("Hold standard", spoken, 0, 4000)).toBe(false);
+    expect(shouldCutIn("стоп", spoken, 0, BARGE_GRACE_MS + 20)).toBe(true);
   });
 
   it("trips voice-activity after sustained real mic energy", () => {

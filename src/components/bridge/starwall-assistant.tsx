@@ -72,10 +72,12 @@ import {
 import { PilotTalkWindow } from "@/components/bridge/pilot-talk-window";
 import {
   BARGE_GRACE_MS,
+  isEchoOfSpoken,
   shouldCutIn,
   vadHotFrames,
   vadTriggered,
 } from "@/lib/barge-in";
+import { isHaltOrder, isListenOrder } from "@/lib/pilot-orders";
 import {
   meterFromTimeDomain,
   silenceBars,
@@ -168,6 +170,7 @@ export function Helm() {
   const listenMode = useRef<"off" | "push" | "barge">("off");
   const spokenText = useRef("");
   const speakStartedAt = useRef(0);
+  const speakEndedAt = useRef(0);
   const cutLock = useRef(false);
   const keepListen = useRef(false);
   const vadRaf = useRef<number | null>(null);
@@ -578,8 +581,33 @@ export function Helm() {
     streamRef.current = null;
   }
 
+  function markSpeechEnded() {
+    speakEndedAt.current = performance.now();
+  }
+
+  function haltWatch() {
+    stopDemo();
+    stopSpeech();
+    setTalkHud(false);
+    publishPilotSpeakFocus({ focus: null, speaking: false });
+    cutLock.current = true;
+    markSpeechEnded();
+    cue("stop");
+    void startListen("push");
+  }
+
   function takeOfficerFirst(said: string) {
     if (!said.trim()) return;
+    if (isHaltOrder(said)) {
+      haltWatch();
+      return;
+    }
+    if (isListenOrder(said)) {
+      stopSpeech();
+      setTalkHud(false);
+      void startListen("push");
+      return;
+    }
     cutLock.current = true;
     demoCancel.current = true;
     drillingRef.current = false;
@@ -613,6 +641,19 @@ export function Helm() {
   function handleHeard(said: string, isFinal: boolean) {
     const text = said.trim();
     if (!text) return;
+    if (isHaltOrder(text)) {
+      haltWatch();
+      return;
+    }
+    if (isEchoOfSpoken(text, spokenText.current)) return;
+    if (performance.now() - speakEndedAt.current < 900) return;
+    if (isListenOrder(text)) {
+      if (!isFinal && text.length < 4) return;
+      stopSpeech();
+      setTalkHud(false);
+      void startListen("push");
+      return;
+    }
     if (listenMode.current === "barge" || micRef.current === "speaking") {
       if (!isFinal && text.length < 4) return;
       if (
@@ -620,7 +661,7 @@ export function Helm() {
           text,
           spokenText.current,
           speakStartedAt.current,
-          Date.now(),
+          performance.now(),
         )
       ) {
         return;
@@ -942,6 +983,7 @@ export function Helm() {
           setMic((current) => (current === "speaking" ? "idle" : current));
           if (!drillingRef.current) setTalkHud(false);
           clearMeter();
+          markSpeechEnded();
         }
         return;
       }
@@ -955,6 +997,7 @@ export function Helm() {
       if (!drillingRef.current) releaseBarge();
       if (!drillingRef.current) setTalkHud(false);
       clearMeter();
+      markSpeechEnded();
     }
   }
 
@@ -1069,6 +1112,16 @@ export function Helm() {
   async function sendMessage(text: string) {
     const clean = text.trim();
     if (!clean) return;
+    if (isHaltOrder(clean)) {
+      haltWatch();
+      return;
+    }
+    if (isListenOrder(clean)) {
+      stopSpeech();
+      setTalkHud(false);
+      void startListen("push");
+      return;
+    }
     stopDemo();
     stopListening(true);
     const userId = messageId();
