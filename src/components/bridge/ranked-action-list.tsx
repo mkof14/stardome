@@ -1,4 +1,6 @@
 import { cn } from "@/lib/cn";
+import { publishAdviceDecision } from "@/lib/helm-events";
+import { pilotDeskCopy } from "@/lib/i18n/pilot-desk-copy";
 import { useHud } from "@/lib/i18n/use-hud";
 import type { ScenarioOption } from "@/lib/scenarios";
 
@@ -7,7 +9,8 @@ type RankedActionListProps = {
 };
 
 export function RankedActionList({ options }: RankedActionListProps) {
-  const { hud } = useHud();
+  const { hud, locale } = useHud();
+  const desk = pilotDeskCopy(locale);
   const ranked = [...options].sort(
     (a, b) => Number(b.recommended) - Number(a.recommended),
   );
@@ -47,6 +50,22 @@ export function RankedActionList({ options }: RankedActionListProps) {
             >
               {option.detail}
             </p>
+            {top ? (
+              <button
+                type="button"
+                data-testid="recommended-accept"
+                onClick={() =>
+                  publishAdviceDecision({
+                    decision: "accept",
+                    title: option.label,
+                    body: option.detail,
+                  })
+                }
+                className="mt-2 rounded-lg bg-ok px-2.5 py-1.5 font-body text-xs font-semibold text-white hover:bg-ok/90"
+              >
+                {desk.acceptAdvice}
+              </button>
+            ) : null}
           </li>
         );
       })}

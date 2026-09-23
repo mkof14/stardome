@@ -8,6 +8,7 @@ export const PILOT_DEMO_CONTROL_EVENT = "starwall-pilot-demo-control";
 export const WATCH_COMMS_FOCUS_EVENT = "starwall-watch-comms-focus";
 export const PILOT_SPEAK_FOCUS_EVENT = "starwall-pilot-speak-focus";
 export const CLEAR_SCREENS_EVENT = "starwall-clear-screens";
+export const LOAD_FLAGSHIP_EVENT = "starwall-load-flagship";
 
 export type PilotDemoControl = "play" | "stop" | "back" | "next" | "reset";
 
@@ -55,6 +56,11 @@ export function askPilot(prompt: string) {
 export function requestPilotNotify() {
   if (typeof window === "undefined") return;
   window.dispatchEvent(new Event(PILOT_NOTIFY_EVENT));
+}
+
+export function requestFlagshipScenario() {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new Event(LOAD_FLAGSHIP_EVENT));
 }
 
 export function publishAdviceDecision(detail: AdviceDecisionDetail) {

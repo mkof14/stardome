@@ -4,6 +4,7 @@ import {
   PILOT_ADVICE_DECISION_EVENT,
   PILOT_DEMO_CONTROL_EVENT,
   PILOT_DEMO_EVENT,
+  LOAD_FLAGSHIP_EVENT,
   PILOT_NOTIFY_EVENT,
   PILOT_SPEAK_FOCUS_EVENT,
   controlPilotDemo,
@@ -28,5 +29,6 @@ describe("pilot demo transport", () => {
     expect(speakFocusTargets(null)).toEqual([]);
     expect(PILOT_NOTIFY_EVENT).toBe("starwall-pilot-notify");
     expect(PILOT_ADVICE_DECISION_EVENT).toBe("starwall-pilot-advice-decision");
+    expect(LOAD_FLAGSHIP_EVENT).toBe("starwall-load-flagship");
   });
 });

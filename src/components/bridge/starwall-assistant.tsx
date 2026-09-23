@@ -13,9 +13,11 @@ import {
   PILOT_ASK_EVENT,
   PILOT_DEMO_CONTROL_EVENT,
   PILOT_DEMO_EVENT,
+  focusWatchComms,
   publishAdviceDecision,
   publishHelmState,
   publishPilotSpeakFocus,
+  requestFlagshipScenario,
   requestPilotNotify,
   type AdviceDecision,
   type PilotDemoControl,
@@ -1118,6 +1120,7 @@ export function Helm() {
     voiceOnRef.current = true;
     wantListen.current = true;
     void startListen("push");
+    if (!live && !session.scenarioId) requestFlagshipScenario();
     cue("demo");
     const beats = demoBeats(session, recogLang);
     const start = Math.max(0, from ?? 0);
@@ -1133,6 +1136,10 @@ export function Helm() {
         setScreen(beat.focus);
       } else {
         setScreen("chat");
+      }
+      if (beat.focus === "comms" && !live) {
+        focusWatchComms("designated");
+        requestPilotNotify();
       }
       cue(cueForDemoBeat(beat));
       if (beat.speak) {

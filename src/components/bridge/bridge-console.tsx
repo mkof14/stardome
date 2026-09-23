@@ -44,8 +44,18 @@ import { useAuthSession } from "@/lib/auth-session";
 import { useAppMode } from "@/lib/mode";
 import { canTriggerScenarios } from "@/lib/rbac";
 import { applyScenarioToWatch, liveWatchBaseline, resetWatchToNormal } from "@/lib/watch-state";
+import {
+  FLAGSHIP_SCENARIO_ID,
+  flagshipScenario,
+  readStoredWatchScenario,
+  writeStoredWatchScenario,
+} from "@/lib/demo-flagship";
 import { wipeDemoLocalData } from "@/lib/demo-storage";
-import { CLEAR_SCREENS_EVENT } from "@/lib/helm-events";
+import {
+  CLEAR_SCREENS_EVENT,
+  LOAD_FLAGSHIP_EVENT,
+  PILOT_DEMO_EVENT,
+} from "@/lib/helm-events";
 import { cn } from "@/lib/cn";
 import {
   SCENARIOS,
@@ -414,7 +424,7 @@ export function BridgeConsole() {
         ? hud.chrome.aisOffline
         : null;
 
-  function applyScenario(scenario: Scenario) {
+  function applyScenario(scenario: Scenario, opts?: { silent?: boolean }) {
     if (live || !canRunScenarios) return;
     clearAutoTimer();
     const view = localizeScenario(locale, scenario);
@@ -427,6 +437,8 @@ export function BridgeConsole() {
     setActionOptions(next.actionOptions);
     setCrisis(next.crisis);
     setTraining(next.training);
+    writeStoredWatchScenario(next.selectedId);
+    if (opts?.silent) return;
     const stamp = nowStamp();
     const nextRows: {
       level: RiskLevel;
@@ -493,6 +505,7 @@ export function BridgeConsole() {
 
   function resetToNormal() {
     clearAutoTimer();
+    writeStoredWatchScenario("");
     const next = resetWatchToNormal();
     setSelectedId(next.selectedId);
     setSelectedName(next.selectedName);
@@ -504,6 +517,12 @@ export function BridgeConsole() {
     setFaultId(next.faultId);
     pushLogs([{ level: "NORMAL", text: hud.chrome.resetLog, kind: "reset" }]);
   }
+
+  const applyScenarioRef = useRef(applyScenario);
+  applyScenarioRef.current = applyScenario;
+  const selectedIdRef = useRef(selectedId);
+  selectedIdRef.current = selectedId;
+  const demoHydrated = useRef(false);
 
   const clearScreensRef = useRef(() => {});
   clearScreensRef.current = () => {
@@ -518,9 +537,34 @@ export function BridgeConsole() {
     function onClear() {
       clearScreensRef.current();
     }
+    function onFlagship() {
+      applyScenarioRef.current(flagshipScenario());
+    }
+    function onDemo() {
+      if (!selectedIdRef.current) applyScenarioRef.current(flagshipScenario());
+    }
     window.addEventListener(CLEAR_SCREENS_EVENT, onClear);
-    return () => window.removeEventListener(CLEAR_SCREENS_EVENT, onClear);
+    window.addEventListener(LOAD_FLAGSHIP_EVENT, onFlagship);
+    window.addEventListener(PILOT_DEMO_EVENT, onDemo);
+    return () => {
+      window.removeEventListener(CLEAR_SCREENS_EVENT, onClear);
+      window.removeEventListener(LOAD_FLAGSHIP_EVENT, onFlagship);
+      window.removeEventListener(PILOT_DEMO_EVENT, onDemo);
+    };
   }, []);
+
+  useEffect(() => {
+    if (!storageReady) return;
+    if (live) {
+      demoHydrated.current = false;
+      return;
+    }
+    if (demoHydrated.current) return;
+    demoHydrated.current = true;
+    const stored = readStoredWatchScenario();
+    const known = SCENARIOS.find((item) => item.id === stored);
+    applyScenarioRef.current(known ?? flagshipScenario(), { silent: Boolean(known) });
+  }, [storageReady, live]);
 
   function logRow(level: RiskLevel, text: string, kind: ToastKind) {
     pushLogs([{ level, text, kind }]);
@@ -647,6 +691,14 @@ export function BridgeConsole() {
             <p className="mt-1 font-mono text-[12px] tracking-[0.18em] text-bridge-dim">
               {t.bridge.subtitle}
             </p>
+            {!live && selectedId === FLAGSHIP_SCENARIO_ID ? (
+              <p
+                data-testid="partner-demo-cue"
+                className="mt-2 max-w-xl font-body text-sm leading-relaxed text-orange"
+              >
+                {hud.chrome.partnerCue}
+              </p>
+            ) : null}
             <ViewSwitcher />
           </div>
           <div className="flex flex-wrap items-start justify-end gap-3">

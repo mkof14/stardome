@@ -4,7 +4,6 @@ import { AdaptiveLearningPanel } from "@/components/bridge/adaptive-learning-pan
 import { BlackBoxPanel } from "@/components/bridge/black-box-panel";
 import { BridgeConsole } from "@/components/bridge/bridge-console";
 import { JumpNav } from "@/components/bridge/jump-nav";
-import { ScenarioWalkthrough } from "@/components/bridge/scenario-walkthrough";
 import { WatchCommsPanel } from "@/components/bridge/watch-comms-panel";
 import { LiveModeBanner } from "@/components/live-mode-banner";
 import { useAgronView } from "@/lib/agron-view";
@@ -30,7 +29,6 @@ function InterfaceBody() {
       {live ? <LiveModeBanner /> : null}
       <BridgeConsole />
       <BlackBoxPanel />
-      {live ? null : <ScenarioWalkthrough />}
       <WatchCommsPanel />
       <AdaptiveLearningPanel />
     </div>

@@ -8,6 +8,7 @@ import {
   officerVoiceFor,
   type VoiceNeed,
 } from "@/lib/pilot-voice";
+import { sessionForDemo } from "@/lib/demo-flagship";
 import { watchReply } from "@/lib/pilot-watch";
 
 export type DemoRaise = {
@@ -44,10 +45,11 @@ export function demoBeats(session: BridgeSessionValue, locale: Locale): DemoBeat
       },
     ];
   }
-  const picture = watchReply(session, locale).trim();
-  const status = session.scenarioId ? picture : copy.quietStatus;
-  const advice = session.scenarioId ? picture : copy.quietAdvice;
-  const watchTone: SpeechTone = session.crisis ? "warn" : "brief";
+  const watch = sessionForDemo(session);
+  const picture = watchReply(watch, locale).trim();
+  const status = watch.scenarioId ? picture : copy.quietStatus;
+  const advice = watch.scenarioId ? picture : copy.quietAdvice;
+  const watchTone: SpeechTone = watch.crisis ? "warn" : "brief";
   return [
     {
       role: "pilot",

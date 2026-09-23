@@ -5,7 +5,16 @@ import { HudGlyph, IconWell, type HudGlyphName } from "@/components/bridge/hud-i
 import { HudFrame } from "@/components/bridge/hud-visor";
 import { StarlinkPanel } from "@/components/bridge/starlink-panel";
 import { cn } from "@/lib/cn";
-import { askPilot, CLEAR_SCREENS_EVENT, WATCH_COMMS_FOCUS_EVENT, type WatchCommsFocus } from "@/lib/helm-events";
+import {
+  askPilot,
+  CLEAR_SCREENS_EVENT,
+  PILOT_ADVICE_DECISION_EVENT,
+  PILOT_NOTIFY_EVENT,
+  WATCH_COMMS_FOCUS_EVENT,
+  type AdviceDecisionDetail,
+  type WatchCommsFocus,
+} from "@/lib/helm-events";
+import { pilotDeskCopy } from "@/lib/i18n/pilot-desk-copy";
 import { watchCommsCopy } from "@/lib/i18n/watch-comms-copy";
 import { useHud } from "@/lib/i18n/use-hud";
 import { useAppMode } from "@/lib/mode";
@@ -42,6 +51,8 @@ export function WatchCommsPanel() {
   const copy = watchCommsCopy(locale);
   const [focus, setFocus] = useState<WatchParty | "all">("all");
   const [raised, setRaised] = useState<string | null>(null);
+  const [ack, setAck] = useState<string | null>(null);
+  const desk = pilotDeskCopy(locale);
   const links = starlinkLinks({
     live,
     scenarioId: session.scenarioId,
@@ -60,14 +71,35 @@ export function WatchCommsPanel() {
     function onClear() {
       setRaised(null);
       setFocus("all");
+      setAck(null);
+    }
+    function onNotify() {
+      if (live) return;
+      setFocus("designated");
+      setRaised("designated-local-phone");
+      setAck(desk.designatedSeen);
+    }
+    function onDecision(event: Event) {
+      if (live) return;
+      const detail = (event as CustomEvent<AdviceDecisionDetail>).detail;
+      if (detail?.decision !== "accept" && detail?.decision !== "decline") return;
+      setFocus("designated");
+      setRaised("designated-local-phone");
+      setAck(
+        detail.decision === "accept" ? desk.designatedSeen : desk.declinedLogged,
+      );
     }
     window.addEventListener(WATCH_COMMS_FOCUS_EVENT, onFocus);
     window.addEventListener(CLEAR_SCREENS_EVENT, onClear);
+    window.addEventListener(PILOT_NOTIFY_EVENT, onNotify);
+    window.addEventListener(PILOT_ADVICE_DECISION_EVENT, onDecision);
     return () => {
       window.removeEventListener(WATCH_COMMS_FOCUS_EVENT, onFocus);
       window.removeEventListener(CLEAR_SCREENS_EVENT, onClear);
+      window.removeEventListener(PILOT_NOTIFY_EVENT, onNotify);
+      window.removeEventListener(PILOT_ADVICE_DECISION_EVENT, onDecision);
     };
-  }, []);
+  }, [desk.designatedSeen, desk.declinedLogged, live]);
 
   const rows = WATCH_CIRCUITS.filter((row) => focus === "all" || row.party === focus);
 
@@ -118,6 +150,15 @@ export function WatchCommsPanel() {
             );
           })}
         </div>
+
+        {ack && !live ? (
+          <p
+            data-testid="watch-comms-ack"
+            className="mt-4 rounded-xl border border-ok/40 bg-ok/10 px-3 py-2 font-body text-sm text-ok"
+          >
+            {ack}
+          </p>
+        ) : null}
 
         <HudFrame variant="window" className="mt-4 bg-bridge-panel px-1 pt-3" status={live ? "STBY" : "CIRCUITS"}>
           <div className="grid grid-cols-[4.5rem_minmax(0,1fr)_auto] items-center gap-2 bg-bridge-bg px-4 py-2 font-body text-xs text-bridge-dim">
@@ -183,6 +224,9 @@ export function WatchCommsPanel() {
                     disabled={live}
                     onClick={() => {
                       setRaised(row.id);
+                      if (row.party === "designated" || row.bearer === "alarmNet") {
+                        setAck(desk.designatedSeen);
+                      }
                       askPilot(copy.ask[row.party]);
                     }}
                     className={cn(

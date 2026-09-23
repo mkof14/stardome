@@ -44,6 +44,7 @@ export type HudCopy = {
     watchSelect: string;
     normalWatch: string;
     pickCase: string;
+    partnerCue: string;
     livePictureEmpty: string;
     radarOffline: string;
     aisOffline: string;
@@ -310,6 +311,8 @@ const en: HudCopy = {
     watchSelect: "WATCH · SELECT SCENARIO",
     normalWatch: "Normal watch",
     pickCase: "Pick a case from the library to load its picture.",
+    partnerCue:
+      "Partner DEMO — this is the watch picture. Take the recommended action, then press Pilot DEMO (D). Stay on DEMO.",
     livePictureEmpty:
       "No live sensors connected — this view activates once radar/AIS/camera equipment is integrated.",
     radarOffline: "Radar offline — showing AIS/last known positions only",
@@ -615,6 +618,8 @@ const ru = overlay({
     watchSelect: "ВАХТА · ВЫБРАТЬ СЦЕНАРИЙ",
     normalWatch: "Обычная вахта",
     pickCase: "Выберите случай в библиотеке, чтобы загрузить картину.",
+    partnerCue:
+      "DEMO для партнёров — это картина вахты. Примите рекомендованное действие, затем нажмите Pilot DEMO (D). Оставайтесь в DEMO.",
     livePictureEmpty:
       "Живых датчиков нет — этот вид включится, когда будут подключены радар, AIS или камеры.",
     radarOffline: "Радар не в сети — показаны только AIS и последние известные позиции",
@@ -898,6 +903,8 @@ const es = overlay({
     watchSelect: "GUARDIA · SELECCIONAR ESCENARIO",
     normalWatch: "Guardia normal",
     pickCase: "Elija un caso de la biblioteca para cargar su imagen.",
+    partnerCue:
+      "DEMO para socios — esta es la imagen de guardia. Acepte la acción recomendada y pulse Pilot DEMO (D). Quédese en DEMO.",
     livePictureEmpty:
       "No hay sensores en vivo — esta vista se activa cuando se integren radar, AIS o cámaras.",
     radarOffline: "Radar fuera de línea — se muestran solo AIS y últimas posiciones conocidas",
@@ -1182,6 +1189,8 @@ const fr = overlay({
     watchSelect: "QUART · SÉLECTIONNER UN SCÉNARIO",
     normalWatch: "Quart normal",
     pickCase: "Choisissez un cas dans la bibliothèque pour charger son image.",
+    partnerCue:
+      "DEMO partenaires — voici l’image de quart. Acceptez l’action recommandée, puis Pilot DEMO (D). Restez en DEMO.",
     livePictureEmpty:
       "Aucun capteur en direct — cette vue s'active une fois le radar, l'AIS ou les caméras intégrés.",
     radarOffline: "Radar hors ligne — AIS et dernières positions connues seulement",
@@ -1466,6 +1475,8 @@ const de = overlay({
     watchSelect: "WACHE · SZENARIO WÄHLEN",
     normalWatch: "Normale Wache",
     pickCase: "Wählen Sie einen Fall aus der Bibliothek, um sein Bild zu laden.",
+    partnerCue:
+      "Partner-DEMO — das ist das Wachbild. Nehmen Sie die empfohlene Maßnahme, dann Pilot DEMO (D). Bleiben Sie in DEMO.",
     livePictureEmpty:
       "Keine Live-Sensoren verbunden — diese Ansicht wird aktiv, sobald Radar, AIS oder Kameras integriert sind.",
     radarOffline: "Radar offline — nur AIS und letzte bekannte Positionen",
@@ -1750,6 +1761,8 @@ const uk = overlay({
     watchSelect: "ВАХТА · ВИБРАТИ СЦЕНАРІЙ",
     normalWatch: "Звичайна вахта",
     pickCase: "Оберіть випадок у бібліотеці, щоб завантажити картину.",
+    partnerCue:
+      "DEMO для партнерів — це картина вахти. Прийміть рекомендовану дію, потім натисніть Pilot DEMO (D). Залишайтеся в DEMO.",
     livePictureEmpty:
       "Живих датчиків немає — цей вид увімкнеться, коли буде підключено радар, AIS або камери.",
     radarOffline: "Радар не в мережі — показано лише AIS і останні відомі позиції",
@@ -2033,6 +2046,8 @@ const ar = overlay({
     watchSelect: "الخفارة · اختيار سيناريو",
     normalWatch: "خفارة عادية",
     pickCase: "اختر حالة من المكتبة لتحميل صورتها.",
+    partnerCue:
+      "DEMO للشركاء — هذه صورة الخفارة. اقبلوا الإجراء الموصى به ثم Pilot DEMO (D). ابقوا في DEMO.",
     livePictureEmpty:
       "لا مستشعرات حيّة متصلة — تُفعَّل هذه الشاشة عند دمج الرادار أو AIS أو الكاميرات.",
     radarOffline: "الرادار غير متصل — تُعرض إشارات AIS والمواقع الأخيرة المعروفة فقط",
@@ -2316,6 +2331,8 @@ const zh = overlay({
     watchSelect: "值班 · 选择场景",
     normalWatch: "正常值班",
     pickCase: "从库中选择案例以加载其态势图。",
+    partnerCue:
+      "合作方 DEMO — 这是值班画面。接受建议动作，然后按 Pilot DEMO (D)。保持 DEMO。",
     livePictureEmpty: "尚未连接实时传感器 — 集成雷达、AIS 或摄像机后此视图才会启用。",
     radarOffline: "雷达离线 — 仅显示 AIS / 最后已知位置",
     aisOffline: "AIS 离线 — 仅显示雷达航迹",
@@ -2592,6 +2609,8 @@ const ja = overlay({
     watchSelect: "当直 · シナリオを選択",
     normalWatch: "通常当直",
     pickCase: "ライブラリから事例を選び、その状況図を読み込みます。",
+    partnerCue:
+      "パートナー DEMO — これが当直画面です。推奨を受け、Pilot DEMO (D) を押してください。DEMO のまま。",
     livePictureEmpty:
       "ライブセンサーは未接続です — レーダー / AIS / カメラを統合するとこの画面が有効になります。",
     radarOffline: "レーダーオフライン — AIS と最終既知位置のみ表示",
@@ -2871,6 +2890,8 @@ const he = overlay({
     watchSelect: "משמרת · בחירת תרחיש",
     normalWatch: "משמרת רגילה",
     pickCase: "בחרו מקרה מהספרייה כדי לטעון את התמונה שלו.",
+    partnerCue:
+      "DEMO לשותפים — זו תמונת המשמרת. קבלו את הפעולה המומלצת, אחר כך Pilot DEMO (D). הישארו ב־DEMO.",
     livePictureEmpty:
       "אין חיישנים חיים מחוברים — התצוגה הזו תופעל אחרי שילוב מכ״ם, AIS או מצלמות.",
     radarOffline: "מכ״ם לא מקוון — מוצגים רק AIS ומיקומים אחרונים ידועים",

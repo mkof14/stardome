@@ -1,3 +1,4 @@
+import { WATCH_SCENARIO_KEY } from "@/lib/demo-flagship";
 import {
   clearDemoLocalData,
   listBlackBox,
@@ -17,6 +18,7 @@ export const DEMO_CLEARED_EVENT = "starwall-demo-cleared";
 export async function wipeDemoLocalData() {
   await clearDemoLocalData();
   if (typeof window !== "undefined") {
+    window.localStorage.removeItem(WATCH_SCENARIO_KEY);
     window.dispatchEvent(new Event(DEMO_CLEARED_EVENT));
   }
 }
