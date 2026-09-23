@@ -140,6 +140,11 @@ export function PilotTalkWindow({
                     )}
                   >
                     {showing}
+                    {item.role === "assistant" && typingId === item.id ? (
+                      <span className="pilot-type-caret" aria-hidden>
+                        ▌
+                      </span>
+                    ) : null}
                   </p>
                 </div>
               );

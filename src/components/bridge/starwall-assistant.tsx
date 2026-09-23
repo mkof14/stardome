@@ -99,7 +99,7 @@ function messageId() {
   return `helm-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
 }
 
-const TYPE_MS = 28;
+const TYPE_MS = 34;
 
 export function Helm() {
   const pathname = usePathname();
@@ -612,6 +612,14 @@ export function Helm() {
   function haltWatch() {
     askGen.current += 1;
     sendingRef.current = false;
+    const clip = neuralRef.current;
+    if (clip) {
+      clip.volume = 0;
+      clip.pause();
+    }
+    if (typeof window !== "undefined" && window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
     stopDemo();
     stopSpeech();
     setTalkHud(false);
@@ -1344,36 +1352,70 @@ export function Helm() {
           "helm-scope relative flex h-[min(34rem,calc(100vh-8.5rem))] flex-col overflow-hidden rounded-2xl border border-bridge-line bg-bridge-panel text-bridge-text shadow-[0_20px_56px_rgb(15_25_34/0.18)]",
           "w-[min(24rem,calc(100vw-1.5rem))]",
         )}>
-          <header className="relative z-[1] flex shrink-0 items-center justify-between gap-2 border-b border-bridge-line bg-bridge-bg px-3 py-2">
-            <span
-              className="helm-fab-sweep pointer-events-none absolute -end-6 -top-10 h-28 w-28 rounded-full opacity-40"
-              style={{
-                background:
-                  "conic-gradient(from 200deg, transparent 0deg, transparent 300deg, rgb(241 90 0 / 0.45) 360deg)",
-              }}
-              aria-hidden
-            />
+          <header
+            className={cn(
+              "relative z-[1] flex shrink-0 items-center justify-between gap-2 border-b bg-bridge-bg px-3 py-2.5",
+              mic === "speaking"
+                ? "pilot-speak-focus border-orange/60"
+                : "border-bridge-line",
+            )}
+          >
             <div className="relative min-w-0">
-              <p className="flex items-center gap-2 font-body text-lg font-semibold tracking-tight text-bridge-text">
+              <p
+                data-testid="pilot-wordmark"
+                className={cn(
+                  "flex items-center gap-2 font-body font-bold tracking-tight",
+                  mic === "speaking" ? "text-2xl text-orange" : "text-xl text-bridge-text",
+                )}
+              >
                 <span
                   className={cn(
-                    "h-2.5 w-2.5 rounded-full",
+                    "h-3 w-3 rounded-full",
                     mic === "listening"
                       ? "bg-ok assistant-mic-listen"
                       : mic === "speaking"
                         ? "bg-orange assistant-mic-speak"
-                        : "bg-orange helm-idle-led",
+                        : "bg-ok helm-idle-led",
                   )}
                 />
                 {surface.title}
               </p>
-              <p className="truncate font-body text-sm text-bridge-dim">
-                {live
-                  ? surface.live
-                  : `${desk.post} · ${session.vessel} · ${session.riskLevel}`}
-              </p>
+              {mic === "speaking" ? (
+                <p
+                  data-testid="pilot-speaking"
+                  className="mt-0.5 font-body text-xs font-semibold uppercase tracking-wider text-orange"
+                >
+                  {surface.speaking}
+                </p>
+              ) : (
+                <p className="mt-0.5 flex items-center gap-1.5 font-body text-xs text-bridge-dim">
+                  <span
+                    data-testid="pilot-watch-post"
+                    className="pilot-watch-live inline-flex items-center gap-1 rounded-md bg-ok/15 px-1.5 py-0.5 font-semibold uppercase tracking-wide text-ok"
+                  >
+                    <span className="h-1.5 w-1.5 rounded-full bg-ok" aria-hidden />
+                    {live ? surface.live : desk.post}
+                  </span>
+                  {live ? null : (
+                    <span className="truncate">
+                      {session.vessel} · {session.riskLevel}
+                    </span>
+                  )}
+                </p>
+              )}
             </div>
-            <div className="relative flex shrink-0 items-start gap-1">
+            <div className="relative flex shrink-0 items-center gap-1">
+              {mic === "speaking" || drilling ? (
+                <button
+                  type="button"
+                  data-testid="assistant-stop-header"
+                  onClick={haltWatch}
+                  aria-label={surface.stop}
+                  className="flex h-8 items-center rounded-lg bg-attn px-2.5 font-body text-xs font-bold text-white hover:bg-attn/90"
+                >
+                  {surface.stop}
+                </button>
+              ) : null}
               <div ref={langRef} className="relative">
                 <button
                   type="button"
@@ -1383,24 +1425,26 @@ export function Helm() {
                   aria-label={helmHud.language}
                   title={helmHud.language}
                   onClick={() => setLangsOpen((value) => !value)}
-                  className="inline-flex min-w-[2.6rem] flex-col items-center gap-0.5 rounded-xl px-1.5 py-1 font-body text-[11px] font-medium text-bridge-text hover:bg-bridge-panel"
+                  className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-orange/50 bg-orange/10 px-2 font-body text-xs font-semibold text-orange hover:bg-orange/20"
                 >
-                  <HudGlyph name="globe" className="h-4 w-4" />
-                  {recogLang.toUpperCase()}
+                  <FlagIcon locale={recogLang} />
+                  <span className="max-w-[5.5rem] truncate">{localeMeta[recogLang].native}</span>
+                  <span aria-hidden className="text-[10px]">▾</span>
                 </button>
                 {langsOpen ? (
                   <ul
                     id={menuId}
-                    className="absolute end-0 z-20 mt-1 max-h-64 min-w-[11rem] overflow-auto rounded-xl border border-stroke bg-panel py-1 text-ink shadow-lg"
+                    data-testid="helm-lang-menu"
+                    className="absolute end-0 z-30 mt-1 max-h-64 min-w-[12rem] overflow-auto rounded-xl border border-stroke bg-panel py-1 text-ink shadow-lg"
                   >
                     {locales.map((code) => (
                       <li key={code}>
                         <button
                           type="button"
                           className={cn(
-                            "flex w-full items-center gap-2 px-2.5 py-1.5 text-start font-body text-sm",
+                            "flex w-full items-center gap-2 px-2.5 py-2 text-start font-body text-sm",
                             code === recogLang
-                              ? "text-orange"
+                              ? "bg-orange/10 text-orange"
                               : "text-ink hover:bg-page",
                           )}
                           onClick={() => selectPilotLang(code)}
@@ -1425,10 +1469,10 @@ export function Helm() {
                   setTalkHud(false);
                   setOpen(false);
                 }}
-                className="inline-flex min-w-[2.6rem] flex-col items-center gap-0.5 rounded-xl px-1.5 py-1 font-body text-[11px] font-medium text-bridge-dim hover:bg-bridge-panel hover:text-bridge-text"
+                className="inline-flex h-8 items-center rounded-lg px-2 font-body text-xs font-medium text-bridge-dim hover:bg-bridge-panel hover:text-bridge-text"
               >
-                <HudGlyph name="hide" className="h-4 w-4" />
-                {surface.hide}
+                <HudGlyph name="hide" className="h-3.5 w-3.5" />
+                <span className="sr-only sm:not-sr-only sm:ms-1">{surface.hide}</span>
               </button>
             </div>
           </header>
@@ -1492,6 +1536,11 @@ export function Helm() {
                   )}
                 >
                   {showing}
+                  {item.role === "assistant" && typingId === item.id ? (
+                    <span data-testid="pilot-type-caret" className="pilot-type-caret" aria-hidden>
+                      ▌
+                    </span>
+                  ) : null}
                 </div>
               );
             })}
@@ -1511,14 +1560,14 @@ export function Helm() {
           )}
 
           <div className="relative z-20 shrink-0 border-t border-bridge-line bg-bridge-bg px-3 py-2.5">
-            <div className="mb-2 flex items-center gap-2">
+            <div className="mb-2 flex items-center gap-1.5">
               {mic === "speaking" || drilling ? (
                 <button
                   type="button"
                   data-testid="assistant-stop"
                   onClick={haltWatch}
                   aria-label={surface.stop}
-                  className="flex h-11 shrink-0 items-center justify-center rounded-xl bg-attn px-3 font-body text-sm font-semibold text-white hover:bg-attn/90"
+                  className="flex h-8 shrink-0 items-center justify-center rounded-lg bg-attn px-2.5 font-body text-xs font-bold text-white hover:bg-attn/90"
                 >
                   {surface.stop}
                 </button>
@@ -1526,41 +1575,48 @@ export function Helm() {
               <button
                 type="button"
                 data-testid="assistant-mic"
+                data-on={mic === "listening" ? "true" : "false"}
                 onClick={() => void toggleMic()}
                 className={cn(
-                  "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border",
+                  "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border",
                   mic === "listening" && "assistant-mic-listen border-ok text-ok",
                   mic === "processing" && "border-attn text-attn",
                   mic === "speaking" && "assistant-mic-speak border-orange text-orange",
-                  mic === "idle" && "border-bridge-line text-bridge-dim hover:text-bridge-text",
+                  mic === "idle" && "border-attn/60 bg-attn/10 text-attn",
                 )}
                 aria-label={
                   mic === "listening" ? helmHud.listenStop : helmHud.listenStart
                 }
               >
                 {mic === "processing" ? (
-                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-attn border-t-transparent" />
+                  <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-attn border-t-transparent" />
                 ) : (
-                  <svg viewBox="0 0 16 16" className="h-4 w-4" aria-hidden>
-                    <path
-                      fill="currentColor"
-                      d="M8 1.5A2.2 2.2 0 0 0 5.8 3.7v3.1a2.2 2.2 0 1 0 4.4 0V3.7A2.2 2.2 0 0 0 8 1.5Zm-4 5.4a.7.7 0 0 0-1.4 0 5.4 5.4 0 0 0 4.7 5.3v1.6H6.1a.7.7 0 0 0 0 1.4h3.8a.7.7 0 0 0 0-1.4H8.7v-1.6A5.4 5.4 0 0 0 13.4 6.9a.7.7 0 0 0-1.4 0 4 4 0 0 1-8 0Z"
-                    />
-                  </svg>
+                  <span className="relative inline-flex h-4 w-4" aria-hidden>
+                    <svg viewBox="0 0 16 16" className="h-4 w-4">
+                      <path
+                        fill="currentColor"
+                        d="M8 1.5A2.2 2.2 0 0 0 5.8 3.7v3.1a2.2 2.2 0 1 0 4.4 0V3.7A2.2 2.2 0 0 0 8 1.5Zm-4 5.4a.7.7 0 0 0-1.4 0 5.4 5.4 0 0 0 4.7 5.3v1.6H6.1a.7.7 0 0 0 0 1.4h3.8a.7.7 0 0 0 0-1.4H8.7v-1.6A5.4 5.4 0 0 0 13.4 6.9a.7.7 0 0 0-1.4 0 4 4 0 0 1-8 0Z"
+                      />
+                    </svg>
+                    {mic === "idle" ? (
+                      <span
+                        data-testid="assistant-mic-off"
+                        className="pointer-events-none absolute inset-x-0 top-1/2 h-0.5 -rotate-45 bg-current"
+                      />
+                    ) : null}
+                  </span>
                 )}
               </button>
-              <div className="min-w-0 flex-1">
-                <PilotSoundDock
-                  voiceOn={voiceOn}
-                  speaking={mic === "speaking"}
-                  listening={mic === "listening"}
-                  levels={levels}
-                  peak={peak}
-                  soundOnLabel={surface.speakerOn}
-                  soundOffLabel={surface.speakerOff}
-                  onToggle={toggleSpeaker}
-                />
-              </div>
+              <PilotSoundDock
+                voiceOn={voiceOn}
+                speaking={mic === "speaking"}
+                listening={mic === "listening"}
+                levels={levels}
+                peak={peak}
+                soundOnLabel={surface.speakerOn}
+                soundOffLabel={surface.speakerOff}
+                onToggle={toggleSpeaker}
+              />
             </div>
             {micError ? (
               <p className="mb-2 font-body text-sm text-attn">{micError}</p>

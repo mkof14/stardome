@@ -46,6 +46,12 @@ describe("pilot orders", () => {
     }
   });
 
+  it("halts when any short order contains stop", () => {
+    expect(isHaltOrder("пилот стоп")).toBe(true);
+    expect(isHaltOrder("заткнись")).toBe(true);
+    expect(isHaltOrder("stop talking now")).toBe(true);
+  });
+
   it("keeps listen as listen, not a chat turn", () => {
     expect(isListenOrder("слушай")).toBe(true);
     expect(pilotOrder("listen please")).toBe("listen");

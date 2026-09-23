@@ -191,7 +191,7 @@ export function PilotSoundDock({
     <div
       data-testid="pilot-sound-dock"
       className={cn(
-        "flex h-11 items-center gap-2 rounded-xl border px-2",
+        "flex h-8 w-[7.5rem] shrink-0 items-center gap-1 rounded-lg border px-1.5",
         live
           ? "border-ok/50 bg-ok/5"
           : voiceOn
@@ -207,7 +207,7 @@ export function PilotSoundDock({
         aria-label={voiceOn ? soundOnLabel : soundOffLabel}
         title={voiceOn ? soundOnLabel : soundOffLabel}
         className={cn(
-          "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg",
+          "flex h-6 w-6 shrink-0 items-center justify-center rounded-md",
           voiceOn ? "bg-ok/15 text-ok" : "bg-attn/15 text-attn",
         )}
       >
@@ -221,7 +221,7 @@ export function PilotSoundDock({
           onToggle={onToggleCues}
         />
       ) : null}
-      <StudioVu levels={levels} peak={Boolean(peak)} live={live} />
+      <StudioVu levels={levels} peak={Boolean(peak)} live={live} compact />
     </div>
   );
 }

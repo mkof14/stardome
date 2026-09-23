@@ -15,11 +15,13 @@ export function StudioVu({
   peak,
   live,
   vertical,
+  compact,
 }: {
   levels: number[];
   peak: boolean;
   live: boolean;
   vertical?: boolean;
+  compact?: boolean;
 }) {
   const bars = levels.length ? levels : Array.from({ length: STUDIO_BARS }, () => 0);
   const litCount = live
@@ -34,7 +36,9 @@ export function StudioVu({
         "flex",
         vertical
           ? "h-full w-4 flex-col-reverse items-center gap-0.5"
-          : "h-10 min-w-0 flex-1 items-end gap-0.5",
+          : compact
+            ? "h-6 w-[4.5rem] shrink-0 items-end gap-px"
+            : "h-10 min-w-0 flex-1 items-end gap-0.5",
       )}
       aria-hidden
     >
@@ -48,7 +52,7 @@ export function StudioVu({
             key={index}
             data-band={band}
             data-lit={lit ? "1" : "0"}
-            className={vertical ? "w-full min-h-[3px] flex-1" : "w-2"}
+            className={vertical ? "w-full min-h-[3px] flex-1" : compact ? "w-1" : "w-2"}
             style={{
               height: vertical ? undefined : `${size}%`,
               background: color,

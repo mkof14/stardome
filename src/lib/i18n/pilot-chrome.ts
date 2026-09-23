@@ -3,6 +3,7 @@ import type { Locale } from "@/lib/i18n/locales";
 /** Visible Pilot chrome. Looked up with a switch so a language change cannot keep the previous label. */
 export type PilotChrome = {
   title: string;
+  speaking: string;
   advisor: string;
   ask: string;
   send: string;
@@ -18,6 +19,7 @@ export type PilotChrome = {
 const PILOT_CHROME = {
   en: {
     title: "Pilot",
+    speaking: "Speaking",
     advisor: "WATCH ADVISOR",
     ask: "Ask Pilot…",
     send: "Send",
@@ -31,6 +33,7 @@ const PILOT_CHROME = {
   },
   es: {
     title: "Pilot",
+    speaking: "Habla",
     advisor: "ASESOR DE GUARDIA",
     ask: "Preguntar a Pilot…",
     send: "Enviar",
@@ -44,6 +47,7 @@ const PILOT_CHROME = {
   },
   fr: {
     title: "Pilot",
+    speaking: "Parle",
     advisor: "CONSEILLER DE QUART",
     ask: "Demander à Pilot…",
     send: "Envoyer",
@@ -57,6 +61,7 @@ const PILOT_CHROME = {
   },
   de: {
     title: "Pilot",
+    speaking: "Spricht",
     advisor: "WACHBERATER",
     ask: "Pilot fragen…",
     send: "Senden",
@@ -70,6 +75,7 @@ const PILOT_CHROME = {
   },
   ru: {
     title: "Pilot",
+    speaking: "Говорит",
     advisor: "СОВЕТНИК ВАХТЫ",
     ask: "Спросить Pilot…",
     send: "Отправить",
@@ -83,6 +89,7 @@ const PILOT_CHROME = {
   },
   uk: {
     title: "Pilot",
+    speaking: "Говорить",
     advisor: "РАДНИК ВАХТИ",
     ask: "Запитати Pilot…",
     send: "Надіслати",
@@ -96,6 +103,7 @@ const PILOT_CHROME = {
   },
   ar: {
     title: "Pilot",
+    speaking: "يتكلم",
     advisor: "مستشار الخفارة",
     ask: "اسأل Pilot…",
     send: "إرسال",
@@ -109,6 +117,7 @@ const PILOT_CHROME = {
   },
   zh: {
     title: "Pilot",
+    speaking: "正在说",
     advisor: "值班顾问",
     ask: "询问 Pilot…",
     send: "发送",
@@ -122,6 +131,7 @@ const PILOT_CHROME = {
   },
   ja: {
     title: "Pilot",
+    speaking: "発話中",
     advisor: "当直アドバイザー",
     ask: "Pilot に尋ねる…",
     send: "送信",
@@ -135,6 +145,7 @@ const PILOT_CHROME = {
   },
   he: {
     title: "Pilot",
+    speaking: "מדבר",
     advisor: "יועץ משמרת",
     ask: "לשאול את Pilot…",
     send: "שליחה",

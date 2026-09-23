@@ -32,6 +32,7 @@ describe("pilotChrome", () => {
       expect(pilotHide(code)).toBe(surface.helmHide);
       expect(chrome.hide.length).toBeGreaterThan(0);
       expect(chrome.stop.length).toBeGreaterThan(0);
+      expect(chrome.speaking.length).toBeGreaterThan(0);
       if (previous) expect(chrome.hide).not.toBe(previous);
       previous = chrome.hide;
     }

@@ -16,6 +16,10 @@ const HALT = new Set([
   "молчи",
   "замолчи",
   "хватит",
+  "заткнись",
+  "молчать",
+  "silence",
+  "hush",
   "прекрати",
   "прекратите",
   "зупинись",
@@ -89,8 +93,8 @@ export function isHaltOrder(heard: string) {
     .split(" ")
     .filter(Boolean)
     .filter((word) => !FILLER.has(word));
-  if (!words.length || words.length > 3) return false;
-  return words.every((word) => HALT.has(word));
+  if (!words.length || words.length > 6) return false;
+  return words.some((word) => HALT.has(word));
 }
 
 export function isListenOrder(heard: string) {

@@ -823,6 +823,38 @@ html[data-pilot-speak-tone="warn"] #connected-systems-panel {
   animation: helm-idle-glow 1.6s ease-in-out infinite;
 }
 
+@keyframes pilot-watch-live {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(51 211 166 / 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgb(51 211 166 / 0);
+  }
+}
+
+.pilot-watch-live {
+  animation: pilot-watch-live 1.4s ease-in-out infinite;
+}
+
+@keyframes pilot-type-caret {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.pilot-type-caret {
+  display: inline-block;
+  margin-inline-start: 1px;
+  animation: pilot-type-caret 0.7s step-end infinite;
+  color: #f15a00;
+}
+
 #bridge-root:fullscreen,
 #bridge-root:-webkit-full-screen {
   min-height: 100vh;

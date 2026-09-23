@@ -626,39 +626,75 @@ export function PilotDeskBar({
       glyph: "comms",
     },
   ];
+  const accent: Record<
+    PilotScreen,
+    { ink: string; on: string; wash: string; ring: string }
+  > = {
+    chat: {
+      ink: "text-orange",
+      on: "bg-orange text-white",
+      wash: "bg-orange/12",
+      ring: "border-orange",
+    },
+    instruments: {
+      ink: "text-[#38BDF8]",
+      on: "bg-[#38BDF8] text-white",
+      wash: "bg-[#38BDF8]/12",
+      ring: "border-[#38BDF8]",
+    },
+    advice: {
+      ink: "text-[#C99700]",
+      on: "bg-[#F5C518] text-bridge-bg",
+      wash: "bg-[#F5C518]/15",
+      ring: "border-[#F5C518]",
+    },
+    comms: {
+      ink: "text-ok",
+      on: "bg-ok text-white",
+      wash: "bg-ok/12",
+      ring: "border-ok",
+    },
+  };
+
   return (
     <div data-testid="pilot-desk-bar" className="grid grid-cols-4 gap-1.5">
-      {buttons.map((item) => (
-        <button
-          key={item.id}
-          type="button"
-          data-testid={item.testId}
-          aria-pressed={screen === item.id}
-          onClick={() => onScreen(item.id)}
-          className={cn(
-            "flex flex-col items-center gap-1 rounded-xl px-1 py-2 font-body text-[11px] font-medium leading-tight",
-            spoken === item.id && speaking
-              ? "pilot-speak-tab bg-[#38BDF8] text-white"
-              : screen === item.id
-                ? "bg-bridge-text text-bridge-bg"
-              : item.hot
-                ? "bg-crit/10 text-crit"
-                : "bg-bridge-panel text-bridge-dim hover:bg-bridge-bg hover:text-bridge-text",
-            item.id === "advice" && (urgent || notePulse) && screen !== "advice" && "pilot-tab-blink",
-            item.id === "comms" && urgent && screen !== "comms" && "pilot-tab-blink",
-          )}
-        >
-          <span
+      {buttons.map((item) => {
+        const tone = accent[item.id];
+        const current = screen === item.id;
+        const voiced = spoken === item.id && speaking;
+        return (
+          <button
+            key={item.id}
+            type="button"
+            data-testid={item.testId}
+            data-accent={item.id}
+            aria-pressed={current}
+            onClick={() => onScreen(item.id)}
             className={cn(
-              "flex h-8 w-8 items-center justify-center rounded-lg",
-              screen === item.id ? "bg-white/15" : "bg-bridge-bg",
+              "flex flex-col items-center gap-1 rounded-xl border px-1 py-2 font-body text-[11px] font-semibold leading-tight transition duration-150",
+              voiced
+                ? cn("pilot-speak-tab text-white", tone.on)
+                : current
+                  ? tone.on
+                  : item.hot
+                    ? "border-crit bg-crit/10 text-crit"
+                    : cn("bg-bridge-panel", tone.ring, tone.ink, "hover:brightness-110"),
+              item.id === "advice" && (urgent || notePulse) && !current && "pilot-tab-blink",
+              item.id === "comms" && urgent && !current && "pilot-tab-blink",
             )}
           >
-            <HudGlyph name={item.glyph} className="h-4 w-4" />
-          </span>
-          <span className="text-center">{item.label}</span>
-        </button>
-      ))}
+            <span
+              className={cn(
+                "flex h-8 w-8 items-center justify-center rounded-lg",
+                current || voiced ? "bg-white/20" : tone.wash,
+              )}
+            >
+              <HudGlyph name={item.glyph} className="h-4 w-4" />
+            </span>
+            <span className="text-center">{item.label}</span>
+          </button>
+        );
+      })}
     </div>
   );
 }
