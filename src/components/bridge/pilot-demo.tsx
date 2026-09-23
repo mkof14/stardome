@@ -65,6 +65,8 @@ function DockBtn({
 export function PilotDemoDock({
   running,
   copy,
+  cuesOn,
+  onToggleCues,
   onPlay,
   onStop,
   onBack,
@@ -73,6 +75,8 @@ export function PilotDemoDock({
 }: {
   running: boolean;
   copy: PilotDemoCopy;
+  cuesOn: boolean;
+  onToggleCues: () => void;
   onPlay: () => void;
   onStop: () => void;
   onBack: () => void;
@@ -92,6 +96,13 @@ export function PilotDemoDock({
           <DockBtn testId="pilot-demo-next" label={copy.next} icon="next" onClick={onNext} />
         </div>
       ) : null}
+      <PilotCueToggle
+        compact
+        on={cuesOn}
+        onLabel={copy.signalsOn}
+        offLabel={copy.signalsOff}
+        onToggle={onToggleCues}
+      />
       <PilotDemoIcon
         running={running}
         label={running ? copy.stop : copy.play}
@@ -124,14 +135,26 @@ export function PilotCueToggle({
       aria-label={on ? onLabel : offLabel}
       title={on ? onLabel : offLabel}
       className={cn(
-        "flex shrink-0 items-center justify-center rounded-xl",
-        compact ? "h-12 w-12 border border-bridge-line bg-bridge-panel" : "h-8 w-8",
-        on ? "text-[#38BDF8]" : "text-attn",
-        compact && on && "border-[#38BDF8]/50",
-        compact && !on && "border-attn/50 bg-attn/10",
+        "relative flex shrink-0 items-center justify-center",
+        compact
+          ? "h-12 w-12 overflow-hidden rounded-full border bg-bridge-bg"
+          : "h-8 w-8 rounded-lg",
+        on
+          ? compact
+            ? "border-[#38BDF8] text-[#38BDF8]"
+            : "text-[#38BDF8]"
+          : compact
+            ? "border-attn text-attn"
+            : "text-attn",
       )}
     >
-      <HudGlyph name="bell" className={compact ? "h-4 w-4" : "h-4 w-4"} />
+      <HudGlyph name="bell" className="h-4 w-4" />
+      {on ? null : (
+        <span
+          className="pointer-events-none absolute inset-x-3 top-1/2 h-px -rotate-45 bg-current"
+          aria-hidden
+        />
+      )}
     </button>
   );
 }

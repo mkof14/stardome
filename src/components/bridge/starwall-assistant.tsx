@@ -49,7 +49,6 @@ import {
   type NeuralVoiceStatus,
 } from "@/lib/pilot-voice";
 import {
-  PilotCueToggle,
   PilotDemoDock,
   PilotDemoStage,
   PilotSoundDock,
@@ -1459,18 +1458,13 @@ export function Helm() {
         <PilotDemoDock
           running={drilling}
           copy={demoCopy}
+          cuesOn={cuesOn}
+          onToggleCues={toggleCues}
           onPlay={() => void runDemo()}
           onStop={stopDemo}
           onBack={() => controlDemo("back")}
           onNext={() => controlDemo("next")}
           onReset={() => controlDemo("reset")}
-        />
-        <PilotCueToggle
-          compact
-          on={cuesOn}
-          onLabel={demoCopy.signalsOn}
-          offLabel={demoCopy.signalsOff}
-          onToggle={toggleCues}
         />
         <button
           type="button"
