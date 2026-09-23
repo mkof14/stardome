@@ -891,7 +891,6 @@ export function Helm() {
     setUnread(false);
     setVoiceOn(true);
     voiceOnRef.current = true;
-    setTalkHud(true);
     const beats = demoBeats(session, recogLang);
     const start = Math.max(0, from ?? 0);
     setDemoTotal(beats.length);
@@ -928,7 +927,6 @@ export function Helm() {
     setDemoBeat(null);
     releaseBarge();
     setMic("idle");
-    setTalkHud(true);
   }
 
   async function sendMessage(text: string) {
@@ -1048,12 +1046,12 @@ export function Helm() {
 
   if (isAuthRoute(pathname) || !helmAllowed) return null;
 
-  const showTalk = talkHud || drilling;
+  const showTalk = talkHud && !drilling;
 
   return (
     <div
       data-testid="starwall-assistant"
-      className="fixed bottom-4 end-4 z-[70] flex flex-col items-end font-body"
+      className="fixed bottom-4 end-4 z-[210] flex flex-col items-end font-body"
     >
       {showTalk ? (
         <PilotTalkWindow
