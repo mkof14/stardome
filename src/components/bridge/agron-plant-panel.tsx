@@ -1,7 +1,7 @@
 "use client";
 
 import { HudPanel } from "@/components/bridge/hud-panel";
-import { HudGlyph, type HudGlyphName } from "@/components/bridge/hud-icons";
+import { type HudGlyphName } from "@/components/bridge/hud-icons";
 import { cn } from "@/lib/cn";
 import { useBlackBox } from "@/lib/black-box";
 import type { EquipmentId } from "@/lib/equipment";

@@ -869,7 +869,7 @@ export function BridgeConsole() {
               id="connected-systems-panel"
               testId="connected-systems-panel"
               className="scroll-mt-20"
-              title={t.bridge.connected}
+              title={plantCopy(locale).kitTitle}
               glyph="systems"
               extra={
                 <div className="flex flex-wrap items-center justify-end gap-2">
