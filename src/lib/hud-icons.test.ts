@@ -25,6 +25,10 @@ const REQUIRED = [
   "reset",
   "compress",
   "bell",
+  "drone",
+  "pulse",
+  "laser",
+  "antiAir",
 ] as const;
 
 describe("HUD cockpit glyphs", () => {

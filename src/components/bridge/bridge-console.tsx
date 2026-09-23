@@ -21,6 +21,8 @@ import { SessionReport } from "@/components/bridge/session-report";
 import { SituationalScope } from "@/components/bridge/situational-scope";
 import { TrainingTour } from "@/components/bridge/training-tour";
 import { ViewSwitcher } from "@/components/bridge/view-switcher";
+import { DetectionProtectPanel } from "@/components/bridge/detection-protect-panel";
+import { GeoCenterPanel } from "@/components/bridge/geo-center-panel";
 import { WatchKitPanel } from "@/components/bridge/watch-kit-panel";
 import { UtcClock } from "@/components/bridge/utc-clock";
 import { AUTOMATED_ACTIONS } from "@/lib/automated-actions";
@@ -1024,6 +1026,11 @@ export function BridgeConsole() {
               </>
             )}
           </div>
+        </div>
+
+        <div className={cn("space-y-5", crisis || view === "plant" ? "hidden" : undefined)}>
+          <GeoCenterPanel live={live} panelType={panelType} scenarioId={selectedId} />
+          <DetectionProtectPanel live={live} scenarioId={selectedId} />
         </div>
 
         <div className={crisis || view === "plant" ? "hidden" : undefined}>

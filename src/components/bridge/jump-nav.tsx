@@ -44,6 +44,14 @@ const ITEMS: JumpItem[] = [
     icon: <HudGlyph name="picture" className={ICON} />,
   },
   {
+    id: "geoCenter",
+    kind: "scroll",
+    targetId: "geo-center-panel",
+    hideInCrisis: true,
+    views: ["watch"],
+    icon: <HudGlyph name="compass" className={ICON} />,
+  },
+  {
     id: "risk",
     kind: "scroll",
     targetId: "risk-level-panel",
@@ -58,6 +66,14 @@ const ITEMS: JumpItem[] = [
     hideInCrisis: true,
     views: ["watch"],
     icon: <HudGlyph name="systems" className={ICON} />,
+  },
+  {
+    id: "detectProtect",
+    kind: "scroll",
+    targetId: "detection-protect-panel",
+    hideInCrisis: true,
+    views: ["watch"],
+    icon: <HudGlyph name="shield" className={ICON} />,
   },
   {
     id: "action",

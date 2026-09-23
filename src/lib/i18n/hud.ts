@@ -28,6 +28,8 @@ export type HudCopy = {
     compute: string;
     storage: string;
     starlink: string;
+    detectProtect: string;
+    geoCenter: string;
   };
   mode: {
     group: string;
@@ -295,6 +297,8 @@ const en: HudCopy = {
     compute: "Compute",
     storage: "Storage",
     starlink: "Starlink",
+    detectProtect: "Detection and protection",
+    geoCenter: "Geoinformation centre",
   },
   mode: {
     group: "Deployment mode",
@@ -606,6 +610,8 @@ const ru = overlay({
     compute: "Вычислители",
     storage: "Хранение",
     starlink: "Starlink",
+    detectProtect: "Обнаружение и защита",
+    geoCenter: "Геоинформационный центр",
   },
   mode: { group: "Режим развёртывания", demo: "DEMO", live: "LIVE" },
   chrome: {
@@ -891,6 +897,8 @@ const es = overlay({
     compute: "Cómputo",
     storage: "Almacén",
     starlink: "Starlink",
+    detectProtect: "Detección y protección",
+    geoCenter: "Centro de geoinformación",
   },
   mode: { group: "Modo de despliegue", demo: "DEMO", live: "LIVE" },
   chrome: {
@@ -1177,6 +1185,8 @@ const fr = overlay({
     compute: "Calcul",
     storage: "Stockage",
     starlink: "Starlink",
+    detectProtect: "Détection et protection",
+    geoCenter: "Centre de géoinformation",
   },
   mode: { group: "Mode de déploiement", demo: "DEMO", live: "LIVE" },
   chrome: {
@@ -1463,6 +1473,8 @@ const de = overlay({
     compute: "Rechner",
     storage: "Speicher",
     starlink: "Starlink",
+    detectProtect: "Ortung und Schutz",
+    geoCenter: "Geoinformationszentrum",
   },
   mode: { group: "Einsatzmodus", demo: "DEMO", live: "LIVE" },
   chrome: {
@@ -1749,6 +1761,8 @@ const uk = overlay({
     compute: "Обчислювачі",
     storage: "Сховище",
     starlink: "Starlink",
+    detectProtect: "Виявлення і захист",
+    geoCenter: "Геоінформаційний центр",
   },
   mode: { group: "Режим розгортання", demo: "DEMO", live: "LIVE" },
   chrome: {
@@ -2034,6 +2048,8 @@ const ar = overlay({
     compute: "الحواسيب",
     storage: "التخزين",
     starlink: "Starlink",
+    detectProtect: "الكشف والحماية",
+    geoCenter: "مركز المعلومات الجغرافية",
   },
   mode: { group: "وضع النشر", demo: "DEMO", live: "LIVE" },
   chrome: {
@@ -2319,6 +2335,8 @@ const zh = overlay({
     compute: "计算",
     storage: "存储",
     starlink: "Starlink",
+    detectProtect: "探测与防护",
+    geoCenter: "地理信息中心",
   },
   mode: { group: "部署模式", demo: "DEMO", live: "LIVE" },
   chrome: {
@@ -2597,6 +2615,8 @@ const ja = overlay({
     compute: "計算機",
     storage: "保管",
     starlink: "Starlink",
+    detectProtect: "探知と防護",
+    geoCenter: "地理情報センター",
   },
   mode: { group: "展開モード", demo: "DEMO", live: "LIVE" },
   chrome: {
@@ -2878,6 +2898,8 @@ const he = overlay({
     compute: "מחשבים",
     storage: "אחסון",
     starlink: "Starlink",
+    detectProtect: "גילוי והגנה",
+    geoCenter: "מרכז מידע גיאוגרפי",
   },
   mode: { group: "מצב פריסה", demo: "DEMO", live: "LIVE" },
   chrome: {

@@ -88,6 +88,8 @@ describe("jump labels", () => {
       expect(jump.captain.length).toBeGreaterThan(0);
       expect(jump.comms.length).toBeGreaterThan(0);
       expect(jump.starlink).toMatch(/Starlink/);
+      expect(jump.detectProtect.length).toBeGreaterThan(4);
+      expect(jump.geoCenter.length).toBeGreaterThan(4);
       expect(messagesFor(code).surface.connectionsKicker).toMatch(/STARWALL/);
       expect(messagesFor(code).surface.connectionsKicker).not.toMatch(/BRIDGE/);
     }
