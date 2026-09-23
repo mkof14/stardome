@@ -18,9 +18,9 @@ export function vuBand(index: number, count: number): VuBand {
 }
 
 export function vuBandColor(band: VuBand, lit: boolean): string {
-  if (band === "red") return lit ? VU_RED : "rgb(220 38 38 / 0.22)";
-  if (band === "yellow") return lit ? VU_YELLOW : "rgb(245 197 24 / 0.22)";
-  return lit ? VU_GREEN : "rgb(51 211 166 / 0.18)";
+  if (band === "red") return lit ? VU_RED : "rgb(220 38 38 / 0.45)";
+  if (band === "yellow") return lit ? VU_YELLOW : "rgb(245 197 24 / 0.45)";
+  return lit ? VU_GREEN : "rgb(51 211 166 / 0.42)";
 }
 
 export type StudioReading = {

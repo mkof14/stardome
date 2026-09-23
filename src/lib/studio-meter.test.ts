@@ -45,7 +45,7 @@ describe("studio meter", () => {
     expect(vuBarColor(0, STUDIO_BARS, true, false)).toBe(VU_GREEN);
     expect(vuBarColor(6, STUDIO_BARS, true, false)).toBe(VU_YELLOW);
     expect(vuBarColor(STUDIO_BARS - 1, STUDIO_BARS, true, false)).toBe(VU_RED);
-    expect(vuBarColor(0, STUDIO_BARS, false, false)).toMatch(/0\.18/);
+    expect(vuBarColor(0, STUDIO_BARS, false, false)).toMatch(/0\.42/);
     expect(vuBarColor(6, STUDIO_BARS, false, false)).toMatch(/245 197 24/);
 
     const hot = meterFromTimeDomain(sine(PEAK_SAMPLE + 0.05));

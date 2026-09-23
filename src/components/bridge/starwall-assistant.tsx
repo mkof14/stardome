@@ -52,14 +52,12 @@ import {
   pickVoice,
   SPEAK_BCP47,
   SpeechEngine,
-  voiceNeed,
   type NeuralVoiceStatus,
 } from "@/lib/pilot-voice";
 import {
   PilotDemoDock,
   PilotDemoStage,
   PilotSoundDock,
-  PilotVoiceNeed,
   PilotWatchCalls,
 } from "@/components/bridge/pilot-demo";
 import {
@@ -185,7 +183,6 @@ export function Helm() {
   const desk = pilotDeskCopy(recogLang);
   const demoCopy = pilotDemoCopy(recogLang);
   const watch = buildPilotWatch(session, recogLang);
-  const need = voiceNeed(recogLang, voices, neural);
   openRef.current = open;
   voiceOnRef.current = voiceOn;
   cuesOnRef.current = cuesOn;
@@ -1049,6 +1046,7 @@ export function Helm() {
     setDrilling(false);
     setDemoBeat(null);
     setTalkHud(false);
+    setScreen("chat");
     publishPilotSpeakFocus({ focus: null, speaking: false });
     stopSpeech();
     if (was) cue("stop");
@@ -1136,6 +1134,7 @@ export function Helm() {
     setDrilling(false);
     setDemoBeat(null);
     setTalkHud(false);
+    setScreen("chat");
     publishPilotSpeakFocus({ focus: null, speaking: false });
     releaseBarge();
     cue("stop");
@@ -1444,11 +1443,6 @@ export function Helm() {
                 if (next === "advice") setNotePulse(false);
               }}
             />
-            {!drilling ? (
-              <div className="mt-1.5">
-                <PilotVoiceNeed locale={recogLang} need={need} />
-              </div>
-            ) : null}
           </div>
           {drilling && demoBeat ? (
             <PilotDemoStage
