@@ -1416,8 +1416,8 @@ export function Helm() {
       {open ? (
         <div className="relative flex max-h-[calc(100vh-8.5rem)] flex-col items-end">
         <section className={cn(
-          "helm-scope relative flex h-[min(34rem,calc(100vh-8.5rem))] flex-col overflow-hidden rounded-2xl border border-bridge-line bg-bridge-panel text-bridge-text shadow-[0_20px_56px_rgb(15_25_34/0.18)]",
-          "w-[min(24rem,calc(100vw-1.5rem))]",
+          "helm-scope relative flex h-[min(42rem,calc(100vh-8.5rem))] flex-col overflow-hidden rounded-2xl border border-bridge-line bg-bridge-panel text-bridge-text shadow-[0_20px_56px_rgb(15_25_34/0.18)]",
+          "w-[min(30rem,calc(100vw-1.5rem))]",
         )}>
           <header
             className={cn(
@@ -1432,7 +1432,7 @@ export function Helm() {
                 data-testid="pilot-wordmark"
                 className={cn(
                   "flex items-center gap-2 font-body font-bold tracking-tight",
-                  mic === "speaking" ? "text-2xl text-orange" : "text-xl text-bridge-text",
+                  mic === "speaking" ? "text-3xl text-orange" : "text-3xl text-bridge-text",
                 )}
               >
                 <span
@@ -1791,7 +1791,7 @@ export function Helm() {
           aria-pressed={open}
           aria-label={open ? surface.hide : surface.open}
           className={cn(
-            "relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full border border-orange bg-bridge-panel text-orange",
+            "relative flex h-20 min-w-[5rem] shrink-0 items-center gap-2 overflow-hidden rounded-full border border-orange bg-bridge-panel px-4 text-orange",
             (unread || (!open && watch.urgent)) && (watch.urgent ? "helm-fab-pulse-urgent" : "helm-fab-pulse"),
             open && "bg-orange/10",
           )}
@@ -1804,7 +1804,7 @@ export function Helm() {
             }}
             aria-hidden
           />
-          <svg viewBox="0 0 48 48" className="relative h-8 w-8" aria-hidden>
+          <svg viewBox="0 0 48 48" className="relative h-10 w-10 shrink-0" aria-hidden>
             <circle
               cx="24"
               cy="24"
@@ -1822,6 +1822,9 @@ export function Helm() {
             />
             <circle cx="24" cy="24" r="2.2" fill="#F15A00" className="helm-idle-led" />
           </svg>
+          <span className="relative font-body text-base font-bold leading-none">
+            {surface.title}
+          </span>
         </button>
       </div>
     </div>

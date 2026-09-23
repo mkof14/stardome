@@ -27,12 +27,12 @@ export function PilotDemoIcon({
       aria-label={label}
       title={label}
       onClick={onClick}
-      className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[#38BDF8] bg-bridge-bg font-body text-[#38BDF8]"
+      className="relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[#38BDF8] bg-bridge-bg font-body text-[#38BDF8]"
     >
       {running ? (
         <span className="demo-fab-ring pointer-events-none absolute inset-0 rounded-full" aria-hidden />
       ) : null}
-      <span className="relative text-lg font-semibold leading-none">D</span>
+      <span className="relative text-2xl font-semibold leading-none">D</span>
     </button>
   );
 }
@@ -84,7 +84,7 @@ export function PilotDemoDock({
   onReset: () => void;
 }) {
   return (
-    <div data-testid="pilot-demo-dock" className="flex h-16 items-end gap-1">
+    <div data-testid="pilot-demo-dock" className="flex h-20 items-end gap-1">
       {running ? (
         <div
           data-testid="pilot-demo-transport"
