@@ -145,12 +145,12 @@ export default function RootLayout({
             <AuthSessionProvider>
               <BridgeSessionProvider>
                 <AgronViewProvider>
-                <BlackBoxProvider>
-                  <SiteHeader />
-                  <main className="flex-1">{children}</main>
-                  <SiteFooter />
-                  <Helm />
-                </BlackBoxProvider>
+                  <BlackBoxProvider>
+                    <SiteHeader />
+                    <main className="flex-1">{children}</main>
+                    <SiteFooter />
+                    <Helm />
+                  </BlackBoxProvider>
                 </AgronViewProvider>
               </BridgeSessionProvider>
             </AuthSessionProvider>
