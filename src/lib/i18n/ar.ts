@@ -461,7 +461,7 @@ export const ar: Messages = {
   bridge: {
     title: "AGRON 1",
     watchKicker: "خفارة",
-    subtitle: "خفارة الربان وضابط الأمن",
+    subtitle: "محطة المناوبة / مكتب الخفارة",
     roleCaptain: "الربان",
     roleOfficer: "ضابط الخفارة",
     mobileNotice: "تُعرض هذه الواجهة بأفضل شكل على شاشة أكبر.",

@@ -461,7 +461,7 @@ export const fr: Messages = {
   bridge: {
     title: "AGRON 1",
     watchKicker: "QUART",
-    subtitle: "Quart du capitaine et de l’officier",
+    subtitle: "Poste de quart / Bureau de quart",
     roleCaptain: "Capitaine",
     roleOfficer: "Officier de quart",
     mobileNotice: "Cette interface se consulte mieux sur un grand écran.",

@@ -1186,7 +1186,7 @@ export const en: Messages = {
   bridge: {
     title: "AGRON 1",
     watchKicker: "WATCH",
-    subtitle: "Watch for the captain and the officer",
+    subtitle: "Duty Station / Watch Desk",
     roleCaptain: "Captain",
     roleOfficer: "Officer of the watch",
     mobileNotice: "This interface is best viewed on a larger screen.",

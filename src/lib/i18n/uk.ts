@@ -461,7 +461,7 @@ export const uk: Messages = {
   bridge: {
     title: "AGRON 1",
     watchKicker: "ВАХТА",
-    subtitle: "Вахта капітана та офіцера охорони",
+    subtitle: "Черговий пост",
     roleCaptain: "Капітан",
     roleOfficer: "Офіцер охорони",
     mobileNotice: "Цей інтерфейс краще дивитися на великому екрані.",

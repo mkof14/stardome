@@ -459,7 +459,7 @@ export const zh: Messages = {
   bridge: {
     title: "AGRON 1",
     watchKicker: "值班",
-    subtitle: "船长与值班军官的值班台",
+    subtitle: "值班台 / 值班桌",
     roleCaptain: "船长",
     roleOfficer: "值班军官",
     mobileNotice: "此界面在较大屏幕上查看效果更好。",

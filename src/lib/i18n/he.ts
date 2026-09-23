@@ -459,7 +459,7 @@ export const he: Messages = {
   bridge: {
     title: "AGRON 1",
     watchKicker: "משמרת",
-    subtitle: "משמרת לרב־חובל ולקצין",
+    subtitle: "עמדת משמרת / שולחן משמרת",
     roleCaptain: "רב־חובל",
     roleOfficer: "קצין משמרת",
     mobileNotice: "הממשק הזה נראה טוב יותר במסך גדול.",

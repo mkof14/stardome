@@ -521,7 +521,7 @@ export const ru: Messages = {
   bridge: {
     title: "AGRON 1",
     watchKicker: "ВАХТА",
-    subtitle: "Вахта капитана и офицера охраны",
+    subtitle: "Дежурный пост",
     roleCaptain: "Капитан",
     roleOfficer: "Офицер охраны",
     mobileNotice: "Этот интерфейс лучше смотреть на большом экране.",

@@ -461,7 +461,7 @@ export const es: Messages = {
   bridge: {
     title: "AGRON 1",
     watchKicker: "GUARDIA",
-    subtitle: "Guardia del capitán y del oficial",
+    subtitle: "Puesto de guardia / Mesa de guardia",
     roleCaptain: "Capitán",
     roleOfficer: "Oficial de guardia",
     mobileNotice: "Esta interfaz se ve mejor en una pantalla grande.",

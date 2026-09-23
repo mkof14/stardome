@@ -64,7 +64,7 @@ describe("bridge chrome", () => {
 });
 
 describe("watch station name", () => {
-  it("drops the old interface line and names captain and officer in every locale", () => {
+  it("names the duty station / watch desk in every locale", () => {
     for (const code of locales) {
       const bridge = messagesFor(code).bridge;
       expect(bridge.watchKicker.length).toBeGreaterThan(0);
@@ -73,12 +73,8 @@ describe("watch station name", () => {
       expect(bridge.subtitle.toLowerCase()).not.toMatch(/interface|интерфейс|інтерфейс/);
       expect(bridge.subtitle.length).toBeGreaterThan(8);
     }
-    expect(messagesFor("en").bridge.subtitle).toBe(
-      "Watch for the captain and the officer",
-    );
-    expect(messagesFor("ru").bridge.subtitle).toBe(
-      "Вахта капитана и офицера охраны",
-    );
+    expect(messagesFor("en").bridge.subtitle).toBe("Duty Station / Watch Desk");
+    expect(messagesFor("ru").bridge.subtitle).toBe("Дежурный пост");
   });
 });
 

@@ -1414,10 +1414,10 @@ export function Helm() {
         />
       ) : null}
       {open ? (
-        <div className="relative flex max-h-[calc(100vh-8.5rem)] flex-col items-end">
+        <div className="relative flex max-h-[calc(100vh-6.25rem)] flex-col items-end">
         <section className={cn(
-          "helm-scope relative flex h-[min(42rem,calc(100vh-8.5rem))] flex-col overflow-hidden rounded-2xl border border-bridge-line bg-bridge-panel text-bridge-text shadow-[0_20px_56px_rgb(15_25_34/0.18)]",
-          "w-[min(30rem,calc(100vw-1.5rem))]",
+          "helm-scope relative flex h-[min(56rem,calc(100vh-6.25rem))] flex-col overflow-hidden rounded-2xl border border-bridge-line bg-bridge-panel text-bridge-text shadow-[0_20px_56px_rgb(15_25_34/0.18)]",
+          "w-[min(42rem,calc(100vw-1.5rem))]",
         )}>
           <header
             className={cn(
