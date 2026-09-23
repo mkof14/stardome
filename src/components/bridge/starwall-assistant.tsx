@@ -1304,6 +1304,8 @@ export function Helm() {
   return (
     <div
       data-testid="starwall-assistant"
+      data-pilot-provider={neural.provider}
+      data-pilot-voice={neural.voice}
       className="fixed bottom-4 end-4 z-[210] flex flex-col items-end font-body"
     >
       {showTalk ? (
