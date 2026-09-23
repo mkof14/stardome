@@ -13,6 +13,7 @@ import {
   type PictureContact,
 } from "@/lib/picture-scenes";
 import { SCENARIOS, type PanelType } from "@/lib/scenarios";
+import { starlinkLinks, type StarlinkLink } from "@/lib/starlink";
 import { briefWatch } from "@/lib/watch-brief";
 
 export type InstrumentState = "watching" | "quiet" | "degraded" | "dark";
@@ -49,6 +50,7 @@ export type PilotWatch = {
   situation: string;
   advice: PilotAdvice[];
   commsLive: boolean;
+  starlink: StarlinkLink[];
 };
 
 const EQUIPMENT_IDS: EquipmentId[] = EQUIPMENT.map((item) => item.id);
@@ -236,6 +238,11 @@ export function buildPilotWatch(session: BridgeSessionValue, locale: Locale): Pi
     situation: advice[0]?.body ?? copy.normal,
     advice,
     commsLive: !session.live && session.scenarioId !== "support-center-lost" && session.faultId !== "satcom",
+    starlink: starlinkLinks({
+      live: session.live,
+      scenarioId: session.scenarioId,
+      faultId: session.faultId,
+    }),
   };
 }
 

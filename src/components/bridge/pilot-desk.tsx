@@ -12,6 +12,7 @@ import {
   type PilotAdvice,
   type PilotInstrument,
 } from "@/lib/pilot-watch";
+import { STARLINK_HUES, type StarlinkLink, type StarlinkState } from "@/lib/starlink";
 
 export type PilotScreen = "chat" | "instruments" | "advice" | "comms";
 
@@ -31,6 +32,18 @@ function led(state: PilotInstrument["state"]) {
 
 function nowStamp() {
   return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+}
+
+function starlinkStateLabel(state: StarlinkState) {
+  if (state === "lock") return "LOCK";
+  if (state === "search") return "SEARCH";
+  if (state === "obstructed") return "OBSTRUCTED";
+  if (state === "offline") return "OFFLINE";
+  return "NO DATA";
+}
+
+function starlinkChannel(id: StarlinkLink["id"]): Channel {
+  return id === "maritime" ? "starlinkMaritime" : "starlinkPriority";
 }
 
 export function PilotDesk({
@@ -54,19 +67,32 @@ export function PilotDesk({
   const formId = useId();
 
   useEffect(() => {
+    const stamp = nowStamp();
     setLines([
       {
         id: "pilot-open",
         channel: "watch",
         from: "pilot",
         text: watch.commsLive ? copy.demoComms : copy.liveComms,
-        time: nowStamp(),
+        time: stamp,
       },
+      ...watch.starlink.map((link) => ({
+        id: `pilot-starlink-${link.id}`,
+        channel: starlinkChannel(link.id),
+        from: "pilot" as const,
+        text:
+          link.state === "dark"
+            ? copy.starlinkOffline
+            : `${link.name} · ${starlinkStateLabel(link.state)} · ${
+                link.latencyMs === "—" ? "—" : `${link.latencyMs} ms`
+              } · ${link.downMbps === "—" ? "—" : `${link.downMbps}/${link.upMbps} Mbps`}`,
+        time: stamp,
+      })),
     ]);
     setDraft("");
     setHiddenKinds([]);
     setExpanded({});
-  }, [watch.noteKey, watch.commsLive, copy.demoComms, copy.liveComms]);
+  }, [watch.noteKey, watch.commsLive, copy.demoComms, copy.liveComms, copy.starlinkOffline]);
 
   function postComms(text: string, nextChannel: Channel = channel) {
     const clean = text.trim();
@@ -82,12 +108,22 @@ export function PilotDesk({
     const reply: CommsLine = {
       id: `net-${Date.now()}-r`,
       channel: nextChannel,
-      from: nextChannel === "support" ? "net" : "pilot",
-      text: !watch.commsLive
-        ? copy.liveComms
-        : nextChannel === "alarm"
-          ? copy.alarmSent
-          : copy.posted,
+      from:
+        nextChannel === "support" ||
+        nextChannel === "starlinkMaritime" ||
+        nextChannel === "starlinkPriority"
+          ? "net"
+          : "pilot",
+      text:
+        nextChannel === "starlinkMaritime" || nextChannel === "starlinkPriority"
+          ? watch.starlink.find((link) => starlinkChannel(link.id) === nextChannel)?.state === "dark"
+            ? copy.starlinkOffline
+            : copy.postedStarlink
+          : !watch.commsLive
+            ? copy.liveComms
+            : nextChannel === "alarm"
+              ? copy.alarmSent
+              : copy.posted,
       time: stamp,
     };
     setLines((current) => [...current, yours, reply]);
@@ -170,18 +206,71 @@ export function PilotDesk({
         <PilotRack
           testId="pilot-comms"
           kicker={copy.comms}
-          title={watch.commsLive ? copy.connected : copy.offline}
+          title={
+            watch.starlink.some((link) => link.state !== "dark" && link.state !== "offline")
+              ? copy.connected
+              : watch.commsLive
+                ? copy.connected
+                : copy.offline
+          }
           hot={highlight === "comms"}
         >
-          <div className="mb-3 flex gap-1.5">
-            {(["watch", "support", "alarm"] as const).map((id) => (
+          <p className="mb-1.5 font-body text-xs font-medium text-bridge-dim">{copy.starlinkServices}</p>
+          <div data-testid="pilot-starlink-monitor" className="mb-3 grid grid-cols-2 gap-1.5">
+            {watch.starlink.map((link) => {
+              const hue = STARLINK_HUES[link.id];
+              const active = channel === starlinkChannel(link.id);
+              return (
+                <button
+                  key={link.id}
+                  type="button"
+                  data-testid={`pilot-starlink-${link.id}`}
+                  onClick={() => setChannel(starlinkChannel(link.id))}
+                  className={cn(
+                    "rounded-xl border bg-bridge-bg px-2 py-2 text-start font-body",
+                    active ? "ring-1 ring-inset" : "",
+                  )}
+                  style={{
+                    borderColor: hue,
+                    boxShadow: `inset 3px 0 0 ${hue}`,
+                    ["--tw-ring-color" as string]: hue,
+                  }}
+                >
+                  <p className="font-mono text-[10px] tracking-[0.12em]" style={{ color: hue }}>
+                    STARLINK · {link.service.toUpperCase()}
+                  </p>
+                  <p className="mt-0.5 font-body text-xs font-semibold text-bridge-text">{link.name}</p>
+                  <p className="font-mono text-[11px] font-semibold" style={{ color: hue }}>
+                    {starlinkStateLabel(link.state)}
+                  </p>
+                  <p className="mt-0.5 font-mono text-[10px] leading-snug text-bridge-dim">
+                    {link.latencyMs === "—" ? "—" : `${link.latencyMs} ms`}
+                    {" · "}
+                    {link.downMbps === "—" ? "—" : `${link.downMbps}/${link.upMbps}`}
+                    {" · SNR "}
+                    {link.snrDb}
+                  </p>
+                </button>
+              );
+            })}
+          </div>
+          <div className="mb-3 flex flex-wrap gap-1.5">
+            {(
+              [
+                "watch",
+                "support",
+                "alarm",
+                "starlinkMaritime",
+                "starlinkPriority",
+              ] as const
+            ).map((id) => (
               <button
                 key={id}
                 type="button"
                 data-testid={`pilot-channel-${id}`}
                 onClick={() => setChannel(id)}
                 className={cn(
-                  "flex-1 rounded-xl px-2 py-2 font-body text-sm font-semibold leading-tight",
+                  "min-w-[4.5rem] flex-1 rounded-xl px-2 py-2 font-body text-sm font-semibold leading-tight",
                   channel === id
                     ? id === "alarm"
                       ? "bg-crit text-white"
@@ -193,7 +282,11 @@ export function PilotDesk({
                   ? copy.channelWatch
                   : id === "support"
                     ? copy.channelSupport
-                    : copy.channelAlarm}
+                    : id === "alarm"
+                      ? copy.channelAlarm
+                      : id === "starlinkMaritime"
+                        ? copy.channelStarlinkMaritime
+                        : copy.channelStarlinkPriority}
               </button>
             ))}
           </div>
@@ -266,7 +359,7 @@ export function PilotDesk({
   );
 }
 
-type Channel = "watch" | "support" | "alarm";
+type Channel = "watch" | "support" | "alarm" | "starlinkMaritime" | "starlinkPriority";
 
 type CommsLine = {
   id: string;

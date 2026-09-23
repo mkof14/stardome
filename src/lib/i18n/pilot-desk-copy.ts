@@ -47,6 +47,11 @@ export type PilotDeskCopy = {
   offline: string;
   liveComms: string;
   demoComms: string;
+  starlinkServices: string;
+  channelStarlinkMaritime: string;
+  channelStarlinkPriority: string;
+  postedStarlink: string;
+  starlinkOffline: string;
   watching: string;
   quiet: string;
   degraded: string;
@@ -111,6 +116,11 @@ const DESK = {
     liveComms:
       "LIVE satcom is not connected on this install. I cannot reach a real watch net yet.",
     demoComms: "DEMO watch net — people on this picture, not a live radio.",
+    starlinkServices: "Starlink services",
+    channelStarlinkMaritime: "Starlink Maritime",
+    channelStarlinkPriority: "Starlink Priority",
+    postedStarlink: "Posted on this Starlink path.",
+    starlinkOffline: "LIVE has no Starlink terminals on this install.",
     watching: "Watching",
     quiet: "Quiet",
     degraded: "Degraded",
@@ -173,6 +183,11 @@ const DESK = {
     liveComms:
       "LIVE: satcom no está conectado aquí. Aún no llego a una red de guardia real.",
     demoComms: "Red DEMO — gente de esta imagen, no una radio en vivo.",
+    starlinkServices: "Servicios Starlink",
+    channelStarlinkMaritime: "Starlink Maritime",
+    channelStarlinkPriority: "Starlink Priority",
+    postedStarlink: "Enviado por esta vía Starlink.",
+    starlinkOffline: "LIVE no tiene terminales Starlink en esta instalación.",
     watching: "En vigilancia",
     quiet: "En calma",
     degraded: "Degradado",
@@ -235,6 +250,11 @@ const DESK = {
     liveComms:
       "LIVE : satcom n’est pas connecté ici. Je n’atteins pas encore un vrai réseau de quart.",
     demoComms: "Réseau DEMO — les gens de cette image, pas une radio réelle.",
+    starlinkServices: "Services Starlink",
+    channelStarlinkMaritime: "Starlink Maritime",
+    channelStarlinkPriority: "Starlink Priority",
+    postedStarlink: "Envoyé sur cette voie Starlink.",
+    starlinkOffline: "LIVE n’a pas de terminaux Starlink sur cette installation.",
     watching: "En veille",
     quiet: "Calme",
     degraded: "Dégradé",
@@ -297,6 +317,11 @@ const DESK = {
     liveComms:
       "LIVE: Satcom ist hier nicht verbunden. Ich erreiche noch kein echtes Wache-Netz.",
     demoComms: "DEMO-Netz — Personen dieses Bildes, kein Live-Funk.",
+    starlinkServices: "Starlink-Dienste",
+    channelStarlinkMaritime: "Starlink Maritime",
+    channelStarlinkPriority: "Starlink Priority",
+    postedStarlink: "Über diesen Starlink-Weg gesendet.",
+    starlinkOffline: "LIVE hat auf dieser Installation keine Starlink-Terminals.",
     watching: "In Beobachtung",
     quiet: "Ruhig",
     degraded: "Eingeschränkt",
@@ -359,6 +384,11 @@ const DESK = {
     liveComms:
       "LIVE: satcom на этом развёртывании не подключён. До живой сети вахты я ещё не достаю.",
     demoComms: "Сеть DEMO — люди этой картины, не живое радио.",
+    starlinkServices: "Сервисы Starlink",
+    channelStarlinkMaritime: "Starlink Maritime",
+    channelStarlinkPriority: "Starlink Priority",
+    postedStarlink: "Передано по этому пути Starlink.",
+    starlinkOffline: "LIVE: терминалы Starlink на этой установке не подключены.",
     watching: "На контроле",
     quiet: "Спокойно",
     degraded: "Урезано",
@@ -421,6 +451,11 @@ const DESK = {
     liveComms:
       "LIVE: satcom на цьому розгортанні не підключено. До живої мережі вахти я ще не сягаю.",
     demoComms: "Мережа DEMO — люди цієї картини, не живе радіо.",
+    starlinkServices: "Сервіси Starlink",
+    channelStarlinkMaritime: "Starlink Maritime",
+    channelStarlinkPriority: "Starlink Priority",
+    postedStarlink: "Передано цим шляхом Starlink.",
+    starlinkOffline: "LIVE: термінали Starlink на цій установці не підключені.",
     watching: "На контролі",
     quiet: "Спокійно",
     degraded: "Урізано",
@@ -483,6 +518,11 @@ const DESK = {
     liveComms:
       "LIVE: satcom غير متصل هنا. لا أصل بعد إلى شبكة خفارة حقيقية.",
     demoComms: "شبكة DEMO — أشخاص هذه الصورة، ليست إذاعة حية.",
+    starlinkServices: "خدمات Starlink",
+    channelStarlinkMaritime: "Starlink Maritime",
+    channelStarlinkPriority: "Starlink Priority",
+    postedStarlink: "أُرسل على مسار Starlink هذا.",
+    starlinkOffline: "LIVE بلا محطات Starlink في هذا النشر.",
     watching: "تحت المراقبة",
     quiet: "هادئ",
     degraded: "متدهور",
@@ -542,6 +582,11 @@ const DESK = {
     offline: "无通路",
     liveComms: "LIVE：此处未连接 satcom。我还到不了真实值班网。",
     demoComms: "DEMO 网 — 此画面中的人员，不是实况无线电。",
+    starlinkServices: "Starlink 服务",
+    channelStarlinkMaritime: "Starlink Maritime",
+    channelStarlinkPriority: "Starlink Priority",
+    postedStarlink: "已通过此 Starlink 路径发送。",
+    starlinkOffline: "此安装的 LIVE 没有 Starlink 终端。",
     watching: "监视中",
     quiet: "平静",
     degraded: "降级",
@@ -601,6 +646,11 @@ const DESK = {
     offline: "経路なし",
     liveComms: "LIVE：ここでは satcom 未接続。実当直ネットにはまだ届きません。",
     demoComms: "DEMO ネット — この画面の人々であり、実況無線ではありません。",
+    starlinkServices: "Starlink サービス",
+    channelStarlinkMaritime: "Starlink Maritime",
+    channelStarlinkPriority: "Starlink Priority",
+    postedStarlink: "この Starlink 経路で送信しました。",
+    starlinkOffline: "この導入の LIVE に Starlink 端末はありません。",
     watching: "監視中",
     quiet: "静穏",
     degraded: "低下",
@@ -660,6 +710,11 @@ const DESK = {
     offline: "אין נתיב",
     liveComms: "LIVE: satcom לא מחובר כאן. עדיין אין לי רשת משמרת חיה.",
     demoComms: "רשת DEMO — האנשים בתמונה הזו, לא רדיו חי.",
+    starlinkServices: "שירותי Starlink",
+    channelStarlinkMaritime: "Starlink Maritime",
+    channelStarlinkPriority: "Starlink Priority",
+    postedStarlink: "נשלח בנתיב Starlink הזה.",
+    starlinkOffline: "ב־LIVE אין מסופי Starlink בהתקנה הזו.",
     watching: "במעקב",
     quiet: "שקט",
     degraded: "מוחלש",

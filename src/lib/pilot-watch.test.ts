@@ -32,6 +32,8 @@ describe("buildPilotWatch", () => {
     );
     expect(watch.contacts).toEqual([]);
     expect(watch.commsLive).toBe(false);
+    expect(watch.starlink).toHaveLength(2);
+    expect(watch.starlink.every((link) => link.state === "dark")).toBe(true);
     expect(watch.instruments.every((item) => item.state === "dark")).toBe(true);
     expect(watch.advice[0]?.body).toMatch(/no sensors/i);
     expect(watchReply(session({ live: true }), "en")).toMatch(/no sensors/i);
@@ -57,6 +59,8 @@ describe("buildPilotWatch", () => {
     expect(watch.contacts.length).toBeGreaterThan(0);
     expect(watch.advice.some((card) => card.kind === "advice")).toBe(true);
     expect(watch.commsLive).toBe(true);
+    expect(watch.starlink.map((link) => link.id)).toEqual(["maritime", "priority"]);
+    expect(watch.starlink.every((link) => link.state === "lock")).toBe(true);
     expect(
       watchReply(
         session({
@@ -99,6 +103,10 @@ describe("buildPilotWatch", () => {
     expect(lost.instruments.find((item) => item.id === "satcom")?.state).toBe(
       "degraded",
     );
+    expect(lost.starlink.find((link) => link.id === "priority")?.state).toBe("lock");
+    const jammed = buildPilotWatch(session({ scenarioId: "comms-jamming" }), "en");
+    expect(jammed.starlink.find((link) => link.id === "maritime")?.state).toBe("obstructed");
+    expect(jammed.starlink.find((link) => link.id === "priority")?.state).toBe("search");
   });
 });
 
