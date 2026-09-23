@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { cn } from "@/lib/cn";
 import { useAuthSession } from "@/lib/auth-session";
+import { useAgronView, type AgronView } from "@/lib/agron-view";
 import { useCrisisMode } from "@/lib/crisis-mode";
 import { HELM_STATE_EVENT, focusWatchComms, openHelm, startPilotDemo } from "@/lib/helm-events";
 import { useHud } from "@/lib/i18n/use-hud";
@@ -21,6 +22,7 @@ type JumpItem = {
   party?: WatchParty;
   crisisOnly?: boolean;
   hideInCrisis?: boolean;
+  views?: AgronView[];
   icon: ReactNode;
 };
 
@@ -31,6 +33,7 @@ const ITEMS: JumpItem[] = [
     id: "picture",
     kind: "scroll",
     targetId: "situational-picture",
+    views: ["watch"],
     icon: <HudGlyph name="picture" className={ICON} />,
   },
   {
@@ -38,6 +41,7 @@ const ITEMS: JumpItem[] = [
     kind: "scroll",
     targetId: "risk-level-panel",
     hideInCrisis: true,
+    views: ["watch"],
     icon: <HudGlyph name="risk" className={ICON} />,
   },
   {
@@ -45,6 +49,7 @@ const ITEMS: JumpItem[] = [
     kind: "scroll",
     targetId: "connected-systems-panel",
     hideInCrisis: true,
+    views: ["watch"],
     icon: <HudGlyph name="systems" className={ICON} />,
   },
   {
@@ -52,6 +57,7 @@ const ITEMS: JumpItem[] = [
     kind: "scroll",
     targetId: "recommended-action-panel",
     hideInCrisis: true,
+    views: ["watch"],
     icon: <HudGlyph name="action" className={ICON} />,
   },
   {
@@ -59,7 +65,43 @@ const ITEMS: JumpItem[] = [
     kind: "scroll",
     targetId: "scenario-library",
     hideInCrisis: true,
+    views: ["watch"],
     icon: <HudGlyph name="library" className={ICON} />,
+  },
+  {
+    id: "plant",
+    kind: "scroll",
+    targetId: "plant-container-panel",
+    views: ["plant"],
+    icon: <HudGlyph name="shield" className={ICON} />,
+  },
+  {
+    id: "power",
+    kind: "scroll",
+    targetId: "plant-power-panel",
+    views: ["plant"],
+    icon: <HudGlyph name="power" className={ICON} />,
+  },
+  {
+    id: "cooling",
+    kind: "scroll",
+    targetId: "plant-cooling-panel",
+    views: ["plant"],
+    icon: <HudGlyph name="sun" className={ICON} />,
+  },
+  {
+    id: "compute",
+    kind: "scroll",
+    targetId: "plant-compute-panel",
+    views: ["plant"],
+    icon: <HudGlyph name="settings" className={ICON} />,
+  },
+  {
+    id: "storage",
+    kind: "scroll",
+    targetId: "plant-storage-panel",
+    views: ["plant"],
+    icon: <HudGlyph name="drive" className={ICON} />,
   },
   {
     id: "crisis",
@@ -146,6 +188,7 @@ function typingInField(target: EventTarget | null) {
 export function JumpNav() {
   const { hud } = useHud();
   const { crisis } = useCrisisMode();
+  const { view } = useAgronView();
   const { session } = useAuthSession();
   const helmAllowed = !session || canUseHelm(session.role);
   const [pinned, setPinned] = useState(false);
@@ -161,9 +204,10 @@ export function JumpNav() {
         if (item.hideInCrisis && crisis) return false;
         if (item.kind === "helm" && !helmAllowed) return false;
         if (item.kind === "demo" && !helmAllowed) return false;
+        if (item.views && !item.views.includes(view)) return false;
         return true;
       }),
-    [crisis, helmAllowed],
+    [crisis, helmAllowed, view],
   );
 
   const numbered = useMemo(

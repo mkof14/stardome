@@ -22,6 +22,11 @@ export type HudCopy = {
     blackbox: string;
     learning: string;
     map: string;
+    plant: string;
+    power: string;
+    cooling: string;
+    compute: string;
+    storage: string;
   };
   mode: {
     group: string;
@@ -278,6 +283,11 @@ const en: HudCopy = {
     blackbox: "Black Box",
     learning: "Adaptive Learning",
     map: "Connections Map",
+    plant: "Container plant",
+    power: "Power",
+    cooling: "Cooling",
+    compute: "Compute",
+    storage: "Storage",
   },
   mode: {
     group: "Deployment mode",
@@ -577,6 +587,11 @@ const ru = overlay({
     blackbox: "Чёрный ящик",
     learning: "Адаптивное обучение",
     map: "Карта соединений",
+    plant: "Установка",
+    power: "Питание",
+    cooling: "Охлаждение",
+    compute: "Вычислители",
+    storage: "Хранение",
   },
   mode: { group: "Режим развёртывания", demo: "DEMO", live: "LIVE" },
   chrome: {
@@ -850,6 +865,11 @@ const es = overlay({
     blackbox: "Caja negra",
     learning: "Aprendizaje adaptativo",
     map: "Mapa de conexiones",
+    plant: "Planta",
+    power: "Energía",
+    cooling: "Refrigeración",
+    compute: "Cómputo",
+    storage: "Almacén",
   },
   mode: { group: "Modo de despliegue", demo: "DEMO", live: "LIVE" },
   chrome: {
@@ -1124,6 +1144,11 @@ const fr = overlay({
     blackbox: "Boîte noire",
     learning: "Apprentissage adaptatif",
     map: "Carte des connexions",
+    plant: "Installation",
+    power: "Énergie",
+    cooling: "Refroidissement",
+    compute: "Calcul",
+    storage: "Stockage",
   },
   mode: { group: "Mode de déploiement", demo: "DEMO", live: "LIVE" },
   chrome: {
@@ -1398,6 +1423,11 @@ const de = overlay({
     blackbox: "Schwarze Box",
     learning: "Adaptives Lernen",
     map: "Verbindungskarte",
+    plant: "Anlage",
+    power: "Energie",
+    cooling: "Kühlung",
+    compute: "Rechner",
+    storage: "Speicher",
   },
   mode: { group: "Einsatzmodus", demo: "DEMO", live: "LIVE" },
   chrome: {
@@ -1672,6 +1702,11 @@ const uk = overlay({
     blackbox: "Чорна скринька",
     learning: "Адаптивне навчання",
     map: "Карта з'єднань",
+    plant: "Установка",
+    power: "Живлення",
+    cooling: "Охолодження",
+    compute: "Обчислювачі",
+    storage: "Сховище",
   },
   mode: { group: "Режим розгортання", demo: "DEMO", live: "LIVE" },
   chrome: {
@@ -1945,6 +1980,11 @@ const ar = overlay({
     blackbox: "الصندوق الأسود",
     learning: "التعلّم التكيّفي",
     map: "خريطة الاتصالات",
+    plant: "المحطة",
+    power: "الطاقة",
+    cooling: "التبريد",
+    compute: "الحواسيب",
+    storage: "التخزين",
   },
   mode: { group: "وضع النشر", demo: "DEMO", live: "LIVE" },
   chrome: {
@@ -2218,6 +2258,11 @@ const zh = overlay({
     blackbox: "黑匣子",
     learning: "自适应学习",
     map: "连接图",
+    plant: "机组",
+    power: "电力",
+    cooling: "冷却",
+    compute: "计算",
+    storage: "存储",
   },
   mode: { group: "部署模式", demo: "DEMO", live: "LIVE" },
   chrome: {
@@ -2484,6 +2529,11 @@ const ja = overlay({
     blackbox: "ブラックボックス",
     learning: "適応学習",
     map: "接続マップ",
+    plant: "設備",
+    power: "電源",
+    cooling: "冷却",
+    compute: "計算機",
+    storage: "保管",
   },
   mode: { group: "展開モード", demo: "DEMO", live: "LIVE" },
   chrome: {
@@ -2753,6 +2803,11 @@ const he = overlay({
     blackbox: "קופסה שחורה",
     learning: "למידה מסתגלת",
     map: "מפת חיבורים",
+    plant: "מתקן",
+    power: "חשמל",
+    cooling: "קירור",
+    compute: "מחשבים",
+    storage: "אחסון",
   },
   mode: { group: "מצב פריסה", demo: "DEMO", live: "LIVE" },
   chrome: {

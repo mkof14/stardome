@@ -13,12 +13,15 @@ import {
 import { HudPanel } from "@/components/bridge/hud-panel";
 import { HudGlyph, IconWell } from "@/components/bridge/hud-icons";
 import { HudFrame } from "@/components/bridge/hud-visor";
+import { AgronPlantPanel } from "@/components/bridge/agron-plant-panel";
 import { ModeToggle } from "@/components/mode-toggle";
 import { RankedActionList } from "@/components/bridge/ranked-action-list";
 import { ScenarioLibrary } from "@/components/bridge/scenario-library";
 import { SessionReport } from "@/components/bridge/session-report";
 import { SituationalScope } from "@/components/bridge/situational-scope";
 import { TrainingTour } from "@/components/bridge/training-tour";
+import { ViewSwitcher } from "@/components/bridge/view-switcher";
+import { WatchKitPanel } from "@/components/bridge/watch-kit-panel";
 import { UtcClock } from "@/components/bridge/utc-clock";
 import { AUTOMATED_ACTIONS } from "@/lib/automated-actions";
 import { CRISIS_PROTOCOLS, FALLBACK_CRISIS_STEPS } from "@/lib/crisis-protocols";
@@ -26,12 +29,14 @@ import {
   EQUIPMENT,
   type EquipmentId,
 } from "@/lib/equipment";
+import { useAgronView } from "@/lib/agron-view";
 import { useBlackBox } from "@/lib/black-box";
 import { useBridgeSession } from "@/lib/bridge-session";
 import { cloudVesselName, syncEventToCloud } from "@/lib/cloud-sync";
 import { listEvents, putEvents, putSessionReport, type StoredEvent } from "@/lib/local-db";
 import { useCrisisMode } from "@/lib/crisis-mode";
 import { fill, type HudCopy } from "@/lib/i18n/hud";
+import { plantCopy } from "@/lib/i18n/plant-copy";
 import { localizeAutoActions, localizeCrisisSteps, localizeScenario } from "@/lib/i18n/hud-scenarios";
 import { useHud } from "@/lib/i18n/use-hud";
 import { usePreferences } from "@/lib/i18n/context";
@@ -126,6 +131,7 @@ export function BridgeConsole() {
   const { t } = usePreferences();
   const { locale, hud } = useHud();
   const { live } = useAppMode();
+  const { view } = useAgronView();
   const { session } = useAuthSession();
   const canRunScenarios = !session || canTriggerScenarios(session.role);
   const { setCrisis } = useCrisisMode();
@@ -388,16 +394,6 @@ export function BridgeConsole() {
     );
   }, [locale]);
 
-  const systems = t.bridge.systems.map((name, index) => {
-    const id = EQUIPMENT[index]?.id;
-    const faulted = id === faultId;
-    return {
-      id,
-      name,
-      faulted,
-      online: faulted ? false : index !== 4,
-    };
-  });
   const tone = riskTone(riskLevel);
   const pictureFault =
     faultId === "radar" || faultId === "ais" ? faultId : null;
@@ -644,6 +640,7 @@ export function BridgeConsole() {
             <p className="mt-1 font-mono text-[10px] tracking-[0.18em] text-bridge-dim">
               {t.bridge.subtitle}
             </p>
+            <ViewSwitcher />
           </div>
           <div className="flex flex-wrap items-start justify-end gap-3">
             <Link
@@ -655,7 +652,7 @@ export function BridgeConsole() {
               {hud.chrome.connectionsMap}
             </Link>
             <ModeToggle />
-            {crisis || live ? null : (
+            {crisis || live || view === "plant" ? null : (
             <button
               type="button"
               data-testid="training-toggle"
@@ -763,7 +760,16 @@ export function BridgeConsole() {
           />
         ) : null}
 
-        <div className="grid gap-4 lg:grid-cols-[3fr_2fr]">
+        {view === "plant" ? (
+          <AgronPlantPanel
+            live={live}
+            faultId={faultId}
+            panelType={panelType}
+            scenarioId={selectedId}
+          />
+        ) : null}
+
+        <div className={cn("grid gap-4 lg:grid-cols-[3fr_2fr]", view === "plant" && "hidden")}>
           <div id="situational-picture" data-testid="situational-panel" className="scroll-mt-20">
           <HudFrame variant="inset" className="mb-2">
           <div
@@ -896,47 +902,12 @@ export function BridgeConsole() {
                 </div>
               }
             >
-              <ul className="space-y-1.5">
-                {systems.map((system) => (
-                  <li
-                    key={system.name}
-                    data-testid={system.id ? `system-row-${system.id}` : undefined}
-                    className="flex items-center justify-between gap-3 font-mono text-xs"
-                  >
-                    <span className="text-bridge-text">{system.name}</span>
-                    <span
-                      className={cn(
-                        "flex items-center gap-2",
-                        live
-                          ? "text-bridge-dim"
-                          : system.faulted
-                            ? "text-crit"
-                            : "text-bridge-dim",
-                      )}
-                    >
-                      <span
-                        className={cn(
-                          "h-1.5 w-1.5 rounded-full",
-                          live
-                            ? "bg-bridge-dim"
-                            : system.faulted
-                              ? "bg-crit"
-                              : system.online
-                                ? "bg-ok"
-                                : "bg-bridge-dim",
-                        )}
-                      />
-                      {live
-                        ? hud.chrome.notConnected
-                        : system.faulted
-                          ? hud.chrome.offline
-                          : system.online
-                            ? t.bridge.online
-                            : t.bridge.standby}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+              <WatchKitPanel
+                live={live}
+                faultId={faultId}
+                panelType={panelType}
+                scenarioId={selectedId}
+              />
             </HudPanel>
 
             <HudPanel id="recommended-action-panel" testId="recommended-action-panel" className="scroll-mt-20" title={t.bridge.recommended} glyph="action">
@@ -965,7 +936,7 @@ export function BridgeConsole() {
           </div>
         </div>
 
-        <div className={crisis ? "hidden" : undefined}>
+        <div className={crisis || view === "plant" ? "hidden" : undefined}>
         <ScenarioLibrary
           selectedId={selectedId}
           disabled={live || !canRunScenarios}
