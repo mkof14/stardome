@@ -13,8 +13,11 @@ import {
   PILOT_ASK_EVENT,
   PILOT_DEMO_CONTROL_EVENT,
   PILOT_DEMO_EVENT,
+  publishAdviceDecision,
   publishHelmState,
   publishPilotSpeakFocus,
+  requestPilotNotify,
+  type AdviceDecision,
   type PilotDemoControl,
 } from "@/lib/helm-events";
 import {
@@ -30,7 +33,7 @@ import {
   type PilotScreen,
 } from "@/components/bridge/pilot-desk";
 import { pilotDeskCopy } from "@/lib/i18n/pilot-desk-copy";
-import { buildPilotWatch, watchReply } from "@/lib/pilot-watch";
+import { buildPilotWatch, watchReply, type PilotAdvice } from "@/lib/pilot-watch";
 import { DEMO_CLEARED_EVENT } from "@/lib/demo-storage";
 import { listConversations, putConversation, type StoredConversation } from "@/lib/local-db";
 import { isAuthRoute, useAuthSession } from "@/lib/auth-session";
@@ -77,6 +80,12 @@ import {
 } from "@/lib/barge-in";
 import { isHaltOrder, isListenOrder, isOfficerAsk } from "@/lib/pilot-orders";
 import {
+  clipChatHistory,
+  isAdviceAccept,
+  isAdviceDecline,
+  isNotifyAsk,
+} from "@/lib/pilot-sim";
+import {
   meterFromTimeDomain,
   silenceBars,
   silenceWave,
@@ -109,7 +118,7 @@ export function Helm() {
   const { live } = useAppMode();
   const { locale } = useHud();
   const { setLocale } = usePreferences();
-  const { recordConversation } = useBlackBox();
+  const { recordConversation, recordDecision } = useBlackBox();
   const [open, setOpen] = useState(false);
   const [langsOpen, setLangsOpen] = useState(false);
   const [mic, setMic] = useState<MicState>("idle");
@@ -629,6 +638,15 @@ export function Helm() {
     cue("stop");
     wantListen.current = true;
     resumeListen();
+    const ack = surface.haltAck;
+    const ackId = messageId();
+    setMessages((current) => {
+      const last = current[current.length - 1];
+      if (last?.role === "assistant" && last.text === ack) return current;
+      return [...current, { id: ackId, role: "assistant", text: ack }];
+    });
+    setTypingId(ackId);
+    void speakReply(ack, recogLang, false, "brief");
   }
 
   function yieldToOfficer() {
@@ -1163,6 +1181,15 @@ export function Helm() {
       resumeListen();
       return;
     }
+    if (!live && isNotifyAsk(clean)) {
+      requestPilotNotify();
+      setScreen("comms");
+    }
+    if (!live && isAdviceAccept(clean)) {
+      publishAdviceDecision({ decision: "accept" });
+    } else if (!live && isAdviceDecline(clean)) {
+      publishAdviceDecision({ decision: "decline" });
+    }
     sendingRef.current = true;
     const ticket = ++askGen.current;
     stopDemo();
@@ -1190,6 +1217,11 @@ export function Helm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           message: clean,
+          history: clipChatHistory(
+            messages
+              .filter((item) => item.role === "user" || item.role === "assistant")
+              .map((item) => ({ role: item.role, text: item.text })),
+          ),
           context: {
             scenarioName: session.scenarioName,
             riskLevel: session.riskLevel,
@@ -1294,6 +1326,34 @@ export function Helm() {
     }
   }
 
+  function decideAdvice(decision: AdviceDecision, card: PilotAdvice) {
+    publishAdviceDecision({
+      decision,
+      title: card.title,
+      body: card.body,
+    });
+    recordDecision({
+      summary: `Advice ${decision} — ${card.title.slice(0, 72)}`,
+      fullContent: `Officer ${decision}ed advice.\nTitle: ${card.title}\n${card.body}`,
+    });
+    const text = decision === "accept" ? desk.acceptedLogged : desk.declinedLogged;
+    const assistantId = messageId();
+    setMessages((current) => [
+      ...current,
+      { id: assistantId, role: "assistant", text },
+    ]);
+    persistChat({
+      id: assistantId,
+      timestamp: new Date().toISOString(),
+      role: "assistant",
+      content: text,
+      langCode: recogLang,
+    });
+    setScreen("advice");
+    setTypingId(assistantId);
+    void speakReply(text, recogLang, false, "brief");
+  }
+
   sendRef.current = sendMessage;
   runDemoRef.current = runDemo;
   controlDemoRef.current = controlDemo;
@@ -1380,12 +1440,24 @@ export function Helm() {
                 />
                 {surface.title}
               </p>
-              {mic === "speaking" ? (
+              {mic === "speaking" || mic === "listening" || mic === "processing" ? (
                 <p
-                  data-testid="pilot-speaking"
-                  className="mt-0.5 font-body text-xs font-semibold uppercase tracking-wider text-orange"
+                  data-testid={mic === "speaking" ? "pilot-speaking" : "pilot-status"}
+                  data-mic={mic}
+                  className={cn(
+                    "mt-0.5 font-body text-xs font-semibold uppercase tracking-wider",
+                    mic === "speaking"
+                      ? "text-orange"
+                      : mic === "listening"
+                        ? "text-ok"
+                        : "text-attn",
+                  )}
                 >
-                  {surface.speaking}
+                  {mic === "speaking"
+                    ? surface.speaking
+                    : mic === "listening"
+                      ? surface.listening
+                      : surface.waiting}
                 </p>
               ) : (
                 <p className="mt-0.5 flex items-center gap-1.5 font-body text-xs text-bridge-dim">
@@ -1509,7 +1581,9 @@ export function Helm() {
           >
             {messages.length === 0 ? (
               <p className="border-s-2 border-orange ps-3 font-body text-sm leading-relaxed text-bridge-dim">
-                {surface.empty}
+                {pathname.startsWith("/interface") && !live && session.scenarioId
+                  ? surface.emptyWatch
+                  : surface.empty}
               </p>
             ) : null}
             {messages.map((item) => {
@@ -1554,6 +1628,7 @@ export function Helm() {
               onSeenNote={() => setNotePulse(false)}
               highlight={spokenScreen}
               speaking={mic === "speaking"}
+              onDecide={decideAdvice}
             />
           ) : (
             <div className="min-h-0 flex-1" />

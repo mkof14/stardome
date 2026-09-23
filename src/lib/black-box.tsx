@@ -23,6 +23,7 @@ type BlackBoxContextValue = {
   ready: boolean;
   recordConversation: (input: { summary: string; fullContent: string }) => void;
   recordScenario: (input: { summary: string; fullContent: string }) => void;
+  recordDecision: (input: { summary: string; fullContent: string }) => void;
 };
 
 const BlackBoxContext = createContext<BlackBoxContextValue>({
@@ -30,6 +31,7 @@ const BlackBoxContext = createContext<BlackBoxContextValue>({
   ready: false,
   recordConversation: () => {},
   recordScenario: () => {},
+  recordDecision: () => {},
 });
 
 function newId() {
@@ -132,9 +134,16 @@ export function BlackBoxProvider({ children }: { children: ReactNode }) {
     [append],
   );
 
+  const recordDecision = useCallback(
+    (input: { summary: string; fullContent: string }) => {
+      append("conversation", input);
+    },
+    [append],
+  );
+
   const value = useMemo(
-    () => ({ records, ready, recordConversation, recordScenario }),
-    [records, ready, recordConversation, recordScenario],
+    () => ({ records, ready, recordConversation, recordScenario, recordDecision }),
+    [records, ready, recordConversation, recordScenario, recordDecision],
   );
 
   return (

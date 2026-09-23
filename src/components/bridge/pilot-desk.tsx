@@ -3,7 +3,13 @@
 import { useEffect, useId, useState } from "react";
 import { cn } from "@/lib/cn";
 import type { BridgeSessionValue } from "@/lib/bridge-session-types";
-import { askPilot } from "@/lib/helm-events";
+import {
+  PILOT_ADVICE_DECISION_EVENT,
+  PILOT_NOTIFY_EVENT,
+  askPilot,
+  type AdviceDecision,
+  type AdviceDecisionDetail,
+} from "@/lib/helm-events";
 import { HudGlyph } from "@/components/bridge/hud-icons";
 import { fillDesk, type PilotDeskCopy } from "@/lib/i18n/pilot-desk-copy";
 import type { Locale } from "@/lib/i18n/locales";
@@ -54,6 +60,7 @@ export function PilotDesk({
   speaking,
   notePulse,
   onSeenNote,
+  onDecide,
 }: {
   session: BridgeSessionValue;
   locale: Locale;
@@ -62,6 +69,7 @@ export function PilotDesk({
   speaking?: boolean;
   notePulse?: boolean;
   onSeenNote?: () => void;
+  onDecide?: (decision: AdviceDecision, card: PilotAdvice) => void;
 }) {
   const watch = buildPilotWatch(session, locale);
   const { copy } = watch;
@@ -70,6 +78,7 @@ export function PilotDesk({
     .join("|");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [hiddenKinds, setHiddenKinds] = useState<string[]>([]);
+  const [decided, setDecided] = useState<Partial<Record<string, AdviceDecision>>>({});
   const [channel, setChannel] = useState<Channel>("watch");
   const [draft, setDraft] = useState("");
   const [lines, setLines] = useState<CommsLine[]>([]);
@@ -101,6 +110,7 @@ export function PilotDesk({
     setDraft("");
     setHiddenKinds([]);
     setExpanded({});
+    setDecided({});
   }, [watch.noteKey, watch.commsLive, starlinkKey, copy.demoComms, copy.liveComms, copy.starlinkOffline]);
 
   function postComms(text: string, nextChannel: Channel = channel) {
@@ -137,7 +147,64 @@ export function PilotDesk({
     };
     setLines((current) => [...current, yours, reply]);
     setDraft("");
+    return reply;
   }
+
+  function postNet(channelId: Channel, text: string) {
+    const clean = text.trim();
+    if (!clean) return;
+    setLines((current) => [
+      ...current,
+      {
+        id: `net-${Date.now()}-${current.length}`,
+        channel: channelId,
+        from: "net",
+        text: clean,
+        time: nowStamp(),
+      },
+    ]);
+  }
+
+  function simulateDesignatedAck(channelId: Channel = "alarm") {
+    if (!watch.commsLive) return;
+    window.setTimeout(() => {
+      postNet(channelId, copy.designatedSeen);
+    }, 720);
+  }
+
+  useEffect(() => {
+    function onNotify() {
+      setChannel("alarm");
+      postComms(copy.notify, "alarm");
+      simulateDesignatedAck("alarm");
+    }
+    function onDecision(event: Event) {
+      const detail = (event as CustomEvent<AdviceDecisionDetail>).detail;
+      if (detail?.decision !== "accept" && detail?.decision !== "decline") return;
+      setDecided((current) => ({ ...current, advice: detail.decision }));
+      if (!watch.commsLive) return;
+      const text =
+        detail.decision === "accept" ? copy.acceptedLogged : copy.declinedLogged;
+      setChannel("watch");
+      setLines((current) => [
+        ...current,
+        {
+          id: `you-dec-${Date.now()}`,
+          channel: "watch",
+          from: "you",
+          text,
+          time: nowStamp(),
+        },
+      ]);
+      simulateDesignatedAck("watch");
+    }
+    window.addEventListener(PILOT_NOTIFY_EVENT, onNotify);
+    window.addEventListener(PILOT_ADVICE_DECISION_EVENT, onDecision);
+    return () => {
+      window.removeEventListener(PILOT_NOTIFY_EVENT, onNotify);
+      window.removeEventListener(PILOT_ADVICE_DECISION_EVENT, onDecision);
+    };
+  }, [copy.notify, copy.acceptedLogged, copy.declinedLogged, copy.designatedSeen, watch.commsLive]);
 
   if (screen === "chat") return null;
 
@@ -215,6 +282,7 @@ export function PilotDesk({
                   (watch.urgent && card.kind !== "situation")
                 }
                 expanded={Boolean(expanded[card.kind])}
+                decision={decided[card.kind] ?? decided.advice}
                 onExpand={() => {
                   onSeenNote?.();
                   setExpanded((current) => ({
@@ -231,6 +299,14 @@ export function PilotDesk({
                   setHiddenKinds((current) =>
                     current.includes(card.kind) ? current : [...current, card.kind],
                   );
+                }}
+                onAccept={() => {
+                  onSeenNote?.();
+                  onDecide?.("accept", card);
+                }}
+                onDecline={() => {
+                  onSeenNote?.();
+                  onDecide?.("decline", card);
                 }}
               />
             ))}
@@ -351,7 +427,15 @@ export function PilotDesk({
                   <span className="me-1.5 font-body text-xs text-bridge-dim">
                     {line.time}
                   </span>
-                  {line.text}
+                  <span
+                    data-testid={
+                      line.text === copy.designatedAck || line.text === copy.designatedSeen
+                        ? "pilot-comms-ack"
+                        : undefined
+                    }
+                  >
+                    {line.text}
+                  </span>
                 </p>
               ))}
           </div>
@@ -384,6 +468,7 @@ export function PilotDesk({
             onClick={() => {
               setChannel("alarm");
               postComms(copy.notify, "alarm");
+              simulateDesignatedAck("alarm");
             }}
             className="mt-2 w-full rounded-xl border border-crit/50 px-3 py-2 font-body text-sm font-medium text-crit hover:border-crit"
           >
@@ -455,18 +540,24 @@ function AdviceCard({
   expanded,
   hot,
   pulse,
+  decision,
   onExpand,
   onAsk,
   onClose,
+  onAccept,
+  onDecline,
 }: {
   card: PilotAdvice;
   copy: PilotDeskCopy;
   expanded: boolean;
   hot?: boolean;
   pulse?: boolean;
+  decision?: AdviceDecision;
   onExpand: () => void;
   onAsk: () => void;
   onClose: () => void;
+  onAccept: () => void;
+  onDecline: () => void;
 }) {
   const kicker =
     card.kind === "advice"
@@ -518,6 +609,39 @@ function AdviceCard({
         >
           {copy.closeCard}
         </button>
+        {card.kind === "advice" || card.kind === "train" ? (
+          decision ? (
+            <span
+              data-testid="pilot-advice-decision"
+              data-decision={decision}
+              className={cn(
+                "rounded-lg px-2.5 py-1.5 font-body text-xs font-semibold",
+                decision === "accept" ? "bg-ok/15 text-ok" : "bg-bridge-panel text-bridge-dim",
+              )}
+            >
+              {decision === "accept" ? copy.acceptAdvice : copy.declineAdvice}
+            </span>
+          ) : (
+            <>
+              <button
+                type="button"
+                data-testid="pilot-card-accept"
+                onClick={onAccept}
+                className="rounded-lg bg-ok px-2.5 py-1.5 font-body text-xs font-semibold text-white hover:bg-ok/90"
+              >
+                {copy.acceptAdvice}
+              </button>
+              <button
+                type="button"
+                data-testid="pilot-card-decline"
+                onClick={onDecline}
+                className="rounded-lg border border-bridge-line px-2.5 py-1.5 font-body text-xs text-bridge-dim hover:text-bridge-text"
+              >
+                {copy.declineAdvice}
+              </button>
+            </>
+          )
+        ) : null}
       </div>
     </PilotRack>
   );

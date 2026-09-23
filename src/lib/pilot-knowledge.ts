@@ -2,7 +2,7 @@ import type { BridgeSessionValue } from "@/lib/bridge-session-types";
 import { messagesFor } from "@/lib/i18n/dictionaries";
 import { isLocale, type Locale } from "@/lib/i18n/locales";
 import { isHearCheck } from "@/lib/pilot-orders";
-import { watchReply } from "@/lib/pilot-watch";
+import { localWatchAnswer, watchAskKind } from "@/lib/pilot-sim";
 
 export const PILOT_SITE_BRIEFING = `You are Pilot, the watch advisor for StarWall by AGRON. Never call yourself Helm.
 
@@ -104,10 +104,22 @@ export function localPilotReply(
     topic === "contact" ||
     topic === "containers" ||
     topic === "how";
+  const onWatch = Boolean(extra?.path?.startsWith("/interface"));
+  const session = extra?.session;
+  const watchKind = watchAskKind(message);
+  const watchFirst =
+    Boolean(session) &&
+    !siteTopic &&
+    (Boolean(watchKind) ||
+      isWatchAsk(message) ||
+      Boolean(session?.scenarioId) ||
+      Boolean(session?.live) ||
+      Boolean(session?.crisis) ||
+      (onWatch && (session?.scenarioId || session?.live || session?.crisis)));
 
-  if (extra?.session && !siteTopic && (isWatchAsk(message) || extra.session.scenarioId || extra.session.live)) {
+  if (session && watchFirst) {
     return {
-      reply: watchReply(extra.session, locale).replace(/\s+/g, " ").trim(),
+      reply: localWatchAnswer(session, locale, message).replace(/\s+/g, " ").trim(),
       langCode: locale,
     };
   }

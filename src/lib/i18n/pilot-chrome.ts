@@ -4,6 +4,10 @@ import type { Locale } from "@/lib/i18n/locales";
 export type PilotChrome = {
   title: string;
   speaking: string;
+  listening: string;
+  waiting: string;
+  haltAck: string;
+  emptyWatch: string;
   advisor: string;
   ask: string;
   send: string;
@@ -20,6 +24,10 @@ const PILOT_CHROME = {
   en: {
     title: "Pilot",
     speaking: "Speaking",
+    listening: "Listening",
+    waiting: "Waiting",
+    haltAck: "Stop. Listening.",
+    emptyWatch: "Ask about this picture — contacts, advice, or comms.",
     advisor: "WATCH ADVISOR",
     ask: "Ask Pilot…",
     send: "Send",
@@ -34,6 +42,10 @@ const PILOT_CHROME = {
   es: {
     title: "Pilot",
     speaking: "Habla",
+    listening: "Escucha",
+    waiting: "Espera",
+    haltAck: "Alto. Escucho.",
+    emptyWatch: "Pregunte por esta imagen — contactos, consejo o comms.",
     advisor: "ASESOR DE GUARDIA",
     ask: "Preguntar a Pilot…",
     send: "Enviar",
@@ -48,6 +60,10 @@ const PILOT_CHROME = {
   fr: {
     title: "Pilot",
     speaking: "Parle",
+    listening: "Écoute",
+    waiting: "Attend",
+    haltAck: "Stop. J’écoute.",
+    emptyWatch: "Interrogez cette image — contacts, conseil ou comms.",
     advisor: "CONSEILLER DE QUART",
     ask: "Demander à Pilot…",
     send: "Envoyer",
@@ -62,6 +78,10 @@ const PILOT_CHROME = {
   de: {
     title: "Pilot",
     speaking: "Spricht",
+    listening: "Hört",
+    waiting: "Wartet",
+    haltAck: "Stopp. Ich höre.",
+    emptyWatch: "Fragen Sie zu diesem Lagebild — Kontakte, Rat oder Funk.",
     advisor: "WACHBERATER",
     ask: "Pilot fragen…",
     send: "Senden",
@@ -76,6 +96,10 @@ const PILOT_CHROME = {
   ru: {
     title: "Pilot",
     speaking: "Говорит",
+    listening: "Слушает",
+    waiting: "Ждёт",
+    haltAck: "Стоп. Слушаю.",
+    emptyWatch: "Спросите про эту картину — контакты, совет или связь.",
     advisor: "СОВЕТНИК ВАХТЫ",
     ask: "Спросить Pilot…",
     send: "Отправить",
@@ -90,6 +114,10 @@ const PILOT_CHROME = {
   uk: {
     title: "Pilot",
     speaking: "Говорить",
+    listening: "Слухає",
+    waiting: "Чекає",
+    haltAck: "Стоп. Слухаю.",
+    emptyWatch: "Запитайте про цю картину — контакти, порада чи зв’язок.",
     advisor: "РАДНИК ВАХТИ",
     ask: "Запитати Pilot…",
     send: "Надіслати",
@@ -104,6 +132,10 @@ const PILOT_CHROME = {
   ar: {
     title: "Pilot",
     speaking: "يتكلم",
+    listening: "يستمع",
+    waiting: "ينتظر",
+    haltAck: "توقف. أسمع.",
+    emptyWatch: "اسأل عن هذه الصورة — جهات الاتصال أو النصيحة أو الاتصال.",
     advisor: "مستشار الخفارة",
     ask: "اسأل Pilot…",
     send: "إرسال",
@@ -118,6 +150,10 @@ const PILOT_CHROME = {
   zh: {
     title: "Pilot",
     speaking: "正在说",
+    listening: "正在听",
+    waiting: "等待中",
+    haltAck: "停止。在听。",
+    emptyWatch: "问这幅画面 — 目标、建议或通信。",
     advisor: "值班顾问",
     ask: "询问 Pilot…",
     send: "发送",
@@ -132,6 +168,10 @@ const PILOT_CHROME = {
   ja: {
     title: "Pilot",
     speaking: "発話中",
+    listening: "聴取中",
+    waiting: "待機中",
+    haltAck: "停止。聞いています。",
+    emptyWatch: "この画面について尋ねてください — 目標、助言、通信。",
     advisor: "当直アドバイザー",
     ask: "Pilot に尋ねる…",
     send: "送信",
@@ -146,6 +186,10 @@ const PILOT_CHROME = {
   he: {
     title: "Pilot",
     speaking: "מדבר",
+    listening: "מאזין",
+    waiting: "ממתין",
+    haltAck: "עצור. אני מאזין.",
+    emptyWatch: "שאלו על התמונה הזו — מגעים, ייעוץ או קשר.",
     advisor: "יועץ משמרת",
     ask: "לשאול את Pilot…",
     send: "שליחה",

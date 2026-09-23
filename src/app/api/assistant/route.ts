@@ -5,11 +5,13 @@ import {
   PILOT_SITE_BRIEFING,
 } from "@/lib/pilot-knowledge";
 import { isLocale, locales, type Locale } from "@/lib/i18n/locales";
+import { claudeMessages, clipChatHistory } from "@/lib/pilot-sim";
 import { sessionFromAssistantContext, watchReply } from "@/lib/pilot-watch";
 import { clientKey, rateLimit, rateLimitResponse } from "@/lib/rate-limit";
 
 type AssistantBody = {
   message?: unknown;
+  history?: unknown;
   context?: {
     scenarioName?: unknown;
     riskLevel?: unknown;
@@ -58,9 +60,11 @@ export async function POST(request: Request) {
   const localeRaw = asText(body.context?.locale, "en");
   const locale = isLocale(localeRaw) ? localeRaw : "en";
   const path = asText(body.context?.path, "/");
+  const history = clipChatHistory(body.history);
   const watchSession = sessionFromAssistantContext(body.context ?? {});
   const live = watchSession.live;
   const watchBrief = watchReply(watchSession, locale);
+  const onWatch = path.startsWith("/interface");
 
   const situation = live
     ? "Current mode is LIVE. There is no live scenario or sensor data. This deployment is not connected to any radar, AIS, camera, or other equipment. If asked about current status, say you do not have live sensor data yet — this vessel is not connected to any equipment. They can ask about StarWall in general, or switch to DEMO mode to see a simulated scenario. Do not invent contacts, risk levels, equipment status, or events."
@@ -73,7 +77,11 @@ export async function POST(request: Request) {
     );
   }
 
-  const system = `${PILOT_SITE_BRIEFING} The visitor is on ${path}. Spoken and written StarWall languages: ${locales.join(", ")}. Context locale is ${locale}. ${situation} Respond in 2-4 sentences unless more detail is needed. IMPORTANT: Reply in the visitor's language (the message if it is one of those languages, otherwise ${locale}). At the very start of your response, output a language code in this exact format on its own first line: [LANG:xx] where xx is one of ${locales.join(", ")} — then a newline, then your actual response.`;
+  const watchRule = onWatch
+    ? " The visitor is on AGRON 1. Answer from the current picture first. Do not pitch the product or website unless they ask about plans, AGRON, containers, or how StarWall works."
+    : "";
+
+  const system = `${PILOT_SITE_BRIEFING} The visitor is on ${path}. Spoken and written StarWall languages: ${locales.join(", ")}. Context locale is ${locale}. ${situation}${watchRule} Use the recent conversation if they refer back. Respond in 2-4 sentences unless more detail is needed. IMPORTANT: Reply in the visitor's language (the message if it is one of those languages, otherwise ${locale}). At the very start of your response, output a language code in this exact format on its own first line: [LANG:xx] where xx is one of ${locales.join(", ")} — then a newline, then your actual response.`;
 
   try {
     const client = new Anthropic({ apiKey });
@@ -81,7 +89,7 @@ export async function POST(request: Request) {
       model: "claude-sonnet-4-6",
       max_tokens: 500,
       system,
-      messages: [{ role: "user", content: message }],
+      messages: claudeMessages(history, message),
     });
 
     const raw = result.content

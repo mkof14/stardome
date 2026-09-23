@@ -21,6 +21,11 @@ describe("pilotDeskCopy", () => {
       expect(copy.starlinkServices).toMatch(/Starlink/);
       expect(copy.channelStarlinkMaritime).toMatch(/Maritime/);
       expect(copy.channelStarlinkPriority).toMatch(/Priority/);
+      expect(copy.acceptAdvice.length).toBeGreaterThan(0);
+      expect(copy.declineAdvice.length).toBeGreaterThan(0);
+      expect(copy.acceptedLogged.length).toBeGreaterThan(0);
+      expect(copy.designatedAck.length).toBeGreaterThan(0);
+      expect(copy.designatedSeen.length).toBeGreaterThan(0);
     }
   });
 });

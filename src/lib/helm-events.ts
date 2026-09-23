@@ -1,6 +1,8 @@
 export const HELM_OPEN_EVENT = "starwall-open-helm";
 export const HELM_STATE_EVENT = "starwall-helm-state";
 export const PILOT_ASK_EVENT = "starwall-pilot-ask";
+export const PILOT_NOTIFY_EVENT = "starwall-pilot-notify";
+export const PILOT_ADVICE_DECISION_EVENT = "starwall-pilot-advice-decision";
 export const PILOT_DEMO_EVENT = "starwall-pilot-demo";
 export const PILOT_DEMO_CONTROL_EVENT = "starwall-pilot-demo-control";
 export const WATCH_COMMS_FOCUS_EVENT = "starwall-watch-comms-focus";
@@ -36,10 +38,30 @@ export function openHelm(screen?: HelmScreen) {
   window.dispatchEvent(new CustomEvent<HelmOpenDetail>(HELM_OPEN_EVENT, { detail: { screen } }));
 }
 
+export type AdviceDecision = "accept" | "decline";
+
+export type AdviceDecisionDetail = {
+  decision: AdviceDecision;
+  title?: string;
+  body?: string;
+};
+
 export function askPilot(prompt: string) {
   if (typeof window === "undefined") return;
   window.dispatchEvent(new CustomEvent(PILOT_ASK_EVENT, { detail: { prompt } }));
   openHelm();
+}
+
+export function requestPilotNotify() {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new Event(PILOT_NOTIFY_EVENT));
+}
+
+export function publishAdviceDecision(detail: AdviceDecisionDetail) {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(
+    new CustomEvent<AdviceDecisionDetail>(PILOT_ADVICE_DECISION_EVENT, { detail }),
+  );
 }
 
 export function publishHelmState(openOrState: boolean | HelmStateDetail) {

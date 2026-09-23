@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
   HELM_OPEN_EVENT,
+  PILOT_ADVICE_DECISION_EVENT,
   PILOT_DEMO_CONTROL_EVENT,
   PILOT_DEMO_EVENT,
+  PILOT_NOTIFY_EVENT,
   PILOT_SPEAK_FOCUS_EVENT,
   controlPilotDemo,
   openHelm,
@@ -24,5 +26,7 @@ describe("pilot demo transport", () => {
     expect(speakFocusTargets("advice")).toEqual(["recommended-action-panel"]);
     expect(speakFocusTargets("comms")).toEqual(["watch-comms-panel"]);
     expect(speakFocusTargets(null)).toEqual([]);
+    expect(PILOT_NOTIFY_EVENT).toBe("starwall-pilot-notify");
+    expect(PILOT_ADVICE_DECISION_EVENT).toBe("starwall-pilot-advice-decision");
   });
 });
