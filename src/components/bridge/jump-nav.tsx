@@ -15,6 +15,7 @@ import {
 } from "@/lib/helm-events";
 import { useHud } from "@/lib/i18n/use-hud";
 import { canUseHelm } from "@/lib/rbac";
+import { cuesEnabled, playPilotCue } from "@/lib/pilot-cues";
 import { HudGlyph } from "@/components/bridge/hud-icons";
 import type { WatchParty } from "@/lib/watch-comms";
 
@@ -239,12 +240,17 @@ export function JumpNav() {
     if (item.kind === "link" && item.href) return;
     if (item.kind === "helm") {
       lockUntil.current = Date.now() + 1200;
+      playPilotCue(
+        helmAlert.urgent ? "urgent" : helmAlert.unread ? "note" : "open",
+        cuesEnabled(),
+      );
       openHelm(helmAlert.unread || helmAlert.urgent ? "advice" : undefined);
       setActive(item.id);
       return;
     }
     if (item.kind === "demo") {
       lockUntil.current = Date.now() + 1200;
+      playPilotCue("demo", cuesEnabled());
       startPilotDemo();
       setActive(item.id);
       return;

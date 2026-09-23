@@ -34,6 +34,9 @@ describe("pilotDemoCopy", () => {
       expect(copy.intro.toLowerCase()).not.toMatch(/\bcommand\b/);
       expect(copy.interruptHint.length).toBeGreaterThan(0);
       expect(copy.soundOn.length).toBeGreaterThan(0);
+      expect(copy.signalsOn.length).toBeGreaterThan(0);
+      expect(copy.signalsOff.length).toBeGreaterThan(0);
+      expect(copy.signalsOn).not.toBe(copy.signalsOff);
       expect(copy.now.length).toBeGreaterThan(0);
       expect(copy.linkLive.length).toBeGreaterThan(0);
       expect(copy.bargeHint.length).toBeGreaterThan(0);

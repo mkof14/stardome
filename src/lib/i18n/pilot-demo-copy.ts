@@ -33,6 +33,8 @@ export type PilotDemoCopy = {
   interruptHint: string;
   soundOn: string;
   soundOff: string;
+  signalsOn: string;
+  signalsOff: string;
   linkLive: string;
   bargeHint: string;
   talkListening: string;
@@ -94,6 +96,8 @@ const DEMO = {
       "Speak while I talk — I stop and take your words first. A watch call, type, or the mic also cuts in. The speaker mutes or restores the voice.",
     soundOn: "Sound on",
     soundOff: "Sound off",
+    signalsOn: "Signals on",
+    signalsOff: "Signals off",
     linkLive: "Secure link established",
     bargeHint: "Speak — I stop and take your words first.",
     talkListening: "Listening",
@@ -153,6 +157,8 @@ const DEMO = {
       "Hable mientras hablo — me detengo y tomo sus palabras primero. Una llamada, texto o el micro también cortan. El altavoz silencia o restablece la voz.",
     soundOn: "Sonido activado",
     soundOff: "Sonido desactivado",
+    signalsOn: "Señales activadas",
+    signalsOff: "Señales desactivadas",
     linkLive: "Enlace seguro establecido",
     bargeHint: "Hable — me detengo y tomo sus palabras primero.",
     talkListening: "Escuchando",
@@ -212,6 +218,8 @@ const DEMO = {
       "Parlez pendant que je parle — je m’arrête et je prends vos mots d’abord. Un appel, le texte ou le micro coupent aussi. Le haut-parleur coupe ou rétablit la voix.",
     soundOn: "Son allumé",
     soundOff: "Son coupé",
+    signalsOn: "Signaux allumés",
+    signalsOff: "Signaux coupés",
     linkLive: "Liaison sécurisée établie",
     bargeHint: "Parlez — je m’arrête et je prends vos mots d’abord.",
     talkListening: "Écoute",
@@ -271,6 +279,8 @@ const DEMO = {
       "Sprechen Sie, während ich spreche — ich halte an und nehme zuerst Ihre Worte. Wachruf, Tippen oder Mikrofon unterbrechen ebenfalls. Der Lautsprecher stummschaltet oder stellt die Stimme wieder her.",
     soundOn: "Ton an",
     soundOff: "Ton aus",
+    signalsOn: "Signale an",
+    signalsOff: "Signale aus",
     linkLive: "Sichere Verbindung hergestellt",
     bargeHint: "Sprechen Sie — ich halte an und nehme zuerst Ihre Worte.",
     talkListening: "Hören",
@@ -330,6 +340,8 @@ const DEMO = {
       "Говорите, пока я говорю — я останавливаюсь и сначала слушаю вас. Реплика, текст или микрофон тоже перебивают. Динамик включает и выключает звук.",
     soundOn: "Звук включён",
     soundOff: "Звук выключен",
+    signalsOn: "Сигналы включены",
+    signalsOff: "Сигналы выключены",
     linkLive: "Защищённый канал установлен",
     bargeHint: "Говорите — я останавливаюсь и сначала слушаю вас.",
     talkListening: "Слушаю",
@@ -389,6 +401,8 @@ const DEMO = {
       "Говоріть, поки я говорю — я зупиняюсь і спочатку слухаю вас. Репліка, текст або мікрофон теж перебивають. Динамік вмикає й вимикає звук.",
     soundOn: "Звук увімкнено",
     soundOff: "Звук вимкнено",
+    signalsOn: "Сигнали увімкнено",
+    signalsOff: "Сигнали вимкнено",
     linkLive: "Захищений канал встановлено",
     bargeHint: "Говоріть — я зупиняюсь і спочатку слухаю вас.",
     talkListening: "Слухаю",
@@ -448,6 +462,8 @@ const DEMO = {
       "تكلم وأنا أتكلم — أتوقف وأسمعك أولاً. النداء أو الكتابة أو الميكروفون يقطع أيضاً. مكبر الصوت يكتم أو يعيد الصوت.",
     soundOn: "الصوت يعمل",
     soundOff: "الصوت مغلق",
+    signalsOn: "الإشارات تعمل",
+    signalsOff: "الإشارات مغلقة",
     linkLive: "تم إنشاء وصلة آمنة",
     bargeHint: "تكلم — أتوقف وأسمعك أولاً.",
     talkListening: "أستمع",
@@ -502,6 +518,8 @@ const DEMO = {
     interruptHint: "我说的时候请说 — 我会停下并先听你的话。值班口令、打字或麦克风也可打断。扬声器开关声音。",
     soundOn: "声音开",
     soundOff: "声音关",
+    signalsOn: "信号开",
+    signalsOff: "信号关",
     linkLive: "安全链路已建立",
     bargeHint: "请说 — 我会停下并先听你的话。",
     talkListening: "正在听",
@@ -561,6 +579,8 @@ const DEMO = {
       "話している最中でも話してください — 止まって先にあなたの言葉を受けます。呼びかけ・入力・マイクでも切れます。スピーカーで音声のオンオフ。",
     soundOn: "音声オン",
     soundOff: "音声オフ",
+    signalsOn: "信号オン",
+    signalsOff: "信号オフ",
     linkLive: "セキュアリンク確立",
     bargeHint: "話してください — 止まって先にあなたの言葉を受けます。",
     talkListening: "聴取中",
@@ -620,6 +640,8 @@ const DEMO = {
       "דברו בזמן שאני מדבר — אני עוצר ושומע אתכם קודם. קריאה, הקלדה או מיקרופון גם עוצרים. הרמקול משתיק או מחזיר אותו.",
     soundOn: "קול פועל",
     soundOff: "קול כבוי",
+    signalsOn: "אותות פועלים",
+    signalsOff: "אותות כבויים",
     linkLive: "קישור מאובטח הוקם",
     bargeHint: "דברו — אני עוצר ושומע אתכם קודם.",
     talkListening: "מאזין",

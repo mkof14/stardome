@@ -49,12 +49,20 @@ import {
   type NeuralVoiceStatus,
 } from "@/lib/pilot-voice";
 import {
+  PilotCueToggle,
   PilotDemoDock,
   PilotDemoStage,
   PilotSoundDock,
   PilotVoiceNeed,
   PilotWatchCalls,
 } from "@/components/bridge/pilot-demo";
+import {
+  cueForDemoBeat,
+  cuesEnabled,
+  playPilotCue,
+  writeCuesEnabled,
+  type PilotCue,
+} from "@/lib/pilot-cues";
 import { PilotTalkWindow } from "@/components/bridge/pilot-talk-window";
 import {
   BARGE_GRACE_MS,
@@ -100,6 +108,7 @@ export function Helm() {
   const [langsOpen, setLangsOpen] = useState(false);
   const [mic, setMic] = useState<MicState>("idle");
   const [voiceOn, setVoiceOn] = useState(true);
+  const [cuesOn, setCuesOn] = useState(() => cuesEnabled());
   const [levels, setLevels] = useState<number[]>(() => silenceBars());
   const [wave, setWave] = useState<number[]>(() => silenceWave());
   const [peak, setPeak] = useState(false);
@@ -137,6 +146,7 @@ export function Helm() {
   const lastNote = useRef<string | null>(null);
   const openRef = useRef(open);
   const voiceOnRef = useRef(voiceOn);
+  const cuesOnRef = useRef(cuesOn);
   const demoCancel = useRef(false);
   const drillingRef = useRef(false);
   const demoIndexRef = useRef(0);
@@ -165,7 +175,26 @@ export function Helm() {
   const need = voiceNeed(recogLang, voices, neural);
   openRef.current = open;
   voiceOnRef.current = voiceOn;
+  cuesOnRef.current = cuesOn;
   micRef.current = mic;
+
+  useEffect(() => {
+    setCuesOn(cuesEnabled());
+  }, []);
+
+  function cue(kind: PilotCue) {
+    playPilotCue(kind, cuesOnRef.current);
+  }
+
+  function toggleCues() {
+    setCuesOn((current) => {
+      const next = !current;
+      writeCuesEnabled(next);
+      cuesOnRef.current = next;
+      if (next) playPilotCue("open", true);
+      return next;
+    });
+  }
 
   useEffect(() => {
     if (typeof window === "undefined" || !window.speechSynthesis) return;
@@ -317,6 +346,7 @@ export function Helm() {
     if (!openRef.current && hasPicture && !first) {
       setUnread(true);
       setNotePulse(true);
+      cue(watch.urgent ? "urgent" : "note");
     }
     if (!hasPicture || first) return;
     const brief = watchReply(session, recogLang);
@@ -608,6 +638,7 @@ export function Helm() {
         bargeArmed.current = false;
         startMeter(stream);
         setMic("listening");
+        cue("listen");
       } else {
         bargeArmed.current = true;
         startVad(stream);
@@ -818,6 +849,7 @@ export function Helm() {
       setTalkHud(false);
     }
     setMic("speaking");
+    if (!drillingRef.current) cue(tone === "warn" ? "warn" : "speak");
     void startListen("barge");
     try {
       const controller = new AbortController();
@@ -875,6 +907,7 @@ export function Helm() {
   }
 
   function stopDemo() {
+    const was = drillingRef.current;
     runToken.current += 1;
     demoCancel.current = true;
     drillingRef.current = false;
@@ -883,6 +916,7 @@ export function Helm() {
     setTalkHud(false);
     publishPilotSpeakFocus({ focus: null, speaking: false });
     stopSpeech();
+    if (was) cue("stop");
   }
 
   function controlDemo(action: PilotDemoControl) {
@@ -923,6 +957,7 @@ export function Helm() {
     setUnread(false);
     setVoiceOn(true);
     voiceOnRef.current = true;
+    cue("demo");
     const beats = demoBeats(session, recogLang);
     const start = Math.max(0, from ?? 0);
     setDemoTotal(beats.length);
@@ -947,6 +982,7 @@ export function Helm() {
           text: beat.text,
         },
       ]);
+      cue(cueForDemoBeat(beat));
       if (beat.speak) {
         publishPilotSpeakFocus({
           focus: beat.focus,
@@ -969,6 +1005,7 @@ export function Helm() {
     publishPilotSpeakFocus({ focus: null, speaking: false });
     releaseBarge();
     setMic("idle");
+    cue("stop");
   }
 
   async function sendMessage(text: string) {
@@ -991,6 +1028,7 @@ export function Helm() {
     });
     setDraft("");
     setMic("processing");
+    cue("ack");
 
     try {
       const response = await fetch("/api/assistant", {
@@ -1040,6 +1078,7 @@ export function Helm() {
         });
         setMic("idle");
         setTalkHud(false);
+        cue("error");
         return;
       }
       const assistantId = messageId();
@@ -1084,6 +1123,7 @@ export function Helm() {
       });
       setMic("idle");
       setTalkHud(false);
+      cue("error");
     }
   }
 
@@ -1122,6 +1162,7 @@ export function Helm() {
           wave={wave}
           peak={peak}
           voiceOn={voiceOn}
+          cuesOn={cuesOn}
           onDraft={setDraft}
           onSend={(text) => void sendMessage(text)}
           onClose={() => {
@@ -1131,6 +1172,7 @@ export function Helm() {
           }}
           onMic={() => void toggleMic()}
           onToggleSound={toggleSpeaker}
+          onToggleCues={toggleCues}
         />
       ) : null}
       {open ? (
@@ -1255,6 +1297,8 @@ export function Helm() {
               peak={peak}
               warn={demoBeat.tone === "warn"}
               onToggleSound={toggleSpeaker}
+              cuesOn={cuesOn}
+              onToggleCues={toggleCues}
             />
           ) : null}
 
@@ -1352,6 +1396,10 @@ export function Helm() {
                     soundOnLabel={surface.speakerOn}
                     soundOffLabel={surface.speakerOff}
                     onToggle={toggleSpeaker}
+                    cuesOn={cuesOn}
+                    cuesOnLabel={demoCopy.signalsOn}
+                    cuesOffLabel={demoCopy.signalsOff}
+                    onToggleCues={toggleCues}
                   />
                 </div>
               )}
@@ -1403,6 +1451,7 @@ export function Helm() {
             setOpen(true);
             setUnread(false);
             setScreen("advice");
+            cue(watch.urgent ? "urgent" : "note");
           }}
         />
       ) : null}
@@ -1416,6 +1465,13 @@ export function Helm() {
           onNext={() => controlDemo("next")}
           onReset={() => controlDemo("reset")}
         />
+        <PilotCueToggle
+          compact
+          on={cuesOn}
+          onLabel={demoCopy.signalsOn}
+          offLabel={demoCopy.signalsOff}
+          onToggle={toggleCues}
+        />
         <button
           type="button"
           data-testid="assistant-toggle"
@@ -1428,7 +1484,12 @@ export function Helm() {
             }
             setOpen(true);
             setUnread(false);
-            if (unread || watch.urgent) setScreen("advice");
+            if (unread || watch.urgent) {
+              setScreen("advice");
+              cue(watch.urgent ? "urgent" : "note");
+            } else {
+              cue("open");
+            }
           }}
           aria-pressed={open}
           aria-label={open ? surface.hide : surface.open}

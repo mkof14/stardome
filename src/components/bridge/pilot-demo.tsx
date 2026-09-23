@@ -101,6 +101,41 @@ export function PilotDemoDock({
   );
 }
 
+export function PilotCueToggle({
+  on,
+  onLabel,
+  offLabel,
+  onToggle,
+  compact,
+}: {
+  on: boolean;
+  onLabel: string;
+  offLabel: string;
+  onToggle: () => void;
+  compact?: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      data-testid={compact ? "pilot-cues-dock" : "pilot-cues-toggle"}
+      data-on={on ? "true" : "false"}
+      onClick={onToggle}
+      aria-pressed={!on}
+      aria-label={on ? onLabel : offLabel}
+      title={on ? onLabel : offLabel}
+      className={cn(
+        "flex shrink-0 items-center justify-center rounded-xl",
+        compact ? "h-12 w-12 border border-bridge-line bg-bridge-panel" : "h-8 w-8",
+        on ? "text-[#38BDF8]" : "text-attn",
+        compact && on && "border-[#38BDF8]/50",
+        compact && !on && "border-attn/50 bg-attn/10",
+      )}
+    >
+      <HudGlyph name="bell" className={compact ? "h-4 w-4" : "h-4 w-4"} />
+    </button>
+  );
+}
+
 export function PilotSoundDock({
   voiceOn,
   speaking,
@@ -110,6 +145,10 @@ export function PilotSoundDock({
   soundOnLabel,
   soundOffLabel,
   onToggle,
+  cuesOn,
+  cuesOnLabel,
+  cuesOffLabel,
+  onToggleCues,
 }: {
   voiceOn: boolean;
   speaking: boolean;
@@ -119,6 +158,10 @@ export function PilotSoundDock({
   soundOnLabel: string;
   soundOffLabel: string;
   onToggle: () => void;
+  cuesOn?: boolean;
+  cuesOnLabel?: string;
+  cuesOffLabel?: string;
+  onToggleCues?: () => void;
 }) {
   const live = Boolean((speaking && voiceOn) || listening);
   return (
@@ -147,6 +190,14 @@ export function PilotSoundDock({
       >
         {voiceOn ? <SpeakerOnIcon /> : <SpeakerOffIcon />}
       </button>
+      {cuesOnLabel && cuesOffLabel && onToggleCues ? (
+        <PilotCueToggle
+          on={Boolean(cuesOn)}
+          onLabel={cuesOnLabel}
+          offLabel={cuesOffLabel}
+          onToggle={onToggleCues}
+        />
+      ) : null}
       <StudioVu levels={levels} peak={Boolean(peak)} live={live} />
       <p
         className={cn(
@@ -172,6 +223,8 @@ export function PilotDemoStage({
   peak,
   warn,
   onToggleSound,
+  cuesOn,
+  onToggleCues,
 }: {
   copy: PilotDemoCopy;
   beat: DemoBeat;
@@ -184,6 +237,8 @@ export function PilotDemoStage({
   peak?: boolean;
   warn?: boolean;
   onToggleSound: () => void;
+  cuesOn?: boolean;
+  onToggleCues?: () => void;
 }) {
   return (
     <div
@@ -235,6 +290,10 @@ export function PilotDemoStage({
         soundOnLabel={copy.soundOn}
         soundOffLabel={copy.soundOff}
         onToggle={onToggleSound}
+        cuesOn={cuesOn}
+        cuesOnLabel={copy.signalsOn}
+        cuesOffLabel={copy.signalsOff}
+        onToggleCues={onToggleCues}
       />
       <p className="font-body text-sm leading-relaxed text-bridge-dim">
         {copy.interruptHint}

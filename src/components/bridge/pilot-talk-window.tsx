@@ -28,11 +28,13 @@ export function PilotTalkWindow({
   wave,
   peak,
   voiceOn,
+  cuesOn,
   onDraft,
   onSend,
   onClose,
   onMic,
   onToggleSound,
+  onToggleCues,
 }: {
   copy: PilotDemoCopy;
   title: string;
@@ -47,11 +49,13 @@ export function PilotTalkWindow({
   wave: number[];
   peak: boolean;
   voiceOn: boolean;
+  cuesOn: boolean;
   onDraft: (value: string) => void;
   onSend: (text: string) => void;
   onClose: () => void;
   onMic: () => void;
   onToggleSound: () => void;
+  onToggleCues: () => void;
 }) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -150,6 +154,10 @@ export function PilotTalkWindow({
               soundOnLabel={copy.soundOn}
               soundOffLabel={copy.soundOff}
               onToggle={onToggleSound}
+              cuesOn={cuesOn}
+              cuesOnLabel={copy.signalsOn}
+              cuesOffLabel={copy.signalsOff}
+              onToggleCues={onToggleCues}
             />
             <form
               onSubmit={(event) => {

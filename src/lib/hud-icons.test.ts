@@ -24,6 +24,7 @@ const REQUIRED = [
   "next",
   "reset",
   "compress",
+  "bell",
 ] as const;
 
 describe("HUD cockpit glyphs", () => {
