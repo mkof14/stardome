@@ -102,6 +102,13 @@ export function isListenOrder(heard: string) {
   return words.every((word) => LISTEN.has(word));
 }
 
+export function isHearCheck(heard: string) {
+  const q = normalizeHeard(heard);
+  return /(hear me|hearing me|can you hear|do you hear|are you listen|me escuch|m entends|horst du|слыш|чуеш|чуєш|تسمع|听得|听我|聞こ|שומע)/.test(
+    q,
+  );
+}
+
 /** A real watch ask, not a one-word mutter or a halt. Used to cut speech and answer. */
 export function isOfficerAsk(heard: string) {
   if (isHaltOrder(heard) || isListenOrder(heard)) return false;

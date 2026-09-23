@@ -12,6 +12,13 @@ describe("localPilotReply", () => {
     expect(reply).not.toMatch(/\$/);
   });
 
+  it("answers a hear-check instead of a product briefing", () => {
+    const { reply, langCode } = localPilotReply("Ты меня слышишь?", "en");
+    expect(langCode).toBe("ru");
+    expect(reply).toBe("Да. Слышу вас.");
+    expect(localPilotReply("Can you hear me?", "en").reply).toBe("Yes. I hear you.");
+  });
+
   it("answers English AGRON 1 questions from the site copy", () => {
     const { reply, langCode } = localPilotReply(
       "What is on AGRON 1?",

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isHaltOrder, isListenOrder, isOfficerAsk, pilotOrder } from "@/lib/pilot-orders";
+import { isHaltOrder, isHearCheck, isListenOrder, isOfficerAsk, pilotOrder } from "@/lib/pilot-orders";
 
 describe("pilot orders", () => {
   it("halts on stop in every StarWall language", () => {
@@ -60,5 +60,8 @@ describe("pilot orders", () => {
     expect(isOfficerAsk("слушай")).toBe(false);
     expect(isOfficerAsk("да")).toBe(false);
     expect(isOfficerAsk("ok")).toBe(false);
+    expect(isHearCheck("Ты меня слышишь?")).toBe(true);
+    expect(isHearCheck("Can you hear me")).toBe(true);
+    expect(isHearCheck("Pilot, instruments")).toBe(false);
   });
 });

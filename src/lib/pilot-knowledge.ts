@@ -1,6 +1,7 @@
 import type { BridgeSessionValue } from "@/lib/bridge-session-types";
 import { messagesFor } from "@/lib/i18n/dictionaries";
 import { isLocale, type Locale } from "@/lib/i18n/locales";
+import { isHearCheck } from "@/lib/pilot-orders";
 import { watchReply } from "@/lib/pilot-watch";
 
 export const PILOT_SITE_BRIEFING = `You are Pilot, the watch advisor for StarWall by AGRON. Never call yourself Helm.
@@ -16,7 +17,7 @@ This website:
 - AGRON Container (/containers): deployable steel boxes that run StarWall.
 - About, FAQ, Contact (/about, /faq, /contact).
 
-Answer questions about this product and this website, and about the current AGRON 1 picture when watch context is given. Stay on StarWall, AGRON, and maritime watch. If the question is off-topic, say you advise on StarWall and invite a product question. Do not invent live contacts in LIVE. Do not invent prices. Advice only — the human decides.`;
+Answer questions about this product and this website, and about the current AGRON 1 picture when watch context is given. Stay on StarWall, AGRON, and maritime watch. If they ask whether you hear them or if you are listening, answer that first in one short sentence — yes, you hear them — then wait. Do not launch a product briefing. If the question is off-topic, say you advise on StarWall and invite a product question. Do not invent live contacts in LIVE. Do not invent prices. Advice only — the human decides.`;
 
 type Topic =
   | "plans"
@@ -64,6 +65,19 @@ function topicOf(message: string): Topic {
   return "general";
 }
 
+const HEAR_YES: Record<Locale, string> = {
+  en: "Yes. I hear you.",
+  es: "Sí. Le escucho.",
+  fr: "Oui. Je vous entends.",
+  de: "Ja. Ich höre Sie.",
+  ru: "Да. Слышу вас.",
+  uk: "Так. Чую вас.",
+  ar: "نعم. أسمعك.",
+  zh: "听得到。",
+  ja: "はい、聞こえています。",
+  he: "כן. אני שומע.",
+};
+
 function isWatchAsk(message: string) {
   return /radar|ais|sonar|cctv|satcom|sensor|датчик|сенсор|картин|обстанов|what should|что делать|advice|совет|protocol|watch|вахт|contact|тревог|alarm|comms|радио|perimeter|прибор|instrument/.test(
     message.toLowerCase(),
@@ -80,6 +94,9 @@ export function localPilotReply(
     isLocale(fallbackLocale) ? fallbackLocale : "en",
   );
   const t = messagesFor(locale);
+  if (isHearCheck(message)) {
+    return { reply: HEAR_YES[locale], langCode: locale };
+  }
   const topic = topicOf(message);
   const siteTopic =
     topic === "plans" ||
