@@ -48,7 +48,7 @@ export function WatchKitPanel({
       <div className="grid gap-3 sm:grid-cols-2">
         {KIT_KINDS.map((kind) => (
           <div key={kind} className="border border-bridge-line bg-bridge-bg/40">
-            <p className="border-b border-bridge-line px-2.5 py-1.5 font-mono text-[9px] tracking-[0.18em] text-orange">
+            <p className="border-b border-bridge-line px-2.5 py-1.5 font-mono text-[11px] tracking-[0.18em] text-[color:var(--watch-accent)]">
               {copy.kinds[kind]}
             </p>
             <ul className="divide-y divide-bridge-line/70">
@@ -61,8 +61,8 @@ export function WatchKitPanel({
                     className="flex items-start justify-between gap-2 px-2.5 py-1.5"
                   >
                     <div className="min-w-0">
-                      <p className="font-mono text-[11px] text-bridge-text">{item.name}</p>
-                      <p className="truncate font-mono text-[10px] text-bridge-dim">
+                      <p className="font-mono text-[13px] text-bridge-text">{item.name}</p>
+                      <p className="truncate font-mono text-[11px] text-bridge-dim">
                         {kitReading(item, ctx)}
                       </p>
                     </div>

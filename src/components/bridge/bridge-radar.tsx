@@ -7,6 +7,7 @@ import {
   motionTowardOwnShip,
   radarScene,
   toneColor,
+  trackHue,
   type ContactMotion,
   type PictureContact,
 } from "@/lib/picture-scenes";
@@ -39,11 +40,13 @@ function motionClass(motion?: ContactMotion) {
 }
 
 function ContactMark({ contact }: { contact: PictureContact }) {
-  const color = toneColor(contact.tone);
+  const color = trackHue(contact);
+  const alarm = toneColor(contact.tone);
+  const pulse = contact.tone === "ok" ? color : alarm;
   const shape = contact.shape ?? "vessel";
   if (shape === "uav") {
     return (
-      <g fill="none" stroke={color} strokeWidth="1.3">
+      <g fill="none" stroke={pulse} strokeWidth="1.3">
         <circle className="hud-contact-pulse" r="14" />
         <path d="M0,-7 L6,0 L0,7 L-6,0 Z" fill={color} stroke="none" />
         <g className="uav-rotor">
@@ -54,7 +57,7 @@ function ContactMark({ contact }: { contact: PictureContact }) {
   }
   if (shape === "usv") {
     return (
-      <g fill="none" stroke={color} strokeWidth="1.3">
+      <g fill="none" stroke={pulse} strokeWidth="1.3">
         <circle className="hud-contact-pulse" r="13" />
         <path d="M-8,4 L-5,-5 H5 L8,4 Z" fill={color} fillOpacity="0.85" />
       </g>
@@ -62,7 +65,7 @@ function ContactMark({ contact }: { contact: PictureContact }) {
   }
   if (shape === "mob") {
     return (
-      <g fill="none" stroke={color} strokeWidth="1.5">
+      <g fill="none" stroke={pulse} strokeWidth="1.5">
         <circle className="hud-contact-pulse" r="16" />
         <circle r="5" fill={color} stroke="none" />
         <path d="M-7,8 L0,2 L7,8" />
@@ -72,7 +75,7 @@ function ContactMark({ contact }: { contact: PictureContact }) {
   return (
     <g>
       {contact.tone !== "ok" ? (
-        <circle className="hud-contact-pulse" r="14" fill="none" stroke={color} strokeWidth="1.2" />
+        <circle className="hud-contact-pulse" r="14" fill="none" stroke={pulse} strokeWidth="1.2" />
       ) : null}
       <circle r="5" fill="none" stroke={color} strokeWidth="1.4" />
       <circle r="3.5" fill={color} />
@@ -120,7 +123,7 @@ export function BridgeRadar({
       data-testid="picture-scene"
       data-scene={scenarioId || "watch"}
     >
-      <div className="flex items-center justify-between gap-3 border-b border-[#13432C] bg-[#07150E] px-3 py-1 font-mono text-[9px] tracking-[0.16em] text-[#7DCF9A]">
+      <div className="flex items-center justify-between gap-3 border-b border-[#13432C] bg-[#07150E] px-3 py-1.5 font-mono text-[11px] tracking-[0.16em] text-[#7DCF9A]">
         <span>S-BAND ARPA · RDR-6</span>
         <span className="hidden truncate sm:inline">{scene.extra}</span>
         <span>GAIN 72 · SEA 18 · RAIN 0 · TRAILS 6M</span>
@@ -152,13 +155,13 @@ export function BridgeRadar({
         <circle cx="340" cy="214" r="168" fill="none" stroke="#1A5C3A" strokeWidth="1.2" />
         <circle cx="340" cy="214" r="112" fill="none" stroke="#164E32" strokeWidth="1" />
         <circle cx="340" cy="214" r="56" fill="none" stroke="#164E32" strokeWidth="1" />
-        <text x="345" y="207" fontFamily="monospace" fontSize="8.5" fill="#2F6B4A">
+        <text x="345" y="207" fontFamily="monospace" fontSize="11" fill="#2F6B4A">
           6NM
         </text>
-        <text x="345" y="151" fontFamily="monospace" fontSize="8.5" fill="#2F6B4A">
+        <text x="345" y="151" fontFamily="monospace" fontSize="11" fill="#2F6B4A">
           4NM
         </text>
-        <text x="345" y="95" fontFamily="monospace" fontSize="8.5" fill="#2F6B4A">
+        <text x="345" y="95" fontFamily="monospace" fontSize="11" fill="#2F6B4A">
           2NM
         </text>
         {TICKS.map((deg) => {
@@ -218,7 +221,7 @@ export function BridgeRadar({
               y1="214"
               x2={selected.x}
               y2={selected.y}
-              stroke={toneColor(selected.tone)}
+              stroke={trackHue(selected)}
               strokeWidth="1"
               strokeDasharray="3 4"
               opacity="0.75"
@@ -228,7 +231,7 @@ export function BridgeRadar({
               cy={selected.y}
               r="22"
               fill="none"
-              stroke={toneColor(selected.tone)}
+              stroke={trackHue(selected)}
               strokeWidth="1.2"
             />
           </g>
@@ -269,15 +272,15 @@ export function BridgeRadar({
                       x="12"
                       y="4"
                       fontFamily="monospace"
-                      fontSize="9.5"
+                      fontSize="12"
                       fontWeight={active ? "bold" : "normal"}
-                      fill={toneColor(contact.tone)}
+                      fill={trackHue(contact)}
                     >
                       {contact.trackNo ? `${contact.trackNo} ` : ""}
                       {contact.label}
                     </text>
                     {active && contact.rangeText ? (
-                      <text x="12" y="15" fontFamily="monospace" fontSize="8" fill="#9ec9ae">
+                      <text x="12" y="16" fontFamily="monospace" fontSize="10" fill="#9ec9ae">
                         {contact.rangeText}
                         {contact.object ? ` · ${contact.object}` : ""}
                       </text>

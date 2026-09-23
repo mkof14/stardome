@@ -20,6 +20,7 @@ import { ScenarioLibrary } from "@/components/bridge/scenario-library";
 import { SessionReport } from "@/components/bridge/session-report";
 import { SituationalScope } from "@/components/bridge/situational-scope";
 import { TrainingTour } from "@/components/bridge/training-tour";
+import { CompressScreenButton } from "@/components/bridge/compress-screen-button";
 import { ViewSwitcher } from "@/components/bridge/view-switcher";
 import { WatchKitPanel } from "@/components/bridge/watch-kit-panel";
 import { UtcClock } from "@/components/bridge/utc-clock";
@@ -131,7 +132,7 @@ export function BridgeConsole() {
   const { t } = usePreferences();
   const { locale, hud } = useHud();
   const { live } = useAppMode();
-  const { view } = useAgronView();
+  const { view, density } = useAgronView();
   const { session } = useAuthSession();
   const canRunScenarios = !session || canTriggerScenarios(session.role);
   const { setCrisis } = useCrisisMode();
@@ -628,21 +629,29 @@ export function BridgeConsole() {
       {crisis ? (
         <CrisisBanner scenarioName={activeScenario?.name ?? selectedName} onExit={resetToNormal} />
       ) : null}
-      <div className="mx-auto max-w-6xl space-y-4 px-4 py-6 md:px-6">
+      <div
+        className={cn(
+          "mx-auto",
+          density === "compact"
+            ? "max-w-6xl space-y-3 px-3 py-4 md:px-5"
+            : "max-w-[100rem] space-y-5 px-4 py-6 md:px-8",
+        )}
+      >
         <p className="hidden max-[599px]:block border border-attn/40 bg-attn/10 px-3 py-2 font-mono text-[11px] text-attn">
           {t.bridge.mobileNotice}
         </p>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <h1 className="font-ui text-2xl font-bold tracking-wide">
+            <h1 className="font-ui text-3xl font-bold tracking-wide">
               {t.bridge.title}
             </h1>
-            <p className="mt-1 font-mono text-[10px] tracking-[0.18em] text-bridge-dim">
+            <p className="mt-1 font-mono text-[12px] tracking-[0.18em] text-bridge-dim">
               {t.bridge.subtitle}
             </p>
             <ViewSwitcher />
           </div>
           <div className="flex flex-wrap items-start justify-end gap-3">
+            <CompressScreenButton />
             <Link
               href="/interface/connections"
               data-testid="connections-map-link"
@@ -730,10 +739,10 @@ export function BridgeConsole() {
                 />
               </IconWell>
               <div>
-              <p className="font-body text-xs text-bridge-dim">
+              <p className="font-body text-sm text-bridge-dim">
                 {label}
               </p>
-              <p className="font-body text-sm text-bridge-text">
+              <p className="font-body text-base text-bridge-text">
                 {live ? "—" : TELEMETRY_VALUES[index]}
               </p>
               </div>
@@ -769,7 +778,7 @@ export function BridgeConsole() {
           />
         ) : null}
 
-        <div className={cn("grid gap-4 lg:grid-cols-[3fr_2fr]", view === "plant" && "hidden")}>
+        <div className={cn("grid gap-5 lg:grid-cols-[minmax(0,1.45fr)_minmax(18rem,0.85fr)]", view === "plant" && "hidden")}>
           <div id="situational-picture" data-testid="situational-panel" className="scroll-mt-20">
           <HudFrame variant="inset" className="mb-2">
           <div

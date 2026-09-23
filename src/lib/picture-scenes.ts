@@ -1068,10 +1068,43 @@ export const TONE_CRIT = "#DC2626";
 export const TONE_ATTN = "#E8B23D";
 export const TONE_OK = "#33D3A6";
 
+/** Distinct T01…T10 identities — plot, chips, and table stay on the same hue. */
+export const TRACK_HUES = [
+  "#38BDF8",
+  "#F59E0B",
+  "#A78BFA",
+  "#34D399",
+  "#F472B6",
+  "#FB923C",
+  "#22D3EE",
+  "#FACC15",
+  "#818CF8",
+  "#FB7185",
+] as const;
+
 export function toneColor(tone: ContactTone) {
   if (tone === "attn") return TONE_ATTN;
   if (tone === "crit") return TONE_CRIT;
   return TONE_OK;
+}
+
+export function trackHue(
+  track?: { trackNo?: string } | string | null,
+  index = 0,
+): string {
+  const raw = typeof track === "string" ? track : track?.trackNo;
+  const parsed = raw ? Number.parseInt(raw.replace(/\D/g, ""), 10) : Number.NaN;
+  const n = Number.isFinite(parsed) && parsed > 0 ? parsed : index + 1;
+  return TRACK_HUES[(n - 1) % TRACK_HUES.length];
+}
+
+export function trackTint(hex: string, alpha = 0.16) {
+  const n = hex.replace("#", "");
+  const r = Number.parseInt(n.slice(0, 2), 16);
+  const g = Number.parseInt(n.slice(2, 4), 16);
+  const b = Number.parseInt(n.slice(4, 6), 16);
+  if ([r, g, b].some((value) => Number.isNaN(value))) return `rgb(56 189 248 / ${alpha})`;
+  return `rgb(${r} ${g} ${b} / ${alpha})`;
 }
 
 export function motionTowardOwnShip(x: number, y: number, px: number) {

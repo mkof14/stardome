@@ -34,9 +34,9 @@ export function HudPanel({
       )}
     >
       <header className="relative z-[1] mb-3 flex items-center justify-between gap-3">
-        <h2 className="flex items-center gap-2 font-body text-base font-semibold tracking-tight text-bridge-text">
+        <h2 className="flex items-center gap-2 font-body text-lg font-semibold tracking-tight text-bridge-text">
           {glyph ? (
-            <IconWell className="h-8 w-8 shrink-0 text-orange">
+            <IconWell className="h-8 w-8 shrink-0 text-[color:var(--hud-accent,#F15A00)]">
               <HudGlyph name={glyph} className="h-4 w-4" />
             </IconWell>
           ) : null}

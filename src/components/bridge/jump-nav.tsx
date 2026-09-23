@@ -249,7 +249,7 @@ export function JumpNav() {
   useEffect(() => {
     function onHelm(event: Event) {
       const detail = (event as CustomEvent<{ open?: boolean }>).detail;
-      if (detail?.open) setActive("helm");
+      if (detail?.open && Date.now() >= lockUntil.current) setActive("helm");
     }
     window.addEventListener(HELM_STATE_EVENT, onHelm);
     return () => window.removeEventListener(HELM_STATE_EVENT, onHelm);
@@ -302,17 +302,10 @@ export function JumpNav() {
       data-expanded={expanded ? "true" : "false"}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className={cn(
-        "fixed bottom-0 left-0 top-16 z-30 flex flex-col border-r border-bridge-line bg-bridge-panel/95 text-bridge-text backdrop-blur-md",
-        expanded ? "w-56" : "w-[4.85rem]",
-      )}
+      className="fixed bottom-0 left-0 top-16 z-30 flex w-[4.85rem] flex-col border-r border-bridge-line bg-bridge-panel/95 text-bridge-text backdrop-blur-md"
     >
-      <div className="flex h-12 items-center justify-between border-b border-bridge-line px-2">
-        {expanded ? (
-          <p className="px-1 font-body text-xs font-medium text-bridge-dim">{hud.jump.kicker}</p>
-        ) : (
-          <span className="sr-only">{hud.jump.sections}</span>
-        )}
+      <div className="flex h-12 items-center justify-center border-b border-bridge-line px-2">
+        <span className="sr-only">{hud.jump.sections}</span>
         <button
           type="button"
           data-testid="jump-nav-toggle"
@@ -328,7 +321,7 @@ export function JumpNav() {
         </button>
       </div>
 
-      <nav aria-label={hud.jump.sections} className="flex-1 overflow-y-auto py-1">
+      <nav aria-label={hud.jump.sections} className="flex-1 overflow-y-auto overflow-x-visible py-1">
         <ul>
           {visible.map((item) => {
             const key = numbered.find((row) => row.item.id === item.id)?.key;
@@ -344,24 +337,19 @@ export function JumpNav() {
                 >
                   {item.icon}
                 </span>
-                <span
-                  className={cn(
-                    "font-body font-medium",
-                    expanded
-                      ? "min-w-0 flex-1 truncate text-left text-sm"
-                      : "mt-1 line-clamp-2 w-full text-center text-[10px] leading-tight",
-                  )}
-                >
+                <span className="mt-1 line-clamp-2 w-full text-center font-body text-[11px] font-medium leading-tight">
                   {label}
                 </span>
-                {expanded && key ? (
-                  <span className="font-body text-[11px] text-bridge-dim">{key}</span>
+                {expanded ? (
+                  <span className="pointer-events-none absolute start-full top-1/2 z-40 ms-1.5 -translate-y-1/2 whitespace-nowrap rounded-lg border border-bridge-line bg-bridge-panel px-2 py-1 font-body text-sm text-bridge-text shadow-lg">
+                    {label}
+                    {key ? <span className="ms-2 text-[11px] text-bridge-dim">{key}</span> : null}
+                  </span>
                 ) : null}
               </>
             );
             const className = cn(
-              "relative flex w-full rounded-xl",
-              expanded ? "flex-row items-center gap-2 px-2 py-1.5" : "flex-col items-center px-1 py-2",
+              "relative flex w-full flex-col items-center rounded-xl px-1 py-2",
               current
                 ? "bg-orange/10 text-orange"
                 : "text-bridge-text hover:bg-bridge-bg hover:text-orange",

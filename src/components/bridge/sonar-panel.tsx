@@ -4,6 +4,7 @@ import {
   motionTowardOwnShip,
   sonarScene,
   toneColor,
+  trackHue,
 } from "@/lib/picture-scenes";
 
 const MONO = "var(--font-jetbrains), ui-monospace, monospace";
@@ -25,7 +26,7 @@ export function SonarView({
       data-testid="picture-scene"
       data-scene={scenarioId || "watch"}
     >
-      <div className="flex items-center justify-between border-b border-[#0E4A55] bg-[#031418] px-3 py-1 font-mono text-[9px] tracking-[0.16em] text-[#6DE4F2]">
+      <div className="flex items-center justify-between border-b border-[#0E4A55] bg-[#031418] px-3 py-1.5 font-mono text-[11px] tracking-[0.16em] text-[#6DE4F2]">
         <span>HF SONAR · 200 kHz</span>
         <span>PASSIVE / ACTIVE · DEPTH SCALE</span>
       </div>
@@ -34,13 +35,13 @@ export function SonarView({
         <circle cx="340" cy="214" r="168" fill="none" stroke="#0E4A55" strokeWidth="1.2" />
         <circle cx="340" cy="214" r="112" fill="none" stroke="#0A3A44" strokeWidth="1" />
         <circle cx="340" cy="214" r="56" fill="none" stroke="#0A3A44" strokeWidth="1" />
-        <text x="348" y="95" fontFamily={MONO} fontSize="8.5" fill="#1A6A78">
+        <text x="348" y="95" fontFamily={MONO} fontSize="11" fill="#1A6A78">
           0-20M
         </text>
-        <text x="348" y="151" fontFamily={MONO} fontSize="8.5" fill="#3C4750">
+        <text x="348" y="151" fontFamily={MONO} fontSize="11" fill="#3C4750">
           20-50M
         </text>
-        <text x="348" y="207" fontFamily={MONO} fontSize="8.5" fill="#3C4750">
+        <text x="348" y="207" fontFamily={MONO} fontSize="11" fill="#3C4750">
           50M+
         </text>
         <circle
@@ -70,7 +71,8 @@ export function SonarView({
             contact.y,
             contact.motion === "inbound" ? 28 : 12,
           );
-          const color = toneColor(contact.tone);
+          const color = trackHue(contact);
+          const alarm = toneColor(contact.tone);
           const active = contact.id === selectedId;
           return (
             <g
@@ -96,10 +98,11 @@ export function SonarView({
                   ["--my" as string]: `${shift.my}px`,
                 }}
               >
-                <circle className="hud-contact-pulse" r="16" fill="none" stroke={color} />
+                <circle className="hud-contact-pulse" r="16" fill="none" stroke={alarm} />
                 <circle r="5" fill="none" stroke={color} strokeWidth="1.4" />
                 <circle r="3.5" fill={color} />
-                <text x="10" y="4" fontFamily={MONO} fontSize="9.5" fill={color}>
+                <text x="10" y="4" fontFamily={MONO} fontSize="12" fill={color}>
+                  {contact.trackNo ? `${contact.trackNo} ` : ""}
                   {contact.label}
                 </text>
               </g>

@@ -7,7 +7,15 @@ import { cn } from "@/lib/cn";
 import { useBlackBox } from "@/lib/black-box";
 import { useBridgeSession } from "@/lib/bridge-session";
 import { syncConversationToCloud } from "@/lib/cloud-sync";
-import { CLEAR_SCREENS_EVENT, HELM_OPEN_EVENT, PILOT_ASK_EVENT, PILOT_DEMO_EVENT, publishHelmState } from "@/lib/helm-events";
+import {
+  CLEAR_SCREENS_EVENT,
+  HELM_OPEN_EVENT,
+  PILOT_ASK_EVENT,
+  PILOT_DEMO_CONTROL_EVENT,
+  PILOT_DEMO_EVENT,
+  publishHelmState,
+  type PilotDemoControl,
+} from "@/lib/helm-events";
 import {
   PilotDesk,
   PilotDeskBar,
@@ -39,7 +47,7 @@ import {
   type NeuralVoiceStatus,
 } from "@/lib/pilot-voice";
 import {
-  PilotDemoIcon,
+  PilotDemoDock,
   PilotDemoStage,
   PilotSoundDock,
   PilotVoiceNeed,
@@ -121,12 +129,15 @@ export function Helm() {
   const rafRef = useRef<number | null>(null);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const sendRef = useRef<(text: string) => Promise<void>>(async () => {});
-  const runDemoRef = useRef<() => Promise<void>>(async () => {});
+  const runDemoRef = useRef<(from?: number) => Promise<void>>(async () => {});
+  const controlDemoRef = useRef<(action: PilotDemoControl) => void>(() => {});
   const lastNote = useRef<string | null>(null);
   const openRef = useRef(open);
   const voiceOnRef = useRef(voiceOn);
   const demoCancel = useRef(false);
   const drillingRef = useRef(false);
+  const demoIndexRef = useRef(0);
+  const runToken = useRef(0);
   const speakGen = useRef(0);
   const neuralRef = useRef<HTMLAudioElement | null>(null);
   const speakAbort = useRef<AbortController | null>(null);
@@ -226,8 +237,17 @@ export function Helm() {
       if (drillingRef.current) return;
       void runDemoRef.current();
     }
+    function onControl(event: Event) {
+      const action = (event as CustomEvent<PilotDemoControl>).detail;
+      if (!action) return;
+      controlDemoRef.current(action);
+    }
     window.addEventListener(PILOT_DEMO_EVENT, onDemo);
-    return () => window.removeEventListener(PILOT_DEMO_EVENT, onDemo);
+    window.addEventListener(PILOT_DEMO_CONTROL_EVENT, onControl);
+    return () => {
+      window.removeEventListener(PILOT_DEMO_EVENT, onDemo);
+      window.removeEventListener(PILOT_DEMO_CONTROL_EVENT, onControl);
+    };
   }, []);
 
   useEffect(() => {
@@ -826,6 +846,7 @@ export function Helm() {
   }
 
   function stopDemo() {
+    runToken.current += 1;
     demoCancel.current = true;
     drillingRef.current = false;
     setDrilling(false);
@@ -833,11 +854,36 @@ export function Helm() {
     stopSpeech();
   }
 
-  async function runDemo() {
-    if (drillingRef.current) {
+  function controlDemo(action: PilotDemoControl) {
+    if (action === "stop") {
       stopDemo();
       return;
     }
+    if (action === "play") {
+      void runDemo();
+      return;
+    }
+    if (action === "reset") {
+      void runDemo(0);
+      return;
+    }
+    const beats = demoBeats(session, recogLang);
+    if (action === "back") {
+      void runDemo(Math.max(0, demoIndexRef.current - 1));
+      return;
+    }
+    if (action === "next") {
+      void runDemo(Math.min(Math.max(beats.length - 1, 0), demoIndexRef.current + 1));
+    }
+  }
+
+  async function runDemo(from?: number) {
+    if (from === undefined && drillingRef.current) {
+      stopDemo();
+      return;
+    }
+    const token = ++runToken.current;
+    stopSpeech();
     demoCancel.current = false;
     drillingRef.current = true;
     setDrilling(true);
@@ -847,10 +893,13 @@ export function Helm() {
     voiceOnRef.current = true;
     setTalkHud(true);
     const beats = demoBeats(session, recogLang);
+    const start = Math.max(0, from ?? 0);
     setDemoTotal(beats.length);
-    for (let i = 0; i < beats.length; i += 1) {
+    for (let i = start; i < beats.length; i += 1) {
+      if (token !== runToken.current || demoCancel.current) return;
       const beat = beats[i];
-      if (!beat || demoCancel.current) break;
+      if (!beat) break;
+      demoIndexRef.current = i;
       setDemoStep(i + 1);
       setDemoBeat(beat);
       if (beat.focus === "instruments" || beat.focus === "advice" || beat.focus === "comms") {
@@ -873,6 +922,7 @@ export function Helm() {
         await new Promise((resolve) => window.setTimeout(resolve, 520));
       }
     }
+    if (token !== runToken.current) return;
     drillingRef.current = false;
     setDrilling(false);
     setDemoBeat(null);
@@ -994,6 +1044,7 @@ export function Helm() {
 
   sendRef.current = sendMessage;
   runDemoRef.current = runDemo;
+  controlDemoRef.current = controlDemo;
 
   if (isAuthRoute(pathname) || !helmAllowed) return null;
 
@@ -1002,7 +1053,7 @@ export function Helm() {
   return (
     <div
       data-testid="starwall-assistant"
-      className="fixed bottom-4 end-4 z-[70] font-body"
+      className="fixed bottom-4 end-4 z-[70] flex flex-col items-end font-body"
     >
       {showTalk ? (
         <PilotTalkWindow
@@ -1034,9 +1085,7 @@ export function Helm() {
         <div className="relative flex max-h-[calc(100vh-5.5rem)] flex-col items-end">
         <section className={cn(
           "helm-scope relative flex h-[min(40rem,calc(100vh-5.5rem))] flex-col overflow-hidden rounded-2xl border border-bridge-line bg-bridge-panel text-bridge-text shadow-[0_20px_56px_rgb(15_25_34/0.18)]",
-          drilling
-            ? "w-[min(24rem,calc(100vw-1.5rem))]"
-            : "w-[min(22rem,calc(100vw-1.5rem))]",
+          "w-[min(24rem,calc(100vw-1.5rem))]",
         )}>
           <header className="relative z-[1] flex items-center justify-between gap-2 border-b border-bridge-line bg-bridge-bg px-3 py-3">
             <span
@@ -1107,12 +1156,6 @@ export function Helm() {
                   </ul>
                 ) : null}
               </div>
-              <PilotDemoIcon
-                compact
-                running={drilling}
-                label={drilling ? demoCopy.stop : demoCopy.play}
-                onClick={() => void runDemo()}
-              />
               <button
                 type="button"
                 data-testid="helm-hide"
@@ -1287,42 +1330,45 @@ export function Helm() {
             </form>
           </div>
         </section>
-        <div className="mt-2 flex items-end gap-2">
-          <PilotDemoIcon
-            running={drilling}
-            label={drilling ? demoCopy.stop : demoCopy.play}
-            onClick={() => void runDemo()}
-          />
         </div>
-        </div>
-      ) : (
-        <div className="flex flex-col items-end">
-          {unread ? (
-            <PilotUnreadChip
-              label={desk.unread}
-              onOpen={() => {
-                setOpen(true);
-                setUnread(false);
-              }}
-            />
-          ) : null}
-        <div className="flex items-end gap-2">
-          <PilotDemoIcon
-            running={drilling}
-            label={drilling ? demoCopy.stop : demoCopy.play}
-            onClick={() => void runDemo()}
-          />
+      ) : unread ? (
+        <PilotUnreadChip
+          label={desk.unread}
+          onOpen={() => {
+            setOpen(true);
+            setUnread(false);
+          }}
+        />
+      ) : null}
+      <div className="mt-2 flex items-end gap-2">
+        <PilotDemoDock
+          running={drilling}
+          copy={demoCopy}
+          onPlay={() => void runDemo()}
+          onStop={stopDemo}
+          onBack={() => controlDemo("back")}
+          onNext={() => controlDemo("next")}
+          onReset={() => controlDemo("reset")}
+        />
         <button
           type="button"
           data-testid="assistant-toggle"
           onClick={() => {
+            if (open) {
+              stopListening();
+              setTalkHud(false);
+              setOpen(false);
+              return;
+            }
             setOpen(true);
             setUnread(false);
           }}
-          aria-label={surface.open}
+          aria-pressed={open}
+          aria-label={open ? surface.hide : surface.open}
           className={cn(
-            "helm-fab relative flex h-16 w-16 items-center justify-center overflow-hidden rounded-full border border-orange bg-bridge-panel text-orange",
+            "relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full border border-orange bg-bridge-panel text-orange",
             unread && "helm-fab-pulse",
+            open && "bg-orange/10",
           )}
         >
           <span
@@ -1352,9 +1398,7 @@ export function Helm() {
             <circle cx="24" cy="24" r="2.2" fill="#F15A00" className="helm-idle-led" />
           </svg>
         </button>
-        </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 }

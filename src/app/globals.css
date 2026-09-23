@@ -16,6 +16,14 @@
   --bridge-line: #a9bfd0;
   --bridge-text: #1b2a3a;
   --bridge-dim: #54687a;
+  --watch-accent: #0b7a6e;
+  --plant-accent: #b45309;
+  --demo-accent: #0369a1;
+  --hud-accent: #0b7a6e;
+  --scope-radar: #0e8a5a;
+  --scope-sonar: #0e7a8a;
+  --scope-spectrum: #b8860b;
+  --scope-perimeter: #c06a2a;
 }
 
 .dark {
@@ -32,6 +40,14 @@
   --bridge-line: #2d333d;
   --bridge-text: #e6e4df;
   --bridge-dim: #8d939c;
+  --watch-accent: #33d3a6;
+  --plant-accent: #e8b23d;
+  --demo-accent: #38bdf8;
+  --hud-accent: #33d3a6;
+  --scope-radar: #2ee59a;
+  --scope-sonar: #2dd4e8;
+  --scope-spectrum: #e8b23d;
+  --scope-perimeter: #e8b48a;
 }
 
 body {
@@ -292,6 +308,11 @@ body {
 }
 
 .demo-fab-pulse {
+  animation: demo-fab-pulse 1.6s ease-out infinite;
+}
+
+.demo-fab-ring {
+  box-shadow: 0 0 0 0 rgb(56 189 248 / 0.55);
   animation: demo-fab-pulse 1.6s ease-out infinite;
 }
 
@@ -580,26 +601,56 @@ body {
   position: relative;
 }
 
+.agron-roomy .instrument-radar,
+.agron-roomy .instrument-sonar,
+.agron-roomy .instrument-spectrum,
+.agron-roomy .instrument-perimeter {
+  min-height: 28rem;
+}
+
+.agron-compact .instrument-radar,
+.agron-compact .instrument-sonar,
+.agron-compact .instrument-spectrum,
+.agron-compact .instrument-perimeter {
+  min-height: 18rem;
+}
+
+#bridge-root[data-view="watch"] {
+  --hud-accent: var(--watch-accent);
+}
+
+#bridge-root[data-view="plant"] {
+  --hud-accent: var(--plant-accent);
+}
+
 .instrument-radar {
   background:
     radial-gradient(circle at 50% 48%, rgb(8 42 24 / 0.55), transparent 52%),
     #03140c;
-  box-shadow: inset 0 0 48px rgb(16 90 48 / 0.28);
+  box-shadow:
+    inset 0 0 48px rgb(16 90 48 / 0.28),
+    0 0 0 1px color-mix(in srgb, var(--scope-radar) 45%, transparent);
 }
 
 .instrument-sonar {
   background: #02161c;
-  box-shadow: inset 0 0 48px rgb(8 90 110 / 0.28);
+  box-shadow:
+    inset 0 0 48px rgb(8 90 110 / 0.28),
+    0 0 0 1px color-mix(in srgb, var(--scope-sonar) 45%, transparent);
 }
 
 .instrument-spectrum {
   background: #0c0a06;
-  box-shadow: inset 0 0 40px rgb(120 80 10 / 0.2);
+  box-shadow:
+    inset 0 0 40px rgb(120 80 10 / 0.2),
+    0 0 0 1px color-mix(in srgb, var(--scope-spectrum) 45%, transparent);
 }
 
 .instrument-perimeter {
   background: #0a0c10;
-  box-shadow: inset 0 0 36px rgb(80 40 16 / 0.22);
+  box-shadow:
+    inset 0 0 36px rgb(80 40 16 / 0.22),
+    0 0 0 1px color-mix(in srgb, var(--scope-perimeter) 45%, transparent);
 }
 
 .instrument-radar::after,
@@ -627,7 +678,7 @@ body {
 }
 
 .helm-fab {
-  animation: helm-fab-pulse 2.2s ease-out infinite;
+  animation: none;
 }
 
 @keyframes helm-fab-sweep {

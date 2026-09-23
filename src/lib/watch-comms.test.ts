@@ -52,6 +52,9 @@ describe("bridge chrome", () => {
       expect(chrome.fullscreenEnter.length).toBeGreaterThan(0);
       expect(chrome.fullscreenExit.length).toBeGreaterThan(0);
       expect(chrome.fullscreenEnter).not.toBe(chrome.fullscreenExit);
+      expect(chrome.compressScreen.length).toBeGreaterThan(0);
+      expect(chrome.expandScreen.length).toBeGreaterThan(0);
+      expect(chrome.compressScreen).not.toBe(chrome.expandScreen);
     }
   });
 });

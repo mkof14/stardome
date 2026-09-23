@@ -7,11 +7,11 @@ import { voiceNeedLine } from "@/lib/pilot-demo";
 import type { DemoBeat } from "@/lib/pilot-demo";
 import type { VoiceNeed } from "@/lib/pilot-voice";
 import { StudioVu } from "@/components/bridge/studio-meters";
+import { HudGlyph, type HudGlyphName } from "@/components/bridge/hud-icons";
 
 export function PilotDemoIcon({
   label,
   running,
-  compact,
   onClick,
 }: {
   label: string;
@@ -27,26 +27,77 @@ export function PilotDemoIcon({
       aria-label={label}
       title={label}
       onClick={onClick}
-      className={cn(
-        "relative flex items-center justify-center overflow-hidden font-body text-[#38BDF8]",
-        compact
-          ? "min-w-[2.6rem] flex-col gap-0.5 rounded-xl px-1.5 py-1 text-[11px] font-medium hover:bg-[#38BDF8]/10"
-          : "h-12 w-12 rounded-full border border-[#38BDF8] bg-bridge-bg shadow-[0_8px_20px_rgb(15_25_34/0.18)]",
-        running && "demo-fab-pulse",
-        compact && running && "bg-[#38BDF8]/15",
-      )}
+      className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[#38BDF8] bg-bridge-bg font-body text-[#38BDF8]"
     >
-      {compact ? (
-        <>
-          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#38BDF8]/15 text-sm font-semibold">
-            D
-          </span>
-          {label}
-        </>
-      ) : (
-        <span className="text-lg font-semibold leading-none">D</span>
-      )}
+      {running ? (
+        <span className="demo-fab-ring pointer-events-none absolute inset-0 rounded-full" aria-hidden />
+      ) : null}
+      <span className="relative text-lg font-semibold leading-none">D</span>
     </button>
+  );
+}
+
+function DockBtn({
+  testId,
+  label,
+  icon,
+  onClick,
+}: {
+  testId: string;
+  label: string;
+  icon: HudGlyphName;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      data-testid={testId}
+      aria-label={label}
+      title={label}
+      onClick={onClick}
+      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-[#38BDF8] hover:bg-[#38BDF8]/12"
+    >
+      <HudGlyph name={icon} className="h-4 w-4" />
+    </button>
+  );
+}
+
+export function PilotDemoDock({
+  running,
+  copy,
+  onPlay,
+  onStop,
+  onBack,
+  onNext,
+  onReset,
+}: {
+  running: boolean;
+  copy: PilotDemoCopy;
+  onPlay: () => void;
+  onStop: () => void;
+  onBack: () => void;
+  onNext: () => void;
+  onReset: () => void;
+}) {
+  return (
+    <div data-testid="pilot-demo-dock" className="flex h-16 items-end gap-1">
+      {running ? (
+        <div
+          data-testid="pilot-demo-transport"
+          className="flex h-12 items-center gap-0.5 rounded-2xl border border-[#38BDF8]/50 bg-bridge-panel px-1"
+        >
+          <DockBtn testId="pilot-demo-back" label={copy.back} icon="back" onClick={onBack} />
+          <DockBtn testId="pilot-demo-reset" label={copy.reset} icon="reset" onClick={onReset} />
+          <DockBtn testId="pilot-demo-stop" label={copy.stop} icon="stop" onClick={onStop} />
+          <DockBtn testId="pilot-demo-next" label={copy.next} icon="next" onClick={onNext} />
+        </div>
+      ) : null}
+      <PilotDemoIcon
+        running={running}
+        label={running ? copy.stop : copy.play}
+        onClick={onPlay}
+      />
+    </div>
   );
 }
 

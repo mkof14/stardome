@@ -4,10 +4,12 @@ import {
   TONE_ATTN,
   TONE_CRIT,
   TONE_OK,
+  TRACK_HUES,
   primaryTrack,
   radarScene,
   sceneTracks,
   toneColor,
+  trackHue,
 } from "@/lib/picture-scenes";
 
 describe("toneColor", () => {
@@ -17,6 +19,16 @@ describe("toneColor", () => {
     expect(toneColor("attn")).toBe(TONE_ATTN);
     expect(toneColor("ok")).toBe(TONE_OK);
     expect(toneColor("crit").toLowerCase()).not.toBe("#f15a00");
+  });
+});
+
+describe("trackHue", () => {
+  it("gives T01 and T02 distinct shades that stay stable", () => {
+    expect(trackHue("T01")).toBe(TRACK_HUES[0]);
+    expect(trackHue("T02")).toBe(TRACK_HUES[1]);
+    expect(trackHue("T01")).not.toBe(trackHue("T02"));
+    expect(trackHue({ trackNo: "T03" })).toBe(TRACK_HUES[2]);
+    expect(trackHue(undefined, 0)).toBe(TRACK_HUES[0]);
   });
 });
 

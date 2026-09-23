@@ -45,7 +45,7 @@ export function SpectrumView({ scenarioId = "" }: { scenarioId?: string }) {
       data-testid="picture-scene"
       data-scene={scenarioId || "watch"}
     >
-      <div className="flex items-center justify-between border-b border-[#5A3A10] bg-[#140E06] px-3 py-1 font-mono text-[9px] tracking-[0.16em] text-[#E8B23D]">
+      <div className="flex items-center justify-between border-b border-[#5A3A10] bg-[#140E06] px-3 py-1.5 font-mono text-[11px] tracking-[0.16em] text-[#E8B23D]">
         <span>SPECTRUM ANALYZER · SA-58</span>
         <span>RBW 100 kHz · dBm</span>
       </div>
@@ -130,7 +130,7 @@ export function SpectrumView({ scenarioId = "" }: { scenarioId?: string }) {
           y={48}
           textAnchor="middle"
           fontFamily={MONO}
-          fontSize="12"
+          fontSize="14"
           fill={
             scene.variant === "watch"
               ? TONE_OK
@@ -148,7 +148,7 @@ export function SpectrumView({ scenarioId = "" }: { scenarioId?: string }) {
             y={382}
             textAnchor="middle"
             fontFamily={MONO}
-            fontSize="10"
+            fontSize="12"
             fill="#7C8894"
           >
             {tick.label}

@@ -20,6 +20,10 @@ const REQUIRED = [
   "globe",
   "sun",
   "moon",
+  "back",
+  "next",
+  "reset",
+  "compress",
 ] as const;
 
 describe("HUD cockpit glyphs", () => {

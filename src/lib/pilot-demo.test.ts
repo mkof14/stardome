@@ -39,6 +39,9 @@ describe("pilotDemoCopy", () => {
       expect(copy.bargeHint.length).toBeGreaterThan(0);
       expect(copy.talkListening.length).toBeGreaterThan(0);
       expect(copy.peakHold.length).toBeGreaterThan(0);
+      expect(copy.back.length).toBeGreaterThan(0);
+      expect(copy.reset.length).toBeGreaterThan(0);
+      expect(copy.next.length).toBeGreaterThan(0);
     }
   });
 });

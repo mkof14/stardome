@@ -89,6 +89,10 @@ export type HudCopy = {
     fullscreenExit: string;
     clearScreens: string;
     clearScreensTip: string;
+    compressScreen: string;
+    expandScreen: string;
+    compressScreenTip: string;
+    expandScreenTip: string;
     openPicture: string;
     fullPicture: string;
     closePicture: string;
@@ -357,6 +361,10 @@ const en: HudCopy = {
     liveEvents: "Live event notifications",
     clearScreens: "Clear",
     clearScreensTip: "Clear screens — close overlays and reset the watch",
+    compressScreen: "Compress screen",
+    expandScreen: "Expand screen",
+    compressScreenTip: "Tighten the AGRON 1 layout",
+    expandScreenTip: "Open the AGRON 1 layout",
   },
   learning: {
     title: "OBJECT PROFILE — LEARNING OVER TIME",
@@ -657,6 +665,10 @@ const ru = overlay({
     liveEvents: "Живые уведомления о событиях",
     clearScreens: "Очистить",
     clearScreensTip: "Очистить экраны — закрыть окна и сбросить вахту",
+    compressScreen: "Сжать экран",
+    expandScreen: "Развернуть экран",
+    compressScreenTip: "Сжать раскладку AGRON 1",
+    expandScreenTip: "Развернуть раскладку AGRON 1",
   },
   learning: {
     title: "ПРОФИЛЬ ОБЪЕКТА — ОБУЧЕНИЕ СО ВРЕМЕНЕМ",
@@ -935,6 +947,10 @@ const es = overlay({
     liveEvents: "Notificaciones de sucesos en vivo",
     clearScreens: "Limpiar",
     clearScreensTip: "Limpiar pantallas — cerrar ventanas y restablecer la guardia",
+    compressScreen: "Comprimir pantalla",
+    expandScreen: "Expandir pantalla",
+    compressScreenTip: "Apretar el diseño de AGRON 1",
+    expandScreenTip: "Abrir el diseño de AGRON 1",
   },
   learning: {
     title: "PERFIL DEL OBJETO — APRENDIZAJE EN EL TIEMPO",
@@ -1214,6 +1230,10 @@ const fr = overlay({
     liveEvents: "Notifications d'événements en direct",
     clearScreens: "Effacer",
     clearScreensTip: "Effacer les écrans — fermer les fenêtres et rétablir le quart",
+    compressScreen: "Compresser l’écran",
+    expandScreen: "Agrandir l’écran",
+    compressScreenTip: "Resserrer la disposition AGRON 1",
+    expandScreenTip: "Ouvrir la disposition AGRON 1",
   },
   learning: {
     title: "PROFIL DE L'OBJET — APPRENTISSAGE DANS LE TEMPS",
@@ -1493,6 +1513,10 @@ const de = overlay({
     liveEvents: "Live-Ereignismeldungen",
     clearScreens: "Leeren",
     clearScreensTip: "Bildschirme leeren — Fenster schließen und Wache zurücksetzen",
+    compressScreen: "Bildschirm stauchen",
+    expandScreen: "Bildschirm weiten",
+    compressScreenTip: "AGRON-1-Anordnung verdichten",
+    expandScreenTip: "AGRON-1-Anordnung öffnen",
   },
   learning: {
     title: "OBJEKTPROFIL — LERNEN ÜBER DIE ZEIT",
@@ -1772,6 +1796,10 @@ const uk = overlay({
     liveEvents: "Живі сповіщення про події",
     clearScreens: "Очистити",
     clearScreensTip: "Очистити екрани — закрити вікна і скинути вахту",
+    compressScreen: "Стиснути екран",
+    expandScreen: "Розгорнути екран",
+    compressScreenTip: "Стиснути розкладку AGRON 1",
+    expandScreenTip: "Розгорнути розкладку AGRON 1",
   },
   learning: {
     title: "ПРОФІЛЬ ОБ'ЄКТА — НАВЧАННЯ З ЧАСОМ",
@@ -2050,6 +2078,10 @@ const ar = overlay({
     liveEvents: "إشعارات الأحداث الحيّة",
     clearScreens: "مسح",
     clearScreensTip: "مسح الشاشات — إغلاق النوافذ وإعادة الخفارة",
+    compressScreen: "ضغط الشاشة",
+    expandScreen: "توسيع الشاشة",
+    compressScreenTip: "ضغط تخطيط AGRON 1",
+    expandScreenTip: "فتح تخطيط AGRON 1",
   },
   learning: {
     title: "ملف الكائن — التعلّم مع الزمن",
@@ -2327,6 +2359,10 @@ const zh = overlay({
     liveEvents: "实时事件通知",
     clearScreens: "清除",
     clearScreensTip: "清除屏幕 — 关闭窗口并复位值班",
+    compressScreen: "压缩屏幕",
+    expandScreen: "展开屏幕",
+    compressScreenTip: "收紧 AGRON 1 布局",
+    expandScreenTip: "展开 AGRON 1 布局",
   },
   learning: {
     title: "对象档案 — 随时间学习",
@@ -2599,6 +2635,10 @@ const ja = overlay({
     liveEvents: "ライブ事象通知",
     clearScreens: "消去",
     clearScreensTip: "画面を消去 — 重ね窓を閉じ、当直を戻す",
+    compressScreen: "画面を圧縮",
+    expandScreen: "画面を広げる",
+    compressScreenTip: "AGRON 1 の配置を詰める",
+    expandScreenTip: "AGRON 1 の配置を開く",
   },
   learning: {
     title: "対象プロファイル — 時間とともに学ぶ",
@@ -2873,6 +2913,10 @@ const he = overlay({
     liveEvents: "התראות אירועים חיים",
     clearScreens: "נקה",
     clearScreensTip: "ניקוי מסכים — סגירת חלונות ואיפוס המשמרת",
+    compressScreen: "דחיסת מסך",
+    expandScreen: "הרחבת מסך",
+    compressScreenTip: "להדק את פריסת AGRON 1",
+    expandScreenTip: "לפתוח את פריסת AGRON 1",
   },
   learning: {
     title: "פרופיל האובייקט — למידה לאורך זמן",

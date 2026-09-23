@@ -6,7 +6,7 @@ import { ExpandablePicture } from "@/components/bridge/expandable-picture";
 import { PerimeterView } from "@/components/bridge/perimeter-panel";
 import { SonarView } from "@/components/bridge/sonar-panel";
 import { SpectrumView } from "@/components/bridge/spectrum-panel";
-import { TrackReadout, TrackTable } from "@/components/bridge/track-board";
+import { TrackReadout, TrackSwitch, TrackTable } from "@/components/bridge/track-board";
 import {
   primaryTrack,
   sceneTracks,
@@ -57,8 +57,11 @@ export function SituationalScope({
     );
 
   return (
-    <div data-testid="situational-scope" className="space-y-2">
-      <div className="grid gap-2 xl:grid-cols-[minmax(0,1.2fr)_minmax(17rem,0.8fr)]">
+    <div data-testid="situational-scope" className="space-y-3">
+      {empty ? null : (
+        <TrackSwitch tracks={tracks} selectedId={selectedId} onSelect={setSelectedId} />
+      )}
+      <div className="grid gap-3 xl:grid-cols-[minmax(0,1.45fr)_minmax(20rem,0.75fr)]">
         <ExpandablePicture>{view}</ExpandablePicture>
         <TrackReadout track={empty ? null : selected} kind={selected?.id === primary?.id ? "primary" : "selected"} />
       </div>

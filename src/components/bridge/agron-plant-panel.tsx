@@ -91,12 +91,12 @@ export function AgronPlantPanel({
                   className="flex items-start justify-between gap-3 py-2 first:pt-0 last:pb-0"
                 >
                   <div className="min-w-0">
-                    <p className="font-mono text-[11px] text-bridge-text">{row.label}</p>
+                    <p className="font-mono text-[13px] text-bridge-text">{row.label}</p>
                     {row.note ? (
-                      <p className="font-mono text-[10px] text-bridge-dim">{row.note}</p>
+                      <p className="font-mono text-[11px] text-bridge-dim">{row.note}</p>
                     ) : null}
                   </div>
-                  <div className={cn("shrink-0 text-end font-mono text-[11px]", toneClass(row.tone))}>
+                  <div className={cn("shrink-0 text-end font-mono text-[13px]", toneClass(row.tone))}>
                     <p className="inline-flex items-center gap-1.5">
                       <span className={cn("h-1.5 w-1.5 rounded-full", toneDot(row.tone))} />
                       {copy.tones[row.tone]}

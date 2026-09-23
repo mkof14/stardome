@@ -2,8 +2,11 @@ export const HELM_OPEN_EVENT = "starwall-open-helm";
 export const HELM_STATE_EVENT = "starwall-helm-state";
 export const PILOT_ASK_EVENT = "starwall-pilot-ask";
 export const PILOT_DEMO_EVENT = "starwall-pilot-demo";
+export const PILOT_DEMO_CONTROL_EVENT = "starwall-pilot-demo-control";
 export const WATCH_COMMS_FOCUS_EVENT = "starwall-watch-comms-focus";
 export const CLEAR_SCREENS_EVENT = "starwall-clear-screens";
+
+export type PilotDemoControl = "play" | "stop" | "back" | "next" | "reset";
 
 export type WatchCommsFocus = {
   party?: string;
@@ -29,6 +32,17 @@ export function startPilotDemo() {
   if (typeof window === "undefined") return;
   openHelm();
   window.dispatchEvent(new Event(PILOT_DEMO_EVENT));
+}
+
+export function controlPilotDemo(action: PilotDemoControl) {
+  if (typeof window === "undefined") return;
+  if (action === "play") {
+    startPilotDemo();
+    return;
+  }
+  window.dispatchEvent(
+    new CustomEvent<PilotDemoControl>(PILOT_DEMO_CONTROL_EVENT, { detail: action }),
+  );
 }
 
 export function focusWatchComms(party?: string) {
