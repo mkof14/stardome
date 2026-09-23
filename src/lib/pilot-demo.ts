@@ -146,8 +146,15 @@ export function voiceNeedLine(locale: Locale, need: VoiceNeed) {
           const voice = need.voiceName || maleVoiceFor(locale).voice;
           const officer =
             need.officerVoiceName || officerVoiceFor(locale).voice;
+          const vars = { lang, voice, officer };
+          if (need.provider === "elevenlabs") {
+            return fillDemo(copy.voiceEleven, vars);
+          }
+          if (need.provider === "edge" || !need.provider) {
+            return fillDemo(copy.voiceEdge, vars);
+          }
           return officer !== voice
-            ? fillDemo(copy.voicePair, { lang, voice, officer })
+            ? fillDemo(copy.voicePair, vars)
             : fillDemo(copy.voiceNeural, { lang, voice });
         })()
       : need.tts === "native"

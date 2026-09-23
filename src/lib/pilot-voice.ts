@@ -161,6 +161,7 @@ export type VoiceNeed = {
   stt: "ready" | "engine" | "none";
   voiceName: string | null;
   officerVoiceName?: string | null;
+  provider?: string | null;
 };
 
 export function voiceNeed(
@@ -176,6 +177,7 @@ export function voiceNeed(
       voiceName: neural.voice ?? maleVoiceFor(locale).voice,
       officerVoiceName:
         neural.officerVoice ?? officerVoiceFor(locale).voice,
+      provider: neural.provider,
     };
   }
   const native = pickVoice(voices, locale);

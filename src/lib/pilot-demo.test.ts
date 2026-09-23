@@ -126,17 +126,31 @@ describe("male neural voices", () => {
       expect(copy.voiceNeural).toMatch(/\{voice\}/);
       expect(copy.voicePair).toMatch(/\{voice\}/);
       expect(copy.voicePair).toMatch(/\{officer\}/);
+      expect(copy.voiceEdge).toMatch(/ELEVENLABS_API_KEY/);
+      expect(copy.voiceEleven).toMatch(/ElevenLabs/);
+      expect(copy.voiceEdge).not.toBe(copy.voiceEleven);
       const officer = officerVoiceFor(code);
       expect(neuralVoiceFor(code, "officer").voice).toBe(officer.voice);
       expect(officer.voice).not.toBe(male.voice);
-      const line = voiceNeedLine(code, {
+      const edge = voiceNeedLine(code, {
         tts: "neural",
         stt: "ready",
         voiceName: male.voice,
+        provider: "edge",
       });
-      expect(line).toContain(male.voice);
-      expect(line).toContain(officer.voice);
-      expect(line.toLowerCase()).toMatch(/two|два|deux|dos|zwei|صوتان|两|2つ|שני/);
+      expect(edge).toContain(male.voice);
+      expect(edge).toContain(officer.voice);
+      expect(edge).toMatch(/ELEVENLABS_API_KEY/);
+      const eleven = voiceNeedLine(code, {
+        tts: "neural",
+        stt: "ready",
+        voiceName: "Adam",
+        officerVoiceName: "Josh",
+        provider: "elevenlabs",
+      });
+      expect(eleven).toMatch(/ElevenLabs/);
+      expect(eleven).toContain("Adam");
+      expect(eleven).toContain("Josh");
     }
     expect(
       voiceNeed("ru", [], {

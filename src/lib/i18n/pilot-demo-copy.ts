@@ -23,6 +23,8 @@ export type PilotDemoCopy = {
   voiceReady: string;
   voiceNeural: string;
   voicePair: string;
+  voiceEdge: string;
+  voiceEleven: string;
   voiceFallback: string;
   voiceNone: string;
   sttReady: string;
@@ -88,6 +90,10 @@ const DEMO = {
     voiceNeural: "Male neural voice for {lang} is connected ({voice}).",
     voicePair:
       "Two neural voices for {lang}: Pilot {voice}, officer {officer}.",
+    voiceEdge:
+      "ElevenLabs is not connected — {lang} is Edge ({voice} / {officer}). Add ELEVENLABS_API_KEY.",
+    voiceEleven:
+      "ElevenLabs voices for {lang}: Pilot {voice}, officer {officer}.",
     voiceFallback:
       "No native {lang} voice pack here — I speak with the closest installed voice until you add one in the OS or browser.",
     voiceNone: "This browser has no speech synthesis. I can still type.",
@@ -153,6 +159,10 @@ const DEMO = {
     voiceNeural: "Voz neural masculina de {lang} conectada ({voice}).",
     voicePair:
       "Dos voces neurales en {lang}: Pilot {voice}, oficial {officer}.",
+    voiceEdge:
+      "ElevenLabs no está conectado — {lang} usa Edge ({voice} / {officer}). Añada ELEVENLABS_API_KEY.",
+    voiceEleven:
+      "Voces ElevenLabs en {lang}: Pilot {voice}, oficial {officer}.",
     voiceFallback:
       "No hay paquete de voz nativo en {lang} — hablo con la voz instalada más cercana hasta que añada una en el sistema o el navegador.",
     voiceNone: "Este navegador no sintetiza voz. Puedo seguir escribiendo.",
@@ -218,6 +228,10 @@ const DEMO = {
     voiceNeural: "Voix neurale masculine {lang} connectée ({voice}).",
     voicePair:
       "Deux voix neurales {lang} : Pilot {voice}, officier {officer}.",
+    voiceEdge:
+      "ElevenLabs n’est pas connecté — {lang} passe par Edge ({voice} / {officer}). Ajoutez ELEVENLABS_API_KEY.",
+    voiceEleven:
+      "Voix ElevenLabs {lang} : Pilot {voice}, officier {officer}.",
     voiceFallback:
       "Pas de voix native {lang} ici — je parle avec la voix installée la plus proche jusqu’à ce que vous en ajoutiez une dans le système ou le navigateur.",
     voiceNone: "Ce navigateur n’a pas de synthèse vocale. Je peux encore écrire.",
@@ -283,6 +297,10 @@ const DEMO = {
     voiceNeural: "Männliche neurale Stimme für {lang} ist verbunden ({voice}).",
     voicePair:
       "Zwei neurale Stimmen für {lang}: Pilot {voice}, Wachoffizier {officer}.",
+    voiceEdge:
+      "ElevenLabs ist nicht verbunden — {lang} läuft über Edge ({voice} / {officer}). ELEVENLABS_API_KEY setzen.",
+    voiceEleven:
+      "ElevenLabs-Stimmen für {lang}: Pilot {voice}, Wachoffizier {officer}.",
     voiceFallback:
       "Kein natives {lang}-Sprachpaket — ich spreche mit der nächsten installierten Stimme, bis Sie eine im System oder Browser hinzufügen.",
     voiceNone: "Dieser Browser hat keine Sprachsynthese. Ich kann weiter tippen.",
@@ -348,6 +366,10 @@ const DEMO = {
     voiceNeural: "Подключён мужской нейроголос для {lang} ({voice}).",
     voicePair:
       "Два нейроголоса для {lang}: Pilot {voice}, офицер {officer}.",
+    voiceEdge:
+      "ElevenLabs не подключён — для {lang} сейчас Edge ({voice} / {officer}). Нужен ELEVENLABS_API_KEY.",
+    voiceEleven:
+      "ElevenLabs для {lang}: Pilot {voice}, офицер {officer}.",
     voiceFallback:
       "Нет родного голосового пакета {lang} — говорю ближайшим установленным голосом, пока не добавите пакет в систему или браузер.",
     voiceNone: "Этот браузер не умеет озвучку. Могу писать текстом.",
@@ -413,6 +435,10 @@ const DEMO = {
     voiceNeural: "Підключено чоловічий нейроголос для {lang} ({voice}).",
     voicePair:
       "Два нейроголоси для {lang}: Pilot {voice}, офіцер {officer}.",
+    voiceEdge:
+      "ElevenLabs не підключено — для {lang} зараз Edge ({voice} / {officer}). Потрібен ELEVENLABS_API_KEY.",
+    voiceEleven:
+      "ElevenLabs для {lang}: Pilot {voice}, офіцер {officer}.",
     voiceFallback:
       "Немає рідного голосового пакета {lang} — кажу найближчим встановленим голосом, доки не додасте пакет у систему чи браузер.",
     voiceNone: "Цей браузер не озвучує. Можу писати текстом.",
@@ -478,6 +504,10 @@ const DEMO = {
     voiceNeural: "صوت عصبي ذكوري لـ {lang} متصل ({voice}).",
     voicePair:
       "صوتان عصبيان لـ {lang}: Pilot {voice} والضابط {officer}.",
+    voiceEdge:
+      "ElevenLabs غير متصل — {lang} على Edge ({voice} / {officer}). أضف ELEVENLABS_API_KEY.",
+    voiceEleven:
+      "أصوات ElevenLabs لـ {lang}: Pilot {voice} والضابط {officer}.",
     voiceFallback:
       "لا حزمة صوت أصلية لـ {lang} — أتكلم بأقرب صوت مثبّت حتى تضيفوا واحدة في النظام أو المتصفح.",
     voiceNone: "هذا المتصفح بلا تركيب كلام. أستطيع الكتابة.",
@@ -538,6 +568,9 @@ const DEMO = {
     voiceReady: "此浏览器已准备好 {lang} 语音。",
     voiceNeural: "已接通 {lang} 男声神经语音（{voice}）。",
     voicePair: "{lang} 两个神经语音：Pilot {voice}，值班 {officer}。",
+    voiceEdge:
+      "未连接 ElevenLabs — {lang} 现用 Edge（{voice} / {officer}）。请设置 ELEVENLABS_API_KEY。",
+    voiceEleven: "ElevenLabs {lang}：Pilot {voice}，值班 {officer}。",
     voiceFallback:
       "这里没有 {lang} 原生语音包 — 我用最接近的已装语音，直到您在系统或浏览器中添加。",
     voiceNone: "此浏览器不能朗读。我仍可打字。",
@@ -602,6 +635,10 @@ const DEMO = {
     voiceNeural: "{lang} の男性ニューラル音声が接続されています（{voice}）。",
     voicePair:
       "{lang} のニューラル音声は2つ：Pilot {voice}、当直 {officer}。",
+    voiceEdge:
+      "ElevenLabs 未接続 — {lang} は Edge（{voice} / {officer}）。ELEVENLABS_API_KEY を設定。",
+    voiceEleven:
+      "ElevenLabs の {lang}：Pilot {voice}、当直 {officer}。",
     voiceFallback:
       "{lang} のネイティブ音声パックがありません — OS かブラウザに追加するまで、最も近いインストール済み音声で話します。",
     voiceNone: "このブラウザは音声合成がありません。文字は送れます。",
@@ -667,6 +704,10 @@ const DEMO = {
     voiceNeural: "קול עצבי גברי ל־{lang} מחובר ({voice}).",
     voicePair:
       "שני קולות עצביים ל־{lang}: Pilot {voice}, קצין {officer}.",
+    voiceEdge:
+      "ElevenLabs לא מחובר — {lang} ב־Edge ({voice} / {officer}). נדרש ELEVENLABS_API_KEY.",
+    voiceEleven:
+      "ElevenLabs ל־{lang}: Pilot {voice}, קצין {officer}.",
     voiceFallback:
       "אין חבילת קול מקורית ל־{lang} — אדבר בקול המותקן הקרוב עד שתוסיפו אחת במערכת או בדפדפן.",
     voiceNone: "לדפדפן הזה אין הקראה. אפשר להקליד.",

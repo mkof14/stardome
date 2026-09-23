@@ -392,6 +392,7 @@ export function PilotVoiceNeed({
       data-tts={need.tts}
       data-voice={need.voiceName ?? ""}
       data-officer-voice={need.officerVoiceName ?? ""}
+      data-provider={need.provider ?? ""}
       className="font-body text-xs leading-relaxed text-bridge-dim"
     >
       {voiceNeedLine(locale, need)}
