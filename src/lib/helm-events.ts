@@ -9,6 +9,21 @@ export const WATCH_COMMS_FOCUS_EVENT = "starwall-watch-comms-focus";
 export const PILOT_SPEAK_FOCUS_EVENT = "starwall-pilot-speak-focus";
 export const CLEAR_SCREENS_EVENT = "starwall-clear-screens";
 export const LOAD_FLAGSHIP_EVENT = "starwall-load-flagship";
+export const LAYER_FOCUS_EVENT = "starwall-layer-focus";
+
+export type LayerFocusDetail = {
+  layer: string | null;
+  trackId?: string;
+};
+
+export function focusWatchLayer(layer: string | null, trackId?: string) {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(
+    new CustomEvent<LayerFocusDetail>(LAYER_FOCUS_EVENT, {
+      detail: { layer, trackId },
+    }),
+  );
+}
 
 export type PilotDemoControl = "play" | "stop" | "back" | "next" | "reset";
 

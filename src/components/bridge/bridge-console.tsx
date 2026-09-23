@@ -23,6 +23,7 @@ import { TrainingTour } from "@/components/bridge/training-tour";
 import { ViewSwitcher } from "@/components/bridge/view-switcher";
 import { DetectionProtectPanel } from "@/components/bridge/detection-protect-panel";
 import { GeoCenterPanel } from "@/components/bridge/geo-center-panel";
+import { WatchCaseStrip } from "@/components/bridge/watch-case-strip";
 import { WatchKitPanel } from "@/components/bridge/watch-kit-panel";
 import { UtcClock } from "@/components/bridge/utc-clock";
 import { AUTOMATED_ACTIONS } from "@/lib/automated-actions";
@@ -863,26 +864,6 @@ export function BridgeConsole() {
 
         <div className={cn("grid gap-5 lg:grid-cols-[minmax(0,1.45fr)_minmax(18rem,0.85fr)]", view === "plant" && "hidden")}>
           <div id="situational-picture" data-testid="situational-panel" data-speak-surface="instruments" className="scroll-mt-20 rounded-2xl">
-          <HudFrame variant="inset" className="mb-2">
-          <div
-            data-testid="picture-scenario-banner"
-            className="bg-bridge-panel px-4 py-3"
-          >
-            <p className="font-body text-xs font-medium text-orange">
-              {activeScenario
-                ? hud.chrome.trainingSelect
-                : hud.chrome.watchSelect}
-            </p>
-            <p className="mt-0.5 font-body text-lg font-semibold tracking-tight text-bridge-text">
-              {activeScenario?.name ?? hud.chrome.normalWatch}
-            </p>
-            <p className="font-body text-sm text-bridge-dim">
-              {activeScenario
-                ? `${activeScenario.category} · ${t.bridge.risks[RISK_KEYS.indexOf(activeScenario.riskLevel)] ?? activeScenario.riskLevel}`
-                : hud.chrome.pickCase}
-            </p>
-          </div>
-          </HudFrame>
           <HudPanel
             testId={picture.testId}
             title={picture.title}
@@ -918,6 +899,29 @@ export function BridgeConsole() {
               ) : null}
             </div>
           </HudPanel>
+          {crisis ? null : (
+            <div className="mt-5 space-y-5">
+              <WatchCaseStrip
+                kicker={
+                  activeScenario
+                    ? hud.chrome.trainingSelect
+                    : hud.chrome.watchSelect
+                }
+                name={activeScenario?.name ?? hud.chrome.normalWatch}
+                meta={
+                  activeScenario
+                    ? `${activeScenario.category} · ${t.bridge.risks[RISK_KEYS.indexOf(activeScenario.riskLevel)] ?? activeScenario.riskLevel}`
+                    : hud.chrome.pickCase
+                }
+              />
+              <GeoCenterPanel live={live} panelType={panelType} scenarioId={selectedId} />
+              <DetectionProtectPanel
+                live={live}
+                panelType={panelType}
+                scenarioId={selectedId}
+              />
+            </div>
+          )}
           </div>
 
           <div className="flex flex-col gap-4">
@@ -1026,11 +1030,6 @@ export function BridgeConsole() {
               </>
             )}
           </div>
-        </div>
-
-        <div className={cn("space-y-5", crisis || view === "plant" ? "hidden" : undefined)}>
-          <GeoCenterPanel live={live} panelType={panelType} scenarioId={selectedId} />
-          <DetectionProtectPanel live={live} scenarioId={selectedId} />
         </div>
 
         <div className={crisis || view === "plant" ? "hidden" : undefined}>

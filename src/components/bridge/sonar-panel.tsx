@@ -19,10 +19,12 @@ const DEPTH_RINGS = [
 export function SonarView({
   scenarioId = "",
   selectedId,
+  focusIds = [],
   onSelect,
 }: {
   scenarioId?: string;
   selectedId?: string | null;
+  focusIds?: string[];
   onSelect?: (id: string) => void;
 }) {
   const scene = sonarScene(scenarioId);
@@ -103,16 +105,23 @@ export function SonarView({
           const color = trackHue(contact);
           const alarm = toneColor(contact.tone);
           const active = contact.id === selectedId;
+          const bound = focusIds.includes(contact.id);
+          const dimmed = focusIds.length > 0 && !bound;
           return (
             <g
               key={contact.id}
               transform={`translate(${contact.x} ${contact.y})`}
               style={{ cursor: "pointer" }}
+              data-layer-focus={bound ? "true" : undefined}
+              className={cn(dimmed && "radar-contact-dim")}
               onClick={(event) => {
                 event.stopPropagation();
                 onSelect?.(contact.id);
               }}
             >
+              {bound ? (
+                <circle r="22" fill="none" stroke="#F15A00" strokeWidth="1.6" className="radar-layer-ring" />
+              ) : null}
               {active ? (
                 <circle r="20" fill="none" stroke={color} strokeWidth="1.2" />
               ) : null}

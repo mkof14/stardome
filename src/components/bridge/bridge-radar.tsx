@@ -27,6 +27,7 @@ type BridgeRadarProps = {
   degraded?: "radar" | "ais" | null;
   empty?: boolean;
   selectedId?: string | null;
+  focusIds?: string[];
   onSelect?: (id: string) => void;
 };
 
@@ -106,12 +107,14 @@ export function BridgeRadar({
   degraded,
   empty,
   selectedId,
+  focusIds = [],
   onSelect,
 }: BridgeRadarProps) {
   const [tooltip, setTooltip] = useState<Tooltip | null>(null);
   const scene = radarScene(scenarioId);
   const uid = useId().replace(/:/g, "");
   const selected = scene.contacts.find((item) => item.id === selectedId);
+  const layerBound = focusIds.length > 0;
 
   function onContactEnter(
     event: MouseEvent<SVGGElement>,
@@ -299,12 +302,16 @@ export function BridgeRadar({
                 contact.motion === "inbound" ? 36 : 18,
               );
               const active = contact.id === selectedId;
+              const bound = focusIds.includes(contact.id);
+              const dimmed = layerBound && !bound;
               return (
                 <g
                   key={contact.id}
                   transform={`translate(${contact.x} ${contact.y})`}
                   style={{ cursor: "pointer" }}
                   data-testid={`radar-contact-${contact.id}`}
+                  data-layer-focus={bound ? "true" : undefined}
+                  className={cn(dimmed && "radar-contact-dim")}
                   onClick={(event) => {
                     event.stopPropagation();
                     onSelect?.(contact.id);
@@ -313,6 +320,15 @@ export function BridgeRadar({
                   onMouseMove={onContactMove}
                   onMouseLeave={() => setTooltip(null)}
                 >
+                  {bound ? (
+                    <circle
+                      r="22"
+                      fill="none"
+                      stroke="#F15A00"
+                      strokeWidth="1.6"
+                      className="radar-layer-ring"
+                    />
+                  ) : null}
                   <g
                     className={cn(motionClass(contact.motion))}
                     style={{
@@ -327,8 +343,8 @@ export function BridgeRadar({
                       y="4"
                       fontFamily="monospace"
                       fontSize="12"
-                      fontWeight={active ? "bold" : "normal"}
-                      fill={trackHue(contact)}
+                      fontWeight={active || bound ? "bold" : "normal"}
+                      fill={bound ? "#F15A00" : trackHue(contact)}
                     >
                       {contact.trackNo ? `${contact.trackNo} ` : ""}
                       {contact.label}
