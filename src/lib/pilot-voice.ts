@@ -32,6 +32,31 @@ export function maleVoiceFor(locale: Locale) {
   return MALE_NEURAL[locale];
 }
 
+/** Second watch voice so Demo can play officer and Pilot as two people. */
+export const OFFICER_NEURAL: Record<Locale, { voice: string; lang: string }> = {
+  en: { voice: "en-US-BrianNeural", lang: "en-US" },
+  es: { voice: "es-ES-ArnauNeural", lang: "es-ES" },
+  fr: { voice: "fr-FR-ClaudeNeural", lang: "fr-FR" },
+  de: { voice: "de-DE-KillianNeural", lang: "de-DE" },
+  ru: { voice: "ru-RU-SvetlanaNeural", lang: "ru-RU" },
+  uk: { voice: "uk-UA-PolinaNeural", lang: "uk-UA" },
+  ar: { voice: "ar-SA-ZariyahNeural", lang: "ar-SA" },
+  zh: { voice: "zh-CN-YunjianNeural", lang: "zh-CN" },
+  ja: { voice: "ja-JP-DaichiNeural", lang: "ja-JP" },
+  he: { voice: "he-IL-HilaNeural", lang: "he-IL" },
+};
+
+export function officerVoiceFor(locale: Locale) {
+  return OFFICER_NEURAL[locale];
+}
+
+export function neuralVoiceFor(
+  locale: Locale,
+  speaker: "pilot" | "officer" = "pilot",
+) {
+  return speaker === "officer" ? officerVoiceFor(locale) : maleVoiceFor(locale);
+}
+
 export function speakTag(locale: string): string {
   return isLocale(locale) ? SPEAK_BCP47[locale] : locale;
 }
@@ -96,9 +121,38 @@ export function pickVoice(
   return best;
 }
 
+/** Second browser voice so Demo can still contrast officer vs Pilot without a key. */
+export function pickOfficerVoice(
+  voices: ReadonlyArray<Pick<SpeechSynthesisVoice, "lang" | "name" | "localService">>,
+  locale: string,
+  skipName?: string | null,
+): Pick<SpeechSynthesisVoice, "lang" | "name" | "localService"> | null {
+  if (!voices.length) return null;
+  const localeCode = isLocale(locale) ? locale : "en";
+  const preferFemale = FEMALE_NAME.test(officerVoiceFor(localeCode).voice);
+  let best: Pick<SpeechSynthesisVoice, "lang" | "name" | "localService"> | null =
+    null;
+  let bestScore = -1;
+  for (const voice of voices) {
+    if (skipName && voice.name === skipName) continue;
+    let score = scoreVoice(voice, locale);
+    if (score < 0) continue;
+    if (preferFemale) {
+      if (FEMALE_NAME.test(voice.name)) score += 55;
+      if (isLikelyMaleVoice(voice.name)) score -= 25;
+    }
+    if (score > bestScore) {
+      bestScore = score;
+      best = voice;
+    }
+  }
+  return best ?? pickVoice(voices, locale);
+}
+
 export type NeuralVoiceStatus = {
   ready: boolean;
   voice: string | null;
+  officerVoice?: string | null;
   provider: string | null;
 };
 
@@ -106,6 +160,7 @@ export type VoiceNeed = {
   tts: "neural" | "native" | "fallback" | "none";
   stt: "ready" | "engine" | "none";
   voiceName: string | null;
+  officerVoiceName?: string | null;
 };
 
 export function voiceNeed(
@@ -119,9 +174,12 @@ export function voiceNeed(
       tts: "neural",
       stt,
       voiceName: neural.voice ?? maleVoiceFor(locale).voice,
+      officerVoiceName:
+        neural.officerVoice ?? officerVoiceFor(locale).voice,
     };
   }
   const native = pickVoice(voices, locale);
+  const officer = pickOfficerVoice(voices, locale, native?.name);
   const tts: VoiceNeed["tts"] = native
     ? "native"
     : voices.length
@@ -131,6 +189,7 @@ export function voiceNeed(
     tts,
     stt,
     voiceName: native?.name ?? null,
+    officerVoiceName: officer && officer.name !== native?.name ? officer.name : null,
   };
 }
 

@@ -57,7 +57,7 @@ export function demoBeats(session: BridgeSessionValue, locale: Locale): DemoBeat
     {
       role: "officer",
       text: copy.officerStatus,
-      speak: false,
+      speak: true,
       focus: "calls",
       action: copy.actionOfficer,
       place: copy.whereOfficer,
@@ -76,7 +76,7 @@ export function demoBeats(session: BridgeSessionValue, locale: Locale): DemoBeat
     {
       role: "officer",
       text: copy.officerAdvice,
-      speak: false,
+      speak: true,
       focus: "calls",
       action: copy.actionOfficer,
       place: copy.whereOfficer,
@@ -95,7 +95,7 @@ export function demoBeats(session: BridgeSessionValue, locale: Locale): DemoBeat
     {
       role: "officer",
       text: copy.officerNotify,
-      speak: false,
+      speak: true,
       focus: "calls",
       action: copy.actionOfficer,
       place: copy.whereOfficer,
@@ -137,7 +137,14 @@ export function voiceNeedLine(locale: Locale, need: VoiceNeed) {
   const lang = languageLabel(locale);
   const tts =
     need.tts === "neural"
-      ? fillDemo(copy.voiceNeural, { lang, voice: need.voiceName ?? "" })
+      ? need.officerVoiceName &&
+        need.officerVoiceName !== need.voiceName
+        ? fillDemo(copy.voicePair, {
+            lang,
+            voice: need.voiceName ?? "",
+            officer: need.officerVoiceName,
+          })
+        : fillDemo(copy.voiceNeural, { lang, voice: need.voiceName ?? "" })
       : need.tts === "native"
         ? fillDemo(copy.voiceReady, { lang })
         : need.tts === "fallback"

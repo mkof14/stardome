@@ -5,6 +5,9 @@ import { demoBeats, voiceNeedLine } from "@/lib/pilot-demo";
 import {
   isLikelyMaleVoice,
   maleVoiceFor,
+  neuralVoiceFor,
+  officerVoiceFor,
+  pickOfficerVoice,
   pickVoice,
   speakTag,
   voiceNeed,
@@ -56,6 +59,10 @@ describe("demoBeats", () => {
     expect(live[0]?.text).toMatch(/LIVE/);
     const demo = demoBeats(idle, "ru");
     expect(demo.some((beat) => beat.role === "officer")).toBe(true);
+    expect(
+      demo.filter((beat) => beat.role === "officer").every((beat) => beat.speak),
+    ).toBe(true);
+    expect(demo.filter((beat) => beat.speak).length).toBe(demo.length);
     expect(demo.some((beat) => beat.raise?.instruments)).toBe(true);
     expect(demo.some((beat) => beat.raise?.comms)).toBe(true);
     expect(demo.every((beat) => beat.action.length > 0)).toBe(true);
@@ -97,6 +104,9 @@ describe("pickVoice", () => {
     expect(pickVoice(voices, "en")?.name).toBe("Microsoft David");
     expect(isLikelyMaleVoice("Microsoft David")).toBe(true);
     expect(isLikelyMaleVoice("Microsoft Zira")).toBe(false);
+    expect(pickOfficerVoice(voices, "en", "Microsoft David")?.name).toBe(
+      "Microsoft Zira",
+    );
   });
 });
 
@@ -111,12 +121,19 @@ describe("male neural voices", () => {
       const copy = pilotDemoCopy(code);
       expect(copy.voiceNeural).toMatch(/\{lang\}/);
       expect(copy.voiceNeural).toMatch(/\{voice\}/);
+      expect(copy.voicePair).toMatch(/\{voice\}/);
+      expect(copy.voicePair).toMatch(/\{officer\}/);
+      const officer = officerVoiceFor(code);
+      expect(neuralVoiceFor(code, "officer").voice).toBe(officer.voice);
+      expect(officer.voice).not.toBe(male.voice);
       const line = voiceNeedLine(code, {
         tts: "neural",
         stt: "ready",
         voiceName: male.voice,
+        officerVoiceName: officer.voice,
       });
       expect(line).toContain(male.voice);
+      expect(line).toContain(officer.voice);
     }
     expect(
       voiceNeed("ru", [], {

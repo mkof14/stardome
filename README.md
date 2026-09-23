@@ -39,7 +39,20 @@ The supervisor writes the current public URL to `/tmp/starwall-public-url.txt`. 
 
 Pilot (the watch advisor) sits in AGRON 1 as a single watch display. Open Pilot on `/interface` and switch Talk / Instruments / Advice / Comms with labeled tabs. Watch communications (`#watch-comms-panel`) and Pilot **Comms / Связь** carry two Starlink services — Maritime and Priority — with lock, latency, SNR, and obstruction on the same board. The D next to Pilot runs a spoken DEMO drill in the language selected on Pilot. DEMO follows the current scenario, sensors, and recommended action. LIVE stays honest: no invented contacts, and comms stay offline until a real satcom path exists. While Pilot is speaking, a HUD talk window opens (chat on the left, studio waveform on the right). AGRON 1 panels use rounded cards and Inter for readable labels. The jump rail shows an icon with its name underneath — no hex frames. The meter is a real green/red VU from the audio itself — not a simulated bounce. Speak, type, or tap a watch call and Pilot stops at once and takes your words first. **Clear** and labeled fullscreen sit in the sticky header on `/interface`. Light and dark theme tokens apply to Pilot, talk HUD, jump nav, library, and watch circuits.
 
-Pilot speaks with a real adult male neural voice in every site language: English Andrew, Spanish Álvaro, French Henri, German Conrad, Russian Dmitry, Ukrainian Ostap, Arabic Hamed, Chinese Yunxi, Japanese Keita, Hebrew Avri. Replies go through `POST /api/tts` and play as MP3. The default path is Microsoft Edge online Neural speech (no API key). Set `AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION` for Azure, `OPENAI_API_KEY` (male voice `onyx`) or `ELEVENLABS_API_KEY` if you have those accounts — they take priority when present. If neural speech is down, Pilot falls back to a male browser voice when one is installed, then types. Listening uses Web Speech Recognition in Chrome or Edge after the microphone is allowed. Copy `.env.local.example` to `.env.local` and set `ANTHROPIC_API_KEY` for richer spoken answers. `.env*.local` is gitignored. Without the key Pilot still answers from the on-site briefing — it does not invent prices.
+Pilot speaks with a real adult male neural voice in every site language: English Andrew, Spanish Álvaro, French Henri, German Conrad, Russian Dmitry, Ukrainian Ostap, Arabic Hamed, Chinese Yunxi, Japanese Keita, Hebrew Avri. Demo also speaks the officer on a second neural voice so the drill is two people, not one. Replies go through `POST /api/tts` (`text`, `locale`, `tone`, `speaker`: `pilot` | `officer`) and play as MP3.
+
+**ElevenLabs (the voices you pick).** Create an API key at [elevenlabs.io](https://elevenlabs.io) → Profile → API keys. Copy `.env.local.example` to `.env.local` and set:
+
+```
+ELEVENLABS_API_KEY=xi-...
+ELEVENLABS_PILOT_VOICE_ID=pNInz6obpgDQGcFmaJgB
+ELEVENLABS_OFFICER_VOICE_ID=TxGEqnHWrfWFTfGW9XjX
+ELEVENLABS_MODEL=eleven_multilingual_v2
+```
+
+Voice IDs come from ElevenLabs → Voices → the voice → ID (or the URL). Defaults are premade **Adam** (Pilot) and **Josh** (officer). On Vercel add the same names under Project → Settings → Environment Variables (Production and Preview), then redeploy. On this Cloud Agent put them in environment secrets / `.env.local` and restart `scripts/ensure-site.sh`. With `ELEVENLABS_API_KEY` set, Pilot uses ElevenLabs first (unless `TTS_PROVIDER` forces `azure`, `openai`, or `edge`). `eleven_multilingual_v2` covers every site language, including Russian.
+
+Without a key, Demo still uses two Edge Neural voices (no account): Pilot Dmitry / officer Svetlana in Russian, Andrew / Brian in English, and the matching pair for the other locales. Azure (`AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION`) and OpenAI (`OPENAI_API_KEY`, `onyx` / `echo`) are optional fallbacks. If neural speech is down, Pilot falls back to a male browser voice when one is installed, then types. Listening uses Web Speech Recognition in Chrome or Edge after the microphone is allowed. Copy `.env.local.example` to `.env.local` and set `ANTHROPIC_API_KEY` for richer spoken answers. `.env*.local` is gitignored. Without the key Pilot still answers from the on-site briefing — it does not invent prices.
 
 `NEXT_PUBLIC_SITE_URL` is used for canonical metadata, Open Graph, `robots.txt`, and `sitemap.xml`. Locally it defaults to `http://127.0.0.1:3000`. On Vercel it falls back to `https://$VERCEL_URL` if you leave it blank.
 
@@ -138,7 +151,7 @@ This is a standard Next.js 14 App Router app. Do **not** set `output: "standalon
 - `/interface` is a public AGRON 1 demo. It does not require a session, so a missing `NEXTAUTH_SECRET` never renders NextAuth’s “Server error” page. `NEXTAUTH_URL` is taken from the request host; a leftover `http://127.0.0.1:3000` value is ignored on Vercel.
 - Google sign-in stays hidden until both `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are set.
 - `ANTHROPIC_API_KEY` — richer Pilot answers. Without it Pilot still replies from the product briefing.
-- Male neural speech for Pilot needs no key (Edge online voices). Optional: `AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION`, `OPENAI_API_KEY` (voice `onyx`), or `ELEVENLABS_API_KEY`.
+- Male neural speech for Pilot needs no key (Edge online voices). Optional: `ELEVENLABS_API_KEY` plus `ELEVENLABS_PILOT_VOICE_ID` / `ELEVENLABS_OFFICER_VOICE_ID` (defaults Adam + Josh), `AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION`, or `OPENAI_API_KEY` (voices `onyx` / `echo`).
 
 Optional, after the first green deploy:
 

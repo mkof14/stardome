@@ -1,4 +1,5 @@
 export type SpeechTone = "brief" | "warn";
+export type SpeechSpeaker = "pilot" | "officer";
 
 export type SpeechProsody = {
   rate: string;
@@ -10,6 +11,10 @@ export type SpeechProsody = {
 
 export function isSpeechTone(value: unknown): value is SpeechTone {
   return value === "brief" || value === "warn";
+}
+
+export function isSpeechSpeaker(value: unknown): value is SpeechSpeaker {
+  return value === "pilot" || value === "officer";
 }
 
 export function speechToneFor(text: string, crisis = false): SpeechTone {

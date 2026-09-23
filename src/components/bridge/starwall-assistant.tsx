@@ -17,7 +17,12 @@ import {
   publishPilotSpeakFocus,
   type PilotDemoControl,
 } from "@/lib/helm-events";
-import { speechProsody, speechToneFor, type SpeechTone } from "@/lib/pilot-speech";
+import {
+  speechProsody,
+  speechToneFor,
+  type SpeechSpeaker,
+  type SpeechTone,
+} from "@/lib/pilot-speech";
 import {
   PilotDesk,
   PilotDeskBar,
@@ -42,6 +47,8 @@ import { demoBeats, type DemoBeat } from "@/lib/pilot-demo";
 import {
   isLikelyMaleVoice,
   maleVoiceFor,
+  officerVoiceFor,
+  pickOfficerVoice,
   pickVoice,
   SPEAK_BCP47,
   SpeechEngine,
@@ -131,6 +138,7 @@ export function Helm() {
   const [neural, setNeural] = useState<NeuralVoiceStatus>(() => ({
     ready: true,
     voice: maleVoiceFor(locale).voice,
+    officerVoice: officerVoiceFor(locale).voice,
     provider: "edge",
   }));
   const listRef = useRef<HTMLDivElement | null>(null);
@@ -207,24 +215,46 @@ export function Helm() {
   useEffect(() => {
     let cancelled = false;
     const mapped = maleVoiceFor(recogLang);
+    const officer = officerVoiceFor(recogLang);
     setNeural((current) => ({
       ready: current.ready,
       voice: mapped.voice,
+      officerVoice: officer.voice,
       provider: current.provider,
     }));
     fetch(`/api/tts?locale=${encodeURIComponent(recogLang)}`)
       .then((res) => (res.ok ? res.json() : Promise.reject(new Error("tts"))))
-      .then((data: { ready?: unknown; voice?: unknown; provider?: unknown }) => {
-        if (cancelled) return;
-        setNeural({
-          ready: data.ready !== false,
-          voice: typeof data.voice === "string" ? data.voice : mapped.voice,
-          provider: typeof data.provider === "string" ? data.provider : "edge",
-        });
-      })
+      .then(
+        (data: {
+          ready?: unknown;
+          voice?: unknown;
+          officerVoice?: unknown;
+          voices?: { officer?: unknown };
+          provider?: unknown;
+        }) => {
+          if (cancelled) return;
+          const officerName =
+            typeof data.officerVoice === "string"
+              ? data.officerVoice
+              : typeof data.voices?.officer === "string"
+                ? data.voices.officer
+                : officer.voice;
+          setNeural({
+            ready: data.ready !== false,
+            voice: typeof data.voice === "string" ? data.voice : mapped.voice,
+            officerVoice: officerName,
+            provider: typeof data.provider === "string" ? data.provider : "edge",
+          });
+        },
+      )
       .catch(() => {
         if (!cancelled) {
-          setNeural({ ready: false, voice: mapped.voice, provider: null });
+          setNeural({
+            ready: false,
+            voice: mapped.voice,
+            officerVoice: officer.voice,
+            provider: null,
+          });
         }
       });
     return () => {
@@ -785,6 +815,7 @@ export function Helm() {
     locale: typeof recogLang,
     gen: number,
     tone: SpeechTone,
+    speaker: SpeechSpeaker = "pilot",
   ) {
     return new Promise<void>((resolve) => {
       let settled = false;
@@ -806,17 +837,27 @@ export function Helm() {
       utterance.lang = SPEAK_BCP47[locale];
       utterance.rate = voice.browserRate;
       const installed = window.speechSynthesis.getVoices();
-      const match = pickVoice(installed.length ? installed : voices, locale);
+      const pool = installed.length ? installed : voices;
+      const pilotMatch = pickVoice(pool, locale);
+      const match =
+        speaker === "officer"
+          ? pickOfficerVoice(pool, locale, pilotMatch?.name)
+          : pilotMatch;
       if (match) {
         const full = installed.find(
           (voice) => voice.name === match.name && voice.lang === match.lang,
         );
         if (full) utterance.voice = full;
         utterance.pitch = isLikelyMaleVoice(match.name)
-          ? voice.browserPitch
+          ? speaker === "officer"
+            ? Math.min(1.15, voice.browserPitch + 0.12)
+            : voice.browserPitch
           : Math.max(0.62, voice.browserPitch - 0.08);
       } else {
-        utterance.pitch = voice.browserPitch;
+        utterance.pitch =
+          speaker === "officer"
+            ? Math.min(1.15, voice.browserPitch + 0.12)
+            : voice.browserPitch;
       }
       utterance.onend = finish;
       utterance.onerror = finish;
@@ -830,6 +871,7 @@ export function Helm() {
     langCode: string,
     force = false,
     tone: SpeechTone = "brief",
+    speaker: SpeechSpeaker = "pilot",
   ) {
     if ((!voiceOnRef.current && !force) || typeof window === "undefined") {
       return;
@@ -856,7 +898,7 @@ export function Helm() {
       const res = await fetch("/api/tts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: spoken, locale, tone }),
+        body: JSON.stringify({ text: spoken, locale, tone, speaker }),
         signal: controller.signal,
       });
       if (gen !== speakGen.current) return;
@@ -880,10 +922,21 @@ export function Helm() {
           window.setTimeout(finish, Math.min(90_000, 2500 + spoken.length * 80));
         });
         if (gen === speakGen.current) {
-          setNeural({
-            ready: true,
-            voice: res.headers.get("X-Pilot-Voice") ?? maleVoiceFor(locale).voice,
-            provider: res.headers.get("X-Pilot-Provider") ?? "edge",
+          setNeural((current) => {
+            const used =
+              res.headers.get("X-Pilot-Voice") ??
+              (speaker === "officer"
+                ? officerVoiceFor(locale).voice
+                : maleVoiceFor(locale).voice);
+            return {
+              ready: true,
+              voice: speaker === "officer" ? current.voice ?? used : used,
+              officerVoice:
+                speaker === "officer"
+                  ? used
+                  : current.officerVoice ?? officerVoiceFor(locale).voice,
+              provider: res.headers.get("X-Pilot-Provider") ?? "edge",
+            };
           });
           if (!drillingRef.current) releaseBarge();
           setMic((current) => (current === "speaking" ? "idle" : current));
@@ -897,7 +950,7 @@ export function Helm() {
     }
     if (gen !== speakGen.current) return;
     setNeural((current) => ({ ...current, ready: false }));
-    await speakBrowser(spoken, locale, gen, tone);
+    await speakBrowser(spoken, locale, gen, tone, speaker);
     if (gen === speakGen.current) {
       if (!drillingRef.current) releaseBarge();
       if (!drillingRef.current) setTalkHud(false);
@@ -988,7 +1041,13 @@ export function Helm() {
           speaking: true,
           tone: beat.tone,
         });
-        await speakReply(beat.text, recogLang, false, beat.tone);
+        await speakReply(
+          beat.text,
+          recogLang,
+          false,
+          beat.tone,
+          beat.role === "officer" ? "officer" : "pilot",
+        );
         if (token === runToken.current) {
           publishPilotSpeakFocus({ focus: beat.focus, speaking: false });
         }

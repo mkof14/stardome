@@ -22,6 +22,7 @@ export type PilotDemoCopy = {
   liveBlock: string;
   voiceReady: string;
   voiceNeural: string;
+  voicePair: string;
   voiceFallback: string;
   voiceNone: string;
   sttReady: string;
@@ -83,6 +84,8 @@ const DEMO = {
       "LIVE has no sensors on this install. Switch to DEMO for a spoken drill, or ask about StarWall.",
     voiceReady: "Spoken {lang} is ready on this browser.",
     voiceNeural: "Male neural voice for {lang} is connected ({voice}).",
+    voicePair:
+      "Two neural voices for {lang}: Pilot {voice}, officer {officer}.",
     voiceFallback:
       "No native {lang} voice pack here — I speak with the closest installed voice until you add one in the OS or browser.",
     voiceNone: "This browser has no speech synthesis. I can still type.",
@@ -144,6 +147,8 @@ const DEMO = {
       "LIVE no tiene sensores en esta instalación. Pase a DEMO para un ejercicio hablado, o pregunte por StarWall.",
     voiceReady: "La voz en {lang} está lista en este navegador.",
     voiceNeural: "Voz neural masculina de {lang} conectada ({voice}).",
+    voicePair:
+      "Dos voces neurales en {lang}: Pilot {voice}, oficial {officer}.",
     voiceFallback:
       "No hay paquete de voz nativo en {lang} — hablo con la voz instalada más cercana hasta que añada una en el sistema o el navegador.",
     voiceNone: "Este navegador no sintetiza voz. Puedo seguir escribiendo.",
@@ -205,6 +210,8 @@ const DEMO = {
       "LIVE n’a aucun capteur sur cette installation. Passez en DEMO pour un exercice parlé, ou interrogez StarWall.",
     voiceReady: "La voix {lang} est prête sur ce navigateur.",
     voiceNeural: "Voix neurale masculine {lang} connectée ({voice}).",
+    voicePair:
+      "Deux voix neurales {lang} : Pilot {voice}, officier {officer}.",
     voiceFallback:
       "Pas de voix native {lang} ici — je parle avec la voix installée la plus proche jusqu’à ce que vous en ajoutiez une dans le système ou le navigateur.",
     voiceNone: "Ce navigateur n’a pas de synthèse vocale. Je peux encore écrire.",
@@ -266,6 +273,8 @@ const DEMO = {
       "LIVE hat keine Sensoren auf dieser Installation. Wechseln Sie zu DEMO für eine gesprochene Übung, oder fragen Sie zu StarWall.",
     voiceReady: "Gesprochenes {lang} ist in diesem Browser bereit.",
     voiceNeural: "Männliche neurale Stimme für {lang} ist verbunden ({voice}).",
+    voicePair:
+      "Zwei neurale Stimmen für {lang}: Pilot {voice}, Wachoffizier {officer}.",
     voiceFallback:
       "Kein natives {lang}-Sprachpaket — ich spreche mit der nächsten installierten Stimme, bis Sie eine im System oder Browser hinzufügen.",
     voiceNone: "Dieser Browser hat keine Sprachsynthese. Ich kann weiter tippen.",
@@ -327,6 +336,8 @@ const DEMO = {
       "В LIVE на этой установке нет датчиков. Переключитесь в DEMO для голосового учения или спросите про StarWall.",
     voiceReady: "Голос {lang} на этом браузере готов.",
     voiceNeural: "Подключён мужской нейроголос для {lang} ({voice}).",
+    voicePair:
+      "Два нейроголоса для {lang}: Pilot {voice}, офицер {officer}.",
     voiceFallback:
       "Нет родного голосового пакета {lang} — говорю ближайшим установленным голосом, пока не добавите пакет в систему или браузер.",
     voiceNone: "Этот браузер не умеет озвучку. Могу писать текстом.",
@@ -388,6 +399,8 @@ const DEMO = {
       "У LIVE на цій установці немає датчиків. Перемкніться в DEMO для голосового навчання або запитайте про StarWall.",
     voiceReady: "Голос {lang} у цьому браузері готовий.",
     voiceNeural: "Підключено чоловічий нейроголос для {lang} ({voice}).",
+    voicePair:
+      "Два нейроголоси для {lang}: Pilot {voice}, офіцер {officer}.",
     voiceFallback:
       "Немає рідного голосового пакета {lang} — кажу найближчим встановленим голосом, доки не додасте пакет у систему чи браузер.",
     voiceNone: "Цей браузер не озвучує. Можу писати текстом.",
@@ -449,6 +462,8 @@ const DEMO = {
       "LIVE بلا مستشعرات في هذا النشر. انتقلوا إلى DEMO لتمرين منطوق، أو اسألوا عن StarWall.",
     voiceReady: "صوت {lang} جاهز في هذا المتصفح.",
     voiceNeural: "صوت عصبي ذكوري لـ {lang} متصل ({voice}).",
+    voicePair:
+      "صوتان عصبيان لـ {lang}: Pilot {voice} والضابط {officer}.",
     voiceFallback:
       "لا حزمة صوت أصلية لـ {lang} — أتكلم بأقرب صوت مثبّت حتى تضيفوا واحدة في النظام أو المتصفح.",
     voiceNone: "هذا المتصفح بلا تركيب كلام. أستطيع الكتابة.",
@@ -506,6 +521,7 @@ const DEMO = {
     liveBlock: "此安装的 LIVE 没有传感器。切换到 DEMO 做语音演练，或询问 StarWall。",
     voiceReady: "此浏览器已准备好 {lang} 语音。",
     voiceNeural: "已接通 {lang} 男声神经语音（{voice}）。",
+    voicePair: "{lang} 两个神经语音：Pilot {voice}，值班 {officer}。",
     voiceFallback:
       "这里没有 {lang} 原生语音包 — 我用最接近的已装语音，直到您在系统或浏览器中添加。",
     voiceNone: "此浏览器不能朗读。我仍可打字。",
@@ -566,6 +582,8 @@ const DEMO = {
       "この導入の LIVE にセンサーはありません。音声訓練は DEMO へ切り替えるか、StarWall について尋ねてください。",
     voiceReady: "このブラウザで {lang} の音声は準備できています。",
     voiceNeural: "{lang} の男性ニューラル音声が接続されています（{voice}）。",
+    voicePair:
+      "{lang} のニューラル音声は2つ：Pilot {voice}、当直 {officer}。",
     voiceFallback:
       "{lang} のネイティブ音声パックがありません — OS かブラウザに追加するまで、最も近いインストール済み音声で話します。",
     voiceNone: "このブラウザは音声合成がありません。文字は送れます。",
@@ -627,6 +645,8 @@ const DEMO = {
       "ב־LIVE אין חיישנים בפריסה הזו. עברו ל־DEMO לתרגול מדובר, או שאלו על StarWall.",
     voiceReady: "דיבור ב־{lang} מוכן בדפדפן הזה.",
     voiceNeural: "קול עצבי גברי ל־{lang} מחובר ({voice}).",
+    voicePair:
+      "שני קולות עצביים ל־{lang}: Pilot {voice}, קצין {officer}.",
     voiceFallback:
       "אין חבילת קול מקורית ל־{lang} — אדבר בקול המותקן הקרוב עד שתוסיפו אחת במערכת או בדפדפן.",
     voiceNone: "לדפדפן הזה אין הקראה. אפשר להקליד.",
