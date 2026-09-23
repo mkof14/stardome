@@ -104,7 +104,7 @@ const DEMO = {
     where: "Where",
     step: "{n} / {total}",
     interruptHint:
-      "Speak while I talk — I stop and take your words first. A watch call, type, or the mic also cuts in. The speaker mutes or restores the voice.",
+      "Opening Pilot keeps the mic on. I finish my line, then take your words. Say stop to silence me. Press the mic to mute listening.",
     soundOn: "Sound on",
     soundOff: "Sound off",
     signalsOn: "Signals on",
@@ -173,7 +173,7 @@ const DEMO = {
     where: "Dónde",
     step: "{n} / {total}",
     interruptHint:
-      "Hable mientras hablo — me detengo y tomo sus palabras primero. Una llamada, texto o el micro también cortan. El altavoz silencia o restablece la voz.",
+      "Al abrir Pilot el micro queda activo. Termino la frase y luego le escucho. Diga stop para silenciarme. Pulse el micro para dejar de oír.",
     soundOn: "Sonido activado",
     soundOff: "Sonido desactivado",
     signalsOn: "Señales activadas",
@@ -242,7 +242,7 @@ const DEMO = {
     where: "Où",
     step: "{n} / {total}",
     interruptHint:
-      "Parlez pendant que je parle — je m’arrête et je prends vos mots d’abord. Un appel, le texte ou le micro coupent aussi. Le haut-parleur coupe ou rétablit la voix.",
+      "Ouvrir Pilot laisse le micro ouvert. Je finis ma phrase, puis je vous écoute. Dites stop pour me taire. Appuyez sur le micro pour couper l’écoute.",
     soundOn: "Son allumé",
     soundOff: "Son coupé",
     signalsOn: "Signaux allumés",
@@ -311,7 +311,7 @@ const DEMO = {
     where: "Wo",
     step: "{n} / {total}",
     interruptHint:
-      "Sprechen Sie, während ich spreche — ich halte an und nehme zuerst Ihre Worte. Wachruf, Tippen oder Mikrofon unterbrechen ebenfalls. Der Lautsprecher stummschaltet oder stellt die Stimme wieder her.",
+      "Pilot offen hält das Mikrofon an. Ich beende den Satz, dann höre ich Sie. Sagen Sie stopp, um mich still zu machen. Mikrofon drücken beendet das Zuhören.",
     soundOn: "Ton an",
     soundOff: "Ton aus",
     signalsOn: "Signale an",
@@ -380,7 +380,7 @@ const DEMO = {
     where: "Где",
     step: "{n} / {total}",
     interruptHint:
-      "Говорите, пока я говорю — я останавливаюсь и сначала слушаю вас. Реплика, текст или микрофон тоже перебивают. Динамик включает и выключает звук.",
+      "Когда Pilot открыт, микрофон остаётся включённым. Я договариваю фразу, потом слушаю вас. Скажите стоп — замолчу. Нажмите микрофон, чтобы перестать слушать.",
     soundOn: "Звук включён",
     soundOff: "Звук выключен",
     signalsOn: "Сигналы включены",
@@ -449,7 +449,7 @@ const DEMO = {
     where: "Де",
     step: "{n} / {total}",
     interruptHint:
-      "Говоріть, поки я говорю — я зупиняюсь і спочатку слухаю вас. Репліка, текст або мікрофон теж перебивають. Динамік вмикає й вимикає звук.",
+      "Поки Pilot відкритий, мікрофон лишається увімкненим. Я домовляю фразу, потім слухаю вас. Скажіть стоп — замовкну. Натисніть мікрофон, щоб не слухати.",
     soundOn: "Звук увімкнено",
     soundOff: "Звук вимкнено",
     signalsOn: "Сигнали увімкнено",
@@ -518,7 +518,7 @@ const DEMO = {
     where: "أين",
     step: "{n} / {total}",
     interruptHint:
-      "تكلم وأنا أتكلم — أتوقف وأسمعك أولاً. النداء أو الكتابة أو الميكروفون يقطع أيضاً. مكبر الصوت يكتم أو يعيد الصوت.",
+      "فتح Pilot يبقي الميكروفون شغّالاً. أُتم الجملة ثم أسمعك. قل توقف لأسكت. اضغط الميكروفون لإيقاف الاستماع.",
     soundOn: "الصوت يعمل",
     soundOff: "الصوت مغلق",
     signalsOn: "الإشارات تعمل",
@@ -580,7 +580,8 @@ const DEMO = {
     now: "现在",
     where: "位置",
     step: "{n} / {total}",
-    interruptHint: "我说的时候请说 — 我会停下并先听你的话。值班口令、打字或麦克风也可打断。扬声器开关声音。",
+    interruptHint:
+      "打开 Pilot 后麦克风保持开启。我说完再听你。说「停止」我闭嘴。再按麦克风停止收听。",
     soundOn: "声音开",
     soundOff: "声音关",
     signalsOn: "信号开",
@@ -649,7 +650,7 @@ const DEMO = {
     where: "どこ",
     step: "{n} / {total}",
     interruptHint:
-      "話している最中でも話してください — 止まって先にあなたの言葉を受けます。呼びかけ・入力・マイクでも切れます。スピーカーで音声のオンオフ。",
+      "Pilot を開くとマイクはオンのままです。言い終えてから聞きます。ストップで黙ります。マイクを押すと聴取を止めます。",
     soundOn: "音声オン",
     soundOff: "音声オフ",
     signalsOn: "信号オン",
@@ -718,7 +719,7 @@ const DEMO = {
     where: "איפה",
     step: "{n} / {total}",
     interruptHint:
-      "דברו בזמן שאני מדבר — אני עוצר ושומע אתכם קודם. קריאה, הקלדה או מיקרופון גם עוצרים. הרמקול משתיק או מחזיר אותו.",
+      "פתיחת Pilot משאירה את המיקרופון דולק. אני מסיים את המשפט ואז שומע. אמרו עצור כדי שאשתק. לחצו על המיקרופון כדי להפסיק להאזין.",
     soundOn: "קול פועל",
     soundOff: "קול כבוי",
     signalsOn: "אותות פועלים",

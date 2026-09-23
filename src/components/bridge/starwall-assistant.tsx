@@ -72,8 +72,8 @@ import {
 import { PilotTalkWindow } from "@/components/bridge/pilot-talk-window";
 import {
   BARGE_GRACE_MS,
+  heardWhilePilotTalks,
   isEchoOfSpoken,
-  shouldCutIn,
   vadHotFrames,
   vadTriggered,
 } from "@/lib/barge-in";
@@ -171,6 +171,7 @@ export function Helm() {
   const spokenText = useRef("");
   const speakStartedAt = useRef(0);
   const speakEndedAt = useRef(0);
+  const wantListen = useRef(false);
   const cutLock = useRef(false);
   const keepListen = useRef(false);
   const vadRaf = useRef<number | null>(null);
@@ -585,6 +586,12 @@ export function Helm() {
     speakEndedAt.current = performance.now();
   }
 
+  function resumeListen() {
+    if (!wantListen.current || drillingRef.current) return;
+    keepListen.current = true;
+    void startListen("push");
+  }
+
   function haltWatch() {
     stopDemo();
     stopSpeech();
@@ -593,36 +600,8 @@ export function Helm() {
     cutLock.current = true;
     markSpeechEnded();
     cue("stop");
-    void startListen("push");
-  }
-
-  function takeOfficerFirst(said: string) {
-    if (!said.trim()) return;
-    if (isHaltOrder(said)) {
-      haltWatch();
-      return;
-    }
-    if (isListenOrder(said)) {
-      stopSpeech();
-      setTalkHud(false);
-      void startListen("push");
-      return;
-    }
-    cutLock.current = true;
-    demoCancel.current = true;
-    drillingRef.current = false;
-    setDrilling(false);
-    setDemoBeat(null);
-    speakGen.current += 1;
-    haltAudio();
-    bargeArmed.current = false;
-    listenMode.current = "off";
-    recognitionRef.current?.stop();
-    recognitionRef.current = null;
-    stopVad();
-    setTalkHud(false);
-    setOpen(true);
-    void sendRef.current(said);
+    wantListen.current = true;
+    resumeListen();
   }
 
   function yieldToOfficer() {
@@ -641,35 +620,27 @@ export function Helm() {
   function handleHeard(said: string, isFinal: boolean) {
     const text = said.trim();
     if (!text) return;
+    if (isEchoOfSpoken(text, spokenText.current)) return;
+    const talking = heardWhilePilotTalks(
+      micRef.current === "speaking",
+      speakEndedAt.current,
+      performance.now(),
+    );
+    if (talking) {
+      if (isHaltOrder(text)) haltWatch();
+      return;
+    }
     if (isHaltOrder(text)) {
       haltWatch();
       return;
     }
-    if (isEchoOfSpoken(text, spokenText.current)) return;
-    if (performance.now() - speakEndedAt.current < 900) return;
     if (isListenOrder(text)) {
-      if (!isFinal && text.length < 4) return;
-      stopSpeech();
-      setTalkHud(false);
-      void startListen("push");
-      return;
-    }
-    if (listenMode.current === "barge" || micRef.current === "speaking") {
-      if (!isFinal && text.length < 4) return;
-      if (
-        !shouldCutIn(
-          text,
-          spokenText.current,
-          speakStartedAt.current,
-          performance.now(),
-        )
-      ) {
-        return;
-      }
-      takeOfficerFirst(text);
+      wantListen.current = true;
+      resumeListen();
       return;
     }
     if (!isFinal) return;
+    if (!wantListen.current && listenMode.current !== "push") return;
     void sendRef.current(text);
   }
 
@@ -678,6 +649,16 @@ export function Helm() {
     if (!Engine) {
       if (mode === "push") setMicError(helmHud.noSpeech);
       return false;
+    }
+    if (
+      mode === "push" &&
+      wantListen.current &&
+      listenMode.current === "push" &&
+      recognitionRef.current &&
+      streamRef.current &&
+      micRef.current === "listening"
+    ) {
+      return true;
     }
     if (
       mode === "barge" &&
@@ -706,6 +687,8 @@ export function Helm() {
       listenMode.current = mode;
       if (mode === "push") {
         bargeArmed.current = false;
+        wantListen.current = true;
+        keepListen.current = true;
         startMeter(stream);
         setMic("listening");
         cue("listen");
@@ -718,7 +701,7 @@ export function Helm() {
       const recognition = new Engine();
       recognition.lang = SPEAK_BCP47[recogLang];
       recognition.interimResults = true;
-      recognition.continuous = mode === "barge";
+      recognition.continuous = true;
       recognitionRef.current = recognition;
 
       recognition.onresult = (event) => {
@@ -734,6 +717,18 @@ export function Helm() {
         setMicError(helmHud.micStopped);
       };
       recognition.onend = () => {
+        if (
+          wantListen.current &&
+          listenMode.current === "push" &&
+          !drillingRef.current
+        ) {
+          try {
+            recognition.start();
+          } catch {
+            // already started
+          }
+          return;
+        }
         if (
           (listenMode.current === "barge" && bargeArmed.current) ||
           (keepListen.current && micRef.current === "listening")
@@ -765,17 +760,20 @@ export function Helm() {
 
   async function toggleMic() {
     if (mic === "listening") {
+      wantListen.current = false;
+      keepListen.current = false;
       stopListening();
       setTalkHud(false);
       return;
     }
     if (mic === "processing") return;
-    const keepHud = drillingRef.current || mic === "speaking";
-    if (keepHud) {
+    if (mic === "speaking" || drillingRef.current) {
       stopDemo();
+      stopSpeech();
       setTalkHud(false);
-      keepListen.current = true;
     }
+    wantListen.current = true;
+    keepListen.current = true;
     await startListen("push");
   }
 
@@ -829,19 +827,24 @@ export function Helm() {
     if (!Ctor) return;
     const ctx = new Ctor();
     playCtx.current = ctx;
-    const source = ctx.createMediaElementSource(audio);
-    const analyser = ctx.createAnalyser();
-    analyser.fftSize = 2048;
-    source.connect(analyser);
-    analyser.connect(ctx.destination);
-    const samples = new Uint8Array(analyser.fftSize);
-    const tick = () => {
-      analyser.getByteTimeDomainData(samples);
-      applyReading(meterFromTimeDomain(samples, STUDIO_BARS));
+    try {
+      const source = ctx.createMediaElementSource(audio);
+      const analyser = ctx.createAnalyser();
+      analyser.fftSize = 2048;
+      source.connect(analyser);
+      analyser.connect(ctx.destination);
+      const samples = new Uint8Array(analyser.fftSize);
+      const tick = () => {
+        analyser.getByteTimeDomainData(samples);
+        applyReading(meterFromTimeDomain(samples, STUDIO_BARS));
+        playRaf.current = window.requestAnimationFrame(tick);
+      };
       playRaf.current = window.requestAnimationFrame(tick);
-    };
-    playRaf.current = window.requestAnimationFrame(tick);
-    void ctx.resume();
+      void ctx.resume();
+    } catch {
+      playCtx.current = null;
+      void ctx.close();
+    }
   }
 
   function toggleSpeaker() {
@@ -932,7 +935,6 @@ export function Helm() {
     }
     setMic("speaking");
     if (!drillingRef.current) cue(tone === "warn" ? "warn" : "speak");
-    void startListen("barge");
     try {
       const controller = new AbortController();
       speakAbort.current = controller;
@@ -984,6 +986,7 @@ export function Helm() {
           if (!drillingRef.current) setTalkHud(false);
           clearMeter();
           markSpeechEnded();
+          resumeListen();
         }
         return;
       }
@@ -998,6 +1001,7 @@ export function Helm() {
       if (!drillingRef.current) setTalkHud(false);
       clearMeter();
       markSpeechEnded();
+      resumeListen();
     }
   }
 
@@ -1366,6 +1370,8 @@ export function Helm() {
                 data-testid="helm-hide"
                 data-pilot-lang={recogLang}
                 onClick={() => {
+                  wantListen.current = false;
+                  keepListen.current = false;
                   stopDemo();
                   stopListening();
                   setTalkHud(false);
@@ -1583,6 +1589,8 @@ export function Helm() {
           data-testid="assistant-toggle"
           onClick={() => {
             if (open) {
+              wantListen.current = false;
+              keepListen.current = false;
               stopListening();
               setTalkHud(false);
               setOpen(false);
@@ -1590,6 +1598,8 @@ export function Helm() {
             }
             setOpen(true);
             setUnread(false);
+            wantListen.current = true;
+            void startListen("push");
             if (unread || watch.urgent) {
               setScreen("advice");
               cue(watch.urgent ? "urgent" : "note");

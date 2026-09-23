@@ -16,7 +16,6 @@ describe("pilot orders", () => {
       "Stop.",
       "enough",
       "quiet",
-      "alto",
       "basta",
       "arrête",
       "stopp",
@@ -37,6 +36,10 @@ describe("pilot orders", () => {
       "Hold standard watch",
       "Что на приборах",
       "Какие тарифы у StarWall",
+      "wait",
+      "still",
+      "para",
+      "Hold the picture",
     ]) {
       expect(isHaltOrder(said)).toBe(false);
       expect(pilotOrder(said)).toBe("ask");

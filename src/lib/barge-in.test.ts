@@ -5,6 +5,8 @@ import {
   shouldCutIn,
   vadHotFrames,
   vadTriggered,
+  heardWhilePilotTalks,
+  ECHO_COOLDOWN_MS,
 } from "@/lib/barge-in";
 
 describe("barge-in", () => {
@@ -36,6 +38,9 @@ describe("barge-in", () => {
     expect(vadTriggered(hot)).toBe(false);
     hot = vadHotFrames(0.2, hot);
     expect(vadTriggered(hot)).toBe(true);
+    expect(heardWhilePilotTalks(true, 0, 10_000)).toBe(true);
+    expect(heardWhilePilotTalks(false, 0, ECHO_COOLDOWN_MS - 10)).toBe(true);
+    expect(heardWhilePilotTalks(false, 0, ECHO_COOLDOWN_MS + 20)).toBe(false);
     hot = vadHotFrames(0.01, hot);
     expect(hot).toBeLessThan(10);
   });

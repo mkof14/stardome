@@ -3,6 +3,17 @@ export const BARGE_RMS = 0.12;
 export const BARGE_FRAMES = 10;
 export const BARGE_GRACE_MS = 520;
 export const BARGE_MIN_CHARS = 2;
+/** Ignore leftover speech-to-text after Pilot finishes talking. */
+export const ECHO_COOLDOWN_MS = 1400;
+
+export function heardWhilePilotTalks(
+  speaking: boolean,
+  endedAt: number,
+  now: number,
+) {
+  if (speaking) return true;
+  return now - endedAt < ECHO_COOLDOWN_MS;
+}
 
 export function normalizeHeard(text: string) {
   return text
