@@ -4,10 +4,12 @@ import {
   azureSsml,
   ELEVEN_OFFICER_VOICE,
   ELEVEN_PILOT_VOICE,
+  elevenLanguageCode,
   elevenVoiceId,
   elevenVoiceSettings,
   escapeSsml,
   providersFor,
+  ttsCatalog,
   ttsPlan,
   ttsVoices,
 } from "@/lib/pilot-tts";
@@ -22,6 +24,8 @@ const KEYS = [
   "ELEVENLABS_VOICE_ID",
   "ELEVENLABS_PILOT_VOICE_ID",
   "ELEVENLABS_OFFICER_VOICE_ID",
+  "ELEVENLABS_PILOT_VOICE_ID_RU",
+  "ELEVENLABS_OFFICER_VOICE_ID_JA",
   "TTS_PROVIDER",
 ] as const;
 
@@ -96,12 +100,30 @@ describe("ttsPlan", () => {
     expect(elevenVoiceId("officer")).toBe(ELEVEN_OFFICER_VOICE);
     process.env.ELEVENLABS_PILOT_VOICE_ID = "pilot-custom";
     process.env.ELEVENLABS_OFFICER_VOICE_ID = "officer-custom";
-    expect(elevenVoiceId("pilot")).toBe("pilot-custom");
-    expect(elevenVoiceId("officer")).toBe("officer-custom");
+    process.env.ELEVENLABS_PILOT_VOICE_ID_RU = "pilot-ru";
+    process.env.ELEVENLABS_OFFICER_VOICE_ID_JA = "officer-ja";
+    expect(elevenVoiceId("pilot", "en")).toBe("pilot-custom");
+    expect(elevenVoiceId("officer", "en")).toBe("officer-custom");
+    expect(elevenVoiceId("pilot", "ru")).toBe("pilot-ru");
+    expect(elevenVoiceId("officer", "ja")).toBe("officer-ja");
     const warn = elevenVoiceSettings("warn", "pilot");
     const brief = elevenVoiceSettings("brief", "officer");
     expect(warn.stability).toBeLessThan(brief.stability);
     expect(warn.style).toBeGreaterThan(brief.style);
+  });
+
+  it("covers every StarWall language with two distinct voices", () => {
+    for (const key of KEYS) delete process.env[key];
+    const catalog = ttsCatalog();
+    expect(catalog.map((row) => row.locale)).toEqual([...locales]);
+    for (const row of catalog) {
+      expect(row.eleven).toBe(elevenLanguageCode(row.locale));
+      expect(row.pilot).not.toBe(row.officer);
+      expect(row.lang.length).toBeGreaterThan(2);
+      expect(row.native.length).toBeGreaterThan(0);
+      expect(ttsPlan(row.locale, "pilot").voice).toBe(row.pilot);
+      expect(ttsPlan(row.locale, "officer").voice).toBe(row.officer);
+    }
   });
 });
 
@@ -126,6 +148,10 @@ describe("speech tone", () => {
     );
     expect(speechToneFor("Instruments are quiet.")).toBe("brief");
     expect(speechToneFor("Hold the picture.", true)).toBe("warn");
+    expect(speechToneFor("C'est une alarme urgente.")).toBe("warn");
+    expect(speechToneFor("Das ist kritisch.")).toBe("warn");
+    expect(speechToneFor("Сповістити призначеного.")).toBe("warn");
+    expect(speechToneFor("立即撤离。")).toBe("warn");
   });
 
   it("marks warning commands in SSML with a stronger voice", () => {

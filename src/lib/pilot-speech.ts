@@ -29,7 +29,21 @@ export function speechToneFor(text: string, crisis = false): SpeechTone {
     return "warn";
   }
   if (
-    /(критич|кризис|аларм|тревог|немедлен|срочн|подтверд|уведом|назначенн|опасн|эвакуац)/i.test(
+    /(критич|кризис|аларм|тревог|тривог|немедлен|негайн|срочн|підтверд|подтверд|уведом|сповіст|назначенн|призначен|опасн|небезпеч|эвакуац|евакуац)/i.test(
+      sample,
+    )
+  ) {
+    return "warn";
+  }
+  if (
+    /\b(crític[oa]|crisis|alarma|urgente|inmediato|confirmar|designad|advertencia|evacuar|critique|crise|alarme|immédiat|confirmer|désigné|avertissement|évacuer|kritisch|krise|dringend|sofort|bestätigen|warnung|evakuieren)\b/i.test(
+      sample,
+    )
+  ) {
+    return "warn";
+  }
+  if (
+    /(حرج|أزمة|إنذار|عاجل|فوري|تحذير|إخلاء|危急|危机|警报|紧急|立即|警告|撤离|重大|危機|警報|緊急|直ちに|警告|避難|קריטי|משבר|אזעקה|דחוף|מיידי|אזהרה|פינוי)/i.test(
       sample,
     )
   ) {

@@ -50,9 +50,22 @@ ELEVENLABS_OFFICER_VOICE_ID=TxGEqnHWrfWFTfGW9XjX
 ELEVENLABS_MODEL=eleven_multilingual_v2
 ```
 
-Voice IDs come from ElevenLabs → Voices → the voice → ID (or the URL). Defaults are premade **Adam** (Pilot) and **Josh** (officer). On Vercel add the same names under Project → Settings → Environment Variables (Production and Preview), then redeploy. On this Cloud Agent put them in environment secrets / `.env.local` and restart `scripts/ensure-site.sh`. With `ELEVENLABS_API_KEY` set, Pilot uses ElevenLabs first (unless `TTS_PROVIDER` forces `azure`, `openai`, or `edge`). `eleven_multilingual_v2` covers every site language, including Russian.
+Voice IDs come from ElevenLabs → Voices → the voice → ID (or the URL). Defaults are premade **Adam** (Pilot) and **Josh** (officer) on `eleven_multilingual_v2`, with `language_code` set to the current StarWall locale (`en`, `es`, `fr`, `de`, `ru`, `uk`, `ar`, `zh`, `ja`, `he`). Optional per-language overrides: `ELEVENLABS_PILOT_VOICE_ID_RU`, `ELEVENLABS_OFFICER_VOICE_ID_JA`, and the same suffix for every site language. `GET /api/tts` returns the full `languages` catalog. On Vercel add the same names under Project → Settings → Environment Variables (Production and Preview), then redeploy. On this Cloud Agent put them in environment secrets / `.env.local` and restart `scripts/ensure-site.sh`. With `ELEVENLABS_API_KEY` set, Pilot uses ElevenLabs first (unless `TTS_PROVIDER` forces `azure`, `openai`, or `edge`).
 
-Without a key, Demo still uses two Edge Neural voices (no account): Pilot Dmitry / officer Svetlana in Russian, Andrew / Brian in English, and the matching pair for the other locales. Azure (`AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION`) and OpenAI (`OPENAI_API_KEY`, `onyx` / `echo`) are optional fallbacks. If neural speech is down, Pilot falls back to a male browser voice when one is installed, then types. Listening uses Web Speech Recognition in Chrome or Edge after the microphone is allowed. Copy `.env.local.example` to `.env.local` and set `ANTHROPIC_API_KEY` for richer spoken answers. `.env*.local` is gitignored. Without the key Pilot still answers from the on-site briefing — it does not invent prices.
+Without a key, Demo still uses two Edge Neural voices (no account) in every StarWall language:
+
+| Language | Pilot | Officer |
+| --- | --- | --- |
+| English | Andrew | Brian |
+| Español | Álvaro | Arnau |
+| Français | Henri | Claude |
+| Deutsch | Conrad | Killian |
+| Русский | Dmitry | Svetlana |
+| Українська | Ostap | Polina |
+| العربية | Hamed | Zariyah |
+| 中文 | Yunxi | Yunjian |
+| 日本語 | Keita | Daichi |
+| עברית | Avri | Hila | Azure (`AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION`) and OpenAI (`OPENAI_API_KEY`, `onyx` / `echo`) are optional fallbacks. If neural speech is down, Pilot falls back to a male browser voice when one is installed, then types. Listening uses Web Speech Recognition in Chrome or Edge after the microphone is allowed. Copy `.env.local.example` to `.env.local` and set `ANTHROPIC_API_KEY` for richer spoken answers. `.env*.local` is gitignored. Without the key Pilot still answers from the on-site briefing — it does not invent prices.
 
 `NEXT_PUBLIC_SITE_URL` is used for canonical metadata, Open Graph, `robots.txt`, and `sitemap.xml`. Locally it defaults to `http://127.0.0.1:3000`. On Vercel it falls back to `https://$VERCEL_URL` if you leave it blank.
 

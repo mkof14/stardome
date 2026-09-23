@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
-import { isLocale } from "@/lib/i18n/locales";
+import { isLocale, locales } from "@/lib/i18n/locales";
 import { isSpeechSpeaker, isSpeechTone } from "@/lib/pilot-speech";
 import {
   localeFromBody,
   synthesizePilotSpeech,
+  ttsCatalog,
   ttsPlan,
   ttsVoices,
 } from "@/lib/pilot-tts";
@@ -22,12 +23,15 @@ export async function GET(request: Request) {
     : "pilot";
   const plan = ttsPlan(locale, speaker === "officer" ? "officer" : "pilot");
   const voices = ttsVoices(locale);
+  const catalog = ttsCatalog();
   return NextResponse.json({
     ready: true,
     gender: "male",
     ...plan,
     officerVoice: voices.officer,
     voices,
+    locales: [...locales],
+    languages: Object.fromEntries(catalog.map((row) => [row.locale, row])),
   });
 }
 
@@ -71,6 +75,7 @@ export async function POST(request: Request) {
         "X-Pilot-Voice": clip.voice,
         "X-Pilot-Provider": clip.provider,
         "X-Pilot-Speaker": clip.speaker,
+        "X-Pilot-Locale": locale,
         "Cache-Control": "no-store",
       },
     });

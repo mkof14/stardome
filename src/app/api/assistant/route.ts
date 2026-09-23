@@ -4,7 +4,7 @@ import {
   localPilotReply,
   PILOT_SITE_BRIEFING,
 } from "@/lib/pilot-knowledge";
-import { isLocale } from "@/lib/i18n/locales";
+import { isLocale, locales, type Locale } from "@/lib/i18n/locales";
 import { sessionFromAssistantContext, watchReply } from "@/lib/pilot-watch";
 import { clientKey, rateLimit, rateLimitResponse } from "@/lib/rate-limit";
 
@@ -31,9 +31,10 @@ function asText(value: unknown, fallback: string) {
   return typeof value === "string" && value.trim() ? value.trim() : fallback;
 }
 
-function parseLangTag(raw: string) {
+function parseLangTag(raw: string, fallback: Locale) {
   const match = raw.match(/^\[LANG:([a-z]{2})\]\s*/i);
-  const langCode = match?.[1]?.toLowerCase() ?? "en";
+  const code = match?.[1]?.toLowerCase();
+  const langCode = isLocale(code) ? code : fallback;
   const reply = raw.replace(/^\[LANG:[a-z]{2}\]\s*/i, "").trim();
   return { reply, langCode };
 }
@@ -72,7 +73,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const system = `${PILOT_SITE_BRIEFING} The visitor is on ${path}. ${situation} Respond in 2-4 sentences unless more detail is needed. IMPORTANT: Respond in the exact same language the user's message is written in. At the very start of your response, output a language code in this exact format on its own first line: [LANG:xx] where xx is the ISO 639-1 code (e.g. [LANG:en], [LANG:ru], [LANG:fr]) — then a newline, then your actual response.`;
+  const system = `${PILOT_SITE_BRIEFING} The visitor is on ${path}. Spoken and written StarWall languages: ${locales.join(", ")}. Context locale is ${locale}. ${situation} Respond in 2-4 sentences unless more detail is needed. IMPORTANT: Reply in the visitor's language (the message if it is one of those languages, otherwise ${locale}). At the very start of your response, output a language code in this exact format on its own first line: [LANG:xx] where xx is one of ${locales.join(", ")} — then a newline, then your actual response.`;
 
   try {
     const client = new Anthropic({ apiKey });
@@ -95,7 +96,7 @@ export async function POST(request: Request) {
       );
     }
 
-    return NextResponse.json(parseLangTag(raw));
+    return NextResponse.json(parseLangTag(raw, locale));
   } catch {
     return NextResponse.json(
       localPilotReply(message, locale, { path, session: watchSession }),

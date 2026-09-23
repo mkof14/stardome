@@ -1,6 +1,6 @@
 import { Readable } from "node:stream";
 import { MsEdgeTTS, OUTPUT_FORMAT } from "msedge-tts";
-import { isLocale, type Locale } from "@/lib/i18n/locales";
+import { isLocale, localeMeta, locales, type Locale } from "@/lib/i18n/locales";
 import {
   isSpeechSpeaker,
   speechProsody,
@@ -51,13 +51,24 @@ function elevenReady() {
   return Boolean(envText("ELEVENLABS_API_KEY"));
 }
 
-export function elevenVoiceId(speaker: SpeechSpeaker = "pilot") {
+export function elevenLanguageCode(locale: Locale) {
+  return locale;
+}
+
+export function elevenVoiceId(
+  speaker: SpeechSpeaker = "pilot",
+  locale: Locale = "en",
+) {
+  const tag = locale.toUpperCase();
   if (speaker === "officer") {
     return (
-      envText("ELEVENLABS_OFFICER_VOICE_ID") || ELEVEN_OFFICER_VOICE
+      envText(`ELEVENLABS_OFFICER_VOICE_ID_${tag}`) ||
+      envText("ELEVENLABS_OFFICER_VOICE_ID") ||
+      ELEVEN_OFFICER_VOICE
     );
   }
   return (
+    envText(`ELEVENLABS_PILOT_VOICE_ID_${tag}`) ||
     envText("ELEVENLABS_PILOT_VOICE_ID") ||
     envText("ELEVENLABS_VOICE_ID") ||
     ELEVEN_PILOT_VOICE
@@ -94,7 +105,7 @@ export function ttsPlan(
   if (forced === "elevenlabs" && elevenReady()) {
     return {
       provider: "elevenlabs",
-      voice: elevenVoiceId(speaker),
+      voice: elevenVoiceId(speaker, locale),
       lang: neural.lang,
     };
   }
@@ -102,7 +113,7 @@ export function ttsPlan(
   if (elevenReady()) {
     return {
       provider: "elevenlabs",
-      voice: elevenVoiceId(speaker),
+      voice: elevenVoiceId(speaker, locale),
       lang: neural.lang,
     };
   }
@@ -115,6 +126,30 @@ export function ttsVoices(locale: Locale) {
     pilot: ttsPlan(locale, "pilot").voice,
     officer: ttsPlan(locale, "officer").voice,
   };
+}
+
+export type TtsLanguageRow = {
+  locale: Locale;
+  lang: string;
+  native: string;
+  pilot: string;
+  officer: string;
+  eleven: string;
+};
+
+/** Every StarWall site language with both Demo voices. */
+export function ttsCatalog(): TtsLanguageRow[] {
+  return locales.map((locale) => {
+    const voices = ttsVoices(locale);
+    return {
+      locale,
+      lang: ttsPlan(locale).lang,
+      native: localeMeta[locale].native,
+      pilot: voices.pilot,
+      officer: voices.officer,
+      eleven: elevenLanguageCode(locale),
+    };
+  });
 }
 
 export function providersFor(locale: Locale): TtsProvider[] {
@@ -314,8 +349,9 @@ async function synthEleven(
   text: string,
   tone: SpeechTone,
   speaker: SpeechSpeaker,
+  locale: Locale,
 ): Promise<SpeechClip> {
-  const voice = elevenVoiceId(speaker);
+  const voice = elevenVoiceId(speaker, locale);
   const res = await fetch(
     `https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(voice)}`,
     {
@@ -328,6 +364,7 @@ async function synthEleven(
       body: JSON.stringify({
         text,
         model_id: envText("ELEVENLABS_MODEL") || "eleven_multilingual_v2",
+        language_code: elevenLanguageCode(locale),
         voice_settings: elevenVoiceSettings(tone, speaker),
       }),
     },
@@ -364,7 +401,7 @@ export async function synthesizePilotSpeech(
       }
       if (provider === "openai") return await synthOpenAI(clipped, who);
       if (provider === "elevenlabs") {
-        return await synthEleven(clipped, tone, who);
+        return await synthEleven(clipped, tone, who, locale);
       }
     } catch (err) {
       errors.push(
