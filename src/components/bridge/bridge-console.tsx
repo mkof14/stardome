@@ -2,11 +2,9 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { BridgeRadar } from "@/components/bridge/bridge-radar";
 import { CrisisBanner } from "@/components/bridge/crisis-banner";
 import { CrisisProtocolPanel } from "@/components/bridge/crisis-protocol-panel";
 import { DegradedBanner } from "@/components/bridge/degraded-banner";
-import { ExpandablePicture } from "@/components/bridge/expandable-picture";
 import {
   EventToasts,
   type EventToast,
@@ -16,13 +14,11 @@ import { HudPanel } from "@/components/bridge/hud-panel";
 import { HudGlyph, IconWell } from "@/components/bridge/hud-icons";
 import { HudFrame } from "@/components/bridge/hud-visor";
 import { ModeToggle } from "@/components/mode-toggle";
-import { PerimeterView } from "@/components/bridge/perimeter-panel";
 import { RankedActionList } from "@/components/bridge/ranked-action-list";
 import { ScenarioLibrary } from "@/components/bridge/scenario-library";
 import { SessionReport } from "@/components/bridge/session-report";
+import { SituationalScope } from "@/components/bridge/situational-scope";
 import { TrainingTour } from "@/components/bridge/training-tour";
-import { SonarView } from "@/components/bridge/sonar-panel";
-import { SpectrumView } from "@/components/bridge/spectrum-panel";
 import { UtcClock } from "@/components/bridge/utc-clock";
 import { AUTOMATED_ACTIONS } from "@/lib/automated-actions";
 import { CRISIS_PROTOCOLS, FALLBACK_CRISIS_STEPS } from "@/lib/crisis-protocols";
@@ -54,7 +50,7 @@ import {
   type ScenarioOption,
   type SessionEvent,
 } from "@/lib/scenarios";
-import { radarScene } from "@/lib/picture-scenes";
+import { sceneExtra } from "@/lib/picture-scenes";
 
 type LogEntry = EventToast;
 
@@ -103,51 +99,27 @@ function riskTone(level: RiskLevel) {
   return { dot: "bg-ok", text: "text-ok", chip: "border-ok text-ok" };
 }
 
-function pictureFor(
+function pictureMeta(
   panelType: PanelType,
   scenarioId: string,
   situational: string,
-  pictureFault: "radar" | "ais" | null,
   empty: boolean | undefined,
   hud: HudCopy,
 ) {
   if (empty || panelType === "radar") {
-    const scene = radarScene(empty ? "" : scenarioId);
     return {
       testId: "radar-panel",
       title: situational,
-      extra: empty ? hud.chrome.noSensors : scene.extra,
-      view: (
-        <BridgeRadar
-          scenarioId={empty ? "" : scenarioId}
-          degraded={empty ? null : pictureFault}
-          empty={empty}
-        />
-      ),
+      extra: empty ? hud.chrome.noSensors : sceneExtra("radar", scenarioId),
     };
   }
   if (panelType === "sonar") {
-    return {
-      testId: "sonar-panel",
-      title: hud.panels.sonarTitle,
-      extra: hud.panels.sonarExtra,
-      view: <SonarView scenarioId={scenarioId} />,
-    };
+    return { testId: "sonar-panel", title: hud.panels.sonarTitle, extra: sceneExtra("sonar", scenarioId) };
   }
   if (panelType === "spectrum") {
-    return {
-      testId: "spectrum-panel",
-      title: hud.panels.spectrumTitle,
-      extra: hud.panels.spectrumExtra,
-      view: <SpectrumView scenarioId={scenarioId} />,
-    };
+    return { testId: "spectrum-panel", title: hud.panels.spectrumTitle, extra: sceneExtra("spectrum", scenarioId) };
   }
-  return {
-    testId: "perimeter-panel",
-    title: hud.panels.perimeterTitle,
-    extra: hud.panels.perimeterExtra,
-    view: <PerimeterView scenarioId={scenarioId} />,
-  };
+  return { testId: "perimeter-panel", title: hud.panels.perimeterTitle, extra: sceneExtra("perimeter", scenarioId) };
 }
 
 export function BridgeConsole() {
@@ -429,14 +401,7 @@ export function BridgeConsole() {
   const tone = riskTone(riskLevel);
   const pictureFault =
     faultId === "radar" || faultId === "ais" ? faultId : null;
-  const picture = pictureFor(
-    panelType,
-    selectedId,
-    t.bridge.situational,
-    pictureFault,
-    live,
-    hud,
-  );
+  const picture = pictureMeta(panelType, selectedId, t.bridge.situational, live, hud);
   const catalogScenario = SCENARIOS.find((item) => item.id === selectedId);
   const activeScenario = catalogScenario
     ? localizeScenario(locale, catalogScenario)
@@ -831,7 +796,12 @@ export function BridgeConsole() {
             }
           >
             <div className="relative">
-              <ExpandablePicture>{picture.view}</ExpandablePicture>
+              <SituationalScope
+                panelType={panelType}
+                scenarioId={selectedId}
+                empty={live}
+                degraded={pictureFault}
+              />
               {live ? (
                 <p
                   data-testid="live-picture-empty"

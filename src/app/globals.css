@@ -581,7 +581,9 @@ body {
 }
 
 .instrument-radar {
-  background: #03140c;
+  background:
+    radial-gradient(circle at 50% 48%, rgb(8 42 24 / 0.55), transparent 52%),
+    #03140c;
   box-shadow: inset 0 0 48px rgb(16 90 48 / 0.28);
 }
 

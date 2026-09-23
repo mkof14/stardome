@@ -32,24 +32,16 @@ export function ExpandablePicture({ children }: ExpandablePictureProps) {
 
   return (
     <>
-      <div
-        data-testid="picture-expand"
-        role="button"
-        tabIndex={0}
-        onClick={() => setOpen(true)}
-        onKeyDown={(event) => {
-          if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            setOpen(true);
-          }
-        }}
-        className="group relative cursor-zoom-in"
-        aria-label={hud.chrome.openPicture}
-      >
+      <div data-testid="picture-expand" className="group relative">
         {children}
-        <span className="pointer-events-none absolute bottom-2 end-2 border border-bridge-line bg-bridge-panel/90 px-2 py-1 font-mono text-[10px] tracking-wider text-bridge-text opacity-0 transition-opacity group-hover:opacity-100">
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="absolute bottom-2 end-2 border border-bridge-line bg-bridge-panel/90 px-2 py-1 font-mono text-[10px] tracking-wider text-bridge-text hover:border-orange hover:text-orange"
+          aria-label={hud.chrome.openPicture}
+        >
           {hud.chrome.openPicture}
-        </span>
+        </button>
       </div>
       {open && typeof document !== "undefined"
         ? createPortal(

@@ -17,12 +17,15 @@ type Tooltip = {
   name: string;
   type: string;
   dist: string;
+  extra?: string;
 };
 
 type BridgeRadarProps = {
   scenarioId?: string;
   degraded?: "radar" | "ais" | null;
   empty?: boolean;
+  selectedId?: string | null;
+  onSelect?: (id: string) => void;
 };
 
 const TICKS = Array.from({ length: 36 }, (_, index) => index * 10);
@@ -81,10 +84,13 @@ export function BridgeRadar({
   scenarioId = "",
   degraded,
   empty,
+  selectedId,
+  onSelect,
 }: BridgeRadarProps) {
   const [tooltip, setTooltip] = useState<Tooltip | null>(null);
   const scene = radarScene(scenarioId);
   const uid = useId().replace(/:/g, "");
+  const selected = scene.contacts.find((item) => item.id === selectedId);
 
   function onContactEnter(
     event: MouseEvent<SVGGElement>,
@@ -94,8 +100,11 @@ export function BridgeRadar({
       x: event.clientX,
       y: event.clientY,
       name: contact.name,
-      type: contact.type,
+      type: contact.object ?? contact.type,
       dist: contact.dist,
+      extra: [contact.threat, contact.size, contact.tempC != null ? `${contact.tempC}°C` : ""]
+        .filter(Boolean)
+        .join(" · "),
     });
   }
 
@@ -111,8 +120,9 @@ export function BridgeRadar({
       data-testid="picture-scene"
       data-scene={scenarioId || "watch"}
     >
-      <div className="flex items-center justify-between border-b border-[#13432C] bg-[#07150E] px-3 py-1 font-mono text-[9px] tracking-[0.16em] text-[#7DCF9A]">
+      <div className="flex items-center justify-between gap-3 border-b border-[#13432C] bg-[#07150E] px-3 py-1 font-mono text-[9px] tracking-[0.16em] text-[#7DCF9A]">
         <span>S-BAND ARPA · RDR-6</span>
+        <span className="hidden truncate sm:inline">{scene.extra}</span>
         <span>GAIN 72 · SEA 18 · RAIN 0 · TRAILS 6M</span>
       </div>
       <svg viewBox="0 0 680 428" className="h-auto w-full">
@@ -201,6 +211,28 @@ export function BridgeRadar({
             </text>
           )}
         </g>
+        {selected && !empty ? (
+          <g pointerEvents="none">
+            <line
+              x1="340"
+              y1="214"
+              x2={selected.x}
+              y2={selected.y}
+              stroke={toneColor(selected.tone)}
+              strokeWidth="1"
+              strokeDasharray="3 4"
+              opacity="0.75"
+            />
+            <circle
+              cx={selected.x}
+              cy={selected.y}
+              r="22"
+              fill="none"
+              stroke={toneColor(selected.tone)}
+              strokeWidth="1.2"
+            />
+          </g>
+        ) : null}
         {empty
           ? null
           : scene.contacts.map((contact) => {
@@ -209,11 +241,17 @@ export function BridgeRadar({
                 contact.y,
                 contact.motion === "inbound" ? 36 : 18,
               );
+              const active = contact.id === selectedId;
               return (
                 <g
                   key={contact.id}
                   transform={`translate(${contact.x} ${contact.y})`}
                   style={{ cursor: "pointer" }}
+                  data-testid={`radar-contact-${contact.id}`}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    onSelect?.(contact.id);
+                  }}
                   onMouseEnter={(event) => onContactEnter(event, contact)}
                   onMouseMove={onContactMove}
                   onMouseLeave={() => setTooltip(null)}
@@ -225,17 +263,25 @@ export function BridgeRadar({
                       ["--my" as string]: `${shift.my}px`,
                     }}
                   >
-                    <circle r="16" fill="transparent" />
+                    <circle r="18" fill="transparent" />
                     <ContactMark contact={contact} />
                     <text
                       x="12"
                       y="4"
                       fontFamily="monospace"
                       fontSize="9.5"
+                      fontWeight={active ? "bold" : "normal"}
                       fill={toneColor(contact.tone)}
                     >
+                      {contact.trackNo ? `${contact.trackNo} ` : ""}
                       {contact.label}
                     </text>
+                    {active && contact.rangeText ? (
+                      <text x="12" y="15" fontFamily="monospace" fontSize="8" fill="#9ec9ae">
+                        {contact.rangeText}
+                        {contact.object ? ` · ${contact.object}` : ""}
+                      </text>
+                    ) : null}
                   </g>
                 </g>
               );
@@ -250,6 +296,7 @@ export function BridgeRadar({
               <p className="text-bridge-text">{tooltip.name}</p>
               <p className="text-bridge-dim">{tooltip.type}</p>
               <p className="text-bridge-dim">{tooltip.dist}</p>
+              {tooltip.extra ? <p className="text-bridge-dim">{tooltip.extra}</p> : null}
             </div>,
             document.body,
           )

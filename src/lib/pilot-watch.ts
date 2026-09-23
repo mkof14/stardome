@@ -7,12 +7,13 @@ import { localizeCrisisSteps, localizeScenario } from "@/lib/i18n/hud-scenarios"
 import type { Locale } from "@/lib/i18n/locales";
 import {
   perimeterScene,
-  radarScene,
+  sceneTracks,
   sonarScene,
   spectrumScene,
   type PictureContact,
 } from "@/lib/picture-scenes";
 import { SCENARIOS, type PanelType } from "@/lib/scenarios";
+import { briefWatch } from "@/lib/watch-brief";
 
 export type InstrumentState = "watching" | "quiet" | "degraded" | "dark";
 
@@ -99,36 +100,22 @@ function contactsFrom(session: BridgeSessionValue): {
     return { contacts: [], callout: null };
   }
   const panel = isPanel(session.panelType) ? session.panelType : "radar";
-  if (panel === "radar") {
-    const scene = radarScene(session.scenarioId);
-    return {
-      contacts: scene.contacts.map((item) => ({
-        id: item.id,
-        name: item.label,
-        dist: item.dist,
-        tone: item.tone,
-      })),
-      callout: null,
-    };
-  }
+  const contacts = sceneTracks(panel, session.scenarioId).map((item) => ({
+    id: item.id,
+    name: item.name,
+    dist: [item.rangeText ?? item.dist, item.object, item.threat].filter(Boolean).join(" · "),
+    tone: item.tone,
+  }));
   if (panel === "sonar") {
-    const scene = sonarScene(session.scenarioId);
-    return {
-      contacts: scene.contacts.map((item) => ({
-        id: item.id,
-        name: item.label,
-        dist: item.dist,
-        tone: item.tone,
-      })),
-      callout: scene.note || null,
-    };
+    return { contacts, callout: sonarScene(session.scenarioId).note || null };
   }
   if (panel === "spectrum") {
-    const scene = spectrumScene(session.scenarioId);
-    return { contacts: [], callout: scene.callout };
+    return { contacts, callout: spectrumScene(session.scenarioId).callout };
   }
-  const scene = perimeterScene(session.scenarioId);
-  return { contacts: [], callout: scene.callout };
+  if (panel === "perimeter") {
+    return { contacts, callout: perimeterScene(session.scenarioId).callout };
+  }
+  return { contacts, callout: null };
 }
 
 function instrumentState(
@@ -184,27 +171,10 @@ export function buildPilotWatch(session: BridgeSessionValue, locale: Locale): Pi
   } else {
     const catalog = SCENARIOS.find((item) => item.id === session.scenarioId);
     const view = catalog ? localizeScenario(locale, catalog) : undefined;
-    const priority = contacts.filter((item) => item.tone !== "ok");
-    const contactLine =
-      priority.length > 0
-        ? priority.map((item) => `${item.name} · ${item.dist}`).join("; ")
-        : contacts.length > 0
-          ? contacts
-              .slice(0, 3)
-              .map((item) => `${item.name} · ${item.dist}`)
-              .join("; ")
-          : copy.noContacts;
     advice.push({
       kind: "situation",
       title: view?.name ?? session.scenarioName,
-      body: [
-        fillDesk(copy.seePicture, { panel: panelLabel }),
-        session.logText || view?.logText || "",
-        callout,
-        contactLine,
-      ]
-        .filter(Boolean)
-        .join(" "),
+      body: briefWatch(session, locale),
     });
     const recommended =
       session.recommended ||
@@ -270,14 +240,6 @@ export function buildPilotWatch(session: BridgeSessionValue, locale: Locale): Pi
 }
 
 export function watchReply(session: BridgeSessionValue, locale: Locale): string {
-  const watch = buildPilotWatch(session, locale);
-  const copy = watch.copy;
-  if (session.live) return copy.liveEmpty;
-  const lines = [
-    watch.advice.find((item) => item.kind === "situation")?.body,
-    watch.advice.find((item) => item.kind === "advice")?.body,
-    watch.advice.find((item) => item.kind === "train")?.body,
-    copy.youDecide,
-  ].filter(Boolean);
-  return lines.join(" ");
+  if (session.live) return pilotDeskCopy(locale).liveEmpty;
+  return briefWatch(session, locale);
 }

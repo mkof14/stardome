@@ -8,7 +8,15 @@ import {
 
 const MONO = "var(--font-jetbrains), ui-monospace, monospace";
 
-export function SonarView({ scenarioId = "" }: { scenarioId?: string }) {
+export function SonarView({
+  scenarioId = "",
+  selectedId,
+  onSelect,
+}: {
+  scenarioId?: string;
+  selectedId?: string | null;
+  onSelect?: (id: string) => void;
+}) {
   const scene = sonarScene(scenarioId);
 
   return (
@@ -63,8 +71,20 @@ export function SonarView({ scenarioId = "" }: { scenarioId?: string }) {
             contact.motion === "inbound" ? 28 : 12,
           );
           const color = toneColor(contact.tone);
+          const active = contact.id === selectedId;
           return (
-            <g key={contact.id} transform={`translate(${contact.x} ${contact.y})`}>
+            <g
+              key={contact.id}
+              transform={`translate(${contact.x} ${contact.y})`}
+              style={{ cursor: "pointer" }}
+              onClick={(event) => {
+                event.stopPropagation();
+                onSelect?.(contact.id);
+              }}
+            >
+              {active ? (
+                <circle r="20" fill="none" stroke={color} strokeWidth="1.2" />
+              ) : null}
               <g
                 className={cn(
                   contact.motion === "inbound" && "contact-inbound",

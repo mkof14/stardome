@@ -67,7 +67,7 @@ describe("buildPilotWatch", () => {
         }),
         "en",
       ),
-    ).toMatch(/visual|UAV|radar|picture/i);
+    ).toMatch(/reconnaissance|200 m|UAV|captain|watch/i);
   });
 
   it("raises a standing-order card on a CRITICAL DEMO scenario", () => {
@@ -130,7 +130,7 @@ describe("localPilotReply watch", () => {
       }),
     });
     expect(langCode).toBe("en");
-    expect(reply).toMatch(/UAV|radar|picture/i);
+    expect(reply).toMatch(/UAV|200 m|captain|reconnaissance/i);
     expect(reply).not.toMatch(/\$/);
   });
 
