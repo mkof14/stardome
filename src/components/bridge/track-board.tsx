@@ -109,7 +109,6 @@ export function TrackReadout({
         <Cell label={copy.tcpa} value={track.tcpa ?? dash} />
         {track.freq ? <Cell label={copy.freq} value={track.freq} /> : null}
         {track.power ? <Cell label={copy.power} value={track.power} /> : null}
-        <Cell label={copy.object} value={track.object ?? track.name} />
       </div>
     </div>
   );
