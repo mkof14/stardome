@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { starlinkLinks } from "@/lib/starlink";
+import { starlinkIdForBearer, starlinkLinks } from "@/lib/starlink";
 import { WATCH_KIT, kitReading, kitStatus } from "@/lib/watch-kit";
 import { plantSections } from "@/lib/plant-metrics";
 import { WATCH_CIRCUITS } from "@/lib/watch-comms";
@@ -42,6 +42,8 @@ describe("Starlink services", () => {
   it("exposes Starlink on the watch net and the connections map", () => {
     expect(WATCH_CIRCUITS.some((row) => row.bearer === "starlinkMaritime")).toBe(true);
     expect(WATCH_CIRCUITS.some((row) => row.bearer === "starlinkPriority")).toBe(true);
+    expect(starlinkIdForBearer("starlinkMaritime")).toBe("maritime");
+    expect(starlinkIdForBearer("starlinkPriority")).toBe("priority");
     expect(ENDPOINTS.some((item) => item.id === "starlink-maritime")).toBe(true);
     expect(ENDPOINTS.some((item) => item.id === "starlink-priority")).toBe(true);
   });

@@ -28,6 +28,17 @@ type StarlinkContext = {
 
 export const STARLINK_SERVICES: StarlinkServiceId[] = ["maritime", "priority"];
 
+export const STARLINK_HUES: Record<StarlinkServiceId, string> = {
+  maritime: "#38BDF8",
+  priority: "#A78BFA",
+};
+
+export function starlinkIdForBearer(bearer: string): StarlinkServiceId | null {
+  if (bearer === "starlinkMaritime") return "maritime";
+  if (bearer === "starlinkPriority") return "priority";
+  return null;
+}
+
 export function starlinkLinks(ctx: StarlinkContext): StarlinkLink[] {
   if (ctx.live) {
     return [

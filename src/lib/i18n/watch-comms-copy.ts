@@ -6,6 +6,8 @@ export type WatchCommsCopy = {
   title: string;
   lead: string;
   leadLive: string;
+  starlinkLead: string;
+  starlinkLeadLive: string;
   raise: string;
   raised: string;
   liveEmpty: string;
@@ -20,9 +22,13 @@ const COPY = {
     kicker: "WATCH NET",
     title: "Watch communications",
     lead:
-      "Raise the captain, the designated person, the vessel radio net, or Support Live Team. DEMO shows the path. LIVE stays honest: no live circuit on this install.",
+      "Raise the captain, the designated person, the vessel radio net, or Support Live Team. Two Starlink services sit on this net — Maritime and Priority — with lock, latency, SNR, and obstruction on the monitor. DEMO shows the path. LIVE stays honest: no live circuit on this install.",
     leadLive:
-      "LIVE has no voice or radio circuit on this install. Switch to DEMO to drill the paths, or keep the watch on the picture.",
+      "LIVE has no voice, radio, or Starlink circuit on this install. Switch to DEMO to drill the paths and read Maritime and Priority, or keep the watch on the picture.",
+    starlinkLead:
+      "Starlink Maritime (UT-A, Ku/Ka) is the primary watch data path. Starlink Priority (UT-B, Ka) is the second path.",
+    starlinkLeadLive:
+      "LIVE has no Starlink terminals on this install. Switch to DEMO to read Maritime and Priority.",
     raise: "Raise",
     raised: "Posted to Pilot",
     liveEmpty: "No live circuit",
@@ -57,9 +63,13 @@ const COPY = {
     kicker: "RED DE GUARDIA",
     title: "Comunicaciones de guardia",
     lead:
-      "Llame al capitán, a la persona designada, a la red de radio del buque o a Support Live Team. DEMO muestra el camino. LIVE es honesto: no hay circuito en esta instalación.",
+      "Llame al capitán, a la persona designada, a la red de radio del buque o a Support Live Team. En esta red hay dos servicios Starlink — Maritime y Priority — con lock, latencia, SNR y obstrucción en el monitor. DEMO muestra el camino. LIVE es honesto: no hay circuito en esta instalación.",
     leadLive:
-      "LIVE no tiene circuito de voz ni radio en esta instalación. Pase a DEMO para ensayar los caminos, o conserve la guardia en la imagen.",
+      "LIVE no tiene circuito de voz, radio ni Starlink en esta instalación. Pase a DEMO para ensayar los caminos y leer Maritime y Priority, o conserve la guardia en la imagen.",
+    starlinkLead:
+      "Starlink Maritime (UT-A, Ku/Ka) es la vía principal de datos de guardia. Starlink Priority (UT-B, Ka) es la segunda vía.",
+    starlinkLeadLive:
+      "LIVE no tiene terminales Starlink en esta instalación. Pase a DEMO para leer Maritime y Priority.",
     raise: "Llamar",
     raised: "Enviado a Pilot",
     liveEmpty: "Sin circuito en vivo",
@@ -94,9 +104,13 @@ const COPY = {
     kicker: "RÉSEAU DE QUART",
     title: "Communications de quart",
     lead:
-      "Joignez le capitaine, la personne désignée, le réseau radio du navire ou Support Live Team. DEMO montre le chemin. LIVE reste honnête : aucun circuit sur cette installation.",
+      "Joignez le capitaine, la personne désignée, le réseau radio du navire ou Support Live Team. Deux services Starlink — Maritime et Priority — sont sur ce réseau, avec lock, latence, SNR et obstruction sur le moniteur. DEMO montre le chemin. LIVE reste honnête : aucun circuit sur cette installation.",
     leadLive:
-      "LIVE n’a ni voix ni radio sur cette installation. Passez en DEMO pour exercer les chemins, ou tenez le quart sur l’image.",
+      "LIVE n’a ni voix, ni radio, ni Starlink sur cette installation. Passez en DEMO pour exercer les chemins et lire Maritime et Priority, ou tenez le quart sur l’image.",
+    starlinkLead:
+      "Starlink Maritime (UT-A, Ku/Ka) est la voie de données de quart principale. Starlink Priority (UT-B, Ka) est la seconde voie.",
+    starlinkLeadLive:
+      "LIVE n’a pas de terminaux Starlink sur cette installation. Passez en DEMO pour lire Maritime et Priority.",
     raise: "Joindre",
     raised: "Envoyé à Pilot",
     liveEmpty: "Aucun circuit en direct",
@@ -131,9 +145,13 @@ const COPY = {
     kicker: "WACHNETZ",
     title: "Wachkommunikation",
     lead:
-      "Erreichen Sie den Kapitän, die bestimmte Person, das Schiffs-Funknetz oder Support Live Team. DEMO zeigt den Weg. LIVE bleibt ehrlich: kein Kreis auf dieser Installation.",
+      "Erreichen Sie den Kapitän, die bestimmte Person, das Schiffs-Funknetz oder Support Live Team. Zwei Starlink-Dienste — Maritime und Priority — liegen auf diesem Netz, mit Lock, Latenz, SNR und Abschattung auf dem Monitor. DEMO zeigt den Weg. LIVE bleibt ehrlich: kein Kreis auf dieser Installation.",
     leadLive:
-      "LIVE hat auf dieser Installation keinen Sprach- oder Funkkreis. Wechseln Sie zu DEMO, um die Wege zu üben, oder halten Sie Wache am Lagebild.",
+      "LIVE hat auf dieser Installation keinen Sprach-, Funk- oder Starlink-Kreis. Wechseln Sie zu DEMO, um die Wege zu üben und Maritime und Priority zu lesen, oder halten Sie Wache am Lagebild.",
+    starlinkLead:
+      "Starlink Maritime (UT-A, Ku/Ka) ist der primäre Wachdatenweg. Starlink Priority (UT-B, Ka) ist der zweite Weg.",
+    starlinkLeadLive:
+      "LIVE hat auf dieser Installation keine Starlink-Terminals. Wechseln Sie zu DEMO, um Maritime und Priority zu lesen.",
     raise: "Rufen",
     raised: "An Pilot übergeben",
     liveEmpty: "Kein Live-Kreis",
@@ -168,9 +186,13 @@ const COPY = {
     kicker: "СЕТЬ ВАХТЫ",
     title: "Связь вахты",
     lead:
-      "Вызовите капитана, назначенное лицо, радиосеть судна или Support Live Team. DEMO показывает путь. LIVE честен: на этой установке нет живого канала.",
+      "Вызовите капитана, назначенное лицо, радиосеть судна или Support Live Team. На сети два сервиса Starlink — Maritime и Priority — с мониторингом lock, задержки, SNR и затенения. DEMO показывает путь. LIVE честен: на этой установке нет живого канала.",
     leadLive:
-      "В LIVE на этой установке нет голосового или радиоканала. Переключитесь в DEMO, чтобы отработать пути, или держите вахту по картине.",
+      "В LIVE на этой установке нет голосового, радио- или Starlink-канала. Переключитесь в DEMO, чтобы отработать пути и читать Maritime и Priority, или держите вахту по картине.",
+    starlinkLead:
+      "Starlink Maritime (UT-A, Ku/Ka) — основной канал данных вахты. Starlink Priority (UT-B, Ka) — второй путь.",
+    starlinkLeadLive:
+      "В LIVE на этой установке нет терминалов Starlink. Переключитесь в DEMO, чтобы читать Maritime и Priority.",
     raise: "Вызвать",
     raised: "Передано Pilot",
     liveEmpty: "Нет живого канала",
@@ -205,9 +227,13 @@ const COPY = {
     kicker: "МЕРЕЖА ВАХТИ",
     title: "Зв’язок вахти",
     lead:
-      "Викличте капітана, призначену особу, радіомережу судна або Support Live Team. DEMO показує шлях. LIVE чесний: на цій установці немає живого каналу.",
+      "Викличте капітана, призначену особу, радіомережу судна або Support Live Team. У мережі два сервіси Starlink — Maritime і Priority — з моніторингом lock, затримки, SNR і затінення. DEMO показує шлях. LIVE чесний: на цій установці немає живого каналу.",
     leadLive:
-      "У LIVE на цій установці немає голосового чи радіоканалу. Перемкніться в DEMO, щоб відпрацювати шляхи, або тримайте вахту за картиною.",
+      "У LIVE на цій установці немає голосового, радіо- чи Starlink-каналу. Перемкніться в DEMO, щоб відпрацювати шляхи й читати Maritime і Priority, або тримайте вахту за картиною.",
+    starlinkLead:
+      "Starlink Maritime (UT-A, Ku/Ka) — основний канал даних вахти. Starlink Priority (UT-B, Ka) — другий шлях.",
+    starlinkLeadLive:
+      "У LIVE на цій установці немає терміналів Starlink. Перемкніться в DEMO, щоб читати Maritime і Priority.",
     raise: "Викликати",
     raised: "Передано Pilot",
     liveEmpty: "Немає живого каналу",
@@ -242,9 +268,13 @@ const COPY = {
     kicker: "شبكة الخفارة",
     title: "اتصالات الخفارة",
     lead:
-      "اتصل بالربان أو المعيّن أو شبكة راديو السفينة أو Support Live Team. DEMO يعرض المسار. LIVE صادق: لا دائرة حية في هذا النشر.",
+      "اتصل بالربان أو المعيّن أو شبكة راديو السفينة أو Support Live Team. على هذه الشبكة خدمتا Starlink — Maritime وPriority — مع مراقبة القفل والتأخير وSNR والحجب. DEMO يعرض المسار. LIVE صادق: لا دائرة حية في هذا النشر.",
     leadLive:
-      "LIVE بلا دائرة صوت أو راديو في هذا النشر. انتقلوا إلى DEMO لتمرين المسارات، أو أبقوا الخفارة على الصورة.",
+      "LIVE بلا دائرة صوت أو راديو أو Starlink في هذا النشر. انتقلوا إلى DEMO لتمرين المسارات وقراءة Maritime وPriority، أو أبقوا الخفارة على الصورة.",
+    starlinkLead:
+      "Starlink Maritime (UT-A, Ku/Ka) هو مسار بيانات الخفارة الأساسي. Starlink Priority (UT-B, Ka) هو المسار الثاني.",
+    starlinkLeadLive:
+      "LIVE بلا محطات Starlink في هذا النشر. انتقلوا إلى DEMO لقراءة Maritime وPriority.",
     raise: "اتصل",
     raised: "أُرسل إلى Pilot",
     liveEmpty: "لا دائرة حية",
@@ -279,8 +309,13 @@ const COPY = {
     kicker: "值班网",
     title: "值班通信",
     lead:
-      "呼叫船长、指定人员、全船无线电网或 Support Live Team。DEMO 显示路径。LIVE 如实：此安装没有实况电路。",
-    leadLive: "此安装的 LIVE 没有语音或无线电电路。切换到 DEMO 演练路径，或继续按画面值班。",
+      "呼叫船长、指定人员、全船无线电网或 Support Live Team。网上有两项 Starlink 服务 — Maritime 与 Priority — 监视器显示 lock、时延、SNR 与遮挡。DEMO 显示路径。LIVE 如实：此安装没有实况电路。",
+    leadLive:
+      "此安装的 LIVE 没有语音、无线电或 Starlink 电路。切换到 DEMO 演练路径并读取 Maritime 与 Priority，或继续按画面值班。",
+    starlinkLead:
+      "Starlink Maritime（UT-A，Ku/Ka）是值班数据主路径。Starlink Priority（UT-B，Ka）是第二路径。",
+    starlinkLeadLive:
+      "此安装的 LIVE 没有 Starlink 终端。切换到 DEMO 读取 Maritime 与 Priority。",
     raise: "呼叫",
     raised: "已交给 Pilot",
     liveEmpty: "无实况电路",
@@ -315,9 +350,13 @@ const COPY = {
     kicker: "当直ネット",
     title: "当直通信",
     lead:
-      "船長、指名者、船内無線網、Support Live Team を呼び出します。DEMO は経路を示します。LIVE は正直です。この導入に実回線はありません。",
+      "船長、指名者、船内無線網、Support Live Team を呼び出します。この網には Starlink の 2 サービス — Maritime と Priority — があり、モニターに lock・遅延・SNR・遮蔽を出します。DEMO は経路を示します。LIVE は正直です。この導入に実回線はありません。",
     leadLive:
-      "この導入の LIVE に音声・無線回線はありません。経路の訓練は DEMO へ切り替えるか、画面の当直を続けてください。",
+      "この導入の LIVE に音声・無線・Starlink 回線はありません。経路の訓練と Maritime / Priority の読み取りは DEMO へ切り替えるか、画面の当直を続けてください。",
+    starlinkLead:
+      "Starlink Maritime（UT-A、Ku/Ka）は当直データの主経路です。Starlink Priority（UT-B、Ka）は第 2 経路です。",
+    starlinkLeadLive:
+      "この導入の LIVE に Starlink 端末はありません。Maritime と Priority を読むには DEMO へ切り替えてください。",
     raise: "呼び出す",
     raised: "Pilot へ送付",
     liveEmpty: "実回線なし",
@@ -352,9 +391,13 @@ const COPY = {
     kicker: "רשת משמרת",
     title: "קשר משמרת",
     lead:
-      "הזעיקו את הקברניט, את הממונה, את רשת הרדיו של הכלי או את Support Live Team. DEMO מציג את הנתיב. LIVE כן: אין מעגל חי בהתקנה הזו.",
+      "הזעיקו את הקברניט, את הממונה, את רשת הרדיו של הכלי או את Support Live Team. ברשת שירותי Starlink — Maritime ו־Priority — עם ניטור lock, השהיה, SNR והסתרה. DEMO מציג את הנתיב. LIVE כן: אין מעגל חי בהתקנה הזו.",
     leadLive:
-      "ב־LIVE אין מעגל קול או רדיו בהתקנה הזו. עברו ל־DEMO לתרגול הנתיבים, או שמרו משמרת על התמונה.",
+      "ב־LIVE אין מעגל קול, רדיו או Starlink בהתקנה הזו. עברו ל־DEMO לתרגול הנתיבים ולקריאת Maritime ו־Priority, או שמרו משמרת על התמונה.",
+    starlinkLead:
+      "Starlink Maritime (UT-A, Ku/Ka) הוא נתיב נתוני המשמרת הראשי. Starlink Priority (UT-B, Ka) הוא הנתיב השני.",
+    starlinkLeadLive:
+      "ב־LIVE אין מסופי Starlink בהתקנה הזו. עברו ל־DEMO כדי לקרוא Maritime ו־Priority.",
     raise: "הזעקה",
     raised: "נמסר ל־Pilot",
     liveEmpty: "אין מעגל חי",

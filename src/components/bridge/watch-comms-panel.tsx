@@ -3,11 +3,14 @@
 import { useEffect, useState } from "react";
 import { HudGlyph, IconWell, type HudGlyphName } from "@/components/bridge/hud-icons";
 import { HudFrame } from "@/components/bridge/hud-visor";
+import { StarlinkPanel } from "@/components/bridge/starlink-panel";
 import { cn } from "@/lib/cn";
 import { askPilot, CLEAR_SCREENS_EVENT, WATCH_COMMS_FOCUS_EVENT, type WatchCommsFocus } from "@/lib/helm-events";
 import { watchCommsCopy } from "@/lib/i18n/watch-comms-copy";
 import { useHud } from "@/lib/i18n/use-hud";
 import { useAppMode } from "@/lib/mode";
+import { useBridgeSession } from "@/lib/bridge-session";
+import { STARLINK_HUES, starlinkIdForBearer, starlinkLinks } from "@/lib/starlink";
 import { WATCH_CIRCUITS, type WatchBearer, type WatchParty } from "@/lib/watch-comms";
 
 const BEARER_GLYPH: Record<WatchBearer, HudGlyphName> = {
@@ -35,9 +38,15 @@ const FILTERS: Array<{ id: WatchParty | "all"; glyph: HudGlyphName }> = [
 export function WatchCommsPanel() {
   const { locale } = useHud();
   const { live } = useAppMode();
+  const session = useBridgeSession();
   const copy = watchCommsCopy(locale);
   const [focus, setFocus] = useState<WatchParty | "all">("all");
   const [raised, setRaised] = useState<string | null>(null);
+  const links = starlinkLinks({
+    live,
+    scenarioId: session.scenarioId,
+    faultId: session.faultId,
+  });
 
   useEffect(() => {
     function onFocus(event: Event) {
@@ -77,6 +86,13 @@ export function WatchCommsPanel() {
           {live ? copy.leadLive : copy.lead}
         </p>
 
+        <div className="mt-5" data-testid="watch-comms-starlink">
+          <p className="mb-2 font-body text-sm text-bridge-dim">
+            {live ? copy.starlinkLeadLive : copy.starlinkLead}
+          </p>
+          <StarlinkPanel />
+        </div>
+
         <div className="mt-4 flex flex-wrap gap-1.5">
           {FILTERS.map((item) => {
             const label = item.id === "all" ? copy.title : copy.party[item.id];
@@ -113,15 +129,20 @@ export function WatchCommsPanel() {
             {rows.map((row, index) => {
               const hot = raised === row.id;
               const alarm = row.bearer === "alarmNet";
+              const slId = starlinkIdForBearer(row.bearer);
+              const sl = slId ? links.find((link) => link.id === slId) : undefined;
+              const hue = slId ? STARLINK_HUES[slId] : undefined;
               return (
                 <li
                   key={row.id}
                   data-testid={`watch-circuit-${row.id}`}
                   data-party={row.party}
+                  data-starlink={slId ?? undefined}
                   className={cn(
                     "grid grid-cols-[4.5rem_minmax(0,1fr)_auto] items-center gap-2 px-4 py-2.5",
                     hot && "bg-orange/5",
                   )}
+                  style={hue ? { boxShadow: `inset 3px 0 0 ${hue}` } : undefined}
                 >
                   <div className="flex items-center gap-2">
                     <IconWell
@@ -137,13 +158,23 @@ export function WatchCommsPanel() {
                   <div className="min-w-0">
                     <p className="font-body text-sm font-semibold text-bridge-text">
                       {copy.party[row.party]}
-                      <span className="ms-2 font-body text-xs font-normal text-bridge-dim">
+                      <span
+                        className="ms-2 font-body text-xs font-normal"
+                        style={hue ? { color: hue } : undefined}
+                      >
                         {copy.bearer[row.bearer]}
                       </span>
                     </p>
                     <p className="font-body text-xs text-bridge-dim">
                       {live ? "STBY" : hot ? "TX" : "RX"}
                       <span className="ms-2">{live ? copy.liveEmpty : copy.demoPath}</span>
+                      {sl ? (
+                        <span className="ms-2 font-mono tracking-wide" style={hue ? { color: hue } : undefined}>
+                          {sl.state.toUpperCase()}
+                          {sl.latencyMs !== "—" ? ` · ${sl.latencyMs} ms` : ""}
+                          {sl.downMbps !== "—" ? ` · ${sl.downMbps}/${sl.upMbps} Mbps` : ""}
+                        </span>
+                      ) : null}
                     </p>
                   </div>
                   <button

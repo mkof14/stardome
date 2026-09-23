@@ -32,6 +32,9 @@ describe("watchCommsCopy", () => {
       expect(copy.raise.length).toBeGreaterThan(0);
       expect(copy.ask.captain.toLowerCase()).toMatch(/pilot/);
       expect(copy.lead.toLowerCase()).not.toMatch(/\bcommand\b/);
+      expect(copy.lead).toMatch(/Starlink/);
+      expect(copy.starlinkLead).toMatch(/Maritime/);
+      expect(copy.starlinkLead).toMatch(/Priority/);
     }
   });
 });
@@ -70,6 +73,7 @@ describe("jump labels", () => {
       expect(jump.supportTeam).toMatch(/Support Live Team/);
       expect(jump.captain.length).toBeGreaterThan(0);
       expect(jump.comms.length).toBeGreaterThan(0);
+      expect(jump.starlink).toMatch(/Starlink/);
     }
   });
 });

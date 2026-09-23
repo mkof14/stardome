@@ -22,7 +22,6 @@ import { SituationalScope } from "@/components/bridge/situational-scope";
 import { TrainingTour } from "@/components/bridge/training-tour";
 import { CompressScreenButton } from "@/components/bridge/compress-screen-button";
 import { ViewSwitcher } from "@/components/bridge/view-switcher";
-import { StarlinkPanel } from "@/components/bridge/starlink-panel";
 import { WatchKitPanel } from "@/components/bridge/watch-kit-panel";
 import { UtcClock } from "@/components/bridge/utc-clock";
 import { AUTOMATED_ACTIONS } from "@/lib/automated-actions";
@@ -769,8 +768,6 @@ export function BridgeConsole() {
             onRestore={() => restoreFault(faultId)}
           />
         ) : null}
-
-        <StarlinkPanel />
 
         {view === "plant" ? (
           <AgronPlantPanel

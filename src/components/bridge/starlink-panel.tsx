@@ -4,12 +4,7 @@ import { cn } from "@/lib/cn";
 import { HudPanel } from "@/components/bridge/hud-panel";
 import { useAppMode } from "@/lib/mode";
 import { useBridgeSession } from "@/lib/bridge-session";
-import { starlinkLinks, type StarlinkLink, type StarlinkState } from "@/lib/starlink";
-
-const HUE: Record<StarlinkLink["id"], string> = {
-  maritime: "#38BDF8",
-  priority: "#A78BFA",
-};
+import { STARLINK_HUES, starlinkLinks, type StarlinkLink, type StarlinkState } from "@/lib/starlink";
 
 function stateLabel(state: StarlinkState) {
   if (state === "lock") return "LOCK";
@@ -36,7 +31,7 @@ function Metric({ label, value }: { label: string; value: string }) {
 }
 
 function ServiceCard({ link }: { link: StarlinkLink }) {
-  const hue = HUE[link.id];
+  const hue = STARLINK_HUES[link.id];
   return (
     <article
       data-testid={`starlink-card-${link.id}`}
