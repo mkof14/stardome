@@ -197,7 +197,9 @@ export function localWatchAnswer(
   if (kind === "advice") {
     const action = watch.advice.find((card) => card.kind === "advice")?.body;
     const train = watch.advice.find((card) => card.kind === "train");
-    const lines = [action, train?.body, train?.steps?.slice(0, 3).join(" ")].filter(Boolean);
+    const lines = [action, train?.body, train?.steps?.slice(0, 3).join(" ")].filter(
+      (line): line is string => Boolean(line),
+    );
     if (!lines.some((line) => line.includes(desk.youDecide))) lines.push(desk.youDecide);
     return lines.join(" ");
   }
