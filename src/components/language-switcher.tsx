@@ -51,8 +51,10 @@ export function LanguageSwitcher({
       <button
         type="button"
         className={cn(
-          "inline-flex h-10 items-center gap-2 rounded-xl px-2 font-body text-sm",
-          onDark ? "text-sand/80 hover:bg-white/5 hover:text-sand" : "text-ink hover:bg-page hover:text-orange",
+          "group inline-flex h-8 items-center gap-1.5 rounded-lg px-1.5 font-body text-xs transition duration-150 ease-out hover:-translate-y-0.5",
+          onDark
+            ? "text-sand/80 hover:bg-white/10 hover:text-sand hover:shadow-[0_6px_14px_rgb(241_90_0/0.2)]"
+            : "text-ink hover:bg-orange/12 hover:text-orange hover:shadow-[0_6px_14px_rgb(241_90_0/0.28)]",
         )}
         aria-haspopup="listbox"
         aria-expanded={open}
@@ -60,8 +62,8 @@ export function LanguageSwitcher({
         aria-label={t.chrome.language}
         onClick={() => setOpen((value) => !value)}
       >
-        <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-page text-current">
-          <HudGlyph name="globe" className="h-4 w-4" />
+        <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-page text-current transition duration-150 group-hover:scale-110">
+          <HudGlyph name="globe" className="h-3.5 w-3.5" />
         </span>
         <FlagIcon locale={locale} />
         <span className="hidden sm:inline">{localeMeta[locale].native}</span>

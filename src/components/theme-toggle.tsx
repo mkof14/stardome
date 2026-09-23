@@ -3,6 +3,10 @@
 import { usePreferences } from "@/lib/i18n/context";
 import { cn } from "@/lib/cn";
 import { HudGlyph } from "@/components/bridge/hud-icons";
+import {
+  headerChromeButtonClass,
+  headerChromeIconClass,
+} from "@/components/bridge/header-chrome";
 
 export function ThemeToggle({ className }: { className?: string }) {
   const { theme, toggleTheme, t } = usePreferences();
@@ -12,13 +16,10 @@ export function ThemeToggle({ className }: { className?: string }) {
     <button
       type="button"
       onClick={toggleTheme}
-      className={cn(
-        "inline-flex h-10 w-10 items-center justify-center rounded-xl hover:bg-page hover:text-orange",
-        className ?? "text-ink",
-      )}
+      className={cn(headerChromeButtonClass(), className)}
       aria-label={dark ? t.chrome.themeToLight : t.chrome.themeToDark}
     >
-      <HudGlyph name={dark ? "sun" : "moon"} className="h-4 w-4" />
+      <HudGlyph name={dark ? "sun" : "moon"} className={headerChromeIconClass} />
     </button>
   );
 }

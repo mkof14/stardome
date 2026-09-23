@@ -1,9 +1,12 @@
 "use client";
 
-import { cn } from "@/lib/cn";
 import { useAgronView } from "@/lib/agron-view";
 import { useHud } from "@/lib/i18n/use-hud";
 import { HudGlyph } from "@/components/bridge/hud-icons";
+import {
+  headerChromeButtonClass,
+  headerChromeIconClass,
+} from "@/components/bridge/header-chrome";
 
 export function CompressScreenButton({
   compact,
@@ -25,14 +28,11 @@ export function CompressScreenButton({
       aria-pressed={squeezed}
       aria-label={label}
       title={tip}
-      className={cn(
-        "inline-flex h-10 shrink-0 flex-col items-center justify-center gap-0.5 rounded-xl px-2 font-body text-[11px] font-medium",
-        squeezed ? "bg-orange/10 text-orange" : "text-ink hover:bg-page hover:text-orange",
-      )}
+      className={headerChromeButtonClass(squeezed)}
     >
-      <HudGlyph name={squeezed ? "expand" : "compress"} className="h-4 w-4" />
+      <HudGlyph name={squeezed ? "expand" : "compress"} className={headerChromeIconClass} />
       {compact ? null : (
-        <span className="hidden max-w-[8.5rem] truncate xl:inline">{label}</span>
+        <span className="hidden max-w-[7rem] truncate xl:inline">{label}</span>
       )}
     </button>
   );

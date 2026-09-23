@@ -47,6 +47,7 @@ export function onFullscreenChange(listener: () => void) {
   };
 }
 
+/** The whole page — including the top header — so Exit stays where Enter was. */
 export function fullscreenTarget() {
-  return document.getElementById("bridge-root") ?? document.documentElement;
+  return document.documentElement;
 }

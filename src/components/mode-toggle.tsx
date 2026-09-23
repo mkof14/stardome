@@ -33,7 +33,7 @@ export function ModeToggle({
             aria-pressed={active}
             onClick={() => setMode(value)}
             className={cn(
-              "px-2.5 py-1.5",
+              "px-2 py-1 transition duration-150 hover:-translate-y-px",
               value === "demo" && active && "bg-orange text-white",
               value === "live" && active && "bg-[#3A5166] text-sand",
               !active &&

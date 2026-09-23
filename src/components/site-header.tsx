@@ -104,7 +104,7 @@ export function SiteHeader() {
           <button
             type="button"
             data-testid="mobile-nav-toggle"
-            className="inline-flex h-10 w-10 shrink-0 items-center justify-center border border-stroke text-ink lg:hidden"
+            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-stroke text-ink transition duration-150 hover:-translate-y-0.5 hover:border-orange hover:text-orange hover:shadow-[0_6px_14px_rgb(241_90_0/0.28)] lg:hidden"
             aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
             aria-expanded={open}
             aria-controls="mobile-nav"
