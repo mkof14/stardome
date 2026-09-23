@@ -304,6 +304,29 @@ export function PilotDemoStage({
           </span>
         </p>
       </div>
+      <div
+        data-testid="pilot-demo-turn"
+        data-speaker={beat.role}
+        className="rounded-xl border border-bridge-line bg-bridge-bg/70 px-2.5 py-2"
+      >
+        <span
+          data-testid="pilot-demo-speaker"
+          className={cn(
+            "inline-flex rounded-md px-1.5 py-0.5 font-body text-[11px] font-semibold",
+            beat.role === "officer"
+              ? "bg-orange/15 text-orange"
+              : "bg-[#38BDF8]/15 text-[#38BDF8]",
+          )}
+        >
+          {beat.role === "officer" ? copy.whoOfficer : copy.whoPilot}
+        </span>
+        <p
+          data-testid="pilot-demo-line"
+          className="mt-1 font-body text-sm leading-snug text-bridge-text"
+        >
+          {beat.text}
+        </p>
+      </div>
       <PilotSoundDock
         voiceOn={voiceOn}
         speaking={speaking}
@@ -368,6 +391,7 @@ export function PilotVoiceNeed({
       data-testid="pilot-voice-need"
       data-tts={need.tts}
       data-voice={need.voiceName ?? ""}
+      data-officer-voice={need.officerVoiceName ?? ""}
       className="font-body text-xs leading-relaxed text-bridge-dim"
     >
       {voiceNeedLine(locale, need)}

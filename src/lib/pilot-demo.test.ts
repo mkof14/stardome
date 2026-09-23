@@ -40,6 +40,9 @@ describe("pilotDemoCopy", () => {
       expect(copy.signalsOn.length).toBeGreaterThan(0);
       expect(copy.signalsOff.length).toBeGreaterThan(0);
       expect(copy.signalsOn).not.toBe(copy.signalsOff);
+      expect(copy.whoPilot).toMatch(/Pilot/);
+      expect(copy.whoOfficer.length).toBeGreaterThan(0);
+      expect(copy.whoOfficer).not.toBe(copy.whoPilot);
       expect(copy.now.length).toBeGreaterThan(0);
       expect(copy.linkLive.length).toBeGreaterThan(0);
       expect(copy.bargeHint.length).toBeGreaterThan(0);
@@ -130,10 +133,10 @@ describe("male neural voices", () => {
         tts: "neural",
         stt: "ready",
         voiceName: male.voice,
-        officerVoiceName: officer.voice,
       });
       expect(line).toContain(male.voice);
       expect(line).toContain(officer.voice);
+      expect(line.toLowerCase()).toMatch(/two|два|deux|dos|zwei|صوتان|两|2つ|שני/);
     }
     expect(
       voiceNeed("ru", [], {

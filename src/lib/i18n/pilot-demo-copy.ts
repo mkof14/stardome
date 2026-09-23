@@ -53,6 +53,8 @@ export type PilotDemoCopy = {
   actionOfficer: string;
   whereOfficer: string;
   actionLive: string;
+  whoPilot: string;
+  whoOfficer: string;
 };
 
 const DEMO = {
@@ -118,6 +120,8 @@ const DEMO = {
     actionOfficer: "Watch call",
     whereOfficer: "Dialogue",
     actionLive: "LIVE has no sensors",
+    whoPilot: "Pilot",
+    whoOfficer: "Officer",
   },
   es: {
     demo: "Demo",
@@ -181,6 +185,8 @@ const DEMO = {
     actionOfficer: "Llamada de guardia",
     whereOfficer: "Diálogo",
     actionLive: "LIVE no tiene sensores",
+    whoPilot: "Pilot",
+    whoOfficer: "Oficial",
   },
   fr: {
     demo: "Démo",
@@ -244,6 +250,8 @@ const DEMO = {
     actionOfficer: "Appel de quart",
     whereOfficer: "Dialogue",
     actionLive: "LIVE n’a aucun capteur",
+    whoPilot: "Pilot",
+    whoOfficer: "Officier",
   },
   de: {
     demo: "Demo",
@@ -307,6 +315,8 @@ const DEMO = {
     actionOfficer: "Wachruf",
     whereOfficer: "Dialog",
     actionLive: "LIVE hat keine Sensoren",
+    whoPilot: "Pilot",
+    whoOfficer: "Wachoffizier",
   },
   ru: {
     demo: "Демо",
@@ -370,6 +380,8 @@ const DEMO = {
     actionOfficer: "Реплика вахты",
     whereOfficer: "Диалог",
     actionLive: "В LIVE нет датчиков",
+    whoPilot: "Pilot",
+    whoOfficer: "Офицер",
   },
   uk: {
     demo: "Демо",
@@ -433,6 +445,8 @@ const DEMO = {
     actionOfficer: "Репліка вахти",
     whereOfficer: "Діалог",
     actionLive: "У LIVE немає датчиків",
+    whoPilot: "Pilot",
+    whoOfficer: "Офіцер",
   },
   ar: {
     demo: "تجربة",
@@ -496,6 +510,8 @@ const DEMO = {
     actionOfficer: "نداء خفارة",
     whereOfficer: "الحوار",
     actionLive: "LIVE بلا مستشعرات",
+    whoPilot: "Pilot",
+    whoOfficer: "الضابط",
   },
   zh: {
     demo: "演示",
@@ -553,6 +569,8 @@ const DEMO = {
     actionOfficer: "值班口令",
     whereOfficer: "对话",
     actionLive: "LIVE 没有传感器",
+    whoPilot: "Pilot",
+    whoOfficer: "值班",
   },
   ja: {
     demo: "デモ",
@@ -616,6 +634,8 @@ const DEMO = {
     actionOfficer: "当直の呼びかけ",
     whereOfficer: "対話",
     actionLive: "LIVE にセンサーなし",
+    whoPilot: "Pilot",
+    whoOfficer: "当直",
   },
   he: {
     demo: "הדגמה",
@@ -679,6 +699,8 @@ const DEMO = {
     actionOfficer: "קריאת משמרת",
     whereOfficer: "דיאלוג",
     actionLive: "ב־LIVE אין חיישנים",
+    whoPilot: "Pilot",
+    whoOfficer: "קצין",
   },
 } as const satisfies Record<Locale, PilotDemoCopy>;
 

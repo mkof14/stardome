@@ -2,7 +2,12 @@ import type { BridgeSessionValue } from "@/lib/bridge-session-types";
 import { fillDemo, pilotDemoCopy } from "@/lib/i18n/pilot-demo-copy";
 import type { Locale } from "@/lib/i18n/locales";
 import type { SpeechTone } from "@/lib/pilot-speech";
-import { languageLabel, type VoiceNeed } from "@/lib/pilot-voice";
+import {
+  languageLabel,
+  maleVoiceFor,
+  officerVoiceFor,
+  type VoiceNeed,
+} from "@/lib/pilot-voice";
 import { watchReply } from "@/lib/pilot-watch";
 
 export type DemoRaise = {
@@ -137,14 +142,14 @@ export function voiceNeedLine(locale: Locale, need: VoiceNeed) {
   const lang = languageLabel(locale);
   const tts =
     need.tts === "neural"
-      ? need.officerVoiceName &&
-        need.officerVoiceName !== need.voiceName
-        ? fillDemo(copy.voicePair, {
-            lang,
-            voice: need.voiceName ?? "",
-            officer: need.officerVoiceName,
-          })
-        : fillDemo(copy.voiceNeural, { lang, voice: need.voiceName ?? "" })
+      ? (() => {
+          const voice = need.voiceName || maleVoiceFor(locale).voice;
+          const officer =
+            need.officerVoiceName || officerVoiceFor(locale).voice;
+          return officer !== voice
+            ? fillDemo(copy.voicePair, { lang, voice, officer })
+            : fillDemo(copy.voiceNeural, { lang, voice });
+        })()
       : need.tts === "native"
         ? fillDemo(copy.voiceReady, { lang })
         : need.tts === "fallback"
