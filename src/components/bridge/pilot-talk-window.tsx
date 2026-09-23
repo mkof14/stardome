@@ -5,7 +5,6 @@ import { createPortal } from "react-dom";
 import { cn } from "@/lib/cn";
 import type { PilotDemoCopy } from "@/lib/i18n/pilot-demo-copy";
 import { HudGlyph } from "@/components/bridge/hud-icons";
-import { HudBezel } from "@/components/bridge/hud-bezel";
 import { PilotSoundDock } from "@/components/bridge/pilot-demo";
 import { StudioWave } from "@/components/bridge/studio-meters";
 
@@ -71,92 +70,100 @@ export function PilotTalkWindow({
     <div
       data-testid="pilot-talk-window"
       dir="ltr"
-      className="fixed inset-0 z-[200] flex items-center justify-center bg-black/70 p-3 sm:p-6"
+      className="pointer-events-none fixed inset-x-3 bottom-[6.5rem] z-[200] flex justify-end sm:inset-x-4"
     >
-      <HudBezel
-        testId="pilot-talk-hud"
-        className="pilot-talk-hud flex h-[min(38rem,calc(100vh-2.5rem))] w-full max-w-6xl flex-col text-[#E7ECEF]"
-        status={status}
-        onClose={onClose}
-        closeLabel={title}
-        closeTestId="pilot-talk-close"
+      <section
+        data-testid="pilot-talk-hud"
+        className="pointer-events-auto flex h-[min(28rem,calc(100vh-8.5rem))] w-full max-w-md flex-col overflow-hidden rounded-2xl border border-bridge-line bg-bridge-panel text-bridge-text shadow-[0_20px_56px_rgb(15_25_34/0.18)]"
       >
-        <div className="relative grid min-h-0 flex-1 gap-4 pb-8 sm:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]">
-          <section className="relative flex min-h-[18rem] flex-col overflow-hidden rounded-2xl bg-[var(--panel)] shadow-[0_16px_40px_rgb(0_0_0/0.35)]">
-            <header className="relative z-[1] flex items-center justify-between px-3 py-2">
-              <p className="font-body text-lg font-semibold tracking-tight text-[#E7ECEF]">
-                {title}
+        <header className="flex items-center justify-between gap-2 border-b border-bridge-line bg-bridge-bg px-3 py-2.5">
+          <div className="min-w-0">
+            <p className="truncate font-body text-base font-semibold tracking-tight">
+              {title}
+            </p>
+            <p className="truncate font-body text-xs text-bridge-dim">{status}</p>
+          </div>
+          <button
+            type="button"
+            data-testid="pilot-talk-close"
+            onClick={onClose}
+            aria-label={title}
+            className="inline-flex h-8 w-8 items-center justify-center rounded-xl text-bridge-dim hover:bg-bridge-panel hover:text-bridge-text"
+          >
+            <HudGlyph name="close" className="h-4 w-4" />
+          </button>
+        </header>
+        <div className="grid min-h-0 flex-1 grid-rows-[minmax(0,1fr)_auto]">
+          <div
+            data-testid="pilot-talk-chat"
+            className="min-h-0 space-y-2 overflow-y-auto px-3 py-3"
+          >
+            {recent.length === 0 ? (
+              <p className="border-s-2 border-bridge-line ps-3 font-body text-sm text-bridge-dim">
+                {copy.bargeHint}
               </p>
-              <span className="flex items-center gap-1 text-[#7c8894]">
-                <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg">
-                  <HudGlyph name="minus" className="h-3.5 w-3.5" />
-                </span>
-                <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg">
-                  <HudGlyph name="close" className="h-3.5 w-3.5" />
-                </span>
-              </span>
-            </header>
-            <div
-              data-testid="pilot-talk-chat"
-              className="relative z-[1] min-h-0 flex-1 space-y-2 overflow-y-auto px-3 py-3"
-            >
-              {recent.length === 0 ? (
-                <p className="border-s-2 border-orange ps-3 font-body text-sm text-[#7c8894]">
-                  {copy.bargeHint}
-                </p>
-              ) : null}
-              {recent.map((item) => {
-                const showing =
-                  item.role === "assistant" && typingId === item.id
-                    ? typed
-                    : item.text;
-                return (
-                  <div
-                    key={item.id}
+            ) : null}
+            {recent.map((item) => {
+              const showing =
+                item.role === "assistant" && typingId === item.id
+                  ? typed
+                  : item.text;
+              return (
+                <div
+                  key={item.id}
+                  className={cn(
+                    "flex items-end gap-2",
+                    item.role === "user" ? "justify-end" : "justify-start",
+                  )}
+                >
+                  {item.role !== "user" ? (
+                    <span className="mb-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-bridge-bg text-bridge-dim">
+                      <HudGlyph name="talk" className="h-4 w-4" />
+                    </span>
+                  ) : null}
+                  <p
                     className={cn(
-                      "flex items-end gap-2",
-                      item.role === "user" ? "justify-end" : "justify-start",
+                      "max-w-[85%] rounded-2xl px-3 py-2 font-body text-[15px] leading-relaxed",
+                      item.role === "user"
+                        ? "bg-bridge-text text-bridge-bg"
+                        : item.role === "error"
+                          ? "border border-attn text-attn"
+                          : "bg-bridge-bg text-bridge-text",
                     )}
                   >
-                    {item.role !== "user" ? (
-                      <span className="mb-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-orange/15 text-orange">
-                        <HudGlyph name="talk" className="h-4 w-4" />
-                      </span>
-                    ) : null}
-                    <p
-                      className={cn(
-                        "max-w-[85%] rounded-2xl px-3 py-2 font-body text-[15px] leading-relaxed",
-                        item.role === "user"
-                          ? "bg-orange text-white"
-                          : item.role === "error"
-                            ? "border border-attn text-attn"
-                            : "bg-[var(--page)] text-[#E7ECEF]",
-                      )}
-                    >
-                      {showing}
-                    </p>
-                    {item.role === "user" ? (
-                      <span className="mb-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-[var(--stroke)] bg-[var(--page)] text-[#7c8894]">
-                        <HudGlyph name="person" className="h-3.5 w-3.5" />
-                      </span>
-                    ) : null}
-                  </div>
-                );
-              })}
+                    {showing}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+          <div className="border-t border-bridge-line bg-bridge-bg px-3 py-2">
+            <div className="mb-2 h-16 overflow-hidden rounded-xl border border-bridge-line bg-bridge-panel">
+              <StudioWave samples={wave} peak={peak} live={live && voiceOn} />
             </div>
+            <PilotSoundDock
+              voiceOn={voiceOn}
+              speaking={mic === "speaking"}
+              listening={mic === "listening"}
+              levels={levels}
+              peak={peak}
+              soundOnLabel={copy.soundOn}
+              soundOffLabel={copy.soundOff}
+              onToggle={onToggleSound}
+            />
             <form
               onSubmit={(event) => {
                 event.preventDefault();
                 onSend(draft);
               }}
-              className="relative z-[1] flex items-center gap-2 bg-[var(--page)] px-3 py-2"
+              className="mt-2 flex items-center gap-2"
             >
               <input
                 data-testid="pilot-talk-input"
                 value={draft}
                 onChange={(event) => onDraft(event.target.value)}
                 placeholder={ask}
-                className="min-w-0 flex-1 bg-transparent py-1.5 font-body text-sm text-[#E7ECEF] outline-none placeholder:text-[#7c8894]"
+                className="min-w-0 flex-1 rounded-xl border border-bridge-line bg-bridge-panel px-3 py-2 font-body text-sm text-bridge-text outline-none placeholder:text-bridge-dim"
               />
               <button
                 type="button"
@@ -164,42 +171,26 @@ export function PilotTalkWindow({
                 onClick={onMic}
                 aria-label={copy.talkListening}
                 className={cn(
-                  "flex h-9 w-9 items-center justify-center rounded-xl",
-                  mic === "listening" && "assistant-mic-listen bg-ok/15 text-ok",
-                  mic === "speaking" && "bg-orange/15 text-orange",
-                  mic === "processing" && "text-attn",
-                  mic === "idle" && "text-[#7c8894]",
+                  "flex h-9 w-9 items-center justify-center rounded-xl border",
+                  mic === "listening" && "assistant-mic-listen border-ok text-ok",
+                  mic === "speaking" && "border-bridge-text text-bridge-text",
+                  mic === "processing" && "border-attn text-attn",
+                  mic === "idle" && "border-bridge-line text-bridge-dim",
                 )}
               >
                 <HudGlyph name="mic" className="h-4 w-4" />
               </button>
               <button
                 type="submit"
-                className="inline-flex items-center gap-1 rounded-xl bg-orange px-3 py-2 font-body text-sm font-medium text-white"
+                className="inline-flex items-center gap-1 rounded-xl bg-bridge-text px-3 py-2 font-body text-sm font-medium text-bridge-bg"
               >
                 <HudGlyph name="send" className="h-4 w-4" />
                 {send}
               </button>
             </form>
-          </section>
-
-          <section className="relative flex min-h-[14rem] flex-col">
-            <StudioWave samples={wave} peak={peak} live={live && voiceOn} hud />
-            <div className="mt-auto px-1 pb-2">
-              <PilotSoundDock
-                voiceOn={voiceOn}
-                speaking={mic === "speaking"}
-                listening={mic === "listening"}
-                levels={levels}
-                peak={peak}
-                soundOnLabel={copy.soundOn}
-                soundOffLabel={copy.soundOff}
-                onToggle={onToggleSound}
-              />
-            </div>
-          </section>
+          </div>
         </div>
-      </HudBezel>
+      </section>
     </div>,
     document.body,
   );

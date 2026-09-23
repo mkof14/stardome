@@ -77,7 +77,7 @@ export function WatchCommsPanel() {
       data-testid="watch-comms-panel"
       className="border-t border-bridge-line bg-bridge-bg px-4 py-8 md:px-8"
     >
-      <div className="mx-auto max-w-6xl">
+      <div data-speak-surface="comms" className="mx-auto max-w-6xl rounded-2xl p-1">
         <p className="font-body text-xs font-medium text-bridge-dim">{copy.kicker}</p>
         <h2 className="mt-1 font-body text-xl font-semibold tracking-tight text-bridge-text">
           {copy.title}

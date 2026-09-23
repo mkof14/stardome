@@ -1,6 +1,11 @@
 import { Readable } from "node:stream";
 import { MsEdgeTTS, OUTPUT_FORMAT } from "msedge-tts";
 import { isLocale, type Locale } from "@/lib/i18n/locales";
+import {
+  speechProsody,
+  ssmlInner,
+  type SpeechTone,
+} from "@/lib/pilot-speech";
 import { maleVoiceFor } from "@/lib/pilot-voice";
 
 export const TTS_MAX_CHARS = 1800;
@@ -112,19 +117,24 @@ async function withRetry<T>(run: () => Promise<T>, attempts = 3): Promise<T> {
   throw last instanceof Error ? last : new Error("Speech is unavailable.");
 }
 
-async function synthEdge(text: string, locale: Locale): Promise<SpeechClip> {
+async function synthEdge(
+  text: string,
+  locale: Locale,
+  tone: SpeechTone,
+): Promise<SpeechClip> {
   return withRetry(async () => {
     const male = maleVoiceFor(locale);
+    const voice = speechProsody(tone);
     const tts = new MsEdgeTTS();
     try {
       await tts.setMetadata(
         male.voice,
         OUTPUT_FORMAT.AUDIO_24KHZ_48KBITRATE_MONO_MP3,
       );
-      const { audioStream } = tts.toStream(escapeSsml(text), {
-        rate: "-8%",
-        pitch: "-5Hz",
-        volume: "+22%",
+      const { audioStream } = tts.toStream(ssmlInner(text, tone, escapeSsml), {
+        rate: voice.rate,
+        pitch: voice.pitch,
+        volume: voice.volume,
       });
       const audio = await bufferFromAudioStream(audioStream, 22_000);
       return {
@@ -139,10 +149,25 @@ async function synthEdge(text: string, locale: Locale): Promise<SpeechClip> {
   });
 }
 
-async function synthAzure(text: string, locale: Locale): Promise<SpeechClip> {
+export function azureSsml(text: string, locale: Locale, tone: SpeechTone) {
+  const male = maleVoiceFor(locale);
+  const voice = speechProsody(tone);
+  const inner = ssmlInner(text, tone, escapeSsml);
+  const style =
+    tone === "warn"
+      ? `<mstts:express-as style="customerservice" styledegree="2"><prosody rate="${voice.rate}" pitch="${voice.pitch}" volume="${voice.volume}">${inner}</prosody></mstts:express-as>`
+      : `<prosody rate="${voice.rate}" pitch="${voice.pitch}" volume="${voice.volume}">${inner}</prosody>`;
+  return `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="https://www.w3.org/2001/mstts" xml:lang="${male.lang}"><voice name="${male.voice}">${style}</voice></speak>`;
+}
+
+async function synthAzure(
+  text: string,
+  locale: Locale,
+  tone: SpeechTone,
+): Promise<SpeechClip> {
   const male = maleVoiceFor(locale);
   const region = envText("AZURE_SPEECH_REGION") || "eastus";
-  const ssml = `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="https://www.w3.org/2001/mstts" xml:lang="${male.lang}"><voice name="${male.voice}"><prosody rate="-8%" pitch="-5Hz" volume="+22%">${escapeSsml(text)}</prosody></voice></speak>`;
+  const ssml = azureSsml(text, locale, tone);
   const res = await fetch(
     `https://${region}.tts.speech.microsoft.com/cognitiveservices/v1`,
     {
@@ -214,14 +239,15 @@ async function synthEleven(text: string): Promise<SpeechClip> {
 export async function synthesizePilotSpeech(
   text: string,
   locale: Locale,
+  tone: SpeechTone = "brief",
 ): Promise<SpeechClip> {
   const clipped = text.trim().slice(0, TTS_MAX_CHARS);
   if (!clipped) throw new Error("Text is required.");
   const errors: string[] = [];
   for (const provider of providersFor(locale)) {
     try {
-      if (provider === "azure") return await synthAzure(clipped, locale);
-      if (provider === "edge") return await synthEdge(clipped, locale);
+      if (provider === "azure") return await synthAzure(clipped, locale, tone);
+      if (provider === "edge") return await synthEdge(clipped, locale, tone);
       if (provider === "openai") return await synthOpenAI(clipped);
       if (provider === "elevenlabs") return await synthEleven(clipped);
     } catch (err) {

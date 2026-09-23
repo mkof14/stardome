@@ -4,9 +4,16 @@ export const PILOT_ASK_EVENT = "starwall-pilot-ask";
 export const PILOT_DEMO_EVENT = "starwall-pilot-demo";
 export const PILOT_DEMO_CONTROL_EVENT = "starwall-pilot-demo-control";
 export const WATCH_COMMS_FOCUS_EVENT = "starwall-watch-comms-focus";
+export const PILOT_SPEAK_FOCUS_EVENT = "starwall-pilot-speak-focus";
 export const CLEAR_SCREENS_EVENT = "starwall-clear-screens";
 
 export type PilotDemoControl = "play" | "stop" | "back" | "next" | "reset";
+
+export type PilotSpeakFocus = {
+  focus: "instruments" | "advice" | "comms" | "voice" | "calls" | null;
+  speaking: boolean;
+  tone?: "brief" | "warn";
+};
 
 export type WatchCommsFocus = {
   party?: string;
@@ -71,4 +78,32 @@ export function focusWatchComms(party?: string) {
 export function requestClearScreens() {
   if (typeof window === "undefined") return;
   window.dispatchEvent(new Event(CLEAR_SCREENS_EVENT));
+}
+
+export function speakFocusTargets(
+  focus: PilotSpeakFocus["focus"],
+): string[] {
+  if (focus === "instruments") return ["situational-picture", "connected-systems-panel"];
+  if (focus === "advice") return ["recommended-action-panel"];
+  if (focus === "comms") return ["watch-comms-panel"];
+  return [];
+}
+
+export function publishPilotSpeakFocus(detail: PilotSpeakFocus) {
+  if (typeof window === "undefined") return;
+  const root = document.documentElement;
+  if (detail.speaking && detail.focus) {
+    root.dataset.pilotSpeak = detail.focus;
+    root.dataset.pilotSpeakTone = detail.tone ?? "brief";
+  } else {
+    delete root.dataset.pilotSpeak;
+    delete root.dataset.pilotSpeakTone;
+  }
+  window.dispatchEvent(new CustomEvent<PilotSpeakFocus>(PILOT_SPEAK_FOCUS_EVENT, { detail }));
+  if (detail.speaking && detail.focus) {
+    const id = speakFocusTargets(detail.focus)[0];
+    if (id) {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }
 }

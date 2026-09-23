@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { locales } from "@/lib/i18n/locales";
-import { escapeSsml, providersFor, ttsPlan } from "@/lib/pilot-tts";
+import { azureSsml, escapeSsml, providersFor, ttsPlan } from "@/lib/pilot-tts";
+import { speechProsody, speechToneFor } from "@/lib/pilot-speech";
 import { maleVoiceFor } from "@/lib/pilot-voice";
 
 const KEYS = [
@@ -52,5 +53,31 @@ describe("escapeSsml", () => {
     expect(escapeSsml(`Hold <radar> & "plot"`)).toBe(
       "Hold &lt;radar&gt; &amp; &quot;plot&quot;",
     );
+  });
+});
+
+describe("speech tone", () => {
+  it("speaks faster than the old slow watch voice", () => {
+    const brief = speechProsody("brief");
+    const warn = speechProsody("warn");
+    expect(brief.rate.startsWith("+")).toBe(true);
+    expect(brief.browserRate).toBeGreaterThan(1);
+    expect(warn.browserPitch).toBeLessThan(brief.browserPitch);
+    expect(warn.volume).toContain("+");
+    expect(speechToneFor("Posted to the watch net. Confirm the designated.")).toBe(
+      "warn",
+    );
+    expect(speechToneFor("Instruments are quiet.")).toBe("brief");
+    expect(speechToneFor("Hold the picture.", true)).toBe("warn");
+  });
+
+  it("marks warning commands in SSML with a stronger voice", () => {
+    const warn = azureSsml("Confirm the designated has it.", "en", "warn");
+    const brief = azureSsml("Pilot on watch.", "en", "brief");
+    expect(warn).toContain("emphasis");
+    expect(warn).toContain('rate="+12%"');
+    expect(warn).toContain("express-as");
+    expect(brief).toContain('rate="+20%"');
+    expect(brief).not.toContain("emphasis");
   });
 });

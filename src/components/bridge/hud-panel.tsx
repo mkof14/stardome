@@ -12,6 +12,7 @@ type HudPanelProps = {
   glyph?: HudGlyphName;
   status?: string;
   visor?: "window" | "overlay";
+  speakSurface?: "instruments" | "advice" | "comms";
 };
 
 export function HudPanel({
@@ -23,11 +24,13 @@ export function HudPanel({
   id,
   glyph,
   status,
+  speakSurface,
 }: HudPanelProps) {
   return (
     <section
       id={id}
       data-testid={testId}
+      data-speak-surface={speakSurface}
       className={cn(
         "relative overflow-hidden rounded-2xl border border-bridge-line bg-bridge-panel px-5 py-5 shadow-[0_10px_28px_rgb(15_25_34/0.08)]",
         className,

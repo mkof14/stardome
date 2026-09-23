@@ -57,6 +57,16 @@ describe("demoBeats", () => {
     expect(demo.some((beat) => beat.raise?.comms)).toBe(true);
     expect(demo.every((beat) => beat.action.length > 0)).toBe(true);
     expect(demo.some((beat) => beat.focus === "instruments")).toBe(true);
+    expect(demo.some((beat) => beat.tone === "warn" && beat.focus === "comms")).toBe(
+      true,
+    );
+    expect(demo.every((beat) => beat.tone === "brief" || beat.tone === "warn")).toBe(
+      true,
+    );
+    const crisis = demoBeats({ ...idle, crisis: true }, "en");
+    expect(crisis.filter((beat) => beat.speak && beat.tone === "warn").length).toBeGreaterThan(
+      1,
+    );
   });
 });
 

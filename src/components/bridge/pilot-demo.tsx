@@ -170,6 +170,7 @@ export function PilotDemoStage({
   listening,
   levels,
   peak,
+  warn,
   onToggleSound,
 }: {
   copy: PilotDemoCopy;
@@ -181,13 +182,23 @@ export function PilotDemoStage({
   listening?: boolean;
   levels: number[];
   peak?: boolean;
+  warn?: boolean;
   onToggleSound: () => void;
 }) {
   return (
     <div
       data-testid="pilot-demo-stage"
       data-focus={beat.focus}
-      className="space-y-2 border-b border-[#38BDF8]/40 bg-[#38BDF8]/10 px-3 py-2"
+      data-speaking={speaking ? "true" : undefined}
+      data-tone={beat.tone}
+      className={cn(
+        "space-y-2 border-b px-3 py-2",
+        speaking && warn
+          ? "pilot-speak-focus-warn border-attn/50 bg-attn/10"
+          : speaking
+            ? "pilot-speak-focus border-[#38BDF8]/50 bg-[#38BDF8]/12"
+            : "border-[#38BDF8]/40 bg-[#38BDF8]/10",
+      )}
     >
       <div className="flex flex-wrap items-center gap-2">
         <span className="rounded-lg bg-[#38BDF8]/15 px-2 py-0.5 font-body text-xs font-semibold text-[#38BDF8]">

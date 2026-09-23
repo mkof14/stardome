@@ -3,8 +3,10 @@ import {
   HELM_OPEN_EVENT,
   PILOT_DEMO_CONTROL_EVENT,
   PILOT_DEMO_EVENT,
+  PILOT_SPEAK_FOCUS_EVENT,
   controlPilotDemo,
   openHelm,
+  speakFocusTargets,
   startPilotDemo,
 } from "@/lib/helm-events";
 
@@ -17,5 +19,10 @@ describe("pilot demo transport", () => {
     expect(typeof controlPilotDemo).toBe("function");
     expect(typeof openHelm).toBe("function");
     expect(HELM_OPEN_EVENT).toBe("starwall-open-helm");
+    expect(PILOT_SPEAK_FOCUS_EVENT).toBe("starwall-pilot-speak-focus");
+    expect(speakFocusTargets("instruments")).toContain("situational-picture");
+    expect(speakFocusTargets("advice")).toEqual(["recommended-action-panel"]);
+    expect(speakFocusTargets("comms")).toEqual(["watch-comms-panel"]);
+    expect(speakFocusTargets(null)).toEqual([]);
   });
 });

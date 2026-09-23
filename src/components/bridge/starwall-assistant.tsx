@@ -14,8 +14,10 @@ import {
   PILOT_DEMO_CONTROL_EVENT,
   PILOT_DEMO_EVENT,
   publishHelmState,
+  publishPilotSpeakFocus,
   type PilotDemoControl,
 } from "@/lib/helm-events";
+import { speechProsody, speechToneFor, type SpeechTone } from "@/lib/pilot-speech";
 import {
   PilotDesk,
   PilotDeskBar,
@@ -266,6 +268,10 @@ export function Helm() {
   useEffect(() => {
     publishHelmState({ open, unread, urgent: watch.urgent });
   }, [open, unread, watch.urgent]);
+
+  useEffect(() => {
+    return () => publishPilotSpeakFocus({ focus: null, speaking: false });
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -527,7 +533,7 @@ export function Helm() {
     recognitionRef.current?.stop();
     recognitionRef.current = null;
     stopVad();
-    setTalkHud(true);
+    setTalkHud(false);
     setOpen(true);
     void sendRef.current(said);
   }
@@ -666,7 +672,7 @@ export function Helm() {
     const keepHud = drillingRef.current || mic === "speaking";
     if (keepHud) {
       stopDemo();
-      setTalkHud(true);
+      setTalkHud(false);
       keepListen.current = true;
     }
     await startListen("push");
@@ -744,7 +750,12 @@ export function Helm() {
     });
   }
 
-  function speakBrowser(text: string, locale: typeof recogLang, gen: number) {
+  function speakBrowser(
+    text: string,
+    locale: typeof recogLang,
+    gen: number,
+    tone: SpeechTone,
+  ) {
     return new Promise<void>((resolve) => {
       let settled = false;
       const finish = () => {
@@ -760,9 +771,10 @@ export function Helm() {
         return;
       }
       window.speechSynthesis.cancel();
+      const voice = speechProsody(tone);
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = SPEAK_BCP47[locale];
-      utterance.rate = 0.92;
+      utterance.rate = voice.browserRate;
       const installed = window.speechSynthesis.getVoices();
       const match = pickVoice(installed.length ? installed : voices, locale);
       if (match) {
@@ -770,18 +782,25 @@ export function Helm() {
           (voice) => voice.name === match.name && voice.lang === match.lang,
         );
         if (full) utterance.voice = full;
-        utterance.pitch = isLikelyMaleVoice(match.name) ? 0.88 : 0.78;
+        utterance.pitch = isLikelyMaleVoice(match.name)
+          ? voice.browserPitch
+          : Math.max(0.62, voice.browserPitch - 0.08);
       } else {
-        utterance.pitch = 0.88;
+        utterance.pitch = voice.browserPitch;
       }
       utterance.onend = finish;
       utterance.onerror = finish;
       window.speechSynthesis.speak(utterance);
-      window.setTimeout(finish, Math.min(22000, 900 + text.length * 70));
+      window.setTimeout(finish, Math.min(18000, 700 + text.length * 52));
     });
   }
 
-  async function speakReply(text: string, langCode: string, force = false) {
+  async function speakReply(
+    text: string,
+    langCode: string,
+    force = false,
+    tone: SpeechTone = "brief",
+  ) {
     if ((!voiceOnRef.current && !force) || typeof window === "undefined") {
       return;
     }
@@ -793,7 +812,11 @@ export function Helm() {
     spokenText.current = spoken;
     speakStartedAt.current = performance.now();
     cutLock.current = false;
-    setTalkHud(true);
+    if (!drillingRef.current && !openRef.current) {
+      setTalkHud(true);
+    } else {
+      setTalkHud(false);
+    }
     setMic("speaking");
     void startListen("barge");
     try {
@@ -802,7 +825,7 @@ export function Helm() {
       const res = await fetch("/api/tts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: spoken, locale }),
+        body: JSON.stringify({ text: spoken, locale, tone }),
         signal: controller.signal,
       });
       if (gen !== speakGen.current) return;
@@ -843,7 +866,7 @@ export function Helm() {
     }
     if (gen !== speakGen.current) return;
     setNeural((current) => ({ ...current, ready: false }));
-    await speakBrowser(spoken, locale, gen);
+    await speakBrowser(spoken, locale, gen, tone);
     if (gen === speakGen.current) {
       if (!drillingRef.current) releaseBarge();
       if (!drillingRef.current) setTalkHud(false);
@@ -857,6 +880,8 @@ export function Helm() {
     drillingRef.current = false;
     setDrilling(false);
     setDemoBeat(null);
+    setTalkHud(false);
+    publishPilotSpeakFocus({ focus: null, speaking: false });
     stopSpeech();
   }
 
@@ -893,6 +918,7 @@ export function Helm() {
     demoCancel.current = false;
     drillingRef.current = true;
     setDrilling(true);
+    setTalkHud(false);
     setOpen(true);
     setUnread(false);
     setVoiceOn(true);
@@ -922,7 +948,15 @@ export function Helm() {
         },
       ]);
       if (beat.speak) {
-        await speakReply(beat.text, recogLang, false);
+        publishPilotSpeakFocus({
+          focus: beat.focus,
+          speaking: true,
+          tone: beat.tone,
+        });
+        await speakReply(beat.text, recogLang, false, beat.tone);
+        if (token === runToken.current) {
+          publishPilotSpeakFocus({ focus: beat.focus, speaking: false });
+        }
       } else {
         await new Promise((resolve) => window.setTimeout(resolve, 520));
       }
@@ -931,6 +965,8 @@ export function Helm() {
     drillingRef.current = false;
     setDrilling(false);
     setDemoBeat(null);
+    setTalkHud(false);
+    publishPilotSpeakFocus({ focus: null, speaking: false });
     releaseBarge();
     setMic("idle");
   }
@@ -1023,7 +1059,12 @@ export function Helm() {
         fullContent: `Officer: ${clean}\n\nPilot: ${data.reply}`,
       });
       setTypingId(assistantId);
-      speakReply(data.reply, data.langCode ?? "en");
+      speakReply(
+        data.reply,
+        data.langCode ?? "en",
+        false,
+        speechToneFor(data.reply, session.crisis),
+      );
     } catch {
       const errorId = messageId();
       setMessages((current) => [
@@ -1052,7 +1093,14 @@ export function Helm() {
 
   if (isAuthRoute(pathname) || !helmAllowed) return null;
 
-  const showTalk = talkHud && !drilling;
+  const showTalk = talkHud && !drilling && !open;
+  const spokenScreen =
+    drilling &&
+    (demoBeat?.focus === "instruments" ||
+      demoBeat?.focus === "advice" ||
+      demoBeat?.focus === "comms")
+      ? demoBeat.focus
+      : null;
 
   return (
     <div
@@ -1183,6 +1231,8 @@ export function Helm() {
               screen={screen}
               urgent={watch.urgent}
               notePulse={notePulse}
+              spoken={spokenScreen}
+              speaking={mic === "speaking"}
               onScreen={(next) => {
                 setScreen(next);
                 if (next === "advice") setNotePulse(false);
@@ -1203,6 +1253,7 @@ export function Helm() {
               listening={mic === "listening"}
               levels={levels}
               peak={peak}
+              warn={demoBeat.tone === "warn"}
               onToggleSound={toggleSpeaker}
             />
           ) : null}
@@ -1253,13 +1304,8 @@ export function Helm() {
               screen={screen}
               notePulse={notePulse}
               onSeenNote={() => setNotePulse(false)}
-              highlight={
-                demoBeat?.focus === "instruments" ||
-                demoBeat?.focus === "advice" ||
-                demoBeat?.focus === "comms"
-                  ? demoBeat.focus
-                  : null
-              }
+              highlight={spokenScreen}
+              speaking={mic === "speaking"}
             />
           )}
 

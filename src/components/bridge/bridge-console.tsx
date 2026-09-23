@@ -777,7 +777,7 @@ export function BridgeConsole() {
         ) : null}
 
         <div className={cn("grid gap-5 lg:grid-cols-[minmax(0,1.45fr)_minmax(18rem,0.85fr)]", view === "plant" && "hidden")}>
-          <div id="situational-picture" data-testid="situational-panel" className="scroll-mt-20">
+          <div id="situational-picture" data-testid="situational-panel" data-speak-surface="instruments" className="scroll-mt-20 rounded-2xl">
           <HudFrame variant="inset" className="mb-2">
           <div
             data-testid="picture-scenario-banner"
@@ -917,7 +917,7 @@ export function BridgeConsole() {
               />
             </HudPanel>
 
-            <HudPanel id="recommended-action-panel" testId="recommended-action-panel" className="scroll-mt-20" title={t.bridge.recommended} glyph="action">
+            <HudPanel id="recommended-action-panel" testId="recommended-action-panel" className="scroll-mt-20" title={t.bridge.recommended} glyph="action" speakSurface="advice">
               <span
                 className={cn(
                   "inline-block border px-2 py-0.5 font-mono text-[10px] tracking-wider",

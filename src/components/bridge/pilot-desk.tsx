@@ -51,6 +51,7 @@ export function PilotDesk({
   locale,
   screen,
   highlight,
+  speaking,
   notePulse,
   onSeenNote,
 }: {
@@ -58,6 +59,7 @@ export function PilotDesk({
   locale: Locale;
   screen: PilotScreen;
   highlight?: PilotScreen | null;
+  speaking?: boolean;
   notePulse?: boolean;
   onSeenNote?: () => void;
 }) {
@@ -151,6 +153,7 @@ export function PilotDesk({
           kicker={copy.instruments}
           title={copy.post}
           hot={highlight === "instruments"}
+          pulse={speaking && highlight === "instruments"}
         >
           <div className="grid grid-cols-3 gap-1.5">
             {watch.instruments.map((item) => (
@@ -206,7 +209,11 @@ export function PilotDesk({
                 card={card}
                 copy={copy}
                 hot={highlight === "advice"}
-                pulse={Boolean(notePulse && index === 0) || (watch.urgent && card.kind !== "situation")}
+                pulse={
+                  (speaking && highlight === "advice") ||
+                  Boolean(notePulse && index === 0) ||
+                  (watch.urgent && card.kind !== "situation")
+                }
                 expanded={Boolean(expanded[card.kind])}
                 onExpand={() => {
                   onSeenNote?.();
@@ -242,6 +249,7 @@ export function PilotDesk({
                 : copy.offline
           }
           hot={highlight === "comms"}
+          pulse={speaking && highlight === "comms"}
         >
           <p className="mb-1.5 font-body text-xs font-medium text-bridge-dim">{copy.starlinkServices}</p>
           <div data-testid="pilot-starlink-monitor" className="mb-3 grid grid-cols-2 gap-1.5">
@@ -420,7 +428,7 @@ function PilotRack({
       className={cn(
         "overflow-hidden rounded-2xl border bg-bridge-bg text-bridge-text",
         hot ? "demo-focus-ring border-[#38BDF8]" : "border-bridge-line",
-        pulse && "pilot-note-blink",
+        pulse && (hot ? "pilot-speak-focus" : "pilot-note-blink"),
       )}
     >
       <header className="flex items-center justify-between gap-2 border-b border-bridge-line px-3 py-2.5">
@@ -570,12 +578,16 @@ export function PilotDeskBar({
   screen,
   urgent,
   notePulse,
+  spoken,
+  speaking,
   onScreen,
 }: {
   copy: PilotDeskCopy;
   screen: PilotScreen;
   urgent: boolean;
   notePulse?: boolean;
+  spoken?: PilotScreen | null;
+  speaking?: boolean;
   onScreen: (next: PilotScreen) => void;
 }) {
   const buttons: Array<{
@@ -625,8 +637,10 @@ export function PilotDeskBar({
           onClick={() => onScreen(item.id)}
           className={cn(
             "flex flex-col items-center gap-1 rounded-xl px-1 py-2 font-body text-[11px] font-medium leading-tight",
-            screen === item.id
-              ? "bg-orange text-white"
+            spoken === item.id && speaking
+              ? "pilot-speak-tab bg-[#38BDF8] text-white"
+              : screen === item.id
+                ? "bg-bridge-text text-bridge-bg"
               : item.hot
                 ? "bg-crit/10 text-crit"
                 : "bg-bridge-panel text-bridge-dim hover:bg-bridge-bg hover:text-bridge-text",

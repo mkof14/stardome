@@ -1,0 +1,59 @@
+export type SpeechTone = "brief" | "warn";
+
+export type SpeechProsody = {
+  rate: string;
+  pitch: string;
+  volume: string;
+  browserRate: number;
+  browserPitch: number;
+};
+
+export function isSpeechTone(value: unknown): value is SpeechTone {
+  return value === "brief" || value === "warn";
+}
+
+export function speechToneFor(text: string, crisis = false): SpeechTone {
+  if (crisis) return "warn";
+  const sample = text.trim();
+  if (!sample) return "brief";
+  if (
+    /\b(critical|crisis|alarm|urgent|immediate|notify|confirm|designated|warning|evacuate)\b/i.test(
+      sample,
+    )
+  ) {
+    return "warn";
+  }
+  if (
+    /(критич|кризис|аларм|тревог|немедлен|срочн|подтверд|уведом|назначенн|опасн|эвакуац)/i.test(
+      sample,
+    )
+  ) {
+    return "warn";
+  }
+  return "brief";
+}
+
+export function speechProsody(tone: SpeechTone): SpeechProsody {
+  if (tone === "warn") {
+    return {
+      rate: "+12%",
+      pitch: "-12Hz",
+      volume: "+36%",
+      browserRate: 1.1,
+      browserPitch: 0.68,
+    };
+  }
+  return {
+    rate: "+20%",
+    pitch: "-2Hz",
+    volume: "+18%",
+    browserRate: 1.2,
+    browserPitch: 0.92,
+  };
+}
+
+export function ssmlInner(text: string, tone: SpeechTone, escape: (value: string) => string) {
+  const safe = escape(text);
+  if (tone === "warn") return `<emphasis level="strong">${safe}</emphasis>`;
+  return safe;
+}

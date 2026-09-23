@@ -1,6 +1,7 @@
 import type { BridgeSessionValue } from "@/lib/bridge-session-types";
 import { fillDemo, pilotDemoCopy } from "@/lib/i18n/pilot-demo-copy";
 import type { Locale } from "@/lib/i18n/locales";
+import type { SpeechTone } from "@/lib/pilot-speech";
 import { languageLabel, type VoiceNeed } from "@/lib/pilot-voice";
 import { watchReply } from "@/lib/pilot-watch";
 
@@ -20,6 +21,7 @@ export type DemoBeat = {
   focus: DemoFocus;
   action: string;
   place: string;
+  tone: SpeechTone;
 };
 
 export function demoBeats(session: BridgeSessionValue, locale: Locale): DemoBeat[] {
@@ -33,12 +35,14 @@ export function demoBeats(session: BridgeSessionValue, locale: Locale): DemoBeat
         focus: "voice",
         action: copy.actionLive,
         place: copy.whereOutro,
+        tone: "brief",
       },
     ];
   }
   const picture = watchReply(session, locale).trim();
   const status = session.scenarioId ? picture : copy.quietStatus;
   const advice = session.scenarioId ? picture : copy.quietAdvice;
+  const watchTone: SpeechTone = session.crisis ? "warn" : "brief";
   return [
     {
       role: "pilot",
@@ -48,6 +52,7 @@ export function demoBeats(session: BridgeSessionValue, locale: Locale): DemoBeat
       focus: "instruments",
       action: copy.actionIntro,
       place: copy.whereIntro,
+      tone: "brief",
     },
     {
       role: "officer",
@@ -56,6 +61,7 @@ export function demoBeats(session: BridgeSessionValue, locale: Locale): DemoBeat
       focus: "calls",
       action: copy.actionOfficer,
       place: copy.whereOfficer,
+      tone: "brief",
     },
     {
       role: "pilot",
@@ -65,6 +71,7 @@ export function demoBeats(session: BridgeSessionValue, locale: Locale): DemoBeat
       focus: "instruments",
       action: copy.actionInstruments,
       place: copy.whereInstruments,
+      tone: watchTone,
     },
     {
       role: "officer",
@@ -73,6 +80,7 @@ export function demoBeats(session: BridgeSessionValue, locale: Locale): DemoBeat
       focus: "calls",
       action: copy.actionOfficer,
       place: copy.whereOfficer,
+      tone: "brief",
     },
     {
       role: "pilot",
@@ -82,6 +90,7 @@ export function demoBeats(session: BridgeSessionValue, locale: Locale): DemoBeat
       focus: "advice",
       action: copy.actionAdvice,
       place: copy.whereAdvice,
+      tone: watchTone,
     },
     {
       role: "officer",
@@ -90,6 +99,7 @@ export function demoBeats(session: BridgeSessionValue, locale: Locale): DemoBeat
       focus: "calls",
       action: copy.actionOfficer,
       place: copy.whereOfficer,
+      tone: "brief",
     },
     {
       role: "pilot",
@@ -99,6 +109,7 @@ export function demoBeats(session: BridgeSessionValue, locale: Locale): DemoBeat
       focus: "comms",
       action: copy.actionComms,
       place: copy.whereComms,
+      tone: "warn",
     },
     {
       role: "pilot",
@@ -107,6 +118,7 @@ export function demoBeats(session: BridgeSessionValue, locale: Locale): DemoBeat
       focus: "voice",
       action: copy.actionOutro,
       place: copy.whereOutro,
+      tone: "brief",
     },
   ];
 }
