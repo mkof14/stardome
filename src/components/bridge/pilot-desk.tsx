@@ -51,11 +51,15 @@ export function PilotDesk({
   locale,
   screen,
   highlight,
+  notePulse,
+  onSeenNote,
 }: {
   session: BridgeSessionValue;
   locale: Locale;
   screen: PilotScreen;
   highlight?: PilotScreen | null;
+  notePulse?: boolean;
+  onSeenNote?: () => void;
 }) {
   const watch = buildPilotWatch(session, locale);
   const { copy } = watch;
@@ -179,31 +183,52 @@ export function PilotDesk({
         </PilotRack>
       ) : null}
 
-      {screen === "advice"
-        ? watch.advice
+      {screen === "advice" ? (
+        <>
+          {notePulse || watch.urgent ? (
+            <p
+              data-testid="pilot-note-here"
+              className={cn(
+                "mb-2 rounded-xl border px-3 py-2 font-body text-sm",
+                watch.urgent
+                  ? "pilot-urgent-blink border-crit/50 bg-crit/10 text-crit"
+                  : "pilot-note-blink border-orange/50 bg-orange/10 text-orange",
+              )}
+            >
+              {copy.unreadHere}
+            </p>
+          ) : null}
+          {watch.advice
             .filter((card) => !hiddenKinds.includes(card.kind))
-            .map((card) => (
+            .map((card, index) => (
               <AdviceCard
                 key={`${watch.noteKey}-${card.kind}-${card.title}`}
                 card={card}
                 copy={copy}
                 hot={highlight === "advice"}
+                pulse={Boolean(notePulse && index === 0) || (watch.urgent && card.kind !== "situation")}
                 expanded={Boolean(expanded[card.kind])}
-                onExpand={() =>
+                onExpand={() => {
+                  onSeenNote?.();
                   setExpanded((current) => ({
                     ...current,
                     [card.kind]: !current[card.kind],
-                  }))
-                }
-                onAsk={() => askPilot(card.body)}
+                  }));
+                }}
+                onAsk={() => {
+                  onSeenNote?.();
+                  askPilot(card.body);
+                }}
                 onClose={() => {
+                  onSeenNote?.();
                   setHiddenKinds((current) =>
                     current.includes(card.kind) ? current : [...current, card.kind],
                   );
                 }}
               />
-            ))
-        : null}
+            ))}
+        </>
+      ) : null}
 
       {screen === "comms" ? (
         <PilotRack
@@ -378,20 +403,24 @@ function PilotRack({
   children,
   testId,
   hot,
+  pulse,
 }: {
   kicker: string;
   title: string;
   children: React.ReactNode;
   testId: string;
   hot?: boolean;
+  pulse?: boolean;
 }) {
   return (
     <section
       data-testid={testId}
       data-demo-focus={hot ? "true" : undefined}
+      data-pulse={pulse ? "true" : undefined}
       className={cn(
         "overflow-hidden rounded-2xl border bg-bridge-bg text-bridge-text",
         hot ? "demo-focus-ring border-[#38BDF8]" : "border-bridge-line",
+        pulse && "pilot-note-blink",
       )}
     >
       <header className="flex items-center justify-between gap-2 border-b border-bridge-line px-3 py-2.5">
@@ -417,6 +446,7 @@ function AdviceCard({
   copy,
   expanded,
   hot,
+  pulse,
   onExpand,
   onAsk,
   onClose,
@@ -425,6 +455,7 @@ function AdviceCard({
   copy: PilotDeskCopy;
   expanded: boolean;
   hot?: boolean;
+  pulse?: boolean;
   onExpand: () => void;
   onAsk: () => void;
   onClose: () => void;
@@ -443,6 +474,7 @@ function AdviceCard({
       kicker={kicker}
       title={card.title}
       hot={hot}
+      pulse={pulse}
     >
       <p className={cn("font-body text-sm leading-relaxed text-bridge-text/90", !expanded && "line-clamp-4")}>
         {card.body}
@@ -484,10 +516,20 @@ function AdviceCard({
 }
 
 export function PilotUnreadChip({
-  label,
+  title,
+  go,
+  where,
+  openLabel,
+  preview,
+  urgent,
   onOpen,
 }: {
-  label: string;
+  title: string;
+  go: string;
+  where: string;
+  openLabel: string;
+  preview?: string;
+  urgent?: boolean;
   onOpen: () => void;
 }) {
   return (
@@ -495,11 +537,29 @@ export function PilotUnreadChip({
       type="button"
       data-testid="pilot-unread"
       onClick={onOpen}
-      className="pilot-card-in mb-2 max-w-[16rem] rounded-2xl border border-orange/40 bg-bridge-panel px-3 py-2 text-start text-bridge-text shadow-lg"
+      className={cn(
+        "pilot-card-in mb-2 w-[min(18rem,calc(100vw-5.5rem))] rounded-2xl border bg-bridge-panel px-3 py-2.5 text-start text-bridge-text shadow-lg",
+        urgent
+          ? "pilot-urgent-blink border-crit/60"
+          : "pilot-note-blink border-orange/50",
+      )}
     >
-      <p className="flex items-center gap-2 font-body text-sm text-orange">
-        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-orange" />
-        {label}
+      <p className={cn("flex items-center gap-2 font-body text-sm font-semibold", urgent ? "text-crit" : "text-orange")}>
+        <span
+          className={cn("h-2 w-2 shrink-0 rounded-full", urgent ? "bg-crit" : "bg-orange")}
+          aria-hidden
+        />
+        {title}
+      </p>
+      <p className="mt-1 font-body text-xs text-bridge-dim">{go}</p>
+      <p className="mt-0.5 font-body text-xs font-medium text-bridge-text">{where}</p>
+      {preview ? (
+        <p className="mt-1.5 line-clamp-2 border-s-2 border-orange ps-2 font-body text-xs leading-relaxed text-bridge-text">
+          {preview}
+        </p>
+      ) : null}
+      <p className={cn("mt-2 font-body text-xs font-semibold", urgent ? "text-crit" : "text-orange")}>
+        {openLabel} ↓
       </p>
     </button>
   );
@@ -509,11 +569,13 @@ export function PilotDeskBar({
   copy,
   screen,
   urgent,
+  notePulse,
   onScreen,
 }: {
   copy: PilotDeskCopy;
   screen: PilotScreen;
   urgent: boolean;
+  notePulse?: boolean;
   onScreen: (next: PilotScreen) => void;
 }) {
   const buttons: Array<{
@@ -541,7 +603,7 @@ export function PilotDeskBar({
       id: "advice",
       label: copy.raiseAdvice,
       testId: "pilot-raise-advice",
-      hot: urgent,
+      hot: urgent || Boolean(notePulse),
       glyph: "advice",
     },
     {
@@ -568,6 +630,8 @@ export function PilotDeskBar({
               : item.hot
                 ? "bg-crit/10 text-crit"
                 : "bg-bridge-panel text-bridge-dim hover:bg-bridge-bg hover:text-bridge-text",
+            item.id === "advice" && (urgent || notePulse) && screen !== "advice" && "pilot-tab-blink",
+            item.id === "comms" && urgent && screen !== "comms" && "pilot-tab-blink",
           )}
         >
           <span

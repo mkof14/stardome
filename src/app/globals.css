@@ -438,6 +438,71 @@ body {
   animation: helm-fab-pulse 1.4s ease-out infinite;
 }
 
+@keyframes helm-fab-pulse-urgent {
+  0% {
+    box-shadow: 0 0 0 0 rgb(220 38 38 / 0.7);
+    border-color: #dc2626;
+  }
+  70% {
+    box-shadow: 0 0 0 14px rgb(220 38 38 / 0);
+    border-color: #f15a00;
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgb(220 38 38 / 0);
+    border-color: #dc2626;
+  }
+}
+
+.helm-fab-pulse-urgent {
+  animation: helm-fab-pulse-urgent 0.85s ease-out infinite;
+}
+
+@keyframes pilot-note-blink {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(241 90 0 / 0.45);
+    opacity: 1;
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgb(241 90 0 / 0);
+    opacity: 0.78;
+  }
+}
+
+.pilot-note-blink {
+  animation: pilot-note-blink 1s ease-in-out infinite;
+}
+
+@keyframes pilot-urgent-blink {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(220 38 38 / 0.55);
+    opacity: 1;
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgb(220 38 38 / 0);
+    opacity: 0.82;
+  }
+}
+
+.pilot-urgent-blink {
+  animation: pilot-urgent-blink 0.7s ease-in-out infinite;
+}
+
+@keyframes pilot-tab-blink {
+  0%,
+  100% {
+    box-shadow: inset 0 0 0 0 rgb(220 38 38 / 0);
+  }
+  50% {
+    box-shadow: inset 0 0 0 2px rgb(220 38 38 / 0.9);
+  }
+}
+
+.pilot-tab-blink {
+  animation: pilot-tab-blink 0.85s ease-in-out infinite;
+}
+
 @keyframes backend-flow {
   0% {
     left: 0;

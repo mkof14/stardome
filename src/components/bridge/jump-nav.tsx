@@ -6,7 +6,13 @@ import { cn } from "@/lib/cn";
 import { useAuthSession } from "@/lib/auth-session";
 import { useAgronView, type AgronView } from "@/lib/agron-view";
 import { useCrisisMode } from "@/lib/crisis-mode";
-import { HELM_STATE_EVENT, focusWatchComms, openHelm, startPilotDemo } from "@/lib/helm-events";
+import {
+  HELM_STATE_EVENT,
+  focusWatchComms,
+  openHelm,
+  startPilotDemo,
+  type HelmStateDetail,
+} from "@/lib/helm-events";
 import { useHud } from "@/lib/i18n/use-hud";
 import { canUseHelm } from "@/lib/rbac";
 import { HudGlyph } from "@/components/bridge/hud-icons";
@@ -200,6 +206,10 @@ export function JumpNav() {
   const [pinned, setPinned] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [active, setActive] = useState("picture");
+  const [helmAlert, setHelmAlert] = useState<{ unread: boolean; urgent: boolean }>({
+    unread: false,
+    urgent: false,
+  });
   const expanded = pinned || hovered;
   const lockUntil = useRef(0);
 
@@ -229,7 +239,7 @@ export function JumpNav() {
     if (item.kind === "link" && item.href) return;
     if (item.kind === "helm") {
       lockUntil.current = Date.now() + 1200;
-      openHelm();
+      openHelm(helmAlert.unread || helmAlert.urgent ? "advice" : undefined);
       setActive(item.id);
       return;
     }
@@ -250,12 +260,16 @@ export function JumpNav() {
     setActive(item.id);
     const top = target.getBoundingClientRect().top + window.scrollY - 80;
     window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
-  }, []);
+  }, [helmAlert.unread, helmAlert.urgent]);
 
   useEffect(() => {
     function onHelm(event: Event) {
-      const detail = (event as CustomEvent<{ open?: boolean }>).detail;
+      const detail = (event as CustomEvent<HelmStateDetail>).detail;
       if (detail?.open && Date.now() >= lockUntil.current) setActive("helm");
+      setHelmAlert({
+        unread: Boolean(detail?.unread),
+        urgent: Boolean(detail?.urgent),
+      });
     }
     window.addEventListener(HELM_STATE_EVENT, onHelm);
     return () => window.removeEventListener(HELM_STATE_EVENT, onHelm);
@@ -354,11 +368,14 @@ export function JumpNav() {
                 ) : null}
               </>
             );
+            const alertPilot =
+              item.id === "helm" && (helmAlert.unread || helmAlert.urgent) && !current;
             const className = cn(
               "relative flex w-full flex-col items-center rounded-xl px-1 py-2",
               current
                 ? "bg-orange/10 text-orange"
                 : "text-bridge-text hover:bg-bridge-bg hover:text-orange",
+              alertPilot && (helmAlert.urgent ? "pilot-tab-blink" : "pilot-note-blink"),
             );
 
             if (item.kind === "link" && item.href) {

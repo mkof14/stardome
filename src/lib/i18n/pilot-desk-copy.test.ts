@@ -12,6 +12,10 @@ describe("pilotDeskCopy", () => {
       expect(copy.raiseAdvice.length).toBeGreaterThan(0);
       expect(copy.raiseComms.length).toBeGreaterThan(0);
       expect(copy.unread.length).toBeGreaterThan(0);
+      expect(copy.unreadGo.length).toBeGreaterThan(0);
+      expect(copy.unreadWhere.length).toBeGreaterThan(0);
+      expect(copy.unreadHere.length).toBeGreaterThan(0);
+      expect(copy.unreadOpen.length).toBeGreaterThan(0);
       expect(copy.liveEmpty.length).toBeGreaterThan(0);
       expect(copy.demoComms.length).toBeGreaterThan(0);
       expect(copy.starlinkServices).toMatch(/Starlink/);

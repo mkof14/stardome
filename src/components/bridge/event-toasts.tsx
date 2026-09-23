@@ -101,6 +101,11 @@ export function EventToasts({
     >
       {toasts.map((toast) => {
         const critical = toast.level === "CRITICAL";
+        const immediate =
+          critical ||
+          toast.kind === "crisis" ||
+          toast.kind === "escalate" ||
+          toast.kind === "fault";
         return (
           <div
             key={toast.id}
@@ -112,6 +117,7 @@ export function EventToasts({
               borderTone(toast.level),
               critical && "toast-crit-glow px-3.5 py-3",
               !critical && "px-3 py-2.5",
+              immediate && "pilot-urgent-blink",
             )}
           >
             <div className="flex items-start gap-2.5">

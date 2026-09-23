@@ -12,9 +12,21 @@ export type WatchCommsFocus = {
   party?: string;
 };
 
-export function openHelm() {
+export type HelmScreen = "chat" | "instruments" | "advice" | "comms";
+
+export type HelmStateDetail = {
+  open: boolean;
+  unread?: boolean;
+  urgent?: boolean;
+};
+
+export type HelmOpenDetail = {
+  screen?: HelmScreen;
+};
+
+export function openHelm(screen?: HelmScreen) {
   if (typeof window === "undefined") return;
-  window.dispatchEvent(new Event(HELM_OPEN_EVENT));
+  window.dispatchEvent(new CustomEvent<HelmOpenDetail>(HELM_OPEN_EVENT, { detail: { screen } }));
 }
 
 export function askPilot(prompt: string) {
@@ -23,9 +35,11 @@ export function askPilot(prompt: string) {
   openHelm();
 }
 
-export function publishHelmState(open: boolean) {
+export function publishHelmState(openOrState: boolean | HelmStateDetail) {
   if (typeof window === "undefined") return;
-  window.dispatchEvent(new CustomEvent(HELM_STATE_EVENT, { detail: { open } }));
+  const detail: HelmStateDetail =
+    typeof openOrState === "boolean" ? { open: openOrState } : openOrState;
+  window.dispatchEvent(new CustomEvent<HelmStateDetail>(HELM_STATE_EVENT, { detail }));
 }
 
 export function startPilotDemo() {

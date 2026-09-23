@@ -13,7 +13,7 @@ export function DegradedBanner({ faultId, onRestore }: DegradedBannerProps) {
   return (
     <div
       data-testid="degraded-banner"
-      className="flex flex-col gap-3 border border-attn/50 bg-attn/15 px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between"
+      className="pilot-note-blink flex flex-col gap-3 border border-attn/50 bg-attn/15 px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between"
     >
       <div className="flex items-start gap-3">
         <svg

@@ -112,6 +112,7 @@ export function Helm() {
   const [micError, setMicError] = useState<string | null>(null);
   const [screen, setScreen] = useState<PilotScreen>("chat");
   const [unread, setUnread] = useState(false);
+  const [notePulse, setNotePulse] = useState(false);
   const [drilling, setDrilling] = useState(false);
   const [demoBeat, setDemoBeat] = useState<DemoBeat | null>(null);
   const [demoStep, setDemoStep] = useState(0);
@@ -207,9 +208,11 @@ export function Helm() {
   }, [messages, typed, open]);
 
   useEffect(() => {
-    function onOpen() {
+    function onOpen(event: Event) {
+      const screen = (event as CustomEvent<{ screen?: PilotScreen }>).detail?.screen;
       setOpen(true);
       setUnread(false);
+      if (screen) setScreen(screen);
     }
     window.addEventListener(HELM_OPEN_EVENT, onOpen);
     return () => window.removeEventListener(HELM_OPEN_EVENT, onOpen);
@@ -261,8 +264,8 @@ export function Helm() {
   }
 
   useEffect(() => {
-    publishHelmState(open);
-  }, [open]);
+    publishHelmState({ open, unread, urgent: watch.urgent });
+  }, [open, unread, watch.urgent]);
 
   useEffect(() => {
     let cancelled = false;
@@ -307,6 +310,7 @@ export function Helm() {
     setScreen(hasPicture ? "advice" : "chat");
     if (!openRef.current && hasPicture && !first) {
       setUnread(true);
+      setNotePulse(true);
     }
     if (!hasPicture || first) return;
     const brief = watchReply(session, recogLang);
@@ -325,6 +329,8 @@ export function Helm() {
       setTyped("");
       setTypingId(null);
       setScreen("chat");
+      setUnread(false);
+      setNotePulse(false);
       setTalkHud(false);
       stopDemo();
       stopListening();
@@ -1176,7 +1182,11 @@ export function Helm() {
               copy={desk}
               screen={screen}
               urgent={watch.urgent}
-              onScreen={setScreen}
+              notePulse={notePulse}
+              onScreen={(next) => {
+                setScreen(next);
+                if (next === "advice") setNotePulse(false);
+              }}
             />
             <div className="mt-1.5">
               <PilotVoiceNeed locale={recogLang} need={need} />
@@ -1225,6 +1235,10 @@ export function Helm() {
                         : drilling && demoBeat?.text === item.text
                           ? "border-s-2 border-[#38BDF8] bg-[#38BDF8]/10 text-bridge-text"
                           : "border-s-2 border-ok bg-bridge-bg text-bridge-text",
+                    notePulse &&
+                      item.role === "assistant" &&
+                      item.id === messages[messages.length - 1]?.id &&
+                      "pilot-note-blink",
                   )}
                 >
                   {showing}
@@ -1237,6 +1251,8 @@ export function Helm() {
               session={session}
               locale={recogLang}
               screen={screen}
+              notePulse={notePulse}
+              onSeenNote={() => setNotePulse(false)}
               highlight={
                 demoBeat?.focus === "instruments" ||
                 demoBeat?.focus === "advice" ||
@@ -1331,10 +1347,16 @@ export function Helm() {
         </div>
       ) : unread ? (
         <PilotUnreadChip
-          label={desk.unread}
+          title={desk.unread}
+          go={desk.unreadGo}
+          where={desk.unreadWhere}
+          openLabel={desk.unreadOpen}
+          preview={watch.advice[0]?.body}
+          urgent={watch.urgent}
           onOpen={() => {
             setOpen(true);
             setUnread(false);
+            setScreen("advice");
           }}
         />
       ) : null}
@@ -1360,12 +1382,13 @@ export function Helm() {
             }
             setOpen(true);
             setUnread(false);
+            if (unread || watch.urgent) setScreen("advice");
           }}
           aria-pressed={open}
           aria-label={open ? surface.hide : surface.open}
           className={cn(
             "relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full border border-orange bg-bridge-panel text-orange",
-            unread && "helm-fab-pulse",
+            (unread || (!open && watch.urgent)) && (watch.urgent ? "helm-fab-pulse-urgent" : "helm-fab-pulse"),
             open && "bg-orange/10",
           )}
         >

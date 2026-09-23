@@ -10,7 +10,7 @@ export function CrisisBanner({ scenarioName, onExit }: CrisisBannerProps) {
   return (
     <div
       data-testid="crisis-banner"
-      className="crisis-banner flex flex-col gap-3 bg-crit px-4 py-4 text-white sm:flex-row sm:items-center sm:justify-between sm:px-6"
+      className="crisis-banner pilot-urgent-blink flex flex-col gap-3 bg-crit px-4 py-4 text-white sm:flex-row sm:items-center sm:justify-between sm:px-6"
     >
       <div className="flex min-w-0 items-center gap-3">
         <span
