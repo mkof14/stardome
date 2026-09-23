@@ -131,7 +131,7 @@ async function synthEdge(
         male.voice,
         OUTPUT_FORMAT.AUDIO_24KHZ_48KBITRATE_MONO_MP3,
       );
-      const { audioStream } = tts.toStream(ssmlInner(text, tone, escapeSsml), {
+      const { audioStream } = tts.toStream(escapeSsml(text), {
         rate: voice.rate,
         pitch: voice.pitch,
         volume: voice.volume,

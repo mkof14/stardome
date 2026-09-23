@@ -79,5 +79,6 @@ describe("speech tone", () => {
     expect(warn).toContain("express-as");
     expect(brief).toContain('rate="+20%"');
     expect(brief).not.toContain("emphasis");
+    expect(warn).toContain("Confirm the designated has it.");
   });
 });
