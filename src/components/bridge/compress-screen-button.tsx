@@ -7,6 +7,7 @@ import {
   headerChromeButtonClass,
   headerChromeIconClass,
 } from "@/components/bridge/header-chrome";
+import { isFullscreen, restoreWindowedPage } from "@/lib/fullscreen";
 
 export function CompressScreenButton({
   compact,
@@ -14,17 +15,29 @@ export function CompressScreenButton({
   compact?: boolean;
 }) {
   const { hud } = useHud();
-  const { density, toggleDensity } = useAgronView();
+  const { density, setDensity, toggleDensity } = useAgronView();
   const squeezed = density === "compact";
   const label = squeezed ? hud.chrome.expandScreen : hud.chrome.compressScreen;
   const tip = squeezed ? hud.chrome.expandScreenTip : hud.chrome.compressScreenTip;
+
+  async function onClick() {
+    if (isFullscreen()) {
+      try {
+        await restoreWindowedPage(setDensity);
+      } catch {
+        setDensity("roomy");
+      }
+      return;
+    }
+    toggleDensity();
+  }
 
   return (
     <button
       type="button"
       data-testid="compress-screen"
       data-mode={squeezed ? "expand" : "compress"}
-      onClick={toggleDensity}
+      onClick={() => void onClick()}
       aria-pressed={squeezed}
       aria-label={label}
       title={tip}

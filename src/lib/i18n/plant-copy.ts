@@ -20,7 +20,7 @@ const COPY: Record<Locale, PlantCopy> = {
   en: {
     viewGroup: "AGRON 1 screen",
     watch: "WATCH",
-    plant: "PLANT",
+    plant: "Monitoring",
     plantLead:
       "AGRON Container plant — power, climate, compute, and recorder. DEMO numbers. LIVE stays empty until the box is wired.",
     liveLead: "LIVE — no container telemetry on this install. Switch to DEMO to see the plant drill.",
@@ -48,7 +48,7 @@ const COPY: Record<Locale, PlantCopy> = {
   ru: {
     viewGroup: "Экран AGRON 1",
     watch: "WATCH",
-    plant: "PLANT",
+    plant: "Мониторинг",
     plantLead:
       "Установка контейнера AGRON — питание, климат, вычислители и регистратор. Цифры DEMO. LIVE пуст, пока ящик не подключён.",
     liveLead: "LIVE — телеметрии контейнера на этой установке нет. Переключите DEMO, чтобы увидеть учение.",
@@ -76,7 +76,7 @@ const COPY: Record<Locale, PlantCopy> = {
   uk: {
     viewGroup: "Екран AGRON 1",
     watch: "WATCH",
-    plant: "PLANT",
+    plant: "Моніторинг",
     plantLead:
       "Установка контейнера AGRON — живлення, клімат, обчислювачі й реєстратор. Цифри DEMO. LIVE порожній, доки ящик не підключено.",
     liveLead: "LIVE — телеметрії контейнера на цій установці немає. Перемкніть DEMO, щоб побачити навчання.",
@@ -104,7 +104,7 @@ const COPY: Record<Locale, PlantCopy> = {
   es: {
     viewGroup: "Pantalla AGRON 1",
     watch: "WATCH",
-    plant: "PLANT",
+    plant: "Monitoreo",
     plantLead:
       "Planta del contenedor AGRON — energía, clima, cómputo y registrador. Cifras DEMO. LIVE vacío hasta cablear la caja.",
     liveLead: "LIVE — no hay telemetría del contenedor en esta instalación. Pase a DEMO para ver el ejercicio.",
@@ -132,7 +132,7 @@ const COPY: Record<Locale, PlantCopy> = {
   fr: {
     viewGroup: "Écran AGRON 1",
     watch: "WATCH",
-    plant: "PLANT",
+    plant: "Supervision",
     plantLead:
       "Installation du conteneur AGRON — énergie, climat, calculateurs et enregistreur. Chiffres DEMO. LIVE vide tant que le caisson n'est pas câblé.",
     liveLead: "LIVE — pas de télémétrie conteneur sur cette installation. Passez en DEMO pour l'exercice.",
@@ -160,7 +160,7 @@ const COPY: Record<Locale, PlantCopy> = {
   de: {
     viewGroup: "AGRON 1-Bildschirm",
     watch: "WATCH",
-    plant: "PLANT",
+    plant: "Überwachung",
     plantLead:
       "AGRON-Containeranlage — Energie, Klima, Rechner und Recorder. DEMO-Zahlen. LIVE leer, bis die Box verdrahtet ist.",
     liveLead: "LIVE — keine Container-Telemetrie auf dieser Anlage. Für die Übung auf DEMO schalten.",
@@ -188,7 +188,7 @@ const COPY: Record<Locale, PlantCopy> = {
   ar: {
     viewGroup: "شاشة AGRON 1",
     watch: "WATCH",
-    plant: "PLANT",
+    plant: "مراقبة",
     plantLead:
       "محطة حاوية AGRON — طاقة ومناخ وحواسيب ومسجل. أرقام DEMO. LIVE فارغ إلى أن تُوصَل الصندوق.",
     liveLead: "LIVE — لا قياس للحاوية على هذا التركيب. انتقل إلى DEMO للتمرين.",
@@ -216,7 +216,7 @@ const COPY: Record<Locale, PlantCopy> = {
   zh: {
     viewGroup: "AGRON 1 屏幕",
     watch: "WATCH",
-    plant: "PLANT",
+    plant: "监测",
     plantLead: "AGRON 集装箱机组 — 电力、气候、计算与记录。DEMO 数字。未接线时 LIVE 为空。",
     liveLead: "LIVE — 本安装没有集装箱遥测。切到 DEMO 查看演练。",
     kitTitle: "测量套件",
@@ -243,7 +243,7 @@ const COPY: Record<Locale, PlantCopy> = {
   ja: {
     viewGroup: "AGRON 1 画面",
     watch: "WATCH",
-    plant: "PLANT",
+    plant: "監視",
     plantLead:
       "AGRON コンテナ設備 — 電源、気候、計算機、記録。DEMO の数値。箱が配線されるまで LIVE は空。",
     liveLead: "LIVE — この装備にコンテナ遥測はありません。演習は DEMO へ。",
@@ -271,7 +271,7 @@ const COPY: Record<Locale, PlantCopy> = {
   he: {
     viewGroup: "מסך AGRON 1",
     watch: "WATCH",
-    plant: "PLANT",
+    plant: "ניטור",
     plantLead:
       "מתקן מכולת AGRON — חשמל, אקלים, מחשבים ורשם. מספרי DEMO. LIVE ריק עד שהארגז מחובר.",
     liveLead: "LIVE — אין טלמטריה של המכולה בהתקנה הזו. עבור ל-DEMO לתרגול.",

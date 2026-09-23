@@ -1452,7 +1452,7 @@ export function Helm() {
                   data-testid={mic === "speaking" ? "pilot-speaking" : "pilot-status"}
                   data-mic={mic}
                   className={cn(
-                    "mt-0.5 font-body text-xs font-semibold uppercase tracking-wider",
+                    "mt-0.5 font-body text-sm font-semibold uppercase tracking-wider",
                     mic === "speaking"
                       ? "text-orange"
                       : mic === "listening"
@@ -1467,7 +1467,7 @@ export function Helm() {
                       : surface.waiting}
                 </p>
               ) : (
-                <p className="mt-0.5 flex items-center gap-1.5 font-body text-xs text-bridge-dim">
+                <p className="mt-0.5 flex items-center gap-1.5 font-body text-sm text-bridge-dim">
                   <span
                     data-testid="pilot-watch-post"
                     className="pilot-watch-live inline-flex items-center gap-1 rounded-md bg-ok/15 px-1.5 py-0.5 font-semibold uppercase tracking-wide text-ok"
@@ -1490,7 +1490,7 @@ export function Helm() {
                   data-testid="assistant-stop-header"
                   onClick={haltWatch}
                   aria-label={surface.stop}
-                  className="flex h-8 items-center rounded-lg bg-attn px-2.5 font-body text-xs font-bold text-white hover:bg-attn/90"
+                  className="flex h-9 items-center rounded-lg bg-attn px-3 font-body text-sm font-bold text-white hover:bg-attn/90"
                 >
                   {surface.stop}
                 </button>
@@ -1504,7 +1504,7 @@ export function Helm() {
                   aria-label={helmHud.language}
                   title={helmHud.language}
                   onClick={() => setLangsOpen((value) => !value)}
-                  className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-orange/50 bg-orange/10 px-2 font-body text-xs font-semibold text-orange hover:bg-orange/20"
+                  className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-orange/50 bg-orange/10 px-2.5 font-body text-sm font-semibold text-orange hover:bg-orange/20"
                 >
                   <FlagIcon locale={recogLang} />
                   <span className="max-w-[5.5rem] truncate">{localeMeta[recogLang].native}</span>
@@ -1548,9 +1548,9 @@ export function Helm() {
                   setTalkHud(false);
                   setOpen(false);
                 }}
-                className="inline-flex h-8 items-center rounded-lg px-2 font-body text-xs font-medium text-bridge-dim hover:bg-bridge-panel hover:text-bridge-text"
+                className="inline-flex h-9 items-center rounded-lg px-2.5 font-body text-sm font-medium text-bridge-dim hover:bg-bridge-panel hover:text-bridge-text"
               >
-                <HudGlyph name="hide" className="h-3.5 w-3.5" />
+                <HudGlyph name="hide" className="h-4 w-4" />
                 <span className="sr-only sm:not-sr-only sm:ms-1">{surface.hide}</span>
               </button>
             </div>
@@ -1587,7 +1587,7 @@ export function Helm() {
             className="min-h-0 flex-1 space-y-2 overflow-y-auto px-3 py-3"
           >
             {messages.length === 0 ? (
-              <p className="border-s-2 border-orange ps-3 font-body text-sm leading-relaxed text-bridge-dim">
+              <p className="border-s-2 border-orange ps-3 font-body text-base leading-relaxed text-bridge-dim">
                 {pathname.startsWith("/interface") && !live && session.scenarioId
                   ? surface.emptyWatch
                   : surface.empty}
@@ -1602,14 +1602,14 @@ export function Helm() {
                 <div
                   key={item.id}
                   className={cn(
-                    "max-w-[92%] rounded-2xl px-3 py-2 font-body text-[15px] leading-relaxed",
+                    "max-w-[92%] rounded-2xl px-3.5 py-2.5 font-body text-base leading-relaxed",
                     item.role === "user"
                       ? "ms-auto bg-orange text-white"
                       : item.role === "error"
                         ? "border border-attn text-attn"
                         : drilling && demoBeat?.text === item.text
-                          ? "border-s-2 border-[#38BDF8] bg-[#38BDF8]/10 text-bridge-text"
-                          : "border-s-2 border-ok bg-bridge-bg text-bridge-text",
+                          ? "border-s-2 border-orange bg-orange/10 text-bridge-text"
+                          : "border-s-2 border-bridge-line bg-bridge-bg text-bridge-text",
                     notePulse &&
                       item.role === "assistant" &&
                       item.id === messages[messages.length - 1]?.id &&
@@ -1649,7 +1649,7 @@ export function Helm() {
                   data-testid="assistant-stop"
                   onClick={haltWatch}
                   aria-label={surface.stop}
-                  className="flex h-8 shrink-0 items-center justify-center rounded-lg bg-attn px-2.5 font-body text-xs font-bold text-white hover:bg-attn/90"
+                  className="flex h-10 shrink-0 items-center justify-center rounded-lg bg-attn px-3 font-body text-sm font-bold text-white hover:bg-attn/90"
                 >
                   {surface.stop}
                 </button>
@@ -1660,7 +1660,7 @@ export function Helm() {
                 data-on={mic === "listening" ? "true" : "false"}
                 onClick={() => void toggleMic()}
                 className={cn(
-                  "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border",
+                  "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border",
                   mic === "listening" && "assistant-mic-listen border-ok text-ok",
                   mic === "processing" && "border-attn text-attn",
                   mic === "speaking" && "assistant-mic-speak border-orange text-orange",
@@ -1701,7 +1701,7 @@ export function Helm() {
               />
             </div>
             {micError ? (
-              <p className="mb-2 font-body text-sm text-attn">{micError}</p>
+              <p className="mb-2 font-body text-base text-attn">{micError}</p>
             ) : null}
             {!drilling && mic !== "speaking" ? (
               <div className="mb-2">
@@ -1724,12 +1724,12 @@ export function Helm() {
                 value={draft}
                 onChange={(event) => setDraft(event.target.value)}
                 placeholder={surface.ask}
-                className="min-w-0 flex-1 rounded-xl border border-bridge-line bg-bridge-panel px-3 py-2 font-body text-sm text-bridge-text outline-none placeholder:text-bridge-dim focus:border-orange"
+                className="min-w-0 flex-1 rounded-xl border border-bridge-line bg-bridge-panel px-3 py-2.5 font-body text-base text-bridge-text outline-none placeholder:text-bridge-dim focus:border-orange"
               />
               <button
                 type="submit"
                 data-testid="assistant-send"
-                className="rounded-xl bg-orange px-3 py-2 font-body text-sm font-medium text-white hover:bg-orange/90"
+                className="rounded-xl bg-orange px-3.5 py-2.5 font-body text-base font-medium text-white hover:bg-orange/90"
               >
                 {surface.send}
               </button>

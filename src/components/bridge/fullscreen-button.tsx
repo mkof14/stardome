@@ -7,7 +7,8 @@ import {
   headerChromeButtonClass,
   headerChromeIconClass,
 } from "@/components/bridge/header-chrome";
-import { enterFullscreen, exitFullscreen, fullscreenTarget, isFullscreen, onFullscreenChange } from "@/lib/fullscreen";
+import { useAgronView } from "@/lib/agron-view";
+import { enterFullscreen, fullscreenTarget, isFullscreen, onFullscreenChange, restoreWindowedPage } from "@/lib/fullscreen";
 
 export function FullscreenButton({
   compact,
@@ -15,6 +16,7 @@ export function FullscreenButton({
   compact?: boolean;
 }) {
   const { hud } = useHud();
+  const { setDensity } = useAgronView();
   const [active, setActive] = useState(false);
 
   useEffect(() => {
@@ -28,7 +30,7 @@ export function FullscreenButton({
   async function toggle() {
     try {
       if (isFullscreen()) {
-        await exitFullscreen();
+        await restoreWindowedPage(setDensity);
       } else {
         await enterFullscreen(fullscreenTarget());
       }

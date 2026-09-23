@@ -33,7 +33,7 @@ type JumpItem = {
   icon: ReactNode;
 };
 
-const ICON = "h-4 w-4";
+const ICON = "h-6 w-6";
 
 const ITEMS: JumpItem[] = [
   {
@@ -132,12 +132,12 @@ const ITEMS: JumpItem[] = [
   {
     id: "helm",
     kind: "helm",
-    icon: <HudGlyph name="talk" className="h-5 w-5" />,
+    icon: <HudGlyph name="talk" className="h-7 w-7" />,
   },
   {
     id: "demo",
     kind: "demo",
-    icon: <HudGlyph name="demo" className="h-5 w-5" />,
+    icon: <HudGlyph name="demo" className="h-7 w-7" />,
   },
   {
     id: "starlink",
@@ -328,7 +328,7 @@ export function JumpNav() {
       data-expanded={expanded ? "true" : "false"}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="fixed bottom-0 left-0 top-16 z-30 flex w-[6.25rem] flex-col border-r border-bridge-line bg-bridge-panel/95 text-bridge-text backdrop-blur-md"
+      className="fixed bottom-0 left-0 top-16 z-30 flex w-[7.5rem] flex-col border-r border-bridge-line bg-bridge-panel/95 text-bridge-text backdrop-blur-md"
     >
       <div className="flex h-12 items-center justify-center border-b border-bridge-line px-2">
         <span className="sr-only">{hud.jump.sections}</span>
@@ -359,7 +359,7 @@ export function JumpNav() {
                 <span
                   className={cn(
                     "flex shrink-0 items-center justify-center rounded-xl",
-                    featured ? "h-11 w-11" : "h-8 w-8",
+                    featured ? "h-12 w-12" : "h-11 w-11",
                     current ? "bg-orange/15 text-orange" : "bg-bridge-bg text-bridge-text",
                   )}
                 >
@@ -368,7 +368,7 @@ export function JumpNav() {
                 <span
                   className={cn(
                     "mt-1 line-clamp-2 w-full text-center font-body leading-tight",
-                    featured ? "text-sm font-bold" : "text-[11px] font-medium",
+                    featured ? "text-base font-bold" : "text-sm font-semibold",
                   )}
                 >
                   {label}

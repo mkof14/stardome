@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { plantCopy } from "@/lib/i18n/plant-copy";
 import { plantSections } from "@/lib/plant-metrics";
 
 const ctx = {
@@ -40,5 +41,14 @@ describe("plantSections", () => {
       panelType: "spectrum",
     }).find((section) => section.id === "comms")!;
     expect(comms.rows.some((row) => row.tone === "fail")).toBe(true);
+  });
+});
+
+describe("plant view name", () => {
+  it("labels the switcher Monitoring, not PLANT", () => {
+    expect(plantCopy("en").plant).toBe("Monitoring");
+    expect(plantCopy("ru").plant).toBe("Мониторинг");
+    expect(plantCopy("en").plant).not.toMatch(/PLANT/i);
+    expect(plantCopy("ru").plant).not.toMatch(/PLANT/i);
   });
 });

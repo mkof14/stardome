@@ -29,6 +29,7 @@ export async function enterFullscreen(target: Element) {
 
 export async function exitFullscreen() {
   const doc = document as FullscreenDocument;
+  if (!fullscreenElement()) return;
   if (doc.exitFullscreen) {
     await doc.exitFullscreen();
     return;
@@ -36,6 +37,12 @@ export async function exitFullscreen() {
   if (doc.webkitExitFullscreen) {
     await doc.webkitExitFullscreen();
   }
+}
+
+/** Leave the browser fullscreen page and restore the roomy watch layout. */
+export async function restoreWindowedPage(setDensity: (next: "roomy") => void) {
+  setDensity("roomy");
+  await exitFullscreen();
 }
 
 export function onFullscreenChange(listener: () => void) {

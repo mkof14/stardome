@@ -20,7 +20,7 @@ function InterfaceBody() {
       data-view={view}
       data-density={density}
       className={cn(
-        "min-h-screen bg-bridge-bg ps-[6.25rem]",
+        "min-h-screen bg-bridge-bg ps-[7.5rem]",
         density === "compact" ? "agron-compact" : "agron-roomy",
       )}
       dir="ltr"

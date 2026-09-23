@@ -252,24 +252,24 @@ export function PilotDemoStage({
         speaking && warn
           ? "pilot-speak-focus-warn border-attn/50 bg-attn/10"
           : speaking
-            ? "pilot-speak-focus border-[#38BDF8]/50 bg-[#38BDF8]/12"
-            : "border-[#38BDF8]/40 bg-[#38BDF8]/10",
+            ? "pilot-speak-focus border-orange/40 bg-orange/10"
+            : "border-bridge-line bg-bridge-bg",
       )}
     >
       <div className="flex flex-wrap items-center gap-2">
-        <span className="rounded-lg bg-[#38BDF8]/15 px-2 py-0.5 font-body text-xs font-semibold text-[#38BDF8]">
+        <span className="rounded-lg bg-bridge-panel px-2 py-0.5 font-body text-sm font-semibold text-bridge-text">
           {copy.demo}
         </span>
-        <span className="font-body text-xs text-bridge-dim">
+        <span className="font-body text-sm text-bridge-dim">
           {fillDemo(copy.step, { n: String(index), total: String(total) })}
         </span>
         <span
           data-testid="pilot-demo-speaker"
           className={cn(
-            "inline-flex rounded-md px-1.5 py-0.5 font-body text-[11px] font-semibold",
+            "inline-flex rounded-md px-1.5 py-0.5 font-body text-sm font-semibold",
             beat.role === "officer"
               ? "bg-orange/15 text-orange"
-              : "bg-[#38BDF8]/15 text-[#38BDF8]",
+              : "bg-bridge-panel text-bridge-text",
           )}
         >
           {beat.role === "officer" ? copy.whoOfficer : copy.whoPilot}
@@ -284,7 +284,7 @@ export function PilotDemoStage({
       </p>
       <p
         data-testid="pilot-demo-line"
-        className="mt-1.5 font-body text-sm font-medium leading-snug text-bridge-text"
+        className="mt-1.5 font-body text-base font-medium leading-snug text-bridge-text"
       >
         {beat.text}
       </p>
@@ -304,7 +304,7 @@ export function PilotWatchCalls({
   const calls = [copy.callStatus, copy.callAdvice, copy.callNotify];
   return (
     <div data-testid="pilot-watch-calls" className="space-y-1.5">
-      <p className="font-body text-xs font-medium text-orange">{copy.calls}</p>
+      <p className="font-body text-sm font-medium text-orange">{copy.calls}</p>
       <div className="flex flex-wrap gap-1">
         {calls.map((call) => (
           <button
@@ -313,7 +313,7 @@ export function PilotWatchCalls({
             data-testid="pilot-watch-call"
             disabled={disabled}
             onClick={() => onPick(call)}
-            className="rounded-lg border border-bridge-line px-2 py-1.5 text-start font-body text-xs leading-tight text-bridge-text/80 hover:border-orange hover:text-bridge-text disabled:opacity-40"
+            className="rounded-lg border border-bridge-line px-2.5 py-2 text-start font-body text-sm leading-tight text-bridge-text/80 hover:border-orange hover:text-bridge-text disabled:opacity-40"
           >
             {call}
           </button>

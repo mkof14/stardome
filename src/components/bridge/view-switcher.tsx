@@ -15,7 +15,7 @@ export function ViewSwitcher() {
       role="group"
       aria-label={copy.viewGroup}
       data-testid="agron-view-switcher"
-      className="mt-3 inline-flex border border-bridge-text/40 font-mono text-[11px] font-semibold tracking-wider"
+      className="mt-3 inline-flex border border-bridge-text/40 font-body text-sm font-semibold tracking-wide"
     >
       {(["watch", "plant"] as const).map((value: AgronView) => {
         const active = view === value;

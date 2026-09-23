@@ -229,7 +229,7 @@ export function PilotDesk({
                 data-testid={`pilot-instrument-${item.id}`}
                 data-state={item.state}
                 className={cn(
-                  "rounded-xl border bg-bridge-bg px-2 py-2 font-body text-xs leading-snug",
+                  "rounded-xl border bg-bridge-bg px-2 py-2.5 font-body text-sm leading-snug",
                   instrumentTone(item.state),
                 )}
               >
@@ -247,7 +247,7 @@ export function PilotDesk({
               </div>
             ))}
           </div>
-          <p className="mt-2 font-body text-sm text-bridge-dim">
+          <p className="mt-2 font-body text-base text-bridge-dim">
             {fillDesk(copy.seePicture, { panel: watch.panelLabel })}
           </p>
         </PilotRack>
@@ -259,7 +259,7 @@ export function PilotDesk({
             <p
               data-testid="pilot-note-here"
               className={cn(
-                "mb-2 rounded-xl border px-3 py-2 font-body text-sm",
+                "mb-2 rounded-xl border px-3 py-2.5 font-body text-base",
                 watch.urgent
                   ? "pilot-urgent-blink border-crit/50 bg-crit/10 text-crit"
                   : "pilot-note-blink border-orange/50 bg-orange/10 text-orange",
@@ -327,7 +327,7 @@ export function PilotDesk({
           hot={highlight === "comms"}
           pulse={speaking && highlight === "comms"}
         >
-          <p className="mb-1.5 font-body text-xs font-medium text-bridge-dim">{copy.starlinkServices}</p>
+          <p className="mb-1.5 font-body text-sm font-medium text-bridge-dim">{copy.starlinkServices}</p>
           <div data-testid="pilot-starlink-monitor" className="mb-3 grid grid-cols-2 gap-1.5">
             {watch.starlink.map((link) => {
               const hue = STARLINK_HUES[link.id];
@@ -348,14 +348,14 @@ export function PilotDesk({
                     ["--tw-ring-color" as string]: hue,
                   }}
                 >
-                  <p className="font-mono text-[10px] tracking-[0.12em]" style={{ color: hue }}>
+                  <p className="font-mono text-xs tracking-[0.12em] text-bridge-dim">
                     STARLINK · {link.service.toUpperCase()}
                   </p>
-                  <p className="mt-0.5 font-body text-xs font-semibold text-bridge-text">{link.name}</p>
-                  <p className="font-mono text-[11px] font-semibold" style={{ color: hue }}>
+                  <p className="mt-0.5 font-body text-sm font-semibold text-bridge-text">{link.name}</p>
+                  <p className="font-mono text-sm font-semibold text-bridge-text">
                     {starlinkStateLabel(link.state)}
                   </p>
-                  <p className="mt-0.5 font-mono text-[10px] leading-snug text-bridge-dim">
+                  <p className="mt-0.5 font-mono text-xs leading-snug text-bridge-dim">
                     {link.latencyMs === "—" ? "—" : `${link.latencyMs} ms`}
                     {" · "}
                     {link.downMbps === "—" ? "—" : `${link.downMbps}/${link.upMbps}`}
@@ -382,7 +382,7 @@ export function PilotDesk({
                 data-testid={`pilot-channel-${id}`}
                 onClick={() => setChannel(id)}
                 className={cn(
-                  "min-w-[4.5rem] flex-1 rounded-xl px-2 py-2 font-body text-sm font-semibold leading-tight",
+                  "min-w-[4.5rem] flex-1 rounded-xl px-2 py-2.5 font-body text-base font-semibold leading-tight",
                   channel === id
                     ? id === "alarm"
                       ? "bg-crit text-white"
@@ -404,7 +404,7 @@ export function PilotDesk({
           </div>
           <div
             data-testid="pilot-comms-log"
-            className="mb-2 max-h-44 space-y-1.5 overflow-y-auto font-body text-sm leading-relaxed text-bridge-text"
+            className="mb-2 max-h-52 space-y-1.5 overflow-y-auto font-body text-base leading-relaxed text-bridge-text"
           >
             {lines
               .filter((line) => line.channel === channel)
@@ -424,7 +424,7 @@ export function PilotDesk({
                           : "border-bridge-line",
                   )}
                 >
-                  <span className="me-1.5 font-body text-xs text-bridge-dim">
+                  <span className="me-1.5 font-body text-sm text-bridge-dim">
                     {line.time}
                   </span>
                   <span
@@ -452,12 +452,12 @@ export function PilotDesk({
               value={draft}
               onChange={(event) => setDraft(event.target.value)}
               placeholder={copy.typeComms}
-              className="min-w-0 flex-1 rounded-xl border border-bridge-line bg-bridge-panel px-3 py-2 font-body text-sm text-bridge-text outline-none placeholder:text-bridge-dim focus:border-orange"
+              className="min-w-0 flex-1 rounded-xl border border-bridge-line bg-bridge-panel px-3 py-2.5 font-body text-base text-bridge-text outline-none placeholder:text-bridge-dim focus:border-orange"
             />
             <button
               type="submit"
               data-testid="pilot-comms-send"
-              className="rounded-xl bg-orange px-3 py-2 font-body text-sm font-medium text-white"
+              className="rounded-xl bg-orange px-3 py-2.5 font-body text-base font-medium text-white"
             >
               {copy.sendComms}
             </button>
@@ -470,7 +470,7 @@ export function PilotDesk({
               postComms(copy.notify, "alarm");
               simulateDesignatedAck("alarm");
             }}
-            className="mt-2 w-full rounded-xl border border-crit/50 px-3 py-2 font-body text-sm font-medium text-crit hover:border-crit"
+            className="mt-2 w-full rounded-xl border border-crit/50 px-3 py-2.5 font-body text-base font-medium text-crit hover:border-crit"
           >
             {copy.notify}
           </button>
@@ -512,21 +512,21 @@ function PilotRack({
       data-pulse={pulse ? "true" : undefined}
       className={cn(
         "overflow-hidden rounded-2xl border bg-bridge-bg text-bridge-text",
-        hot ? "demo-focus-ring border-[#38BDF8]" : "border-bridge-line",
+        hot ? "demo-focus-ring border-orange/50" : "border-bridge-line",
         pulse && (hot ? "pilot-speak-focus" : "pilot-note-blink"),
       )}
     >
-      <header className="flex items-center justify-between gap-2 border-b border-bridge-line px-3 py-2.5">
+      <header className="flex items-center justify-between gap-2 border-b border-bridge-line px-3 py-3">
         <div className="min-w-0">
           <p
             className={cn(
-              "font-body text-xs font-medium",
-              hot ? "text-[#38BDF8]" : "text-orange",
+              "font-body text-sm font-semibold uppercase tracking-wide",
+              hot ? "text-orange" : "text-bridge-dim",
             )}
           >
             {kicker}
           </p>
-          <p className="truncate font-body text-base font-semibold">{title}</p>
+          <p className="truncate font-body text-xl font-semibold">{title}</p>
         </div>
       </header>
       <div className="px-3 py-2.5">{children}</div>
@@ -575,11 +575,11 @@ function AdviceCard({
       hot={hot}
       pulse={pulse}
     >
-      <p className={cn("font-body text-sm leading-relaxed text-bridge-text/90", !expanded && "line-clamp-4")}>
+      <p className={cn("font-body text-base leading-relaxed text-bridge-text/90", !expanded && "line-clamp-4")}>
         {card.body}
       </p>
       {expanded && card.steps?.length ? (
-        <ol className="mt-2 list-decimal space-y-1 ps-4 font-body text-sm text-bridge-dim">
+        <ol className="mt-2 list-decimal space-y-1 ps-4 font-body text-base text-bridge-dim">
           {card.steps.map((step) => (
             <li key={step}>{step}</li>
           ))}
@@ -589,7 +589,7 @@ function AdviceCard({
         <button
           type="button"
           onClick={onExpand}
-          className="rounded-lg border border-bridge-line px-2.5 py-1.5 font-body text-xs text-bridge-dim hover:text-bridge-text"
+          className="rounded-lg border border-bridge-line px-3 py-2 font-body text-sm text-bridge-dim hover:text-bridge-text"
         >
           {expanded ? copy.collapse : copy.expand}
         </button>
@@ -597,7 +597,7 @@ function AdviceCard({
           type="button"
           data-testid="pilot-card-ask"
           onClick={onAsk}
-          className="rounded-lg border border-orange/40 px-2.5 py-1.5 font-body text-xs text-orange hover:border-orange"
+          className="rounded-lg border border-orange/40 px-3 py-2 font-body text-sm text-orange hover:border-orange"
         >
           {copy.ask}
         </button>
@@ -605,7 +605,7 @@ function AdviceCard({
           type="button"
           onClick={onClose}
           aria-label={copy.closeCard}
-          className="rounded-lg border border-bridge-line px-2.5 py-1.5 font-body text-xs text-bridge-dim hover:text-bridge-text"
+          className="rounded-lg border border-bridge-line px-3 py-2 font-body text-sm text-bridge-dim hover:text-bridge-text"
         >
           {copy.closeCard}
         </button>
@@ -615,7 +615,7 @@ function AdviceCard({
               data-testid="pilot-advice-decision"
               data-decision={decision}
               className={cn(
-                "rounded-lg px-2.5 py-1.5 font-body text-xs font-semibold",
+                "rounded-lg px-3 py-2 font-body text-sm font-semibold",
                 decision === "accept" ? "bg-ok/15 text-ok" : "bg-bridge-panel text-bridge-dim",
               )}
             >
@@ -627,7 +627,7 @@ function AdviceCard({
                 type="button"
                 data-testid="pilot-card-accept"
                 onClick={onAccept}
-                className="rounded-lg bg-ok px-2.5 py-1.5 font-body text-xs font-semibold text-white hover:bg-ok/90"
+                className="rounded-lg bg-ok px-3 py-2 font-body text-sm font-semibold text-white hover:bg-ok/90"
               >
                 {copy.acceptAdvice}
               </button>
@@ -635,7 +635,7 @@ function AdviceCard({
                 type="button"
                 data-testid="pilot-card-decline"
                 onClick={onDecline}
-                className="rounded-lg border border-bridge-line px-2.5 py-1.5 font-body text-xs text-bridge-dim hover:text-bridge-text"
+                className="rounded-lg border border-bridge-line px-3 py-2 font-body text-sm text-bridge-dim hover:text-bridge-text"
               >
                 {copy.declineAdvice}
               </button>
@@ -676,21 +676,21 @@ export function PilotUnreadChip({
           : "pilot-note-blink border-orange/50",
       )}
     >
-      <p className={cn("flex items-center gap-2 font-body text-sm font-semibold", urgent ? "text-crit" : "text-orange")}>
+      <p className={cn("flex items-center gap-2 font-body text-base font-semibold", urgent ? "text-crit" : "text-orange")}>
         <span
           className={cn("h-2 w-2 shrink-0 rounded-full", urgent ? "bg-crit" : "bg-orange")}
           aria-hidden
         />
         {title}
       </p>
-      <p className="mt-1 font-body text-xs text-bridge-dim">{go}</p>
-      <p className="mt-0.5 font-body text-xs font-medium text-bridge-text">{where}</p>
+      <p className="mt-1 font-body text-sm text-bridge-dim">{go}</p>
+      <p className="mt-0.5 font-body text-sm font-medium text-bridge-text">{where}</p>
       {preview ? (
-        <p className="mt-1.5 line-clamp-2 border-s-2 border-orange ps-2 font-body text-xs leading-relaxed text-bridge-text">
+        <p className="mt-1.5 line-clamp-2 border-s-2 border-orange ps-2 font-body text-sm leading-relaxed text-bridge-text">
           {preview}
         </p>
       ) : null}
-      <p className={cn("mt-2 font-body text-xs font-semibold", urgent ? "text-crit" : "text-orange")}>
+      <p className={cn("mt-2 font-body text-sm font-semibold", urgent ? "text-crit" : "text-orange")}>
         {openLabel} ↓
       </p>
     </button>
@@ -750,40 +750,9 @@ export function PilotDeskBar({
       glyph: "comms",
     },
   ];
-  const accent: Record<
-    PilotScreen,
-    { ink: string; on: string; wash: string; ring: string }
-  > = {
-    chat: {
-      ink: "text-orange",
-      on: "bg-orange text-white",
-      wash: "bg-orange/12",
-      ring: "border-orange",
-    },
-    instruments: {
-      ink: "text-[#38BDF8]",
-      on: "bg-[#38BDF8] text-white",
-      wash: "bg-[#38BDF8]/12",
-      ring: "border-[#38BDF8]",
-    },
-    advice: {
-      ink: "text-[#C99700]",
-      on: "bg-[#F5C518] text-bridge-bg",
-      wash: "bg-[#F5C518]/15",
-      ring: "border-[#F5C518]",
-    },
-    comms: {
-      ink: "text-ok",
-      on: "bg-ok text-white",
-      wash: "bg-ok/12",
-      ring: "border-ok",
-    },
-  };
-
   return (
-    <div data-testid="pilot-desk-bar" className="grid grid-cols-4 gap-1.5">
+    <div data-testid="pilot-desk-bar" className="grid grid-cols-4 gap-2">
       {buttons.map((item) => {
-        const tone = accent[item.id];
         const current = screen === item.id;
         const voiced = spoken === item.id && speaking;
         return (
@@ -795,27 +764,25 @@ export function PilotDeskBar({
             aria-pressed={current}
             onClick={() => onScreen(item.id)}
             className={cn(
-              "flex flex-col items-center gap-1 rounded-xl border px-1 py-2 font-body text-[11px] font-semibold leading-tight transition duration-150",
-              voiced
-                ? cn("pilot-speak-tab text-white", tone.on)
-                : current
-                  ? tone.on
-                  : item.hot
-                    ? "border-crit bg-crit/10 text-crit"
-                    : cn("bg-bridge-panel", tone.ring, tone.ink, "hover:brightness-110"),
+              "flex flex-col items-center gap-1.5 rounded-xl border px-1.5 py-2.5 font-body text-sm font-semibold leading-tight transition duration-150",
+              voiced || current
+                ? "border-orange/45 bg-orange/10 text-bridge-text"
+                : item.hot
+                  ? "border-crit/50 bg-crit/10 text-crit"
+                  : "border-bridge-line bg-bridge-panel text-bridge-text hover:border-orange/35 hover:bg-bridge-bg",
               item.id === "advice" && (urgent || notePulse) && !current && "pilot-tab-blink",
               item.id === "comms" && urgent && !current && "pilot-tab-blink",
             )}
           >
             <span
               className={cn(
-                "flex h-8 w-8 items-center justify-center rounded-lg",
-                current || voiced ? "bg-white/20" : tone.wash,
+                "flex h-11 w-11 items-center justify-center rounded-lg",
+                current || voiced ? "bg-orange/15 text-orange" : "bg-bridge-bg text-bridge-text",
               )}
             >
-              <HudGlyph name={item.glyph} className="h-4 w-4" />
+              <HudGlyph name={item.glyph} className="h-6 w-6" />
             </span>
-            <span className="text-center">{item.label}</span>
+            <span className="text-center text-sm font-semibold sm:text-base">{item.label}</span>
           </button>
         );
       })}
