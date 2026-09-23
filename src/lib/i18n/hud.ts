@@ -27,6 +27,7 @@ export type HudCopy = {
     cooling: string;
     compute: string;
     storage: string;
+    starlink: string;
   };
   mode: {
     group: string;
@@ -292,6 +293,7 @@ const en: HudCopy = {
     cooling: "Cooling",
     compute: "Compute",
     storage: "Storage",
+    starlink: "Starlink",
   },
   mode: {
     group: "Deployment mode",
@@ -600,6 +602,7 @@ const ru = overlay({
     cooling: "Охлаждение",
     compute: "Вычислители",
     storage: "Хранение",
+    starlink: "Starlink",
   },
   mode: { group: "Режим развёртывания", demo: "DEMO", live: "LIVE" },
   chrome: {
@@ -882,6 +885,7 @@ const es = overlay({
     cooling: "Refrigeración",
     compute: "Cómputo",
     storage: "Almacén",
+    starlink: "Starlink",
   },
   mode: { group: "Modo de despliegue", demo: "DEMO", live: "LIVE" },
   chrome: {
@@ -1165,6 +1169,7 @@ const fr = overlay({
     cooling: "Refroidissement",
     compute: "Calcul",
     storage: "Stockage",
+    starlink: "Starlink",
   },
   mode: { group: "Mode de déploiement", demo: "DEMO", live: "LIVE" },
   chrome: {
@@ -1448,6 +1453,7 @@ const de = overlay({
     cooling: "Kühlung",
     compute: "Rechner",
     storage: "Speicher",
+    starlink: "Starlink",
   },
   mode: { group: "Einsatzmodus", demo: "DEMO", live: "LIVE" },
   chrome: {
@@ -1731,6 +1737,7 @@ const uk = overlay({
     cooling: "Охолодження",
     compute: "Обчислювачі",
     storage: "Сховище",
+    starlink: "Starlink",
   },
   mode: { group: "Режим розгортання", demo: "DEMO", live: "LIVE" },
   chrome: {
@@ -2013,6 +2020,7 @@ const ar = overlay({
     cooling: "التبريد",
     compute: "الحواسيب",
     storage: "التخزين",
+    starlink: "Starlink",
   },
   mode: { group: "وضع النشر", demo: "DEMO", live: "LIVE" },
   chrome: {
@@ -2295,6 +2303,7 @@ const zh = overlay({
     cooling: "冷却",
     compute: "计算",
     storage: "存储",
+    starlink: "Starlink",
   },
   mode: { group: "部署模式", demo: "DEMO", live: "LIVE" },
   chrome: {
@@ -2570,6 +2579,7 @@ const ja = overlay({
     cooling: "冷却",
     compute: "計算機",
     storage: "保管",
+    starlink: "Starlink",
   },
   mode: { group: "展開モード", demo: "DEMO", live: "LIVE" },
   chrome: {
@@ -2848,6 +2858,7 @@ const he = overlay({
     cooling: "קירור",
     compute: "מחשבים",
     storage: "אחסון",
+    starlink: "Starlink",
   },
   mode: { group: "מצב פריסה", demo: "DEMO", live: "LIVE" },
   chrome: {

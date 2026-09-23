@@ -133,6 +133,12 @@ const ITEMS: JumpItem[] = [
     icon: <HudGlyph name="demo" className={ICON} />,
   },
   {
+    id: "starlink",
+    kind: "scroll",
+    targetId: "starlink-panel",
+    icon: <HudGlyph name="satellite" className={ICON} />,
+  },
+  {
     id: "comms",
     kind: "scroll",
     targetId: "watch-comms-panel",

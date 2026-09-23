@@ -24,6 +24,8 @@ export const WATCH_KIT: KitInstrument[] = [
   { id: "ais", kind: "rf", name: "AIS receiver", band: "161.975 MHz", faultKey: "ais" },
   { id: "rfew", kind: "rf", name: "RF / EW watch", band: "Drone & jammer" },
   { id: "satcom", kind: "comms", name: "Satcom Ka", band: "Support uplink", faultKey: "satcom" },
+  { id: "starlink-maritime", kind: "comms", name: "Starlink Maritime", band: "Ku / Ka · UT-A" },
+  { id: "starlink-priority", kind: "comms", name: "Starlink Priority", band: "Ka · UT-B" },
   { id: "vhf", kind: "comms", name: "VHF ch.16", band: "156.800 MHz" },
   { id: "support", kind: "comms", name: "Support Center", band: "Authorized path" },
   { id: "lan", kind: "comms", name: "Onboard LAN", band: "Core / AGRON 1" },
@@ -52,6 +54,14 @@ export function kitStatus(item: KitInstrument, ctx: KitContext): KitStatus {
   if (item.kind === "underwater" && ctx.panelType === "sonar") return "watching";
   if (item.kind === "rf" && ctx.panelType === "spectrum") return "watching";
   if (item.id === "ais" && ctx.panelType === "radar") return "watching";
+  if (item.id === "starlink-maritime") {
+    if (ctx.scenarioId === "comms-jamming") return "degraded";
+    return "watching";
+  }
+  if (item.id === "starlink-priority") {
+    if (ctx.scenarioId === "comms-jamming") return "standby";
+    return "watching";
+  }
   if (item.kind === "comms") return item.id === "vhf" || item.id === "lan" ? "watching" : "standby";
   return "standby";
 }
@@ -94,6 +104,15 @@ export function kitReading(item: KitInstrument, ctx: KitContext): string {
     if (id === "support-center-lost") return "No lock · 3 retries";
     if (id === "comms-jamming") return "Link quality 12%";
     return "Ka lock · 38 ms";
+  }
+  if (item.id === "starlink-maritime") {
+    if (id === "comms-jamming") return "Obstructed · 210 ms · 12 Mbps";
+    return "LOCK · 28 ms · 184 / 22 Mbps";
+  }
+  if (item.id === "starlink-priority") {
+    if (id === "comms-jamming") return "SEARCH · no lock";
+    if (id === "support-center-lost") return "LOCK · holding watch data";
+    return "LOCK · 41 ms · 96 / 14 Mbps";
   }
   if (item.id === "ais") return id === "vessel-no-ais" || id === "converging-vessel" ? "Dark contact" : "2 known MMSI";
   if (item.id === "vhf") return "Watch 16 · clear";

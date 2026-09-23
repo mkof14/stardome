@@ -18,6 +18,8 @@ const BEARER_GLYPH: Record<WatchBearer, HudGlyphName> = {
   vesselRadio: "radio",
   vhf: "antenna",
   satcomVoice: "satellite",
+  starlinkMaritime: "satellite",
+  starlinkPriority: "satellite",
   supportDesk: "support",
   alarmNet: "alert",
 };

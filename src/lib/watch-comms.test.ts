@@ -19,6 +19,8 @@ describe("watch circuits", () => {
     expect(bearers.has("vesselRadio")).toBe(true);
     expect(bearers.has("supportDesk")).toBe(true);
     expect(WATCH_CIRCUITS.some((row) => row.id === "support-live-team")).toBe(true);
+    expect(WATCH_CIRCUITS.some((row) => row.bearer === "starlinkMaritime")).toBe(true);
+    expect(WATCH_CIRCUITS.some((row) => row.bearer === "starlinkPriority")).toBe(true);
   });
 });
 

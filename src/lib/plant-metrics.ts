@@ -83,6 +83,8 @@ export function plantSections(ctx: PlantContext): PlantSection[] {
         id: "comms",
         rows: [
           { id: "sat", label: "Satcom", value: "NO PATH", tone: "dark" },
+          { id: "starlink-maritime", label: "Starlink Maritime", value: "NO TERMINAL", tone: "dark" },
+          { id: "starlink-priority", label: "Starlink Priority", value: "NO TERMINAL", tone: "dark" },
           { id: "cloud", label: "Cloud sync", value: "NOT WIRED", tone: "dark" },
           { id: "desk", label: "Support path", value: "NO PATH", tone: "dark" },
         ],
@@ -191,6 +193,20 @@ export function plantSections(ctx: PlantContext): PlantSection[] {
           label: "Satcom Ka",
           value: lost ? "NO LOCK" : jammed ? "12% quality" : "LOCK · 38 ms",
           tone: lost ? "fail" : jammed ? "warn" : "ok",
+        },
+        {
+          id: "starlink-maritime",
+          label: "Starlink Maritime",
+          value: jammed ? "OBSTRUCTED · 12 Mbps" : "LOCK · 184 / 22 Mbps",
+          note: jammed ? "210 ms · SNR 4.1 dB" : "28 ms · 43 sats · 2% obstruct",
+          tone: jammed ? "warn" : "ok",
+        },
+        {
+          id: "starlink-priority",
+          label: "Starlink Priority",
+          value: jammed ? "SEARCH" : "LOCK · 96 / 14 Mbps",
+          note: jammed ? "No lock" : "41 ms · 38 sats · second path",
+          tone: jammed ? "warn" : "ok",
         },
         {
           id: "vhf",

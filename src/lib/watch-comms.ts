@@ -8,6 +8,8 @@ export type WatchBearer =
   | "vesselRadio"
   | "vhf"
   | "satcomVoice"
+  | "starlinkMaritime"
+  | "starlinkPriority"
   | "supportDesk"
   | "alarmNet";
 
@@ -26,6 +28,8 @@ export const WATCH_CIRCUITS: WatchCircuit[] = [
   { id: "watch-vessel-radio", party: "watch", bearer: "vesselRadio" },
   { id: "watch-vhf", party: "watch", bearer: "vhf" },
   { id: "support-satcom", party: "support", bearer: "satcomVoice" },
+  { id: "support-starlink-maritime", party: "support", bearer: "starlinkMaritime" },
+  { id: "watch-starlink-priority", party: "watch", bearer: "starlinkPriority" },
   { id: "support-live-team", party: "support", bearer: "supportDesk" },
   { id: "watch-alarm", party: "watch", bearer: "alarmNet" },
 ];

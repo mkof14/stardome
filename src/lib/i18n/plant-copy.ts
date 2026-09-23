@@ -25,7 +25,7 @@ const COPY: Record<Locale, PlantCopy> = {
       "AGRON Container plant — power, climate, compute, and recorder. DEMO numbers. LIVE stays empty until the box is wired.",
     liveLead: "LIVE — no container telemetry on this install. Switch to DEMO to see the plant drill.",
     kitTitle: "MEASUREMENT KIT",
-    kitLead: "Radar types, underwater, RF, and comms paths feeding AGRON 1.",
+    kitLead: "Radar types, underwater, RF, and comms paths feeding AGRON 1 — including two Starlink services.",
     kinds: { radar: "RADAR", underwater: "UNDERWATER", rf: "RF / RADIO", comms: "COMMS" },
     status: {
       watching: "WATCHING",
@@ -53,7 +53,7 @@ const COPY: Record<Locale, PlantCopy> = {
       "Установка контейнера AGRON — питание, климат, вычислители и регистратор. Цифры DEMO. LIVE пуст, пока ящик не подключён.",
     liveLead: "LIVE — телеметрии контейнера на этой установке нет. Переключите DEMO, чтобы увидеть учение.",
     kitTitle: "ИЗМЕРИТЕЛЬНЫЙ КОМПЛЕКТ",
-    kitLead: "Типы радаров, подводные датчики, радио и каналы связи, которые кормят AGRON 1.",
+    kitLead: "Типы радаров, подводные датчики, радио и каналы связи AGRON 1, включая два сервиса Starlink.",
     kinds: { radar: "РАДАР", underwater: "ПОД ВОДОЙ", rf: "РФ / РАДИО", comms: "СВЯЗЬ" },
     status: {
       watching: "СМОТРИТ",

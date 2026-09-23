@@ -77,7 +77,7 @@ function DeviceMark({ id }: { id: string }) {
       </g>
     );
   }
-  if (id === "satcom") {
+  if (id === "satcom" || id.startsWith("starlink")) {
     return (
       <g fill="none" stroke={stroke} strokeWidth="1.4">
         <path d="M-8,8 L4,-6" />
