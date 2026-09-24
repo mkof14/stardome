@@ -147,6 +147,10 @@ NEXTAUTH_SECRET=
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 DATABASE_URL=
+RESEND_API_KEY=
+CONTACT_INBOX=
+CONTACT_FROM=
+CONTACT_WEBHOOK_URL=
 ```
 
 Generate `NEXTAUTH_SECRET` with `openssl rand -base64 32`. After a successful sign-in the site opens `/interface` and the header shows an initial avatar with **Sign out**.
@@ -155,7 +159,7 @@ Generate `NEXTAUTH_SECRET` with `openssl rand -base64 32`. After a successful si
 
 `/backend` and `/tasks` still require a signed-in session.
 
-Translated now: marketing chrome (nav, footer), all public pages, the AGRON 1 HUD (jump rail, library, crisis protocol, Pilot chrome, connections map labels), the LIVE banner, `/backend`, and `/tasks`. The watch picture itself stays `dir="ltr"` so Arabic and Hebrew do not mirror radar and instruments. Arabic and Hebrew also load Noto Sans for body and headings.
+Translated now: marketing chrome (nav, footer), all public pages including Plans (`/pricing`) in every header language (en es fr de ru uk ar zh ja he), the AGRON 1 HUD (jump rail, library, crisis protocol, Pilot chrome, connections map labels), the LIVE banner, `/backend`, and `/tasks`. The watch picture itself stays `dir="ltr"` so Arabic and Hebrew do not mirror radar and instruments. Arabic and Hebrew also load Noto Sans for body and headings.
 
 Still English: instrument skins on the radar/sonar/spectrum drawings (HF SONAR, CORE, range rings), product names (StarWall, AGRON 1, Support Center, Pilot, tier codes LIGHT / ADVANCED / INTELLIGENCE / CUSTOM), and Pilot replies (those follow the spoken/typed language when an API key is set). Sign-in, sign-up, and forgot-password now follow the site language. The demonstration sign-in stays `demo` / `demo`.
 
@@ -191,7 +195,7 @@ Do this in the Vercel dashboard (you have to click these — the agent cannot pr
 3. Open the new database → **.env** or **Connect**. Copy the connection string into `DATABASE_URL` (the direct URI is safer for `prisma migrate deploy`; pooled also works at runtime).
 4. If the URI is missing `sslmode=require`, append `?sslmode=require` (or `&sslmode=require` if the query string already exists).
 5. Go to **Settings → Environment Variables** and set `DATABASE_URL` for **Production** and **Preview**.
-6. Redeploy. When `DATABASE_URL` is a hosted Postgres URL, the build runs `npx prisma migrate deploy` and creates `User`, `Session`, `Event`, `Conversation`, `BlackBoxRecord`, `Equipment`, `NotificationRoute`, `AuditLog`, and `Integration`.
+6. Redeploy. When `DATABASE_URL` is a hosted Postgres URL, the build runs `npx prisma migrate deploy` and creates `User`, `Session`, `Event`, `Conversation`, `BlackBoxRecord`, `Equipment`, `NotificationRoute`, `AuditLog`, `Integration`, and `Lead`.
 7. After the first successful deploy, sign in with a demo account from `/login` or create one on `/signup`. Seed accounts are created on first backend request when the database is empty.
 
 Local development:
@@ -235,4 +239,4 @@ npm start
 
 `/pricing` is the public Plans page and never shows dollar figures. After sign-in, Super Admin, Admin, and people with an assigned commercial role (`admin`, `sales`, `engineering`) open the commercial desk from **Plans** at `/pricing/desk`: a pipeline board, catalog shelf, quote tickets, and a branded PDF proposal (`/api/admin/starwall/pricing/quotes/[id]/pdf`) on AGRON Inc. letterhead with the StarWall mark. Older `/admin/starwall/pricing` URLs redirect there. Seeded desk accounts: `sales@starwall.demo` and `engineering@starwall.demo`. License list prices are seeded (LIGHT $6,000, ADVANCED $18,000, INTELLIGENCE $42,000, CUSTOM starting $75,000). Every other catalog row is PRICE REQUIRED until AGRON enters real costs. Public APIs never return this book. The customer PDF never includes cost or margin.
 
-`/api/contact` acknowledges briefing requests and returns `delivered: false`. This idea demo has no inbox. `/backend` writes through `/api/equipment`, `/api/notifications`, `/api/audit`, `/api/integrations`, and `/api/users`. Unauthorized writes return 403.
+`/api/contact` stores every briefing or configuration request as a lead. Postgres is used when `DATABASE_URL` is up; otherwise the lead is written to `data/leads.json` (or `/tmp/starwall-leads.json`). A copy is emailed via Resend when `RESEND_API_KEY` and `CONTACT_INBOX` are set, or posted as JSON when `CONTACT_WEBHOOK_URL` is set. The response is `{ ok, stored, delivered, id }` — `delivered` is true only after a mailbox or webhook actually accepts the copy. `GET /api/contact` lists recent leads for a signed-in actor. `/backend` writes through `/api/equipment`, `/api/notifications`, `/api/audit`, `/api/integrations`, and `/api/users`. Unauthorized writes return 403.

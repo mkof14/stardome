@@ -110,6 +110,23 @@ model Integration {
   lastPingAt DateTime?
 }
 
+model Lead {
+  id           String   @id
+  name         String
+  email        String
+  organization String   @default("")
+  phone        String   @default("")
+  assetType    String   @default("")
+  source       String   @default("contact")
+  message      String
+  extra        String   @default("")
+  delivered    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([email])
+}
+
 model PriceBook {
   id        String      @id @default(cuid())
   version   String

@@ -36,6 +36,8 @@ export function PlansRequestForm({
   const [phone, setPhone] = useState("");
   const [errors, setErrors] = useState<Partial<Record<Field, string>>>({});
   const [sent, setSent] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   useEffect(() => {
     if (selectedPlan) {
@@ -89,32 +91,38 @@ export function PlansRequestForm({
     if (Object.keys(nextErrors).length) return;
 
     const message = composeMessage();
+    setSubmitError(null);
+    setBusy(true);
     try {
-      await fetch("/api/contact", {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: name.trim(),
           email: email.trim(),
+          organization: company.trim(),
+          phone: phone.trim(),
+          assetType: asset,
+          source: "plans",
           message,
+          extra: {
+            selectedPlan,
+            scale: scale.trim(),
+            systems,
+            requirement,
+          },
         }),
       });
+      if (!response.ok) {
+        setSubmitError(copy.error);
+        return;
+      }
+      setSent(true);
     } catch {
-      // Local preview still records the request in the console.
+      setSubmitError(copy.error);
+    } finally {
+      setBusy(false);
     }
-    console.log({
-      name: name.trim(),
-      company: company.trim(),
-      email: email.trim(),
-      phone: phone.trim(),
-      asset,
-      scale: scale.trim(),
-      systems,
-      requirement,
-      selectedPlan,
-      message,
-    });
-    setSent(true);
   }
 
   if (sent) {
@@ -307,12 +315,19 @@ export function PlansRequestForm({
         </div>
       </div>
 
+      {submitError ? (
+        <p className="text-sm text-crit" role="alert">
+          {submitError}
+        </p>
+      ) : null}
+
       <button
         type="submit"
         data-testid="request-configuration"
-        className="bg-orange px-4 py-2.5 text-sm font-medium text-white hover:bg-orange/90"
+        disabled={busy}
+        className="bg-orange px-4 py-2.5 text-sm font-medium text-white hover:bg-orange/90 disabled:opacity-60"
       >
-        {copy.submit}
+        {busy ? copy.sending : copy.submit}
       </button>
     </form>
   );

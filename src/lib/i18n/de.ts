@@ -68,7 +68,7 @@ export const de: Messages = {
     privacySections: [
       { title: "Wer verantwortlich ist", body: "Hinter StarWall steht AGRON Inc. Datenschutzfragen: Kontaktformular oder agron1.com. Ist für einen vertraglichen Einsatz eine Datenschutzstelle benannt, steht sie in der schriftlichen Vereinbarung." },
       { title: "Was diese Website ist", body: "Die öffentlichen Seiten sind das Produkt. Der AGRON 1 unter /interface ist ein illustratives Wachbild: DEMO nutzt simulierte Kontakte, Ereignisse und Gerätestatus. LIVE zeigt den echten Zustand dieses Einsatzes — leer, bis Sensoren angeschlossen sind. Die öffentliche Demo ist kein Live-Feed einer Yacht, Marina oder eines Hafens, außer ein schriftlicher AGRON-Vertrag sagt etwas anderes." },
-      { title: "Welche Angaben wir verarbeiten", body: "Bei einem Konto speichern wir E-Mail und Passwort-Hash (oder die Kennung des Anmeldeanbieters) und die Rolle. Das Kontaktformular speichert, was Sie eingeben, für diese Demonstration; ein Postfach ist noch nicht angeschlossen. Der Browser speichert Sprache, Thema und DEMO/LIVE lokal. Ereignisprotokolle, Black Box und Pilot-Gespräche werden zuerst auf dem Gerät geschrieben; sie erreichen die Einsatzdatenbank nur, wenn sie konfiguriert ist. AGRON 1- und Pilot-Inhalte nutzen wir nicht zum Modelltraining." },
+      { title: "Welche Angaben wir verarbeiten", body: "Bei einem Konto speichern wir E-Mail und Passwort-Hash (oder die Kennung des Anmeldeanbieters) und die Rolle. Kontakt- und Konfigurationsanfragen speichern Name, E-Mail, Nachricht und optional Organisation, Telefon oder Objekttyp als Lead — in der Einsatzdatenbank, wenn sie konfiguriert ist, sonst in einer lokalen Datei. Eine Kopie geht per E-Mail oder Webhook nur, wenn diese Dienste eingerichtet sind. Der Browser speichert Sprache, Thema und DEMO/LIVE lokal. Ereignisprotokolle, Black Box und Pilot-Gespräche werden zuerst auf dem Gerät geschrieben; sie erreichen die Einsatzdatenbank nur, wenn sie konfiguriert ist. AGRON 1- und Pilot-Inhalte nutzen wir nicht zum Modelltraining." },
       { title: "Cookies und ähnlicher Speicher", body: "Ein Sitzungs-Cookie hält Sie angemeldet; lokaler Speicher dient Sprache, Thema und Wachmodus. Keine Werbe-Cookies, kein Verkauf personenbezogener Daten." },
       { title: "Zugriff und Weitergabe", body: "Zugriff folgt den Backend-Rollen: Super Admin, Admin, Operator und Viewer. Hosting und Datenbank verarbeiten Daten nach unserer Weisung, wenn ein Einsatz verbunden ist. Anthropic erhält die Nachricht an Pilot, damit der Berater antworten kann — nicht für AGRON-Marketing." },
       { title: "Ihre Rechte und Aufbewahrung", body: "Sie können Auskunft, Berichtigung oder Löschung über die Kontaktseite verlangen. In der EU, dem EWR, dem Vereinigten Königreich oder Monaco kann die DSGVO oder gleichwertiges Recht weitere Rechte geben. Wir bewahren Aufzeichnungen, solange Konto oder Vertrag sie brauchen. Das beschreibt die aktuelle Praxis, kein Zertifikat." },
@@ -800,7 +800,7 @@ export const de: Messages = {
     send: "Senden",
     sending: "Wird gespeichert…",
     success:
-      "In dieser Demonstration gespeichert. Es wird noch keine E-Mail gesendet — Ideenpreview, kein Postfach.",
+      "Anfrage gespeichert. Eine E-Mail-Kopie geht nur, wenn auf dieser Instanz ein Postfach eingerichtet ist.",
     error: "Die Anfrage konnte nicht gespeichert werden. Bitte erneut versuchen.",
     required: "Dieses Feld ist erforderlich.",
     invalidEmail: "Bitte eine gültige E-Mail eingeben.",

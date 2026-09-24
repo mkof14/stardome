@@ -1,4 +1,8 @@
 import type { Locale } from "@/lib/i18n/locales";
+import { ar } from "@/lib/i18n/plans-page-ar";
+import { he } from "@/lib/i18n/plans-page-he";
+import { ja } from "@/lib/i18n/plans-page-ja";
+import { zh } from "@/lib/i18n/plans-page-zh";
 import type {
   AssetKey,
   CompareKey,
@@ -74,7 +78,9 @@ export type PlansPageCopy = {
     phone: string;
     optional: string;
     submit: string;
+    sending: string;
     success: string;
+    error: string;
     required: string;
     invalidEmail: string;
   };
@@ -299,8 +305,10 @@ const en: PlansPageCopy = {
     phone: "Phone",
     optional: "optional",
     submit: "Request Configuration",
+    sending: "Recording…",
     success:
-      "Recorded on this idea demonstration. No specialist mail is sent yet — use this form to see the request flow, not a live inbox.",
+      "Request recorded. A specialist copy is emailed only when this deployment has a mailbox configured.",
+    error: "The request could not be recorded. Try again.",
     required: "Required",
     invalidEmail: "Enter a valid email",
   },
@@ -525,8 +533,10 @@ const ru: PlansPageCopy = {
     phone: "Телефон",
     optional: "необязательно",
     submit: "Запросить конфигурацию",
+    sending: "Записываем…",
     success:
-      "Записано в этой демонстрации идеи. Письмо специалисту пока не уходит — форма показывает ход заявки, не живой ящик.",
+      "Заявка записана. Копия специалисту уходит только если на этом развёртывании настроена почта.",
+    error: "Запрос не записался. Попробуйте ещё раз.",
     required: "Обязательное поле",
     invalidEmail: "Укажите корректный email",
   },
@@ -744,8 +754,10 @@ const es: PlansPageCopy = {
     phone: "Teléfono",
     optional: "opcional",
     submit: "Solicitar configuración",
+    sending: "Registrando…",
     success:
-      "Registrado en esta demostración. Aún no se envía correo a un especialista — el formulario muestra el flujo, no un buzón real.",
+      "Solicitud registrada. Se envía copia a un especialista solo si este despliegue tiene un buzón configurado.",
+    error: "No se pudo registrar la solicitud. Inténtelo de nuevo.",
     required: "Obligatorio",
     invalidEmail: "Introduzca un correo válido",
   },
@@ -963,8 +975,10 @@ const fr: PlansPageCopy = {
     phone: "Téléphone",
     optional: "facultatif",
     submit: "Demander une configuration",
+    sending: "Enregistrement…",
     success:
-      "Enregistré dans cette démonstration. Aucun mail n'est envoyé à un spécialiste — le formulaire montre le flux, pas une boîte réelle.",
+      "Demande enregistrée. Une copie part vers un spécialiste seulement si cette installation a une boîte configurée.",
+    error: "La demande n'a pas pu être enregistrée. Réessayez.",
     required: "Obligatoire",
     invalidEmail: "Indiquez un e-mail valide",
   },
@@ -1182,8 +1196,10 @@ const de: PlansPageCopy = {
     phone: "Telefon",
     optional: "optional",
     submit: "Konfiguration anfragen",
+    sending: "Wird gespeichert…",
     success:
-      "In dieser Demonstration gespeichert. Es geht noch keine Mail an einen Spezialisten — das Formular zeigt den Ablauf, kein Postfach.",
+      "Anfrage gespeichert. Eine Kopie an einen Spezialisten geht nur, wenn auf dieser Instanz ein Postfach eingerichtet ist.",
+    error: "Die Anfrage konnte nicht gespeichert werden. Bitte erneut versuchen.",
     required: "Pflichtfeld",
     invalidEmail: "Gültige E-Mail angeben",
   },
@@ -1398,8 +1414,10 @@ const uk: PlansPageCopy = {
     phone: "Телефон",
     optional: "необов’язково",
     submit: "Запитати конфігурацію",
+    sending: "Записуємо…",
     success:
-      "Записано в цій демонстрації ідеї. Лист фахівцю поки не надсилається — форма показує хід заявки, не живу скриньку.",
+      "Заявку записано. Копія фахівцю йде лише якщо на цьому розгортанні налаштована пошта.",
+    error: "Запит не записався. Спробуйте ще раз.",
     required: "Обов’язкове поле",
     invalidEmail: "Вкажіть коректний email",
   },
@@ -1412,10 +1430,10 @@ export const plansPage: Record<Locale, PlansPageCopy> = {
   de,
   ru,
   uk,
-  ar: en,
-  zh: en,
-  ja: en,
-  he: en,
+  ar,
+  zh,
+  ja,
+  he,
 };
 
 export function getPlansPage(locale: Locale): PlansPageCopy {

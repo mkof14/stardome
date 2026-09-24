@@ -68,7 +68,7 @@ export const es: Messages = {
     privacySections: [
       { title: "Quién responde", body: "AGRON Inc. está detrás de StarWall. Preguntas de privacidad: formulario de contacto o agron1.com. Si un despliegue contratado nombra un contacto de protección de datos, consta en el acuerdo escrito." },
       { title: "Qué es este sitio", body: "Las páginas públicas son el producto. El AGRON 1 en /interface es un cuadro de guardia ilustrativo: DEMO usa contactos, eventos y estado de equipo simulados. LIVE muestra el estado real de este despliegue — vacío hasta que haya sensores. La demo pública no es un feed en vivo de un yate, marina o puerto salvo acuerdo escrito con AGRON." },
-      { title: "Qué información tratamos", body: "Si crea una cuenta guardamos el email y el hash de la contraseña (o el identificador del proveedor de acceso) y el rol. El formulario de contacto registra lo que usted escribe en esta demostración; aún no hay buzón. El navegador guarda idioma, tema y DEMO/LIVE. Registros, Black Box y conversaciones con Pilot se escriben primero en el dispositivo; solo llegan a la base del despliegue si está configurada. No usamos el contenido de AGRON 1 ni de Pilot para entrenar modelos." },
+      { title: "Qué información tratamos", body: "Si crea una cuenta guardamos el email y el hash de la contraseña (o el identificador del proveedor de acceso) y el rol. Las solicitudes de contacto y configuración guardan nombre, email, mensaje y, si los indica, organización, teléfono o tipo de activo como un lead — en la base del despliegue si está configurada, si no en un archivo local. Se envía copia por correo o webhook solo cuando esos servicios están configurados. El navegador guarda idioma, tema y DEMO/LIVE. Registros, Black Box y conversaciones con Pilot se escriben primero en el dispositivo; solo llegan a la base del despliegue si está configurada. No usamos el contenido de AGRON 1 ni de Pilot para entrenar modelos." },
       { title: "Cookies y almacenamiento similar", body: "Una cookie de sesión mantiene el acceso; el almacenamiento local guarda idioma, tema y modo. No colocamos cookies publicitarias ni vendemos datos personales." },
       { title: "Acceso y cesión", body: "El acceso sigue los roles de Backend: Super Admin, Admin, Operator y Viewer. El alojamiento y la base tratan datos bajo nuestras instrucciones cuando hay despliegue conectado. Anthropic recibe el mensaje que envía a Pilot para que el asesor responda, no para marketing de AGRON." },
       { title: "Sus derechos y conservación", body: "Puede pedir acceso, corrección o supresión a través de la página de contacto. En la UE, el EEE, el Reino Unido o Mónaco, el RGPD u otra ley equivalente puede añadir derechos. Conservamos los registros mientras los necesite la cuenta o el contrato. Esto describe la práctica actual, no es un sello de certificación." },
@@ -800,7 +800,7 @@ export const es: Messages = {
     send: "Enviar",
     sending: "Registrando…",
     success:
-      "Registrado en esta demostración. Aún no se envía correo — es una vista previa de la idea.",
+      "Solicitud registrada. Se envía copia por correo solo si este despliegue tiene un buzón configurado.",
     error: "No se pudo registrar la solicitud. Inténtelo de nuevo.",
     required: "Este campo es obligatorio.",
     invalidEmail: "Introduzca un correo válido.",

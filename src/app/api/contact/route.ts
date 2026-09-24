@@ -1,5 +1,18 @@
 import { NextResponse } from "next/server";
+import { requireActor } from "@/lib/authz";
+import { parseContactBody } from "@/lib/contact-request";
+import { tryDeliverLead } from "@/lib/lead-deliver";
+import { createLead, listLeads, markLeadDelivered } from "@/lib/lead-store";
 import { clientKey, rateLimit, rateLimitResponse } from "@/lib/rate-limit";
+
+export async function GET() {
+  const ready = await requireActor();
+  if (!ready.ok) {
+    return NextResponse.json({ error: ready.error }, { status: ready.status });
+  }
+  const leads = await listLeads(80);
+  return NextResponse.json({ ok: true, leads });
+}
 
 export async function POST(request: Request) {
   const limited = rateLimit(clientKey(request, "contact"), 8, 60_000);
@@ -12,29 +25,34 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
 
-  if (!body || typeof body !== "object") {
-    return NextResponse.json({ error: "Invalid request." }, { status: 400 });
+  const parsed = parseContactBody(body);
+  if (!parsed.ok) {
+    return NextResponse.json({ error: parsed.error }, { status: 400 });
   }
 
-  const { name, email, message } = body as Record<string, unknown>;
-  if (
-    typeof name !== "string" ||
-    typeof email !== "string" ||
-    typeof message !== "string" ||
-    !name.trim() ||
-    !email.trim() ||
-    !message.trim()
-  ) {
+  let lead;
+  try {
+    lead = await createLead(parsed.value);
+  } catch {
     return NextResponse.json(
-      { error: "Name, email, and message are required." },
-      { status: 400 },
+      { error: "The request could not be recorded." },
+      { status: 500 },
     );
+  }
+
+  const delivered = await tryDeliverLead(lead);
+  if (delivered) {
+    try {
+      await markLeadDelivered(lead.id);
+    } catch {
+      // The lead is already stored.
+    }
   }
 
   return NextResponse.json({
     ok: true,
-    delivered: false,
-    demo: true,
-    notice: "Idea demonstration — the request is acknowledged, not emailed.",
+    stored: true,
+    delivered,
+    id: lead.id,
   });
 }

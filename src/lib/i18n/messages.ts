@@ -741,7 +741,7 @@ export const en: Messages = {
       },
       {
         title: "Information we process",
-        body: "If you create an account we store the email and password hash (or the identifier from a sign-in provider you choose) and the role assigned to you. The contact form records what you type for this demonstration; no inbox is wired yet. The browser keeps language, theme, and DEMO/LIVE locally. Event logs, session reports, Black Box records, and Pilot conversations are written on the device first; they sync to the deployment database only when that database is configured. We do not use AGRON 1 or Pilot content to train models.",
+        body: "If you create an account we store the email and password hash (or the identifier from a sign-in provider you choose) and the role assigned to you. Contact and configuration requests store your name, email, message, and any optional organization, phone, or asset details as a lead — in the deployment database when it is configured, otherwise in a local lead file. A copy is emailed or posted to a webhook only when those services are set on this deployment. The browser keeps language, theme, and DEMO/LIVE locally. Event logs, session reports, Black Box records, and Pilot conversations are written on the device first; they sync to the deployment database only when that database is configured. We do not use AGRON 1 or Pilot content to train models.",
       },
       {
         title: "Cookies and similar storage",
@@ -1529,7 +1529,7 @@ export const en: Messages = {
     send: "Send",
     sending: "Recording…",
     success:
-      "Recorded on this demonstration. No email is sent yet — this is an idea preview, not a live inbox.",
+      "Request recorded. A copy is emailed only when this deployment has a mailbox configured.",
     error: "The request could not be recorded. Try again.",
     required: "This field is required.",
     invalidEmail: "Enter a valid email address.",
