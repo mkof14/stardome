@@ -23,7 +23,6 @@ import { TrainingTour } from "@/components/bridge/training-tour";
 import { ViewSwitcher } from "@/components/bridge/view-switcher";
 import { DetectionProtectPanel } from "@/components/bridge/detection-protect-panel";
 import { GeoCenterPanel } from "@/components/bridge/geo-center-panel";
-import { WatchCaseStrip } from "@/components/bridge/watch-case-strip";
 import { WatchKitPanel } from "@/components/bridge/watch-kit-panel";
 import { UtcClock } from "@/components/bridge/utc-clock";
 import { AUTOMATED_ACTIONS } from "@/lib/automated-actions";
@@ -901,6 +900,25 @@ export function BridgeConsole() {
           </HudPanel>
           {crisis ? null : (
             <div className="mt-5 space-y-5">
+              <ScenarioLibrary
+                selectedId={selectedId}
+                disabled={live || !canRunScenarios}
+                onSelect={applyScenario}
+                onReset={resetToNormal}
+                onReport={() => {
+                  const generatedAt = new Date();
+                  setTraining(false);
+                  setReportAt(generatedAt);
+                  setReportOpen(true);
+                  void putSessionReport({
+                    id: `rpt-${generatedAt.toISOString()}`,
+                    timestamp: generatedAt.toISOString(),
+                    generatedAt: generatedAt.toISOString(),
+                    vesselName: "M/Y AURELIA",
+                    events: sessionEvents,
+                  }).catch(() => undefined);
+                }}
+              />
               <GeoCenterPanel live={live} panelType={panelType} scenarioId={selectedId} />
               <DetectionProtectPanel
                 live={live}
@@ -1017,41 +1035,6 @@ export function BridgeConsole() {
               </>
             )}
           </div>
-        </div>
-
-        <div className={cn("space-y-5", crisis || view === "plant" ? "hidden" : undefined)}>
-        <WatchCaseStrip
-          kicker={
-            activeScenario
-              ? hud.chrome.trainingSelect
-              : hud.chrome.watchSelect
-          }
-          name={activeScenario?.name ?? hud.chrome.normalWatch}
-          meta={
-            activeScenario
-              ? `${activeScenario.category} · ${t.bridge.risks[RISK_KEYS.indexOf(activeScenario.riskLevel)] ?? activeScenario.riskLevel}`
-              : hud.chrome.pickCase
-          }
-        />
-        <ScenarioLibrary
-          selectedId={selectedId}
-          disabled={live || !canRunScenarios}
-          onSelect={applyScenario}
-          onReset={resetToNormal}
-          onReport={() => {
-            const generatedAt = new Date();
-            setTraining(false);
-            setReportAt(generatedAt);
-            setReportOpen(true);
-            void putSessionReport({
-              id: `rpt-${generatedAt.toISOString()}`,
-              timestamp: generatedAt.toISOString(),
-              generatedAt: generatedAt.toISOString(),
-              vesselName: "M/Y AURELIA",
-              events: sessionEvents,
-            }).catch(() => undefined);
-          }}
-        />
         </div>
 
         <HudPanel
