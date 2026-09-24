@@ -15,7 +15,7 @@ function GeoMini({ track }: { track: PictureContact }) {
   return (
     <svg
       viewBox="0 0 160 104"
-      className="mt-3 h-24 w-full overflow-visible rounded-xl"
+      className="mt-3 h-24 w-full overflow-visible"
       aria-hidden
     >
       <rect width="160" height="104" fill="#052014" />
@@ -27,10 +27,10 @@ function GeoMini({ track }: { track: PictureContact }) {
         className="geo-trail"
         d={`M80 56 L${sx} ${sy}`}
         fill="none"
-        stroke="#F15A00"
+        stroke="#7DCF9A"
         strokeWidth="1.6"
       />
-      <circle cx={sx} cy={sy} r="4.5" fill="#F15A00" />
+      <circle cx={sx} cy={sy} r="4.5" fill="#2EE59A" />
     </svg>
   );
 }
@@ -79,20 +79,19 @@ export function GeoCenterPanel({
       {live ? (
         <p
           data-testid="geo-center-live-empty"
-          className="mt-3 border border-bridge-line bg-bridge-bg px-3 py-2 font-body text-sm text-bridge-dim"
+          className="mt-3 font-body text-sm text-bridge-dim"
         >
           {copy.liveEmpty}
         </p>
       ) : (
-        <div className="mt-4 grid gap-3 md:grid-cols-2">
+        <div className="mt-4 grid gap-x-8 gap-y-6 md:grid-cols-2">
           <button
             type="button"
             data-testid="geo-route-card"
             onClick={bindPicture}
             className={cn(
-              "rounded-2xl border bg-bridge-bg px-3 py-3 text-start",
-              track ? "border-orange/40 shadow-[inset_3px_0_0_#F15A00]" : "border-bridge-line",
-              bound && "ring-1 ring-orange/70",
+              "text-start",
+              bound && "text-bridge-text",
             )}
           >
             <p className="font-body text-base font-semibold text-bridge-text">{copy.routeTitle}</p>
@@ -116,17 +115,13 @@ export function GeoCenterPanel({
             ) : (
               <p className="mt-3 font-body text-sm text-bridge-dim">{copy.noTrack}</p>
             )}
-            <p className="mt-3 font-body text-sm leading-relaxed text-bridge-text/90">{copy.routeAction}</p>
+            <p className="mt-3 font-body text-sm leading-relaxed text-bridge-dim">{copy.routeAction}</p>
           </button>
           <button
             type="button"
             data-testid="geo-analytics-card"
             onClick={bindPicture}
-            className={cn(
-              "rounded-2xl border bg-bridge-bg px-3 py-3 text-start",
-              track ? "border-orange/40 shadow-[inset_3px_0_0_#F15A00]" : "border-bridge-line",
-              bound && "ring-1 ring-orange/70",
-            )}
+            className="text-start"
           >
             <p className="font-body text-base font-semibold text-bridge-text">{copy.analyticsTitle}</p>
             <p className="mt-1 font-body text-sm text-bridge-dim">{copy.analyticsLead}</p>
@@ -148,7 +143,7 @@ export function GeoCenterPanel({
             ) : (
               <p className="mt-3 font-body text-sm text-bridge-dim">{copy.noTrack}</p>
             )}
-            <p className="mt-3 font-body text-sm leading-relaxed text-bridge-text/90">{copy.analyticsAction}</p>
+            <p className="mt-3 font-body text-sm leading-relaxed text-bridge-dim">{copy.analyticsAction}</p>
           </button>
         </div>
       )}

@@ -10,11 +10,8 @@ export function WatchCaseStrip({
   meta: string;
 }) {
   return (
-    <div
-      data-testid="picture-scenario-banner"
-      className="rounded-2xl border border-orange/35 bg-bridge-panel px-4 py-3 shadow-[inset_3px_0_0_#F15A00]"
-    >
-      <p className="font-body text-xs font-semibold uppercase tracking-[0.22em] text-orange">
+    <div data-testid="picture-scenario-banner" className="px-0.5 py-1">
+      <p className="font-body text-xs font-medium uppercase tracking-[0.18em] text-bridge-dim">
         {kicker}
       </p>
       <p className="mt-1 font-body text-xl font-semibold tracking-tight text-bridge-text">

@@ -672,21 +672,6 @@ html[data-pilot-speak-tone="warn"] #connected-systems-panel {
   animation: geo-trail-draw 1.15s ease-out forwards;
 }
 
-@keyframes layer-hot-breathe {
-  0%,
-  100% {
-    background-color: rgba(241, 90, 0, 0.04);
-  }
-  50% {
-    background-color: rgba(241, 90, 0, 0.14);
-  }
-}
-
-.layer-card-hot {
-  box-shadow: inset 3px 0 0 #f15a00, 0 0 0 1px rgba(241, 90, 0, 0.22);
-  animation: layer-hot-breathe 2.4s ease-in-out infinite;
-}
-
 .radar-contact-dim {
   opacity: 0.22;
 }

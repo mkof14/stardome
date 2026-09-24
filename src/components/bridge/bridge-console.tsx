@@ -901,19 +901,6 @@ export function BridgeConsole() {
           </HudPanel>
           {crisis ? null : (
             <div className="mt-5 space-y-5">
-              <WatchCaseStrip
-                kicker={
-                  activeScenario
-                    ? hud.chrome.trainingSelect
-                    : hud.chrome.watchSelect
-                }
-                name={activeScenario?.name ?? hud.chrome.normalWatch}
-                meta={
-                  activeScenario
-                    ? `${activeScenario.category} · ${t.bridge.risks[RISK_KEYS.indexOf(activeScenario.riskLevel)] ?? activeScenario.riskLevel}`
-                    : hud.chrome.pickCase
-                }
-              />
               <GeoCenterPanel live={live} panelType={panelType} scenarioId={selectedId} />
               <DetectionProtectPanel
                 live={live}
@@ -1032,7 +1019,20 @@ export function BridgeConsole() {
           </div>
         </div>
 
-        <div className={crisis || view === "plant" ? "hidden" : undefined}>
+        <div className={cn("space-y-5", crisis || view === "plant" ? "hidden" : undefined)}>
+        <WatchCaseStrip
+          kicker={
+            activeScenario
+              ? hud.chrome.trainingSelect
+              : hud.chrome.watchSelect
+          }
+          name={activeScenario?.name ?? hud.chrome.normalWatch}
+          meta={
+            activeScenario
+              ? `${activeScenario.category} · ${t.bridge.risks[RISK_KEYS.indexOf(activeScenario.riskLevel)] ?? activeScenario.riskLevel}`
+              : hud.chrome.pickCase
+          }
+        />
         <ScenarioLibrary
           selectedId={selectedId}
           disabled={live || !canRunScenarios}

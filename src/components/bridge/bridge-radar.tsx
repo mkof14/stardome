@@ -324,7 +324,7 @@ export function BridgeRadar({
                     <circle
                       r="22"
                       fill="none"
-                      stroke="#F15A00"
+                      stroke="#2EE59A"
                       strokeWidth="1.6"
                       className="radar-layer-ring"
                     />
@@ -344,7 +344,7 @@ export function BridgeRadar({
                       fontFamily="monospace"
                       fontSize="12"
                       fontWeight={active || bound ? "bold" : "normal"}
-                      fill={bound ? "#F15A00" : trackHue(contact)}
+                      fill={bound ? "#7DCF9A" : trackHue(contact)}
                     >
                       {contact.trackNo ? `${contact.trackNo} ` : ""}
                       {contact.label}

@@ -120,7 +120,7 @@ export function SonarView({
               }}
             >
               {bound ? (
-                <circle r="22" fill="none" stroke="#F15A00" strokeWidth="1.6" className="radar-layer-ring" />
+                <circle r="22" fill="none" stroke="#2EE59A" strokeWidth="1.6" className="radar-layer-ring" />
               ) : null}
               {active ? (
                 <circle r="20" fill="none" stroke={color} strokeWidth="1.2" />
