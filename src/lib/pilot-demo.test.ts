@@ -43,6 +43,11 @@ describe("pilotDemoCopy", () => {
       expect(copy.whoPilot).toMatch(/Pilot/);
       expect(copy.whoOfficer.length).toBeGreaterThan(0);
       expect(copy.whoOfficer).not.toBe(copy.whoPilot);
+      expect(copy.studio.length).toBeGreaterThan(0);
+      expect(copy.hearPilot.length).toBeGreaterThan(0);
+      expect(copy.hearOfficer.length).toBeGreaterThan(0);
+      expect(copy.previewPilot.length).toBeGreaterThan(8);
+      expect(copy.previewOfficer.length).toBeGreaterThan(4);
       expect(copy.now.length).toBeGreaterThan(0);
       expect(copy.linkLive.length).toBeGreaterThan(0);
       expect(copy.bargeHint.length).toBeGreaterThan(0);
@@ -76,6 +81,23 @@ describe("demoBeats", () => {
     expect(demo.every((beat) => beat.tone === "brief" || beat.tone === "warn")).toBe(
       true,
     );
+    const recon = demoBeats(
+      {
+        ...idle,
+        scenarioId: "recon-drone",
+        scenarioName: "Reconnaissance drone",
+        riskLevel: "ATTENTION",
+        recommended: "Hold visual track",
+      },
+      "en",
+    );
+    const picture = recon.find(
+      (beat) => beat.role === "pilot" && beat.action === pilotDemoCopy("en").actionInstruments,
+    );
+    expect(picture?.text).toMatch(/200 m|UAV|Recon/i);
+    expect(picture?.text.length).toBeLessThan(420);
+    expect(picture?.text).not.toMatch(/Captain:/);
+
     const crisis = demoBeats({ ...idle, crisis: true }, "en");
     expect(crisis.filter((beat) => beat.speak && beat.tone === "warn").length).toBeGreaterThan(
       1,

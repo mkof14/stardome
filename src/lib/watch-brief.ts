@@ -90,3 +90,33 @@ export function briefWatch(session: BridgeSessionValue, locale: Locale): string 
   ];
   return lines.filter(Boolean).join(" ");
 }
+
+/** Spoken picture — short enough for DEMO TTS, same facts as the written brief. */
+export function speakWatch(session: BridgeSessionValue, locale: Locale): string {
+  const copy = trackCopy(locale);
+  const desk = pilotDeskCopy(locale);
+  if (session.live) return desk.liveEmpty;
+  if (!session.scenarioId) {
+    return [desk.normal, desk.youDecide].join(" ");
+  }
+  const panel = isPanel(session.panelType) ? session.panelType : "radar";
+  const catalog = SCENARIOS.find((item) => item.id === session.scenarioId);
+  const view = catalog ? localizeScenario(locale, catalog) : undefined;
+  const name = view?.name ?? session.scenarioName;
+  const risk = session.riskLevel || "NORMAL";
+  const tracks = sceneTracks(panel, session.scenarioId, false);
+  const primary = primaryTrack(tracks);
+  const action =
+    session.recommended ||
+    view?.options?.find((option) => option.recommended)?.label ||
+    session.actionText ||
+    view?.actionText ||
+    desk.normal;
+  return [
+    fillTrack(copy.caseLine, { name, risk }),
+    primary ? speakContact(primary, copy) : desk.noContacts,
+    fillTrack(copy.watchLine, { text: action }),
+  ]
+    .filter(Boolean)
+    .join(" ");
+}

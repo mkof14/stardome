@@ -2,10 +2,13 @@ import { describe, expect, it } from "vitest";
 import {
   CUE_NOTES,
   PILOT_CUES_KEY,
+  PILOT_VOICE_KEY,
   cueDurationMs,
   cueForDemoBeat,
   cuesEnabled,
+  voiceEnabled,
   writeCuesEnabled,
+  writeVoiceEnabled,
   type PilotCue,
 } from "@/lib/pilot-cues";
 
@@ -93,5 +96,22 @@ describe("pilot cues", () => {
     writeCuesEnabled(true, storage);
     expect(cuesEnabled(storage)).toBe(true);
     expect(cuesEnabled(null)).toBe(true);
+  });
+
+  it("remembers speaker mute separately from signals", () => {
+    const store = new Map<string, string>();
+    const storage = {
+      getItem: (key: string) => store.get(key) ?? null,
+      setItem: (key: string, value: string) => {
+        store.set(key, value);
+      },
+    };
+    expect(voiceEnabled(storage)).toBe(true);
+    writeVoiceEnabled(false, storage);
+    expect(store.get(PILOT_VOICE_KEY)).toBe("off");
+    expect(voiceEnabled(storage)).toBe(false);
+    expect(cuesEnabled(storage)).toBe(true);
+    writeVoiceEnabled(true, storage);
+    expect(voiceEnabled(storage)).toBe(true);
   });
 });

@@ -57,17 +57,21 @@ import {
   pickVoice,
   SPEAK_BCP47,
   SpeechEngine,
+  voiceNeed,
   type NeuralVoiceStatus,
 } from "@/lib/pilot-voice";
 import {
   PilotDemoDock,
   PilotDemoStage,
   PilotSoundDock,
+  PilotVoiceStudio,
   PilotWatchCalls,
 } from "@/components/bridge/pilot-demo";
 import {
   cueForDemoBeat,
   cuesEnabled,
+  voiceEnabled,
+  writeVoiceEnabled,
   playPilotCue,
   writeCuesEnabled,
   type PilotCue,
@@ -201,6 +205,9 @@ export function Helm() {
 
   useEffect(() => {
     setCuesOn(cuesEnabled());
+    const voice = voiceEnabled();
+    setVoiceOn(voice);
+    voiceOnRef.current = voice;
   }, []);
 
   function cue(kind: PilotCue) {
@@ -913,8 +920,11 @@ export function Helm() {
 
   function toggleSpeaker() {
     setVoiceOn((current) => {
+      const next = !current;
+      writeVoiceEnabled(next);
+      voiceOnRef.current = next;
       if (current) stopSpeech();
-      return !current;
+      return next;
     });
   }
 
@@ -1116,8 +1126,6 @@ export function Helm() {
     setTalkHud(false);
     setOpen(true);
     setUnread(false);
-    setVoiceOn(true);
-    voiceOnRef.current = true;
     wantListen.current = true;
     void startListen("push");
     if (!live && !session.scenarioId) requestFlagshipScenario();
@@ -1148,13 +1156,19 @@ export function Helm() {
           speaking: true,
           tone: beat.tone,
         });
-        await speakReply(
-          beat.text,
-          recogLang,
-          false,
-          beat.tone,
-          beat.role === "officer" ? "officer" : "pilot",
-        );
+        if (voiceOnRef.current) {
+          await speakReply(
+            beat.text,
+            recogLang,
+            false,
+            beat.tone,
+            beat.role === "officer" ? "officer" : "pilot",
+          );
+        } else {
+          await new Promise((resolve) =>
+            window.setTimeout(resolve, Math.min(4200, 900 + beat.text.length * 18)),
+          );
+        }
         if (token === runToken.current) {
           publishPilotSpeakFocus({ focus: beat.focus, speaking: false });
         }
@@ -1304,7 +1318,7 @@ export function Helm() {
       sendingRef.current = false;
       speakReply(
         data.reply,
-        data.langCode ?? "en",
+        recogLang,
         false,
         speechToneFor(data.reply, session.crisis),
       );
@@ -1698,13 +1712,29 @@ export function Helm() {
                 soundOnLabel={surface.speakerOn}
                 soundOffLabel={surface.speakerOff}
                 onToggle={toggleSpeaker}
+                cuesOn={cuesOn}
+                cuesOnLabel={demoCopy.signalsOn}
+                cuesOffLabel={demoCopy.signalsOff}
+                onToggleCues={toggleCues}
               />
             </div>
             {micError ? (
               <p className="mb-2 font-body text-base text-attn">{micError}</p>
             ) : null}
             {!drilling && mic !== "speaking" ? (
-              <div className="mb-2">
+              <div className="mb-2 space-y-3">
+                <PilotVoiceStudio
+                  locale={recogLang}
+                  need={voiceNeed(recogLang, voices, neural)}
+                  copy={demoCopy}
+                  disabled={mic === "processing"}
+                  onHearPilot={() =>
+                    void speakReply(demoCopy.previewPilot, recogLang, true, "brief", "pilot")
+                  }
+                  onHearOfficer={() =>
+                    void speakReply(demoCopy.previewOfficer, recogLang, true, "brief", "officer")
+                  }
+                />
                 <PilotWatchCalls
                   copy={demoCopy}
                   disabled={mic === "processing"}

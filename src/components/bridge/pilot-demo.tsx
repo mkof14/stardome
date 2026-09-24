@@ -288,6 +288,9 @@ export function PilotDemoStage({
       >
         {beat.text}
       </p>
+      {speaking ? (
+        <p className="mt-1 font-body text-xs text-bridge-dim">{copy.bargeHint}</p>
+      ) : null}
     </div>
   );
 }
@@ -341,6 +344,49 @@ export function PilotVoiceNeed({
     >
       {voiceNeedLine(locale, need)}
     </p>
+  );
+}
+
+export function PilotVoiceStudio({
+  locale,
+  need,
+  copy,
+  disabled,
+  onHearPilot,
+  onHearOfficer,
+}: {
+  locale: Locale;
+  need: VoiceNeed;
+  copy: PilotDemoCopy;
+  disabled?: boolean;
+  onHearPilot: () => void;
+  onHearOfficer: () => void;
+}) {
+  return (
+    <div data-testid="pilot-voice-studio" className="space-y-1.5">
+      <p className="font-body text-sm font-medium text-bridge-text">{copy.studio}</p>
+      <PilotVoiceNeed locale={locale} need={need} />
+      <div className="flex flex-wrap gap-1.5">
+        <button
+          type="button"
+          data-testid="pilot-hear-pilot"
+          disabled={disabled}
+          onClick={onHearPilot}
+          className="rounded-lg border border-bridge-line px-2.5 py-1.5 font-body text-sm text-bridge-text hover:border-bridge-text disabled:opacity-40"
+        >
+          {copy.hearPilot}
+        </button>
+        <button
+          type="button"
+          data-testid="pilot-hear-officer"
+          disabled={disabled}
+          onClick={onHearOfficer}
+          className="rounded-lg border border-bridge-line px-2.5 py-1.5 font-body text-sm text-bridge-text hover:border-bridge-text disabled:opacity-40"
+        >
+          {copy.hearOfficer}
+        </button>
+      </div>
+    </div>
   );
 }
 

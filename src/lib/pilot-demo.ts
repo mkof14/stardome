@@ -9,7 +9,7 @@ import {
   type VoiceNeed,
 } from "@/lib/pilot-voice";
 import { sessionForDemo } from "@/lib/demo-flagship";
-import { watchReply } from "@/lib/pilot-watch";
+import { speakWatch } from "@/lib/watch-brief";
 
 export type DemoRaise = {
   instruments?: boolean;
@@ -46,7 +46,7 @@ export function demoBeats(session: BridgeSessionValue, locale: Locale): DemoBeat
     ];
   }
   const watch = sessionForDemo(session);
-  const picture = watchReply(watch, locale).trim();
+  const picture = speakWatch(watch, locale).trim();
   const status = watch.scenarioId ? picture : copy.quietStatus;
   const advice = watch.scenarioId ? picture : copy.quietAdvice;
   const watchTone: SpeechTone = watch.crisis ? "warn" : "brief";

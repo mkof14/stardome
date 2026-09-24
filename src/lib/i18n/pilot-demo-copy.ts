@@ -57,6 +57,11 @@ export type PilotDemoCopy = {
   actionLive: string;
   whoPilot: string;
   whoOfficer: string;
+  studio: string;
+  hearPilot: string;
+  hearOfficer: string;
+  previewPilot: string;
+  previewOfficer: string;
 };
 
 const DEMO = {
@@ -127,6 +132,11 @@ const DEMO = {
     actionLive: "LIVE has no sensors",
     whoPilot: "Pilot",
     whoOfficer: "Officer",
+    studio: "Voices",
+    hearPilot: "Hear Pilot",
+    hearOfficer: "Hear officer",
+    previewPilot: "Pilot on watch. I read the picture. I advise. You decide.",
+    previewOfficer: "Pilot, instruments.",
   },
   es: {
     demo: "Demo",
@@ -195,6 +205,11 @@ const DEMO = {
     actionLive: "LIVE no tiene sensores",
     whoPilot: "Pilot",
     whoOfficer: "Oficial",
+    studio: "Voces",
+    hearPilot: "Oír a Pilot",
+    hearOfficer: "Oír al oficial",
+    previewPilot: "Pilot de guardia. Leo la imagen. Aconsejo. Usted decide.",
+    previewOfficer: "Pilot, instrumentos.",
   },
   fr: {
     demo: "Démo",
@@ -263,6 +278,11 @@ const DEMO = {
     actionLive: "LIVE n’a aucun capteur",
     whoPilot: "Pilot",
     whoOfficer: "Officier",
+    studio: "Voix",
+    hearPilot: "Écouter Pilot",
+    hearOfficer: "Écouter l’officier",
+    previewPilot: "Pilot de quart. Je lis l’image. Je conseille. Vous décidez.",
+    previewOfficer: "Pilot, instruments.",
   },
   de: {
     demo: "Demo",
@@ -331,6 +351,11 @@ const DEMO = {
     actionLive: "LIVE hat keine Sensoren",
     whoPilot: "Pilot",
     whoOfficer: "Wachoffizier",
+    studio: "Stimmen",
+    hearPilot: "Pilot hören",
+    hearOfficer: "Offizier hören",
+    previewPilot: "Pilot auf Wache. Ich lese das Bild. Ich rate. Sie entscheiden.",
+    previewOfficer: "Pilot, Instrumente.",
   },
   ru: {
     demo: "Демо",
@@ -399,6 +424,11 @@ const DEMO = {
     actionLive: "В LIVE нет датчиков",
     whoPilot: "Pilot",
     whoOfficer: "Офицер",
+    studio: "Голоса",
+    hearPilot: "Слушать Pilot",
+    hearOfficer: "Слушать офицера",
+    previewPilot: "Pilot на вахте. Читаю картину. Советую. Решаете вы.",
+    previewOfficer: "Pilot, приборы.",
   },
   uk: {
     demo: "Демо",
@@ -467,6 +497,11 @@ const DEMO = {
     actionLive: "У LIVE немає датчиків",
     whoPilot: "Pilot",
     whoOfficer: "Офіцер",
+    studio: "Голоси",
+    hearPilot: "Слухати Pilot",
+    hearOfficer: "Слухати офіцера",
+    previewPilot: "Pilot на вахті. Читаю картину. Раджу. Вирішуєте ви.",
+    previewOfficer: "Pilot, прилади.",
   },
   ar: {
     demo: "تجربة",
@@ -535,6 +570,11 @@ const DEMO = {
     actionLive: "LIVE بلا مستشعرات",
     whoPilot: "Pilot",
     whoOfficer: "الضابط",
+    studio: "الأصوات",
+    hearPilot: "اسمع Pilot",
+    hearOfficer: "اسمع الضابط",
+    previewPilot: "Pilot في الخفارة. أقرأ الصورة. أنصح. القرار لكم.",
+    previewOfficer: "Pilot، الأجهزة.",
   },
   zh: {
     demo: "演示",
@@ -597,6 +637,11 @@ const DEMO = {
     actionLive: "LIVE 没有传感器",
     whoPilot: "Pilot",
     whoOfficer: "值班",
+    studio: "语音",
+    hearPilot: "听 Pilot",
+    hearOfficer: "听值班官",
+    previewPilot: "Pilot 在值班。我读画面。我建议。由您决定。",
+    previewOfficer: "Pilot，仪器。",
   },
   ja: {
     demo: "デモ",
@@ -665,6 +710,11 @@ const DEMO = {
     actionLive: "LIVE にセンサーなし",
     whoPilot: "Pilot",
     whoOfficer: "当直",
+    studio: "音声",
+    hearPilot: "Pilot を聞く",
+    hearOfficer: "当直を聞く",
+    previewPilot: "Pilot、当直です。画面を読みます。助言します。判断はあなたです。",
+    previewOfficer: "Pilot、計器。",
   },
   he: {
     demo: "הדגמה",
@@ -733,6 +783,11 @@ const DEMO = {
     actionLive: "ב־LIVE אין חיישנים",
     whoPilot: "Pilot",
     whoOfficer: "קצין",
+    studio: "קולות",
+    hearPilot: "השמע Pilot",
+    hearOfficer: "השמע קצין",
+    previewPilot: "Pilot במשמרת. אני קורא את התמונה. אני מייעץ. אתם מחליטים.",
+    previewOfficer: "Pilot, מכשירים.",
   },
 } as const satisfies Record<Locale, PilotDemoCopy>;
 

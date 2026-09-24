@@ -1,4 +1,5 @@
 export const PILOT_CUES_KEY = "starwall-pilot-cues";
+export const PILOT_VOICE_KEY = "starwall-pilot-voice";
 
 export type PilotCue =
   | "open"
@@ -97,6 +98,18 @@ export function writeCuesEnabled(on: boolean, storage?: CueStorage | null) {
   const store = storage === undefined ? defaultStorage() : storage;
   if (!store) return;
   store.setItem(PILOT_CUES_KEY, on ? "on" : "off");
+}
+
+export function voiceEnabled(storage?: CueStorage | null): boolean {
+  const store = storage === undefined ? defaultStorage() : storage;
+  if (!store) return true;
+  return store.getItem(PILOT_VOICE_KEY) !== "off";
+}
+
+export function writeVoiceEnabled(on: boolean, storage?: CueStorage | null) {
+  const store = storage === undefined ? defaultStorage() : storage;
+  if (!store) return;
+  store.setItem(PILOT_VOICE_KEY, on ? "on" : "off");
 }
 
 export function cueForDemoBeat(beat: {
