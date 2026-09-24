@@ -881,7 +881,7 @@ html[data-pilot-speak-tone="warn"] #connected-systems-panel {
 
 .pilot-presence[data-size="dock"] .pilot-presence-plate,
 .pilot-presence[data-size="watch"] .pilot-presence-plate {
-  object-position: 50% 8%;
+  object-position: 50% 22%;
 }
 
 .pilot-presence[data-size="rail"] .pilot-presence-plate,

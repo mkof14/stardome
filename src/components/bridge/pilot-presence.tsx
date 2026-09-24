@@ -11,10 +11,10 @@ import {
 export type PilotPresenceSize = "rail" | "talk" | "dock" | "watch";
 
 const SIZE: Record<PilotPresenceSize, string> = {
-  rail: "h-10 w-10 rounded-full",
-  talk: "h-9 w-9 rounded-full",
-  dock: "h-[7.35rem] w-[5.45rem] rounded-2xl",
-  watch: "h-[8.6rem] w-[6.25rem] rounded-2xl sm:h-[10.25rem] sm:w-[7.4rem]",
+  rail: "h-11 w-11 rounded-full",
+  talk: "h-10 w-10 rounded-full",
+  dock: "h-[10rem] w-[7.15rem] rounded-2xl",
+  watch: "h-[10.5rem] w-[7.5rem] rounded-2xl sm:h-[13.25rem] sm:w-[9.4rem]",
 };
 
 export function PilotPresence({
@@ -45,6 +45,8 @@ export function PilotPresence({
     >
       <span className="pilot-presence-well" aria-hidden />
       {PILOT_MOODS.map((key) => (
+        // Stacked plates cross-fade; next/image fights the opacity stack.
+        // eslint-disable-next-line @next/next/no-img-element
         <img
           key={key}
           src={PILOT_PLATES[key]}
