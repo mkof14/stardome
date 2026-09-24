@@ -90,7 +90,7 @@ export function GeoCenterPanel({
             data-testid="geo-route-card"
             onClick={bindPicture}
             className={cn(
-              "text-start",
+              "border-0 bg-transparent p-0 text-start",
               bound && "text-bridge-text",
             )}
           >
@@ -121,7 +121,7 @@ export function GeoCenterPanel({
             type="button"
             data-testid="geo-analytics-card"
             onClick={bindPicture}
-            className="text-start"
+            className="border-0 bg-transparent p-0 text-start"
           >
             <p className="font-body text-base font-semibold text-bridge-text">{copy.analyticsTitle}</p>
             <p className="mt-1 font-body text-sm text-bridge-dim">{copy.analyticsLead}</p>

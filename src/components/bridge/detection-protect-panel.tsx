@@ -128,7 +128,7 @@ export function DetectionProtectPanel({
               data-status={status}
               data-focused={active ? "true" : undefined}
               onClick={() => focusWatchLayer(id, first?.id)}
-              className="text-start"
+              className="border-0 bg-transparent p-0 text-start"
             >
               <div className="flex items-start gap-3">
                 <HudGlyph
