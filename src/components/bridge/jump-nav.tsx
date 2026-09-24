@@ -17,6 +17,7 @@ import { useHud } from "@/lib/i18n/use-hud";
 import { canUseHelm } from "@/lib/rbac";
 import { cuesEnabled, playPilotCue } from "@/lib/pilot-cues";
 import { HudGlyph } from "@/components/bridge/hud-icons";
+import { PilotPresence } from "@/components/bridge/pilot-presence";
 import type { WatchParty } from "@/lib/watch-comms";
 
 type JumpKind = "scroll" | "helm" | "link" | "demo";
@@ -379,7 +380,14 @@ export function JumpNav() {
                     current ? "bg-orange/15 text-orange" : "bg-bridge-bg text-bridge-text",
                   )}
                 >
-                  {item.icon}
+                  {item.id === "helm" ? (
+                    <PilotPresence
+                      mood={helmAlert.urgent ? "urgent" : helmAlert.unread ? "serious" : "ease"}
+                      size="rail"
+                    />
+                  ) : (
+                    item.icon
+                  )}
                 </span>
                 <span
                   className={cn(

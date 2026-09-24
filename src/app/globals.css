@@ -845,6 +845,169 @@ html[data-pilot-speak-tone="warn"] #connected-systems-panel {
   animation: helm-fab-sweep 4.8s linear infinite;
 }
 
+.pilot-presence {
+  isolation: isolate;
+  box-shadow:
+    inset 0 0 0 1px rgb(56 189 248 / 0.28),
+    0 10px 28px rgb(8 16 22 / 0.35);
+}
+
+.pilot-presence-well {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 18%, rgb(56 189 248 / 0.16), transparent 42%),
+    linear-gradient(180deg, rgb(12 22 30 / 0.2), rgb(6 12 16 / 0.72));
+  z-index: 0;
+}
+
+.pilot-presence-plate {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 10%;
+  opacity: 0;
+  transform-origin: 50% 78%;
+  transition: opacity 220ms ease;
+  z-index: 1;
+  animation: pilot-breath 4.4s ease-in-out infinite;
+}
+
+.pilot-presence-plate.is-live {
+  opacity: 1;
+}
+
+.pilot-presence[data-size="dock"] .pilot-presence-plate,
+.pilot-presence[data-size="watch"] .pilot-presence-plate {
+  object-position: 50% 8%;
+}
+
+.pilot-presence[data-size="rail"] .pilot-presence-plate,
+.pilot-presence[data-size="talk"] .pilot-presence-plate {
+  object-position: 50% 12%;
+  transform: scale(1.28);
+}
+
+.pilot-presence[data-speaking="true"] .pilot-presence-plate.is-live {
+  animation: pilot-talk 0.22s ease-in-out infinite;
+}
+
+.pilot-presence-scan {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgb(56 189 248 / 0.08) 46%,
+    transparent 52%
+  );
+  background-size: 100% 220%;
+  animation: pilot-scan 5.6s linear infinite;
+  mix-blend-mode: screen;
+}
+
+.pilot-presence-blink {
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  top: 27%;
+  height: 11%;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgb(6 12 16 / 0.55),
+    transparent
+  );
+  opacity: 0;
+  animation: pilot-blink 5.2s ease-in-out infinite;
+}
+
+.pilot-presence[data-size="dock"] .pilot-presence-blink,
+.pilot-presence[data-size="watch"] .pilot-presence-blink {
+  top: 24%;
+}
+
+.pilot-presence-rim {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  box-shadow: inset 0 0 18px rgb(56 189 248 / 0.18);
+}
+
+.pilot-presence[data-mood="urgent"] {
+  box-shadow:
+    inset 0 0 0 1px rgb(241 90 0 / 0.55),
+    0 0 0 4px rgb(241 90 0 / 0.12);
+}
+
+.pilot-presence[data-mood="speak"],
+.pilot-presence[data-speaking="true"] {
+  box-shadow:
+    inset 0 0 0 1px rgb(241 90 0 / 0.4),
+    0 0 22px rgb(241 90 0 / 0.18);
+}
+
+.pilot-presence[data-listening="true"] {
+  box-shadow:
+    inset 0 0 0 1px rgb(51 211 166 / 0.5),
+    0 0 18px rgb(51 211 166 / 0.16);
+}
+
+@keyframes pilot-breath {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -1.2%, 0) scale(1.016);
+  }
+}
+
+@keyframes pilot-talk {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale3d(1, calc(1 + var(--pilot-level) * 0.035), 1);
+  }
+  50% {
+    transform: translate3d(0, 0.6%, 0) scale3d(1.01, calc(0.975 - var(--pilot-level) * 0.02), 1);
+  }
+}
+
+@keyframes pilot-scan {
+  to {
+    background-position: 0 220%;
+  }
+}
+
+@keyframes pilot-blink {
+  0%,
+  86%,
+  94%,
+  100% {
+    opacity: 0;
+  }
+  88%,
+  91% {
+    opacity: 0.85;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pilot-presence-plate,
+  .pilot-presence-scan,
+  .pilot-presence-blink,
+  .pilot-presence[data-speaking="true"] .pilot-presence-plate.is-live {
+    animation: none;
+  }
+}
+
 @keyframes helm-idle-glow {
   0%,
   100% {

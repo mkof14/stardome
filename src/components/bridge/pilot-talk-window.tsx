@@ -6,6 +6,8 @@ import { cn } from "@/lib/cn";
 import type { PilotDemoCopy } from "@/lib/i18n/pilot-demo-copy";
 import { HudGlyph } from "@/components/bridge/hud-icons";
 import { PilotSoundDock } from "@/components/bridge/pilot-demo";
+import { PilotPresence } from "@/components/bridge/pilot-presence";
+import type { PilotMood } from "@/lib/pilot-presence";
 import { StudioWave } from "@/components/bridge/studio-meters";
 
 type TalkMessage = {
@@ -19,6 +21,8 @@ export function PilotTalkWindow({
   title,
   ask,
   send,
+  mood,
+  voiceLevel,
   messages,
   typed,
   typingId,
@@ -42,6 +46,8 @@ export function PilotTalkWindow({
   title: string;
   ask: string;
   send: string;
+  mood: PilotMood;
+  voiceLevel: number;
   messages: TalkMessage[];
   typed: string;
   typingId: string | null;
@@ -85,11 +91,20 @@ export function PilotTalkWindow({
         className="pointer-events-auto flex h-[min(28rem,calc(100vh-8.5rem))] w-full max-w-md flex-col overflow-hidden rounded-2xl border border-bridge-line bg-bridge-panel text-bridge-text shadow-[0_20px_56px_rgb(15_25_34/0.18)]"
       >
         <header className="flex items-center justify-between gap-2 border-b border-bridge-line bg-bridge-bg px-3 py-2.5">
-          <div className="min-w-0">
+          <div className="flex min-w-0 items-center gap-2.5">
+            <PilotPresence
+              mood={mood}
+              size="talk"
+              level={voiceLevel}
+              speaking={mic === "speaking"}
+              listening={mic === "listening"}
+            />
+            <div className="min-w-0">
             <p className="truncate font-body text-base font-semibold tracking-tight">
               {title}
             </p>
             <p className="truncate font-body text-xs text-bridge-dim">{status}</p>
+            </div>
           </div>
           <button
             type="button"
@@ -125,9 +140,13 @@ export function PilotTalkWindow({
                   )}
                 >
                   {item.role !== "user" ? (
-                    <span className="mb-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-bridge-bg text-bridge-dim">
-                      <HudGlyph name="talk" className="h-4 w-4" />
-                    </span>
+                    <PilotPresence
+                      mood={mood}
+                      size="talk"
+                      level={voiceLevel}
+                      speaking={mic === "speaking"}
+                      listening={mic === "listening"}
+                    />
                   ) : null}
                   <p
                     className={cn(

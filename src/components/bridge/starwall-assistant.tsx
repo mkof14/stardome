@@ -77,6 +77,8 @@ import {
   type PilotCue,
 } from "@/lib/pilot-cues";
 import { PilotTalkWindow } from "@/components/bridge/pilot-talk-window";
+import { PilotPresence } from "@/components/bridge/pilot-presence";
+import { pilotMood, voiceLevelFromBars } from "@/lib/pilot-presence";
 import {
   BARGE_GRACE_MS,
   heardWhilePilotTalks,
@@ -1382,6 +1384,12 @@ export function Helm() {
   if (isAuthRoute(pathname) || !helmAllowed) return null;
 
   const showTalk = talkHud && !drilling && !open;
+  const presenceMood = pilotMood({
+    mic,
+    urgent: watch.urgent,
+    risk: String(session.riskLevel ?? ""),
+  });
+  const voiceLevel = voiceLevelFromBars(levels);
   const spokenScreen =
     drilling &&
     (demoBeat?.focus === "instruments" ||
@@ -1403,6 +1411,8 @@ export function Helm() {
           title={surface.title}
           ask={surface.ask}
           send={surface.send}
+          mood={presenceMood}
+          voiceLevel={voiceLevel}
           messages={messages}
           typed={typed}
           typingId={typingId}
@@ -1441,7 +1451,15 @@ export function Helm() {
                 : "border-bridge-line",
             )}
           >
-            <div className="relative min-w-0">
+            <div className="relative flex min-w-0 items-center gap-3">
+              <PilotPresence
+                mood={presenceMood}
+                size="watch"
+                level={voiceLevel}
+                speaking={mic === "speaking"}
+                listening={mic === "listening"}
+              />
+              <div className="min-w-0">
               <p
                 data-testid="pilot-wordmark"
                 className={cn(
@@ -1449,16 +1467,6 @@ export function Helm() {
                   mic === "speaking" ? "text-3xl text-orange" : "text-3xl text-bridge-text",
                 )}
               >
-                <span
-                  className={cn(
-                    "h-3 w-3 rounded-full",
-                    mic === "listening"
-                      ? "bg-ok assistant-mic-listen"
-                      : mic === "speaking"
-                        ? "bg-orange assistant-mic-speak"
-                        : "bg-ok helm-idle-led",
-                  )}
-                />
                 {surface.title}
               </p>
               {mic === "speaking" || mic === "listening" || mic === "processing" ? (
@@ -1496,6 +1504,7 @@ export function Helm() {
                   )}
                 </p>
               )}
+              </div>
             </div>
             <div className="relative flex shrink-0 items-center gap-1">
               {mic === "speaking" || drilling ? (
@@ -1821,38 +1830,19 @@ export function Helm() {
           aria-pressed={open}
           aria-label={open ? surface.hide : surface.open}
           className={cn(
-            "relative flex h-20 min-w-[5rem] shrink-0 items-center gap-2 overflow-hidden rounded-full border border-orange bg-bridge-panel px-4 text-orange",
+            "relative flex w-[6.15rem] shrink-0 flex-col items-center overflow-hidden rounded-2xl border border-orange/70 bg-bridge-bg px-1 pb-1.5 pt-1 text-orange",
             (unread || (!open && watch.urgent)) && (watch.urgent ? "helm-fab-pulse-urgent" : "helm-fab-pulse"),
-            open && "bg-orange/10",
+            open && "border-orange bg-orange/10",
           )}
         >
-          <span
-            className="helm-fab-sweep pointer-events-none absolute inset-1 rounded-full"
-            style={{
-              background:
-                "conic-gradient(from 200deg, transparent 0deg, transparent 300deg, rgb(241 90 0 / 0.5) 360deg)",
-            }}
-            aria-hidden
+          <PilotPresence
+            mood={presenceMood}
+            size="dock"
+            level={voiceLevel}
+            speaking={mic === "speaking"}
+            listening={mic === "listening"}
           />
-          <svg viewBox="0 0 48 48" className="relative h-10 w-10 shrink-0" aria-hidden>
-            <circle
-              cx="24"
-              cy="24"
-              r="16"
-              fill="var(--bridge-bg)"
-              stroke="#F15A00"
-              strokeWidth="1.8"
-            />
-            <path
-              d="M24 16v8.4l4.6 2.7"
-              fill="none"
-              stroke="#38BDF8"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-            />
-            <circle cx="24" cy="24" r="2.2" fill="#F15A00" className="helm-idle-led" />
-          </svg>
-          <span className="relative font-body text-base font-bold leading-none">
+          <span className="relative mt-1 font-body text-xs font-bold leading-none">
             {surface.title}
           </span>
         </button>
