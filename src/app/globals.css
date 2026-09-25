@@ -864,7 +864,7 @@ html[data-pilot-speak-tone="warn"] #connected-systems-panel {
 .pilot-stage {
   position: absolute;
   z-index: 1;
-  inset: 8% 10% 28%;
+  inset: 6% 8% 20%;
   display: grid;
   place-items: center;
 }
@@ -872,6 +872,11 @@ html[data-pilot-speak-tone="warn"] #connected-systems-panel {
 .pilot-presence[data-size="rail"] .pilot-stage,
 .pilot-presence[data-size="talk"] .pilot-stage {
   inset: 8%;
+}
+
+.pilot-presence[data-size="watch"] .pilot-stage,
+.pilot-presence[data-size="dock"] .pilot-stage {
+  inset: 5% 8% 18%;
 }
 
 .pilot-halo {
@@ -925,11 +930,16 @@ html[data-pilot-speak-tone="warn"] #connected-systems-panel {
 .pilot-core {
   position: relative;
   z-index: 2;
-  width: 38%;
+  width: 44%;
   aspect-ratio: 1;
   display: grid;
   place-items: center;
   animation: pilot-breath 4.8s ease-in-out infinite;
+}
+
+.pilot-presence[data-size="watch"] .pilot-core,
+.pilot-presence[data-size="dock"] .pilot-core {
+  width: 48%;
 }
 
 .pilot-hex {
