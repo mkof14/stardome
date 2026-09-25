@@ -24,7 +24,7 @@ export function BrandLogo({ className, priority = false }: BrandLogoProps) {
       unoptimized
       priority={priority}
       className={cn(
-        "w-auto shrink-0 object-contain object-left",
+        "w-auto shrink-0 object-contain object-left [filter:drop-shadow(0_0_0.7px_#041018)_drop-shadow(0_1px_2px_rgb(4_16_24/0.4))]",
         className ?? "h-8 sm:h-9",
       )}
     />
