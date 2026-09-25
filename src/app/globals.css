@@ -848,8 +848,8 @@ html[data-pilot-speak-tone="warn"] #connected-systems-panel {
 .pilot-presence {
   isolation: isolate;
   box-shadow:
-    inset 0 0 0 1px rgb(56 189 248 / 0.3),
-    0 12px 28px rgb(8 16 22 / 0.38);
+    inset 0 0 0 1px rgb(56 189 248 / 0.28),
+    0 10px 28px rgb(8 16 22 / 0.35);
 }
 
 .pilot-presence-well {
@@ -857,158 +857,41 @@ html[data-pilot-speak-tone="warn"] #connected-systems-panel {
   inset: 0;
   z-index: 0;
   background:
-    radial-gradient(circle at 50% 38%, rgb(56 189 248 / 0.2), transparent 46%),
+    radial-gradient(ellipse at 50% 18%, rgb(56 189 248 / 0.16), transparent 42%),
     linear-gradient(180deg, #0b1520, #05090f);
 }
 
-.pilot-stage {
-  position: absolute;
-  z-index: 1;
-  inset: 6% 8% 20%;
-  display: grid;
-  place-items: center;
-}
-
-.pilot-presence[data-size="rail"] .pilot-stage,
-.pilot-presence[data-size="talk"] .pilot-stage {
-  inset: 8%;
-}
-
-.pilot-presence[data-size="watch"] .pilot-stage,
-.pilot-presence[data-size="dock"] .pilot-stage {
-  inset: 5% 8% 18%;
-}
-
-.pilot-halo {
-  position: absolute;
-  inset: 6%;
-  border-radius: 999px;
-  background: radial-gradient(circle, rgb(56 189 248 / 0.28), transparent 68%);
-  animation: pilot-breath 4.8s ease-in-out infinite;
-}
-
-.pilot-ticks {
-  position: absolute;
-  inset: 10%;
-  border-radius: 999px;
-  background: repeating-conic-gradient(
-    from 0deg,
-    rgb(230 228 223 / 0.22) 0deg 1.2deg,
-    transparent 1.2deg 15deg
-  );
-  mask-image: radial-gradient(circle, transparent 62%, #000 64%, #000 72%, transparent 74%);
-  opacity: 0.7;
-}
-
-.pilot-ring {
-  position: absolute;
-  border-radius: 999px;
-  border: 1px solid rgb(56 189 248 / 0.38);
-}
-
-.pilot-ring-a {
-  inset: 16%;
-  border-style: dashed;
-  animation: pilot-orbit 18s linear infinite;
-}
-
-.pilot-ring-b {
-  inset: 26%;
-  border-color: rgb(56 189 248 / 0.22);
-  animation: pilot-orbit 11s linear infinite reverse;
-}
-
-.pilot-sweep {
-  position: absolute;
-  inset: 14%;
-  border-radius: 999px;
-  background: conic-gradient(from 210deg, transparent 0 78%, rgb(56 189 248 / 0.38) 100%);
-  animation: pilot-orbit 6.4s linear infinite;
-  mask-image: radial-gradient(circle, transparent 46%, #000 48%, #000 70%, transparent 72%);
-}
-
-.pilot-core {
-  position: relative;
-  z-index: 2;
-  width: 44%;
-  aspect-ratio: 1;
-  display: grid;
-  place-items: center;
-  animation: pilot-breath 4.8s ease-in-out infinite;
-}
-
-.pilot-presence[data-size="watch"] .pilot-core,
-.pilot-presence[data-size="dock"] .pilot-core {
-  width: 48%;
-}
-
-.pilot-hex {
+.pilot-presence-plate {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(160deg, rgb(186 232 255 / 0.95), rgb(20 78 104 / 0.9) 55%, rgb(8 18 28 / 0.95));
-  clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
-  box-shadow: 0 0 18px rgb(56 189 248 / 0.28);
-}
-
-.pilot-nucleus {
-  position: relative;
   z-index: 1;
-  width: 34%;
-  aspect-ratio: 1;
-  border-radius: 999px;
-  background: radial-gradient(circle at 35% 30%, #f4fdff, #7ee8ff 42%, #1a6f88);
-  box-shadow: 0 0 16px rgb(126 232 255 / 0.55);
-  transform: scale(calc(0.72 + var(--pilot-level) * 0.45));
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 10%;
+  opacity: 0;
+  transform-origin: 50% 78%;
+  transition: opacity 220ms ease;
+  animation: pilot-breath 4.4s ease-in-out infinite;
 }
 
-.pilot-plate {
-  position: absolute;
-  z-index: 2;
-  right: 10%;
-  bottom: 8%;
-  left: 10%;
-  display: grid;
-  justify-items: center;
-  gap: 0.35rem;
+.pilot-presence-plate.is-live {
+  opacity: 1;
 }
 
-.pilot-word {
-  font-family: var(--font-body, ui-sans-serif, system-ui, sans-serif);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  color: #e6e4df;
+.pilot-presence[data-size="dock"] .pilot-presence-plate,
+.pilot-presence[data-size="watch"] .pilot-presence-plate {
+  object-position: 50% 22%;
 }
 
-.pilot-meters {
-  display: flex;
-  height: 0.7rem;
-  align-items: flex-end;
-  gap: 0.16rem;
+.pilot-presence[data-size="rail"] .pilot-presence-plate,
+.pilot-presence[data-size="talk"] .pilot-presence-plate {
+  object-position: 50% 12%;
+  transform: scale(1.28);
 }
 
-.pilot-bar {
-  width: 0.18rem;
-  height: 38%;
-  border-radius: 999px;
-  background: #7ee8ff;
-  opacity: 0.45;
-  transform-origin: 50% 100%;
-}
-
-.pilot-bar:nth-child(1),
-.pilot-bar:nth-child(5) {
-  height: 42%;
-}
-
-.pilot-bar:nth-child(2),
-.pilot-bar:nth-child(4) {
-  height: 62%;
-}
-
-.pilot-bar:nth-child(3) {
-  height: 88%;
+.pilot-presence[data-speaking="true"] .pilot-presence-plate.is-live {
+  animation: pilot-talk 0.22s ease-in-out infinite;
 }
 
 .pilot-presence-scan {
@@ -1019,7 +902,7 @@ html[data-pilot-speak-tone="warn"] #connected-systems-panel {
   background: linear-gradient(
     180deg,
     transparent 0%,
-    rgb(56 189 248 / 0.1) 46%,
+    rgb(56 189 248 / 0.08) 46%,
     transparent 52%
   );
   background-size: 100% 220%;
@@ -1035,60 +918,17 @@ html[data-pilot-speak-tone="warn"] #connected-systems-panel {
   box-shadow: inset 0 0 18px rgb(56 189 248 / 0.18);
 }
 
-.pilot-presence[data-listening="true"] .pilot-stage {
-  transform: scale(0.94);
-}
-
-.pilot-presence[data-listening="true"] .pilot-sweep {
-  animation-duration: 3.2s;
-}
-
-.pilot-presence[data-speaking="true"] .pilot-halo,
-.pilot-presence[data-speaking="true"] .pilot-core {
-  animation: pilot-speak-core 0.34s ease-in-out infinite;
-}
-
-.pilot-presence[data-speaking="true"] .pilot-bar:nth-child(1) {
-  animation: pilot-bar 0.28s ease-in-out infinite;
-}
-
-.pilot-presence[data-speaking="true"] .pilot-bar:nth-child(2) {
-  animation: pilot-bar 0.32s ease-in-out infinite 0.04s;
-}
-
-.pilot-presence[data-speaking="true"] .pilot-bar:nth-child(3) {
-  animation: pilot-bar 0.26s ease-in-out infinite 0.08s;
-}
-
-.pilot-presence[data-speaking="true"] .pilot-bar:nth-child(4) {
-  animation: pilot-bar 0.3s ease-in-out infinite 0.02s;
-}
-
-.pilot-presence[data-speaking="true"] .pilot-bar:nth-child(5) {
-  animation: pilot-bar 0.34s ease-in-out infinite 0.06s;
-}
-
 .pilot-presence[data-mood="urgent"] {
   box-shadow:
     inset 0 0 0 1px rgb(241 90 0 / 0.55),
     0 0 0 4px rgb(241 90 0 / 0.12);
 }
 
-.pilot-presence[data-mood="urgent"] .pilot-halo,
-.pilot-presence[data-mood="urgent"] .pilot-ring,
-.pilot-presence[data-mood="urgent"] .pilot-sweep {
-  filter: hue-rotate(-28deg) saturate(1.25);
-}
-
-.pilot-presence[data-mood="urgent"] .pilot-sweep {
-  animation-duration: 2.4s;
-}
-
 .pilot-presence[data-mood="speak"],
 .pilot-presence[data-speaking="true"] {
   box-shadow:
-    inset 0 0 0 1px rgb(56 189 248 / 0.55),
-    0 0 22px rgb(56 189 248 / 0.2);
+    inset 0 0 0 1px rgb(241 90 0 / 0.4),
+    0 0 22px rgb(241 90 0 / 0.18);
 }
 
 .pilot-presence[data-listening="true"] {
@@ -1097,43 +937,23 @@ html[data-pilot-speak-tone="warn"] #connected-systems-panel {
     0 0 18px rgb(51 211 166 / 0.16);
 }
 
-@keyframes pilot-orbit {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 @keyframes pilot-breath {
   0%,
   100% {
-    transform: scale(1);
-    opacity: 0.92;
+    transform: translate3d(0, 0, 0) scale(1);
   }
   50% {
-    transform: scale(1.045);
-    opacity: 1;
+    transform: translate3d(0, -1.2%, 0) scale(1.016);
   }
 }
 
-@keyframes pilot-speak-core {
+@keyframes pilot-talk {
   0%,
   100% {
-    transform: scale(1);
+    transform: translate3d(0, 0, 0) scale3d(1, calc(1 + var(--pilot-level) * 0.035), 1);
   }
   50% {
-    transform: scale(calc(1.04 + var(--pilot-level) * 0.08));
-  }
-}
-
-@keyframes pilot-bar {
-  0%,
-  100% {
-    transform: scaleY(0.7);
-    opacity: 0.4;
-  }
-  50% {
-    transform: scaleY(calc(1 + var(--pilot-level) * 0.4));
-    opacity: 1;
+    transform: translate3d(0, 0.6%, 0) scale3d(1.01, calc(0.975 - var(--pilot-level) * 0.02), 1);
   }
 }
 
@@ -1144,15 +964,9 @@ html[data-pilot-speak-tone="warn"] #connected-systems-panel {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pilot-halo,
-  .pilot-core,
-  .pilot-ring,
-  .pilot-sweep,
-  .pilot-bar,
+  .pilot-presence-plate,
   .pilot-presence-scan,
-  .pilot-presence[data-speaking="true"] .pilot-halo,
-  .pilot-presence[data-speaking="true"] .pilot-core,
-  .pilot-presence[data-speaking="true"] .pilot-bar {
+  .pilot-presence[data-speaking="true"] .pilot-presence-plate.is-live {
     animation: none;
   }
 }

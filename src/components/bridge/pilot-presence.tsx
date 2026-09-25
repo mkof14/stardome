@@ -2,7 +2,7 @@
 
 import type { CSSProperties } from "react";
 import { cn } from "@/lib/cn";
-import type { PilotMood } from "@/lib/pilot-presence";
+import { PILOT_MOODS, PILOT_PLATES, type PilotMood } from "@/lib/pilot-presence";
 
 export type PilotPresenceSize = "rail" | "talk" | "dock" | "watch";
 
@@ -29,13 +29,12 @@ export function PilotPresence({
   className?: string;
 }) {
   const drive = Math.max(0, Math.min(1, level));
-  const compact = size === "rail" || size === "talk";
   return (
     <span
       data-testid="pilot-presence"
       data-mood={mood}
       data-size={size}
-      data-anim="assistant"
+      data-anim="officer"
       data-name="Pilot"
       data-speaking={speaking ? "true" : "false"}
       data-listening={listening ? "true" : "false"}
@@ -44,27 +43,17 @@ export function PilotPresence({
       style={{ "--pilot-level": String(drive) } as CSSProperties}
     >
       <span className="pilot-presence-well" aria-hidden />
-      <span className="pilot-stage" aria-hidden>
-        <span className="pilot-halo" />
-        <span className="pilot-ticks" />
-        <span className="pilot-ring pilot-ring-a" />
-        <span className="pilot-ring pilot-ring-b" />
-        <span className="pilot-sweep" />
-        <span className="pilot-core">
-          <span className="pilot-hex" />
-          <span className="pilot-nucleus" />
-        </span>
-      </span>
-      {compact ? null : (
-        <span className="pilot-plate" aria-hidden>
-          <span className="pilot-word">PILOT</span>
-          <span className="pilot-meters">
-            {[0, 1, 2, 3, 4].map((i) => (
-              <span key={i} className="pilot-bar" />
-            ))}
-          </span>
-        </span>
-      )}
+      {PILOT_MOODS.map((key) => (
+        // Stacked plates cross-fade; next/image fights the opacity stack.
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          key={key}
+          src={PILOT_PLATES[key]}
+          alt=""
+          draggable={false}
+          className={cn("pilot-presence-plate", key === mood && "is-live")}
+        />
+      ))}
       <span className="pilot-presence-scan" aria-hidden />
       <span className="pilot-presence-rim" aria-hidden />
     </span>

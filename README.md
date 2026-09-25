@@ -125,7 +125,7 @@ The site logo is the chrome hex StarWall badge. Pages load `public/starwall-logo
 
 Header and footer include a sun/moon theme switch (light/dark, stored in the browser) and a ten-language menu: English, Spanish, French, German, Russian, Ukrainian, Arabic, Chinese, Japanese, Hebrew. The choice is stored in `localStorage` (`starwall-locale`) and survives navigation. Arabic and Hebrew set `dir="rtl"`; Arabic also loads Noto Sans Arabic for body and headings.
 
-Pilot, the watch advisor, sits as a living HUD mark — hex core, radar rings, voice field — at the bottom-right of every page. Speech/type languages fold into a dropdown inside the panel.
+Pilot, the watch advisor, sits as a living officer in maritime uniform at the bottom-right of every page. Speech/type languages fold into a dropdown inside the panel.
 
 `/interface`, `/backend`, and `/tasks` carry a DEMO / LIVE mode switch (`localStorage` key `starwall-mode`, default DEMO). DEMO is the full illustrative simulation. LIVE is an honest empty deployment: no fake contacts, events, or equipment status. Pilot stays available in both modes.
 

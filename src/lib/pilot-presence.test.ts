@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { pilotMood, riskTone, voiceLevelFromBars } from "@/lib/pilot-presence";
+import {
+  PILOT_MOODS,
+  PILOT_PLATES,
+  pilotMood,
+  riskTone,
+  voiceLevelFromBars,
+} from "@/lib/pilot-presence";
 
 describe("pilotMood", () => {
   it("stays easy on a quiet watch", () => {
@@ -17,6 +23,15 @@ describe("pilotMood", () => {
     expect(pilotMood({ mic: "processing", risk: "ATTENTION" })).toBe("listen");
     expect(pilotMood({ mic: "speaking", risk: "NORMAL" })).toBe("speak");
     expect(pilotMood({ mic: "speaking", risk: "CRITICAL" })).toBe("urgent");
+  });
+});
+
+describe("Pilot plates", () => {
+  it("keeps a maritime officer plate for every mood", () => {
+    expect(PILOT_MOODS).toEqual(["ease", "idle", "listen", "speak", "serious", "urgent"]);
+    for (const mood of PILOT_MOODS) {
+      expect(PILOT_PLATES[mood]).toBe(`/pilot/${mood}.webp`);
+    }
   });
 });
 

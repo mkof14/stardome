@@ -2,6 +2,24 @@ export type PilotMic = "idle" | "listening" | "processing" | "speaking";
 
 export type PilotMood = "ease" | "idle" | "listen" | "speak" | "serious" | "urgent";
 
+export const PILOT_MOODS: readonly PilotMood[] = [
+  "ease",
+  "idle",
+  "listen",
+  "speak",
+  "serious",
+  "urgent",
+];
+
+export const PILOT_PLATES: Record<PilotMood, string> = {
+  ease: "/pilot/ease.webp",
+  idle: "/pilot/idle.webp",
+  listen: "/pilot/listen.webp",
+  speak: "/pilot/speak.webp",
+  serious: "/pilot/serious.webp",
+  urgent: "/pilot/urgent.webp",
+};
+
 export type RiskTone = "calm" | "attention" | "urgent";
 
 export function riskTone(risk?: string): RiskTone {
