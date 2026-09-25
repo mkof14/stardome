@@ -70,7 +70,7 @@ export const pageMeta = {
       "Maritime, port, infrastructure, estate, and special-event deployment for StarDome security containers.",
   },
   about: {
-    title: "Why StarWall — StarDome",
+    title: "Why StarDome",
     description:
       "StarDome builds intelligence and integration systems for maritime and physical security. StarWall connects existing equipment into one picture and one next step.",
   },
@@ -80,7 +80,7 @@ export const pageMeta = {
       "Request a briefing with StarDome Maritime about StarWall for a vessel, marina, port, or private island.",
   },
   backend: {
-    title: "StarWall Backend — System administration — StarDome",
+    title: "Backend — System administration — StarDome",
     description:
       "Pre-pilot StarWall administration: connectivity, equipment health, access control, notification routing, and the audit log.",
   },
