@@ -861,46 +861,63 @@ html[data-pilot-speak-tone="warn"] #connected-systems-panel {
   z-index: 0;
 }
 
-.pilot-presence-plate,
-.pilot-presence-video {
-  position: absolute;
-  inset: 0;
+.pilot-mark {
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: 50% 10%;
-  opacity: 0;
-  transform-origin: 50% 78%;
-  transition: opacity 180ms ease;
-  z-index: 1;
 }
 
-.pilot-presence-plate.is-live {
-  opacity: 1;
+.pilot-fig {
+  transform-origin: 50% 82%;
+  animation: pilot-sway 7.5s ease-in-out infinite;
 }
 
-.pilot-presence-plate.is-under {
-  opacity: 0;
+.pilot-torso {
+  transform-origin: 50% 70%;
+  animation: pilot-breath 4.6s ease-in-out infinite;
 }
 
-.pilot-presence-video.is-live {
-  opacity: 1;
-  z-index: 2;
+.pilot-head {
+  transform-origin: 50px 58px;
+  transition: transform 320ms ease;
 }
 
-.pilot-presence[data-size="dock"] .pilot-presence-plate,
-.pilot-presence[data-size="dock"] .pilot-presence-video,
-.pilot-presence[data-size="watch"] .pilot-presence-plate,
-.pilot-presence[data-size="watch"] .pilot-presence-video {
-  object-position: 50% 22%;
+.pilot-arm {
+  transform-origin: 78px 74px;
+  transition: transform 380ms ease;
 }
 
-.pilot-presence[data-size="rail"] .pilot-presence-plate,
-.pilot-presence[data-size="rail"] .pilot-presence-video,
-.pilot-presence[data-size="talk"] .pilot-presence-plate,
-.pilot-presence[data-size="talk"] .pilot-presence-video {
-  object-position: 50% 12%;
-  transform: scale(1.28);
+.pilot-lids {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  transform: scaleY(0);
+  animation: pilot-blink 5.4s ease-in-out infinite;
+}
+
+.pilot-presence[data-listening="true"] .pilot-head {
+  transform: rotate(-8deg) translate(-1px, 1px);
+}
+
+.pilot-presence[data-mood="urgent"] .pilot-fig,
+.pilot-presence[data-mood="urgent"] .pilot-arm {
+  animation: none;
+}
+
+.pilot-presence[data-mood="urgent"] .pilot-fig {
+  transform: rotate(3deg) translate(2px, 1px);
+}
+
+.pilot-presence[data-mood="urgent"] .pilot-arm {
+  transform: rotate(-32deg) translate(-2px, 4px);
+}
+
+.pilot-presence[data-speaking="true"] .pilot-torso {
+  animation: pilot-speak-chest 0.34s ease-in-out infinite;
+}
+
+.pilot-presence[data-speaking="true"] .pilot-arm {
+  transform: rotate(-18deg) translate(-1px, 2px);
 }
 
 .pilot-presence-scan {
@@ -946,6 +963,49 @@ html[data-pilot-speak-tone="warn"] #connected-systems-panel {
     0 0 18px rgb(51 211 166 / 0.16);
 }
 
+@keyframes pilot-sway {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-0.6deg);
+  }
+  50% {
+    transform: translate3d(0, -1.6%, 0) rotate(0.7deg);
+  }
+}
+
+@keyframes pilot-breath {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(1.015, 1.03);
+  }
+}
+
+@keyframes pilot-speak-chest {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(1.02, calc(1.02 + var(--pilot-level) * 0.04));
+  }
+}
+
+@keyframes pilot-blink {
+  0%,
+  86%,
+  94%,
+  100% {
+    transform: scaleY(0);
+  }
+  88%,
+  91% {
+    transform: scaleY(1);
+  }
+}
+
 @keyframes pilot-scan {
   to {
     background-position: 0 220%;
@@ -953,7 +1013,11 @@ html[data-pilot-speak-tone="warn"] #connected-systems-panel {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pilot-presence-scan {
+  .pilot-fig,
+  .pilot-torso,
+  .pilot-lids,
+  .pilot-presence-scan,
+  .pilot-presence[data-speaking="true"] .pilot-torso {
     animation: none;
   }
 }
