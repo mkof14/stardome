@@ -3,6 +3,7 @@ import { locales } from "@/lib/i18n/locales";
 import { pilotDemoCopy } from "@/lib/i18n/pilot-demo-copy";
 import { demoBeats, voiceNeedLine } from "@/lib/pilot-demo";
 import {
+  isLikelyFemaleVoice,
   isLikelyMaleVoice,
   maleVoiceFor,
   neuralVoiceFor,
@@ -10,6 +11,7 @@ import {
   pickOfficerVoice,
   pickVoice,
   speakTag,
+  spokenBrowserVoice,
   voiceNeed,
 } from "@/lib/pilot-voice";
 import type { BridgeSessionValue } from "@/lib/bridge-session-types";
@@ -136,6 +138,10 @@ describe("pickVoice", () => {
     expect(pickOfficerVoice(voices, "en", "Microsoft Mark")?.name).not.toBe(
       "Microsoft Zira",
     );
+    expect(isLikelyFemaleVoice("Microsoft Irina")).toBe(true);
+    expect(pickVoice(voices, "ru")).toBeNull();
+    expect(spokenBrowserVoice(voices, "ru", "pilot")).toBeNull();
+    expect(spokenBrowserVoice([{ lang: "ru-RU", name: "Microsoft Irina", localService: true }], "ru")).toBeNull();
   });
 });
 

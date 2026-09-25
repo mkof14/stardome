@@ -87,6 +87,11 @@ export function isLikelyMaleVoice(name: string) {
   return MALE_NAME.test(name);
 }
 
+export function isLikelyFemaleVoice(name: string) {
+  if (!name.trim()) return false;
+  return FEMALE_NAME.test(name) && !MALE_NAME.test(name);
+}
+
 function scoreVoice(
   voice: Pick<SpeechSynthesisVoice, "lang" | "name" | "localService">,
   locale: string,
@@ -113,6 +118,7 @@ export function pickVoice(
     null;
   let bestScore = -1;
   for (const voice of voices) {
+    if (isLikelyFemaleVoice(voice.name)) continue;
     const score = scoreVoice(voice, locale);
     if (score > bestScore) {
       bestScore = score;
@@ -134,7 +140,7 @@ export function pickOfficerVoice(
   let bestScore = -1;
   for (const voice of voices) {
     if (skipName && voice.name === skipName) continue;
-    if (FEMALE_NAME.test(voice.name) && !isLikelyMaleVoice(voice.name)) continue;
+    if (isLikelyFemaleVoice(voice.name)) continue;
     const score = scoreVoice(voice, locale);
     if (score < 0) continue;
     if (score > bestScore) {
@@ -193,4 +199,17 @@ export function voiceNeed(
 
 export function languageLabel(locale: Locale) {
   return localeMeta[locale].native;
+}
+
+/** Browser speech only when the installed voice is male. Never a woman as Pilot. */
+export function spokenBrowserVoice(
+  voices: ReadonlyArray<Pick<SpeechSynthesisVoice, "lang" | "name" | "localService">>,
+  locale: string,
+  speaker: "pilot" | "officer" = "pilot",
+) {
+  const pilot = pickVoice(voices, locale);
+  const match =
+    speaker === "officer" ? pickOfficerVoice(voices, locale, pilot?.name) : pilot;
+  if (!match || isLikelyFemaleVoice(match.name)) return null;
+  return match;
 }

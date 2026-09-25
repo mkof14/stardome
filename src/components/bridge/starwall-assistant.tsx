@@ -50,13 +50,11 @@ import { usePathname } from "next/navigation";
 import { pilotDemoCopy } from "@/lib/i18n/pilot-demo-copy";
 import { demoBeats, type DemoBeat } from "@/lib/pilot-demo";
 import {
-  isLikelyMaleVoice,
   maleVoiceFor,
   officerVoiceFor,
-  pickOfficerVoice,
-  pickVoice,
   SPEAK_BCP47,
   SpeechEngine,
+  spokenBrowserVoice,
   voiceNeed,
   type NeuralVoiceStatus,
 } from "@/lib/pilot-voice";
@@ -958,27 +956,19 @@ export function Helm() {
       utterance.rate = voice.browserRate;
       const installed = window.speechSynthesis.getVoices();
       const pool = installed.length ? installed : voices;
-      const pilotMatch = pickVoice(pool, locale);
-      const match =
-        speaker === "officer"
-          ? pickOfficerVoice(pool, locale, pilotMatch?.name)
-          : pilotMatch;
-      if (match) {
-        const full = installed.find(
-          (voice) => voice.name === match.name && voice.lang === match.lang,
-        );
-        if (full) utterance.voice = full;
-        utterance.pitch = isLikelyMaleVoice(match.name)
-          ? speaker === "officer"
-            ? Math.min(1.15, voice.browserPitch + 0.12)
-            : voice.browserPitch
-          : Math.max(0.62, voice.browserPitch - 0.08);
-      } else {
-        utterance.pitch =
-          speaker === "officer"
-            ? Math.min(1.15, voice.browserPitch + 0.12)
-            : voice.browserPitch;
+      const match = spokenBrowserVoice(pool, locale, speaker);
+      if (!match) {
+        finish();
+        return;
       }
+      const full = installed.find(
+        (item) => item.name === match.name && item.lang === match.lang,
+      );
+      if (full) utterance.voice = full;
+      utterance.pitch =
+        speaker === "officer"
+          ? Math.min(1.15, voice.browserPitch + 0.12)
+          : voice.browserPitch;
       utterance.onend = finish;
       utterance.onerror = finish;
       window.speechSynthesis.speak(utterance);

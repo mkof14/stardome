@@ -36,8 +36,10 @@ export function PilotPresence({
       data-mood={mood}
       data-size={size}
       data-anim="assistant"
+      data-name="Pilot"
       data-speaking={speaking ? "true" : "false"}
       data-listening={listening ? "true" : "false"}
+      aria-label="Pilot"
       className={cn("pilot-presence relative inline-flex shrink-0 overflow-hidden", SIZE[size], className)}
       style={{ "--pilot-level": String(drive) } as CSSProperties}
     >
