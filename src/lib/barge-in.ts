@@ -51,3 +51,8 @@ export function vadHotFrames(rms: number, previous: number) {
 export function vadTriggered(hot: number) {
   return hot >= BARGE_FRAMES;
 }
+
+/** After Stop, Pilot stays silent unless the officer asks again or forces a preview. */
+export function maySpeak(held: boolean, force = false) {
+  return force || !held;
+}

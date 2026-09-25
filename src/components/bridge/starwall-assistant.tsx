@@ -81,6 +81,7 @@ import {
   BARGE_GRACE_MS,
   heardWhilePilotTalks,
   isEchoOfSpoken,
+  maySpeak,
   vadHotFrames,
   vadTriggered,
 } from "@/lib/barge-in";
@@ -188,6 +189,7 @@ export function Helm() {
   const sendingRef = useRef(false);
   const askGen = useRef(0);
   const cutLock = useRef(false);
+  const holdSpeech = useRef(false);
   const keepListen = useRef(false);
   const vadRaf = useRef<number | null>(null);
   const vadCtx = useRef<AudioContext | null>(null);
@@ -628,6 +630,7 @@ export function Helm() {
   }
 
   function haltWatch() {
+    holdSpeech.current = true;
     askGen.current += 1;
     sendingRef.current = false;
     const clip = neuralRef.current;
@@ -655,7 +658,6 @@ export function Helm() {
       return [...current, { id: ackId, role: "assistant", text: ack }];
     });
     setTypingId(ackId);
-    void speakReply(ack, recogLang, false, "brief");
   }
 
   function yieldToOfficer() {
@@ -877,6 +879,11 @@ export function Helm() {
 
   function stopSpeech() {
     speakGen.current += 1;
+    speakAbort.current?.abort();
+    speakAbort.current = null;
+    const wait = playWait.current;
+    playWait.current = null;
+    wait?.();
     haltAudio();
     releaseBarge();
     clearMeter();
@@ -986,6 +993,7 @@ export function Helm() {
     if ((!voiceOnRef.current && !force) || typeof window === "undefined") {
       return;
     }
+    if (!maySpeak(holdSpeech.current, force)) return;
     const spoken = text.trim();
     if (!spoken) return;
     const gen = ++speakGen.current;
@@ -1010,10 +1018,10 @@ export function Helm() {
         body: JSON.stringify({ text: spoken, locale, tone, speaker }),
         signal: controller.signal,
       });
-      if (gen !== speakGen.current) return;
+      if (gen !== speakGen.current || !maySpeak(holdSpeech.current, force)) return;
       if (res.ok) {
         const blob = await res.blob();
-        if (gen !== speakGen.current) return;
+        if (gen !== speakGen.current || !maySpeak(holdSpeech.current, force)) return;
         const url = URL.createObjectURL(blob);
         const clip = new Audio(url);
         neuralRef.current = clip;
@@ -1057,7 +1065,7 @@ export function Helm() {
     } catch {
       // Aborted or neural path down — browser male voice next.
     }
-    if (gen !== speakGen.current) return;
+    if (gen !== speakGen.current || !maySpeak(holdSpeech.current, force)) return;
     setNeural((current) => ({ ...current, ready: false }));
     await speakBrowser(spoken, locale, gen, tone, speaker);
     if (gen === speakGen.current) {
@@ -1070,6 +1078,7 @@ export function Helm() {
 
   function stopDemo() {
     const was = drillingRef.current;
+    if (was) holdSpeech.current = true;
     runToken.current += 1;
     demoCancel.current = true;
     drillingRef.current = false;
@@ -1111,6 +1120,7 @@ export function Helm() {
       return;
     }
     const token = ++runToken.current;
+    holdSpeech.current = false;
     stopSpeech();
     demoCancel.current = false;
     drillingRef.current = true;
@@ -1206,6 +1216,7 @@ export function Helm() {
     sendingRef.current = true;
     const ticket = ++askGen.current;
     stopDemo();
+    holdSpeech.current = false;
     if (!wantListen.current) stopListening(true);
     const userId = messageId();
     const userAt = new Date().toISOString();

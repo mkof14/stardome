@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   BARGE_GRACE_MS,
   isEchoOfSpoken,
+  maySpeak,
   shouldCutIn,
   vadHotFrames,
   vadTriggered,
@@ -43,5 +44,11 @@ describe("barge-in", () => {
     expect(heardWhilePilotTalks(false, 0, ECHO_COOLDOWN_MS + 20)).toBe(false);
     hot = vadHotFrames(0.01, hot);
     expect(hot).toBeLessThan(10);
+  });
+
+  it("keeps Pilot silent after Stop unless the officer asks again", () => {
+    expect(maySpeak(true)).toBe(false);
+    expect(maySpeak(true, true)).toBe(true);
+    expect(maySpeak(false)).toBe(true);
   });
 });
