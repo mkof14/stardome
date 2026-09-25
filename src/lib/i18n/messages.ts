@@ -1646,7 +1646,7 @@ export const en: Messages = {
   },
   about: {
     kicker: "About",
-    title: "Who is behind StarDome 1",
+    title: "Who is behind StarDome",
     lead:
       "StarDome has been tying sensors and comms together for a long time. StarWall is the watch layer: whatever brand of radar or camera is already on the yacht, the marina, the port or the island, it should land on one picture. The next step is a suggestion. The person on watch still has to take it.",
     beliefsTitle: "How we refuse to sell it",
@@ -1680,7 +1680,7 @@ export const en: Messages = {
       },
       {
         title: "Time-to-decision",
-        body: "They have had to shrink the gap from a blip to a call. StarDome 1 is meant to match that, not to look busy.",
+        body: "They have had to shrink the gap from a blip to a call. AGRON 1 is meant to match that, not to look busy.",
       },
     ],
     agronTitle: "StarDome",
