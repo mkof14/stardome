@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ContainerFigure } from "@/components/container-figure";
 import { HeroRadar } from "@/components/hero-radar";
 import {
   NumberedGrid,
@@ -14,12 +15,15 @@ import {
   SectionTitle,
 } from "@/components/page-chrome";
 import { RtlAwareLabel } from "@/components/rtl-aware-label";
+import { CONTAINER_HOME_TEASER } from "@/lib/container-gallery";
+import { containerShowCopy } from "@/lib/i18n/container-show-copy";
 import { usePreferences } from "@/lib/i18n/context";
 
 const cardHrefs = ["/how-it-works", "/interface", "/levels", "/technology"] as const;
 
 export function HomeView() {
-  const { t } = usePreferences();
+  const { t, locale } = usePreferences();
+  const containers = containerShowCopy(locale);
 
   return (
     <PageShell>
@@ -76,11 +80,30 @@ export function HomeView() {
           </Link>
         </section>
 
-        <p className="text-sm text-muted">
-          <Link href="/containers" className="hover:text-ink">
-            <RtlAwareLabel text={t.home.containersLink} />
-          </Link>
-        </p>
+        <section
+          aria-labelledby="agron-containers-heading"
+          className="border-t border-stroke pt-10"
+          data-testid="home-agron-containers"
+        >
+          <SectionKicker>{containers.homeKicker}</SectionKicker>
+          <SectionTitle id="agron-containers-heading">{containers.homeTitle}</SectionTitle>
+          <div className="mt-6 grid items-start gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
+            <Link href="/containers" className="group block">
+              <ContainerFigure image={CONTAINER_HOME_TEASER} sizes="(min-width: 1024px) 40rem, 100vw" />
+            </Link>
+            <div>
+              <p className="max-w-xl text-[1.02rem] leading-[1.7] text-muted">
+                {containers.homeLead}
+              </p>
+              <Link
+                href="/containers"
+                className="mt-6 inline-flex text-sm font-medium text-orange underline-offset-4 hover:underline"
+              >
+                <RtlAwareLabel text={containers.homeCta} />
+              </Link>
+            </div>
+          </div>
+        </section>
       </PageBody>
     </PageShell>
   );

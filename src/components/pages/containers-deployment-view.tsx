@@ -1,5 +1,6 @@
 "use client";
 
+import { ContainerFigure } from "@/components/container-figure";
 import { ContainersBackLink } from "@/components/containers-back-link";
 import {
   NumberedGrid,
@@ -8,10 +9,13 @@ import {
   PageHero,
   PageShell,
 } from "@/components/page-chrome";
+import { CONTAINER_SITES_FOUR, CONTAINER_SITES_THREE } from "@/lib/container-gallery";
+import { containerShowCopy } from "@/lib/i18n/container-show-copy";
 import { usePreferences } from "@/lib/i18n/context";
 
 export function ContainersDeploymentView() {
-  const { t } = usePreferences();
+  const { t, locale } = usePreferences();
+  const show = containerShowCopy(locale);
 
   return (
     <PageShell>
@@ -21,6 +25,18 @@ export function ContainersDeploymentView() {
         preface={<ContainersBackLink />}
       />
       <PageBody>
+        <div className="space-y-6">
+          <ContainerFigure
+            image={CONTAINER_SITES_THREE}
+            sizes="(min-width: 1024px) 72rem, 100vw"
+            caption={show.sitesThreeCaption}
+          />
+          <ContainerFigure
+            image={CONTAINER_SITES_FOUR}
+            sizes="(min-width: 1024px) 72rem, 100vw"
+            caption={show.sitesFourCaption}
+          />
+        </div>
         <NumberedGrid className="xl:grid-cols-3">
           {t.containers.cases.map((item, index) => (
             <NumberedItem

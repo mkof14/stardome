@@ -40,9 +40,9 @@ export const pageMeta = {
       "Answers on captain responsibility, connectivity, data access, specialized equipment, and existing systems.",
   },
   containers: {
-    title: "Containers — StarDome",
+    title: "AGRON containers — StarDome",
     description:
-      "A self-contained detection, analysis, and response platform — deployable by land, sea, or fixed site. Detection runs on StarWall.",
+      "AGRON deployable containers and the StarDome systems inside — harbour, island, quay, deck, and mobile. Detection runs on StarWall.",
   },
   containersDetection: {
     title: "Detection Suite — StarDome Containers",

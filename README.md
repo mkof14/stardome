@@ -98,7 +98,7 @@ Shared sticky header and footer wrap every route via the root layout. The header
 | `/pricing` | Plans — four levels, comparison, how pricing is built, request form |
 | `/technology` | Technology (briefing deck + equipment catalog) |
 | `/faq` | FAQ |
-| `/containers` | StarDome Containers |
+| `/containers` | AGRON containers and StarDome systems |
 | `/containers/detection` | Detection Suite |
 | `/containers/countermeasures` | Countermeasures |
 | `/containers/tiers` | Container Tiers |
