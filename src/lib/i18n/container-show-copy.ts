@@ -18,6 +18,10 @@ export type ContainerShowCopy = {
   homeTitle: string;
   homeLead: string;
   homeCta: string;
+  footerKicker: string;
+  footerTitle: string;
+  footerLead: string;
+  footerCta: string;
 };
 
 const en: ContainerShowCopy = {
@@ -72,6 +76,10 @@ const en: ContainerShowCopy = {
   homeLead:
     "Harbour, island, quay, deck, or a van. StarWall runs in the AGRON container. The show set is on the containers page.",
   homeCta: "AGRON containers and StarDome systems →",
+  footerKicker: "AGRON · StarDome",
+  footerTitle: "The steel on the site. The system inside.",
+  footerLead: "Harbour, island, quay, deck, or a van.",
+  footerCta: "AGRON containers →",
 };
 
 const ru: ContainerShowCopy = {
@@ -125,6 +133,10 @@ const ru: ContainerShowCopy = {
   homeLead:
     "Гавань, остров, причал, палуба или фургон. StarWall крутится в контейнере AGRON. Показ — на странице контейнеров.",
   homeCta: "Контейнеры AGRON и системы StarDome →",
+  footerKicker: "AGRON · StarDome",
+  footerTitle: "Сталь на площадке. Система внутри.",
+  footerLead: "Гавань, остров, причал, палуба или фургон.",
+  footerCta: "Контейнеры AGRON →",
 };
 
 const uk: ContainerShowCopy = {
@@ -178,6 +190,10 @@ const uk: ContainerShowCopy = {
   homeLead:
     "Гавань, острів, причал, палуба чи фургон. StarWall крутиться в контейнері AGRON. Показ — на сторінці контейнерів.",
   homeCta: "Контейнери AGRON і системи StarDome →",
+  footerKicker: "AGRON · StarDome",
+  footerTitle: "Сталь на майданчику. Система всередині.",
+  footerLead: "Гавань, острів, причал, палуба чи фургон.",
+  footerCta: "Контейнери AGRON →",
 };
 
 const de: ContainerShowCopy = {
@@ -231,6 +247,10 @@ const de: ContainerShowCopy = {
   homeLead:
     "Hafen, Insel, Kai, Deck oder Van. StarWall läuft im AGRON-Container. Der Schausatz steht auf der Containerseite.",
   homeCta: "AGRON-Container und StarDome-Systeme →",
+  footerKicker: "AGRON · StarDome",
+  footerTitle: "Stahl vor Ort. Das System darin.",
+  footerLead: "Hafen, Insel, Kai, Deck oder Van.",
+  footerCta: "AGRON-Container →",
 };
 
 const es: ContainerShowCopy = {
@@ -284,6 +304,10 @@ const es: ContainerShowCopy = {
   homeLead:
     "Puerto, isla, muelle, cubierta o furgoneta. StarWall corre en el contenedor AGRON. El set de muestra está en la página de contenedores.",
   homeCta: "Contenedores AGRON y sistemas StarDome →",
+  footerKicker: "AGRON · StarDome",
+  footerTitle: "El acero en el sitio. El sistema dentro.",
+  footerLead: "Puerto, isla, muelle, cubierta o furgoneta.",
+  footerCta: "Contenedores AGRON →",
 };
 
 const fr: ContainerShowCopy = {
@@ -337,6 +361,10 @@ const fr: ContainerShowCopy = {
   homeLead:
     "Port, île, quai, pont ou fourgon. StarWall tourne dans le conteneur AGRON. Le jeu de démonstration est sur la page conteneurs.",
   homeCta: "Conteneurs AGRON et systèmes StarDome →",
+  footerKicker: "AGRON · StarDome",
+  footerTitle: "L'acier sur site. Le système dedans.",
+  footerLead: "Port, île, quai, pont ou fourgon.",
+  footerCta: "Conteneurs AGRON →",
 };
 
 const ar: ContainerShowCopy = {
@@ -390,6 +418,10 @@ const ar: ContainerShowCopy = {
   homeLead:
     "ميناء أو جزيرة أو رصيف أو سطح أو شاحنة. يعمل StarWall داخل حاوية AGRON. مجموعة العرض على صفحة الحاويات.",
   homeCta: "حاويات AGRON وأنظمة StarDome →",
+  footerKicker: "AGRON · StarDome",
+  footerTitle: "الفولاذ في الموقع. النظام في الداخل.",
+  footerLead: "ميناء أو جزيرة أو رصيف أو سطح أو شاحنة.",
+  footerCta: "حاويات AGRON →",
 };
 
 const zh: ContainerShowCopy = {
@@ -441,6 +473,10 @@ const zh: ContainerShowCopy = {
   homeTitle: "钢箱，以及箱内的 StarDome 系统",
   homeLead: "港口、岛屿、码头、甲板或厢式车。StarWall 在 AGRON 集装箱内运行。展示套装在集装箱页。",
   homeCta: "AGRON 集装箱与 StarDome 系统 →",
+  footerKicker: "AGRON · StarDome",
+  footerTitle: "场地上的钢材。箱内的系统。",
+  footerLead: "港口、岛屿、码头、甲板或厢式车。",
+  footerCta: "AGRON 集装箱 →",
 };
 
 const ja: ContainerShowCopy = {
@@ -494,6 +530,10 @@ const ja: ContainerShowCopy = {
   homeLead:
     "港、島、岸壁、甲板、バン。StarWall は AGRON コンテナで動きます。展示セットはコンテナ頁にあります。",
   homeCta: "AGRON コンテナと StarDome システム →",
+  footerKicker: "AGRON · StarDome",
+  footerTitle: "現場の鋼。中のシステム。",
+  footerLead: "港、島、岸壁、甲板、バン。",
+  footerCta: "AGRON コンテナ →",
 };
 
 const he: ContainerShowCopy = {
@@ -547,6 +587,10 @@ const he: ContainerShowCopy = {
   homeLead:
     "נמל, אי, רציף, סיפון או טנדר. StarWall רץ במכולת AGRON. סט ההצגה בעמוד המכולות.",
   homeCta: "מכולות AGRON ומערכות StarDome →",
+  footerKicker: "AGRON · StarDome",
+  footerTitle: "הפלדה באתר. המערכת בפנים.",
+  footerLead: "נמל, אי, רציף, סיפון או טנדר.",
+  footerCta: "מכולות AGRON →",
 };
 
 const COPY: Record<Locale, ContainerShowCopy> = {

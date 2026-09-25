@@ -28,11 +28,13 @@ export function ContainersDeploymentView() {
         <div className="space-y-6">
           <ContainerFigure
             image={CONTAINER_SITES_THREE}
+            accent="teal"
             sizes="(min-width: 1024px) 72rem, 100vw"
             caption={show.sitesThreeCaption}
           />
           <ContainerFigure
             image={CONTAINER_SITES_FOUR}
+            accent="sky"
             sizes="(min-width: 1024px) 72rem, 100vw"
             caption={show.sitesFourCaption}
           />

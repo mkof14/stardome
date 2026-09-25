@@ -1,20 +1,23 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
-import type { ContainerFigure } from "@/lib/container-gallery";
+import { ACCENT_BAR, type AccentName } from "@/lib/container-accents";
+import type { ContainerFigure as ContainerFigureImage } from "@/lib/container-gallery";
 
 export function ContainerFigure({
   image,
   caption,
   priority = false,
   bleed = false,
+  accent,
   className,
   sizes,
 }: {
-  image: ContainerFigure;
+  image: ContainerFigureImage;
   caption?: ReactNode;
   priority?: boolean;
   bleed?: boolean;
+  accent?: AccentName;
   className?: string;
   sizes?: string;
 }) {
@@ -26,6 +29,7 @@ export function ContainerFigure({
         className,
       )}
     >
+      {accent ? <div className={cn("h-1 w-full", ACCENT_BAR[accent])} /> : null}
       <Image
         src={image.src}
         alt={image.alt}

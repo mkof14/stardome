@@ -18,6 +18,8 @@ const config: Config = {
         header: "var(--header)",
         callout: "var(--callout)",
         orange: "#F15A00",
+        teal: "var(--watch-accent)",
+        sky: "var(--demo-accent)",
         navy: "var(--navy)",
         navyText: "#1B2A3A",
         sand: "#E9E4DA",

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { BrandLogo } from "@/components/brand-logo";
+import { FooterContainersBand } from "@/components/footer-containers-band";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { usePathname } from "next/navigation";
@@ -39,7 +40,8 @@ export function SiteFooter() {
 
   return (
     <footer className="w-full bg-navy print:hidden">
-      <div className="h-[2px] bg-orange" />
+      <div className="h-[2px] bg-gradient-to-r from-attn via-teal to-sky" />
+      <FooterContainersBand />
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 md:grid-cols-2 md:px-6 lg:grid-cols-4">
         <div className="space-y-4">
           <Link href="/" className="inline-flex shrink-0 items-center">
@@ -56,7 +58,11 @@ export function SiteFooter() {
               <li key={item.href}>
                 <Link
                   href={item.href === "/pricing" && hasDesk ? deskPaths.root : item.href}
-                  className="hover:text-sand"
+                  className={
+                    item.href === "/containers"
+                      ? "text-attn hover:text-sand"
+                      : "hover:text-sand"
+                  }
                 >
                   {t.nav[item.key]}
                 </Link>

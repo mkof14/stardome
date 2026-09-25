@@ -10,6 +10,8 @@ describe("containerShowCopy", () => {
       expect(copy.systems).toHaveLength(3);
       expect(copy.title.length).toBeGreaterThan(8);
       expect(copy.homeCta.length).toBeGreaterThan(4);
+      expect(copy.footerCta.length).toBeGreaterThan(4);
+      expect(copy.footerTitle.length).toBeGreaterThan(4);
     }
   });
 

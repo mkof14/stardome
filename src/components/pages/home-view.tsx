@@ -85,11 +85,20 @@ export function HomeView() {
           className="border-t border-stroke pt-10"
           data-testid="home-agron-containers"
         >
+          <div className="mb-3 flex gap-1.5" aria-hidden>
+            <span className="h-1 w-8 bg-attn" />
+            <span className="h-1 w-5 bg-teal" />
+            <span className="h-1 w-5 bg-sky" />
+          </div>
           <SectionKicker>{containers.homeKicker}</SectionKicker>
           <SectionTitle id="agron-containers-heading">{containers.homeTitle}</SectionTitle>
           <div className="mt-6 grid items-start gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
             <Link href="/containers" className="group block">
-              <ContainerFigure image={CONTAINER_HOME_TEASER} sizes="(min-width: 1024px) 40rem, 100vw" />
+              <ContainerFigure
+                image={CONTAINER_HOME_TEASER}
+                accent="attn"
+                sizes="(min-width: 1024px) 40rem, 100vw"
+              />
             </Link>
             <div>
               <p className="max-w-xl text-[1.02rem] leading-[1.7] text-muted">
