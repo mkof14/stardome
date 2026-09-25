@@ -83,7 +83,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL(origin),
     title: {
-      default: "StarWall by AGRON — Maritime Security Intelligence",
+      default: "StarWall by StarDome — Maritime Security Intelligence",
       template: "%s",
     },
     description:
@@ -98,7 +98,7 @@ export async function generateMetadata(): Promise<Metadata> {
       shortcut: "/favicon.ico",
     },
     openGraph: {
-      title: "StarWall by AGRON — Maritime Security Intelligence",
+      title: "StarWall by StarDome — Maritime Security Intelligence",
       description:
         "Intelligence, integration, and decision support for yacht, marina, port, and private island security.",
       type: "website",
@@ -116,7 +116,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: "StarWall by AGRON — Maritime Security Intelligence",
+      title: "StarWall by StarDome — Maritime Security Intelligence",
       description:
         "Intelligence, integration, and decision support for yacht, marina, port, and private island security.",
       images: ["/og-starwall.jpg"],

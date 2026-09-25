@@ -16,12 +16,12 @@ export const EQUIPMENT_CATALOG = [
   { id: "satcom", name: "Satcom", category: "comms" },
   {
     id: "hull",
-    name: "AGRON Container — Hull Sensor Array",
+    name: "StarDome Container — Hull Sensor Array",
     category: "container",
   },
   {
     id: "power",
-    name: "AGRON Container — Power System",
+    name: "StarDome Container — Power System",
     category: "container",
   },
 ] as const;

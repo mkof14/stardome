@@ -123,7 +123,7 @@ export const ar: PlansPageCopy = {
   hardware: {
     heading: "الأجهزة اختيارية",
     subheading: "استخدموا ما لديكم. أضيفوا ما تحتاجون.",
-    body: "يمكن لـ StarWall الاندماج مع بنية السفينة أو الموقع المتوافقة القائمة. يمكن إضافة معدات AGRON ووحدات النشر حيث يلزم.",
+    body: "يمكن لـ StarWall الاندماج مع بنية السفينة أو الموقع المتوافقة القائمة. يمكن إضافة معدات StarDome ووحدات النشر حيث يلزم.",
     cta: "استكشفوا الأجهزة",
     items: {
       existing: {
@@ -131,7 +131,7 @@ export const ar: PlansPageCopy = {
         body: "اربطوا StarWall بالأنظمة المتوافقة المثبتة أصلاً على السفينة أو الموقع.",
       },
       modules: {
-        title: "وحدات AGRON",
+        title: "وحدات StarDome",
         body: "أضيفوا وحدات كشف أو استشعار أو اتصالات أو غيرها حسب الحاجة.",
       },
       mobile: {
@@ -139,7 +139,7 @@ export const ar: PlansPageCopy = {
         body: "انشروا تكويناً متنقلاً لعمليات مؤقتة أو متغيرة أو نائية.",
       },
       complete: {
-        title: "نظام AGRON كامل",
+        title: "نظام StarDome كامل",
         body: "صمّموا تكويناً كاملاً لـ StarWall والأجهزة حول الموقع.",
       },
     },
@@ -173,7 +173,7 @@ export const ar: PlansPageCopy = {
   },
   request: {
     heading: "غير متأكدين أي خطة StarWall تناسب عمليتكم؟",
-    body: "أخبرونا عما تحمون وما المعدات القائمة. تستطيع AGRON أن توصي بتكوين StarWall المناسب.",
+    body: "أخبرونا عما تحمون وما المعدات القائمة. تستطيع StarDome أن توصي بتكوين StarWall المناسب.",
     cta: "طلب تكوين StarWall",
     assetLabel: "ماذا تحمون؟",
     assets: {

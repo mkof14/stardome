@@ -90,7 +90,7 @@ export function ContainerConnectionDiagram() {
         <svg
           viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
           role="img"
-          aria-label="AGRON Container hardware feeds StarWall, which sends alerts and recommendations to the operator on AGRON 1."
+          aria-label="StarDome Container hardware feeds StarWall, which sends alerts and recommendations to the operator on StarDome 1."
           className="h-auto w-full min-w-[720px]"
           preserveAspectRatio="xMinYMid meet"
         >
@@ -98,7 +98,7 @@ export function ContainerConnectionDiagram() {
           <Box
             x={left}
             y={y}
-            title="AGRON CONTAINER"
+            title="StarDome CONTAINER"
             lines={["Radar & Sensors", "Cameras", "Sonar", "RF/EW equipment"]}
           />
           <Arrow x1={left + BOX_W} x2={mid} y={midY} />
@@ -134,7 +134,7 @@ export function ContainerConnectionDiagram() {
             x={right}
             y={y}
             title="OPERATOR"
-            lines={["AGRON 1"]}
+            lines={["StarDome 1"]}
           />
         </svg>
       </div>

@@ -118,7 +118,7 @@ export function plantSections(ctx: PlantContext): PlantSection[] {
     {
       id: "container",
       rows: [
-        { id: "hull", label: "Hull / ISO", value: "20 ft · sealed", note: "AGRON Container", tone: "ok" },
+        { id: "hull", label: "Hull / ISO", value: "20 ft · sealed", note: "StarDome Container", tone: "ok" },
         { id: "hatch", label: "Service hatches", value: "3 locked", tone: "ok" },
         { id: "env", label: "Internal climate", value: "21.2°C · 44% RH", tone: "ok" },
       ],
@@ -151,7 +151,7 @@ export function plantSections(ctx: PlantContext): PlantSection[] {
           id: "ups",
           label: "UPS racks",
           value: "12 min hold",
-          note: "Core + AGRON 1 + recorder",
+          note: "Core + StarDome 1 + recorder",
           tone: "ok",
         },
       ],

@@ -21,7 +21,7 @@ const NAVY = { r: 0, g: 9, b: 28, alpha: 1 };
 const trimmed = sharp(src).trim({ threshold: 2 }).ensureAlpha();
 const meta = await trimmed.metadata();
 const ratio = (meta.width ?? 1) / (meta.height ?? 1);
-const webW = 800;
+const webW = 1600;
 const webH = Math.round(webW / ratio);
 const buffer = await trimmed.toBuffer();
 
@@ -34,25 +34,45 @@ async function write(name, pipeline, dir = outDir) {
 }
 
 await write(
-  "starwall-logo.webp",
-  sharp(buffer).resize(webW, webH, { kernel: "lanczos3" }).webp({ quality: 74, effort: 6, alphaQuality: 88 }),
+  "SD_Logo1.png",
+  sharp(buffer).resize(webW, webH, { kernel: "lanczos3" }).png({
+    compressionLevel: 9,
+    adaptiveFiltering: true,
+  }),
 );
 
+const webp = sharp(buffer)
+  .resize(800, Math.round(800 / ratio), { kernel: "lanczos3" })
+  .webp({ quality: 78, effort: 6, alphaQuality: 90 });
+await write("SD_Logo1.webp", webp);
+await write(
+  "starwall-logo.webp",
+  sharp(buffer)
+    .resize(800, Math.round(800 / ratio), { kernel: "lanczos3" })
+    .webp({ quality: 78, effort: 6, alphaQuality: 90 }),
+);
 await write(
   "starwall-logo.avif",
-  sharp(buffer).resize(webW, webH, { kernel: "lanczos3" }).avif({ quality: 58, effort: 6 }),
+  sharp(buffer)
+    .resize(800, Math.round(800 / ratio), { kernel: "lanczos3" })
+    .avif({ quality: 60, effort: 6 }),
 );
-
 await write(
   "SW3.png",
   sharp(buffer)
-    .resize(webW, webH, { kernel: "lanczos3" })
-    .png({ compressionLevel: 9, quality: 80, adaptiveFiltering: true }),
+    .resize(800, Math.round(800 / ratio), { kernel: "lanczos3" })
+    .png({ compressionLevel: 9, adaptiveFiltering: true }),
 );
+
+const star = await sharp(src)
+  .extract({ left: 1000, top: 168, width: 348, height: 348 })
+  .ensureAlpha()
+  .png()
+  .toBuffer();
 
 async function tile(size, pad, { opaque = false } = {}) {
   const inner = Math.round(size - pad * 2);
-  const fitted = await sharp(buffer)
+  const fitted = await sharp(star)
     .resize(inner, inner, {
       fit: "contain",
       background: { r: 0, g: 0, b: 0, alpha: 0 },
@@ -93,11 +113,16 @@ writeFileSync(join(outDir, "favicon.ico"), pngToIco(fav32));
 console.log(`favicon.ico ${(statSync(join(outDir, "favicon.ico")).size / 1024).toFixed(1)} KB`);
 
 const ogLogo = await sharp(buffer)
-  .resize(920, Math.round(920 / ratio), { kernel: "lanczos3" })
+  .resize(1000, Math.round(1000 / ratio), { kernel: "lanczos3" })
   .png()
   .toBuffer();
 const ogJpeg = await sharp({
-  create: { width: 1200, height: 630, channels: 3, background: { r: NAVY.r, g: NAVY.g, b: NAVY.b } },
+  create: {
+    width: 1200,
+    height: 630,
+    channels: 3,
+    background: { r: NAVY.r, g: NAVY.g, b: NAVY.b },
+  },
 })
   .composite([{ input: ogLogo, gravity: "center" }])
   .jpeg({ quality: 86, mozjpeg: true })
@@ -106,5 +131,4 @@ writeFileSync(join(outDir, "og-starwall.jpg"), ogJpeg);
 writeFileSync(join(appDir, "opengraph-image.jpg"), ogJpeg);
 console.log(`og-starwall.jpg ${(statSync(join(outDir, "og-starwall.jpg")).size / 1024).toFixed(1)} KB`);
 console.log(`opengraph-image.jpg ${(statSync(join(appDir, "opengraph-image.jpg")).size / 1024).toFixed(1)} KB`);
-
-console.log(`source ${meta.width}x${meta.height} → web ${webW}x${webH}`);
+console.log(`source ${meta.width}x${meta.height} → SD_Logo1 ${webW}x${webH}`);

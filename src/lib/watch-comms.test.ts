@@ -41,7 +41,7 @@ describe("watchCommsCopy", () => {
 });
 
 describe("connections hub", () => {
-  it("keeps a large orange AGRON 1 hub", () => {
+  it("keeps a large orange StarDome 1 hub", () => {
     expect(CORE.r).toBeGreaterThan(70);
   });
 });

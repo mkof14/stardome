@@ -1,18 +1,18 @@
 ---
-description: Official StarWall logo — chrome hex badge
+description: Official StarDome logo — chrome wordmark
 alwaysApply: true
 ---
 
-# StarWall logo
+# StarDome logo
 
-The official StarWall mark is the chrome hex badge supplied by AGRON.
+The official mark is the chrome **StarDome** wordmark (`SD_Logo1.png`).
 
-- Web UI, header, footer, login, and CORE map: `public/starwall-logo.webp` (AVIF sibling `starwall-logo.avif`).
-- PDF, PNG fallback: `public/SW3.png`.
-- Favicon / Apple: `public/favicon.ico`, `public/favicon-16.png`, `public/favicon-32.png`, `public/apple-touch-icon.png`. App Router copies: `src/app/icon.png`, `src/app/apple-icon.png`.
-- Open Graph / link previews (star-wall.com): `public/og-starwall.jpg` and `src/app/opengraph-image.jpg`.
+- Web UI, header, footer, login: `public/SD_Logo1.webp` (PNG sibling `public/SD_Logo1.png`).
+- PDF / PNG fallback: `public/SD_Logo1.png` (and `public/SW3.png` as the same mark).
+- Favicon / Apple: the star from the D — `public/favicon.ico`, `public/favicon-16.png`, `public/favicon-32.png`, `public/apple-touch-icon.png`. App Router copies: `src/app/icon.png`, `src/app/apple-icon.png`.
+- Open Graph / link previews: `public/og-starwall.jpg` and `src/app/opengraph-image.jpg`.
 
-Regenerate with `node scripts/optimize-logo.mjs <source.png>`.
+Regenerate with `node scripts/optimize-logo.mjs <source.png>` from the official `SD_Logo1` artwork.
 
 - Do not redraw the wordmark in CSS or SVG.
 - Do not generate a replacement logo.

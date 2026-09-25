@@ -52,7 +52,7 @@ export function AboutView() {
           <p className="mt-4 max-w-2xl text-[1.02rem] leading-[1.7] text-muted">
             {copy.agronBefore}
             <a
-              href="https://agron1.com"
+              href="https://star-wall.com"
               target="_blank"
               rel="noopener noreferrer"
               className="font-medium text-orange underline-offset-2 hover:underline"

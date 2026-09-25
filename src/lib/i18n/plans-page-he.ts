@@ -123,7 +123,7 @@ export const he: PlansPageCopy = {
   hardware: {
     heading: "חומרה היא אופציונלית",
     subheading: "השתמשו במה שכבר יש. הוסיפו מה שצריך.",
-    body: "StarWall יכול להשתלב עם תשתית תואמת שכבר מותקנת בכלי השיט או באתר. ציוד AGRON ומודולי פריסה נוספים נוספים לפי הצורך.",
+    body: "StarWall יכול להשתלב עם תשתית תואמת שכבר מותקנת בכלי השיט או באתר. ציוד StarDome ומודולי פריסה נוספים נוספים לפי הצורך.",
     cta: "לעיין בחומרה",
     items: {
       existing: {
@@ -131,7 +131,7 @@ export const he: PlansPageCopy = {
         body: "חברו את StarWall למערכות תואמות שכבר מותקנות בכלי השיט או באתר.",
       },
       modules: {
-        title: "מודולי AGRON",
+        title: "מודולי StarDome",
         body: "הוסיפו מודולי גילוי, חישה, תקשורת או מודולים נדרשים אחרים.",
       },
       mobile: {
@@ -139,7 +139,7 @@ export const he: PlansPageCopy = {
         body: "פרסו תצורה ניידת לפעילות זמנית, משתנה או מרוחקת.",
       },
       complete: {
-        title: "מערכת AGRON מלאה",
+        title: "מערכת StarDome מלאה",
         body: "תכננו תצורת StarWall וחומרה שלמה סביב האתר.",
       },
     },
@@ -173,7 +173,7 @@ export const he: PlansPageCopy = {
   },
   request: {
     heading: "לא בטוחים איזו תוכנית StarWall מתאימה לפעילות?",
-    body: "ספרו לנו מה אתם מגנים ומה כבר מותקן. AGRON יכולה להמליץ על תצורת StarWall המתאימה.",
+    body: "ספרו לנו מה אתם מגנים ומה כבר מותקן. StarDome יכולה להמליץ על תצורת StarWall המתאימה.",
     cta: "בקשת תצורת StarWall",
     assetLabel: "מה אתם מגנים?",
     assets: {

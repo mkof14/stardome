@@ -669,12 +669,12 @@ export const en: Messages = {
   nav: {
     home: "Home",
     howItWorks: "How it works",
-    interface: "AGRON 1",
+    interface: "StarDome 1",
     levels: "Levels",
     pricing: "Plans",
     technology: "Technology",
     faq: "FAQ",
-    containers: "AGRON Container",
+    containers: "StarDome Container",
     about: "About",
     contact: "Contact",
     backend: "Backend",
@@ -688,7 +688,7 @@ export const en: Messages = {
     footer: "Footer",
   },
   chrome: {
-    rights: "© AGRON Inc. 2026 · All rights reserved",
+    rights: "© StarDome Inc. 2026 · All rights reserved",
     themeToLight: "Switch to light theme",
     themeToDark: "Switch to dark theme",
     language: "Language",
@@ -698,50 +698,50 @@ export const en: Messages = {
     footerCompany: "Company",
     footerLegal: "Legal",
     footerBlurb:
-      "StarWall reads the kit already on the yacht, marina or island. AGRON builds it.",
+      "StarWall reads the kit already on the yacht, marina or island. StarDome builds it.",
   },
   seo: {
-    home: "StarWall by AGRON — Maritime Security Intelligence",
-    howItWorks: "How StarWall Works — StarWall by AGRON",
-    interface: "AGRON 1 — Interactive Demo — StarWall by AGRON",
-    levels: "Subscription Levels — StarWall by AGRON",
-    pricing: "Plans — StarWall by AGRON",
-    technology: "Equipment & Integration — StarWall by AGRON",
-    faq: "FAQ — StarWall by AGRON",
-    containers: "Containers — AGRON",
-    containersDetection: "Detection Suite — AGRON Containers",
-    containersSpecs: "Specifications — AGRON Containers",
-    containersCountermeasures: "Countermeasures — AGRON Containers",
-    containersTiers: "Tiers — AGRON Containers",
-    containersDeployment: "Deployment — AGRON Containers",
-    about: "Why StarWall — StarWall by AGRON",
-    contact: "Contact — StarWall by AGRON",
-    backend: "StarWall Backend — System administration — StarWall by AGRON",
-    connections: "System Connections Map — StarWall by AGRON",
-    login: "Sign in — StarWall by AGRON",
-    tasks: "All tasks — StarWall by AGRON",
-    signup: "Sign up — StarWall by AGRON",
-    forgotPassword: "Forgot password — StarWall by AGRON",
-    privacy: "Privacy — StarWall by AGRON",
-    terms: "Terms of Service — StarWall by AGRON",
+    home: "StarWall by StarDome — Maritime Security Intelligence",
+    howItWorks: "How StarWall Works — StarWall by StarDome",
+    interface: "StarDome 1 — Interactive Demo — StarWall by StarDome",
+    levels: "Subscription Levels — StarWall by StarDome",
+    pricing: "Plans — StarWall by StarDome",
+    technology: "Equipment & Integration — StarWall by StarDome",
+    faq: "FAQ — StarWall by StarDome",
+    containers: "Containers — StarDome",
+    containersDetection: "Detection Suite — StarDome Containers",
+    containersSpecs: "Specifications — StarDome Containers",
+    containersCountermeasures: "Countermeasures — StarDome Containers",
+    containersTiers: "Tiers — StarDome Containers",
+    containersDeployment: "Deployment — StarDome Containers",
+    about: "Why StarWall — StarWall by StarDome",
+    contact: "Contact — StarWall by StarDome",
+    backend: "StarWall Backend — System administration — StarWall by StarDome",
+    connections: "System Connections Map — StarWall by StarDome",
+    login: "Sign in — StarWall by StarDome",
+    tasks: "All tasks — StarWall by StarDome",
+    signup: "Sign up — StarWall by StarDome",
+    forgotPassword: "Forgot password — StarWall by StarDome",
+    privacy: "Privacy — StarWall by StarDome",
+    terms: "Terms of Service — StarWall by StarDome",
   },
   legal: {
     privacyTitle: "Privacy Policy",
     privacyUpdated: "Last updated: 7 September 2026",
     privacyIntro:
-      "This policy explains how AGRON Inc. (“AGRON”, “we”) handles information when you use the StarWall website, the illustrative AGRON 1, Pilot, and related administration screens. It is written for this product as it exists today — including DEMO and LIVE — not as a promise of a future system.",
+      "This policy explains how StarDome Inc. (“StarDome”, “we”) handles information when you use the StarWall website, the illustrative StarDome 1, Pilot, and related administration screens. It is written for this product as it exists today — including DEMO and LIVE — not as a promise of a future system.",
     privacySections: [
       {
         title: "Who is responsible",
-        body: "AGRON Inc. is the organisation behind StarWall. For privacy questions use the contact form on this site or write via agron1.com. If we appoint a data-protection contact for a contracted deployment, that person is named in the written agreement.",
+        body: "StarDome Inc. is the organisation behind StarWall. For privacy questions use the contact form on this site or write via star-wall.com. If we appoint a data-protection contact for a contracted deployment, that person is named in the written agreement.",
       },
       {
         title: "What this site is",
-        body: "The public pages are a product site. AGRON 1 at /interface is an illustrative watch picture: DEMO uses simulated contacts, events, and equipment status so you can see how StarWall is meant to work. LIVE shows the real state of this deployment — empty until sensors are actually connected. Nothing on the public demo is a live feed from a yacht, marina, or port unless a written AGRON agreement says otherwise.",
+        body: "The public pages are a product site. StarDome 1 at /interface is an illustrative watch picture: DEMO uses simulated contacts, events, and equipment status so you can see how StarWall is meant to work. LIVE shows the real state of this deployment — empty until sensors are actually connected. Nothing on the public demo is a live feed from a yacht, marina, or port unless a written StarDome agreement says otherwise.",
       },
       {
         title: "Information we process",
-        body: "If you create an account we store the email and password hash (or the identifier from a sign-in provider you choose) and the role assigned to you. Contact and configuration requests store your name, email, message, and any optional organization, phone, or asset details as a lead — in the deployment database when it is configured, otherwise in a local lead file. A copy is emailed or posted to a webhook only when those services are set on this deployment. The browser keeps language, theme, and DEMO/LIVE locally. Event logs, session reports, Black Box records, and Pilot conversations are written on the device first; they sync to the deployment database only when that database is configured. We do not use AGRON 1 or Pilot content to train models.",
+        body: "If you create an account we store the email and password hash (or the identifier from a sign-in provider you choose) and the role assigned to you. Contact and configuration requests store your name, email, message, and any optional organization, phone, or asset details as a lead — in the deployment database when it is configured, otherwise in a local lead file. A copy is emailed or posted to a webhook only when those services are set on this deployment. The browser keeps language, theme, and DEMO/LIVE locally. Event logs, session reports, Black Box records, and Pilot conversations are written on the device first; they sync to the deployment database only when that database is configured. We do not use StarDome 1 or Pilot content to train models.",
       },
       {
         title: "Cookies and similar storage",
@@ -749,29 +749,29 @@ export const en: Messages = {
       },
       {
         title: "Access and sharing",
-        body: "Access follows the roles already on Backend: Super Admin, Admin, Operator, and Viewer each see only what that role allows. Hosting and database providers process data on our instructions when a deployment is connected. Sign-in providers receive only what you authorize. Anthropic receives the Pilot prompt you send, so the advisor can reply — not for AGRON marketing.",
+        body: "Access follows the roles already on Backend: Super Admin, Admin, Operator, and Viewer each see only what that role allows. Hosting and database providers process data on our instructions when a deployment is connected. Sign-in providers receive only what you authorize. Anthropic receives the Pilot prompt you send, so the advisor can reply — not for StarDome marketing.",
       },
       {
         title: "Your rights and retention",
-        body: "You may ask to access, correct, or delete account and AGRON 1 records that we hold, using the contact page. If you are in the EU, EEA, UK, or Monaco, GDPR or equivalent law may add further rights, including complaint to a supervisory authority. We keep records for as long as the account or contracted deployment needs them, then delete or anonymise them. This policy is not a certification stamp; it describes our current practice.",
+        body: "You may ask to access, correct, or delete account and StarDome 1 records that we hold, using the contact page. If you are in the EU, EEA, UK, or Monaco, GDPR or equivalent law may add further rights, including complaint to a supervisory authority. We keep records for as long as the account or contracted deployment needs them, then delete or anonymise them. This policy is not a certification stamp; it describes our current practice.",
       },
     ],
     termsTitle: "Terms of Service",
     termsUpdated: "Last updated: 7 September 2026",
     termsIntro:
-      "These terms govern use of the StarWall website and the illustrative AGRON 1, Pilot, and Backend screens published here. Use of StarWall as an operational system on a vessel or site requires a separate written agreement with AGRON.",
+      "These terms govern use of the StarWall website and the illustrative StarDome 1, Pilot, and Backend screens published here. Use of StarWall as an operational system on a vessel or site requires a separate written agreement with StarDome.",
     termsSections: [
       {
         title: "Acceptance",
-        body: "By using this website you agree to these terms. If you do not agree, do not use the site. AGRON may update these terms; the date at the top of this page is the version that applies. Continued use after an update means you accept the revised terms.",
+        body: "By using this website you agree to these terms. If you do not agree, do not use the site. StarDome may update these terms; the date at the top of this page is the version that applies. Continued use after an update means you accept the revised terms.",
       },
       {
-        title: "Illustrative AGRON 1",
+        title: "Illustrative StarDome 1",
         body: "DEMO is a training and explanation picture. It is not a sensor feed and must not be treated as the real situation of any vessel or site. LIVE is honest about the current deployment: if no equipment is connected, the picture is empty. Recommended actions and Pilot replies are advice for the person on watch. They do not replace that person’s judgment.",
       },
       {
         title: "Accounts",
-        body: "You are responsible for the credentials you use. Do not share an account that can change watch state or administration. Demo sign-in details, if shown on the login page, are for illustration of roles — change them before any real deployment. AGRON may suspend access that is abused or that puts others at risk.",
+        body: "You are responsible for the credentials you use. Do not share an account that can change watch state or administration. Demo sign-in details, if shown on the login page, are for illustration of roles — change them before any real deployment. StarDome may suspend access that is abused or that puts others at risk.",
       },
       {
         title: "Acceptable use",
@@ -783,7 +783,7 @@ export const en: Messages = {
       },
       {
         title: "Intellectual property, liability, contact",
-        body: "StarWall, AGRON, and the site logo are AGRON marks. Page content is provided “as is” for information. AGRON is not liable for decisions taken solely from the public demo picture or from Pilot advice on this site. Operational liability, if any, is set in a written agreement. Questions: use /contact or agron1.com. These website terms are governed by the laws applicable to AGRON Inc., without choosing a venue we have not agreed in writing.",
+        body: "StarWall, StarDome, and the site logo are StarDome marks. Page content is provided “as is” for information. StarDome is not liable for decisions taken solely from the public demo picture or from Pilot advice on this site. Operational liability, if any, is set in a written agreement. Questions: use /contact or star-wall.com. These website terms are governed by the laws applicable to StarDome Inc., without choosing a venue we have not agreed in writing.",
       },
     ],
   },
@@ -791,12 +791,12 @@ export const en: Messages = {
     connectionsKicker: "STARWALL · TOPOLOGY",
     connectionsTitle: "System Connections Map",
     connectionsLead:
-      "Live topology of the training picture: sensors feed StarWall Core; Core pushes the same picture to AGRON 1 and Support Center.",
+      "Live topology of the training picture: sensors feed StarWall Core; Core pushes the same picture to StarDome 1 and Support Center.",
     connectionsLeadLive:
       "Same layout as the working picture — every unit is waiting for installation. No live sensors are connected yet.",
-    connectionsBack: "← Back to AGRON 1",
+    connectionsBack: "← Back to StarDome 1",
     connectionsIn: "Data in (sensors → core)",
-    connectionsOut: "Information out (core → AGRON 1 / Support)",
+    connectionsOut: "Information out (core → StarDome 1 / Support)",
     connectionsOff: "Not connected",
     helmTitle: "Pilot",
     helmAdvisor: "WATCH ADVISOR",
@@ -805,7 +805,7 @@ export const en: Messages = {
     helmHide: "Hide",
     helmOpen: "Open Pilot",
     helmEmpty:
-      "Pilot is on watch. Ask about StarWall, the AGRON 1 picture, plans, or AGRON containers — speak or type. Advice only; you decide.",
+      "Pilot is on watch. Ask about StarWall, the StarDome 1 picture, plans, or StarDome containers — speak or type. Advice only; you decide.",
     helmLive: "WATCH ADVISOR · LIVE · no sensors",
     helmSpeakerOn: "Speaker on",
     helmSpeakerOff: "Speaker off",
@@ -816,7 +816,7 @@ export const en: Messages = {
     kicker: "STARWALL BACKEND",
     title: "System administration",
     lead:
-      "Connectivity, equipment health, access control, and monitoring — including AGRON Container hardware. Denser than AGRON 1: built for administrators, not a glance watch.",
+      "Connectivity, equipment health, access control, and monitoring — including StarDome Container hardware. Denser than StarDome 1: built for administrators, not a glance watch.",
     demoNotice:
       "Pre-pilot administration — roles, equipment checks, notification routing, and the audit log write to the local database. No physical sensors are connected yet.",
     sectionsNav: "Backend sections",
@@ -889,10 +889,10 @@ export const en: Messages = {
     roleViewerDetail: "Reports and Black Box only — no scenario triggering, no settings.",
     blackboxTitle: "BLACK BOX",
     blackboxLead:
-      "Session records from this browser — Pilot conversations and scenario runs — written in AGRON 1 and retained locally.",
+      "Session records from this browser — Pilot conversations and scenario runs — written in StarDome 1 and retained locally.",
     blackboxLeadLive: "No records yet from this deployment.",
     blackboxEmpty: "No records yet.",
-    blackboxOpen: "Open recorder in AGRON 1 →",
+    blackboxOpen: "Open recorder in StarDome 1 →",
     conversation: "Conversation",
     scenarioRun: "Scenario",
     integrationsTitle: "INTEGRATIONS REGISTRY",
@@ -907,7 +907,7 @@ export const en: Messages = {
     testOk: "Handshake OK",
     testFail: "No feed",
     auditTitle: "AUDIT LOG",
-    auditLead: "Administrative actions — distinct from the AGRON 1 Event Log.",
+    auditLead: "Administrative actions — distinct from the StarDome 1 Event Log.",
     noAudit: "No administrative actions recorded yet.",
     exportAudit: "Export log",
     justNow: "just now",
@@ -984,7 +984,7 @@ export const en: Messages = {
     demoAccounts: "Idea demonstration",
     liveEmptyAccounts: "No accounts on this deployment yet.",
     sessionNotice:
-      "Signed-in session for AGRON 1 and Backend. Roles are enforced on write actions.",
+      "Signed-in session for StarDome 1 and Backend. Roles are enforced on write actions.",
     sessionNoticeLive:
       "Same accounts as DEMO. LIVE still has no connected sensors.",
     nameRequired: "Enter a name to continue.",
@@ -1040,44 +1040,44 @@ export const en: Messages = {
       health: "Heartbeat, links, and backup paths for this deployment.",
       equipment: "Diagnostics and self-checks for connected equipment.",
       access: "Role hierarchy. Super Admin manages users.",
-      blackbox: "Session records written in AGRON 1 and kept in this browser.",
+      blackbox: "Session records written in StarDome 1 and kept in this browser.",
       integrations: "Registry of feeds — radar, AIS, cameras, satcom.",
-      audit: "Administrative actions, separate from the AGRON 1 event log.",
+      audit: "Administrative actions, separate from the StarDome 1 event log.",
       overview: "Marketing overview and entry cards for the public site.",
       how: "Connect, understand, decide — architecture and capabilities.",
-      bridge: "AGRON 1 — situational picture and scenario walkthrough.",
-      connections: "Radial map of Core, sensors, AGRON 1, and Support Center.",
+      bridge: "StarDome 1 — situational picture and scenario walkthrough.",
+      connections: "Radial map of Core, sensors, StarDome 1, and Support Center.",
       levels: "LIGHT / ADVANCED / INTELLIGENCE / CUSTOM and what is available now.",
       pricing: "LIGHT, ADVANCED, INTELLIGENCE, CUSTOM — what each level includes, and how to request a configuration.",
       technology: "Equipment categories and how StarWall sits on existing systems.",
       faq: "Answers on responsibility, connectivity, data, and specialized modules.",
-      containers: "Deployable AGRON container hardware running StarWall.",
+      containers: "Deployable StarDome container hardware running StarWall.",
       about: "Who builds StarWall, what we believe, and how to discuss deployment.",
-      contact: "Request a briefing with AGRON Maritime.",
+      contact: "Request a briefing with StarDome Maritime.",
     },
   },
   home: {
-    kicker: "StarWall, by AGRON",
+    kicker: "StarWall, by StarDome",
     title: "The watch is still run by a person. The screens should stop arguing with each other.",
-    lead: "Most yachts and sites already have radar, cameras, AIS, something on the perimeter. The mess is that none of it shares a clock. StarWall reads what is already paid for and puts it on AGRON 1. Then it says what it would do next. You take that, or you don't.",
+    lead: "Most yachts and sites already have radar, cameras, AIS, something on the perimeter. The mess is that none of it shares a clock. StarWall reads what is already paid for and puts it on StarDome 1. Then it says what it would do next. You take that, or you don't.",
     points: [
       "Leave the existing set in place. We write adapters; we do not rip out a working helm.",
       "After a while it knows this yacht or this marina — the usual traffic, the usual night — and it gets nosier about what does not fit.",
-      "If you want a second pair of eyes, the line is to AGRON's support desk. A person. Not another alarm tone.",
+      "If you want a second pair of eyes, the line is to StarDome's support desk. A person. Not another alarm tone.",
     ],
-    contactCta: "Write to AGRON",
+    contactCta: "Write to StarDome",
     pdfCta: "One-page PDF",
     cards: [
       { title: "How it is put together", body: "What gets plugged in, what the watch actually sees, who is still responsible." },
-      { title: "AGRON 1", body: "Open /interface. DEMO is a drill with invented traffic. LIVE is whatever is really wired — often nothing yet." },
+      { title: "StarDome 1", body: "Open /interface. DEMO is a drill with invented traffic. LIVE is whatever is really wired — often nothing yet." },
       { title: "How it is sold", body: "LIGHT, ADVANCED, INTELLIGENCE, or a build we spec with you. What each plan includes is public. The figure comes from the person who writes the contract." },
       { title: "What it talks to", body: "A plain table of equipment classes. If your box is not on it, that is a conversation, not a slogan." },
     ],
-    interfaceKicker: "AGRON 1",
-    interfaceTitle: "What is on AGRON 1 today",
+    interfaceKicker: "StarDome 1",
+    interfaceTitle: "What is on StarDome 1 today",
     interfaceLead:
       "This is /interface as it ships — the same page you open after sign-in. DEMO fills it so you can click. LIVE does not invent a contact because the page would look empty otherwise.",
-    interfaceCta: "Open AGRON 1",
+    interfaceCta: "Open StarDome 1",
     interfacePoints: [
       {
         title: "Situational Picture",
@@ -1109,10 +1109,10 @@ export const en: Messages = {
       },
       {
         title: "Black Box, map, Pilot",
-        body: "The session record, the wiring diagram from sensors through core to AGRON 1, and Pilot — type or talk, advice only.",
+        body: "The session record, the wiring diagram from sensors through core to StarDome 1, and Pilot — type or talk, advice only.",
       },
     ],
-    containersLink: "There is also a steel box. StarWall runs inside AGRON's deployable containers →",
+    containersLink: "There is also a steel box. StarWall runs inside StarDome's deployable containers →",
   },
   how: {
     kicker: "How it is put together",
@@ -1129,7 +1129,7 @@ export const en: Messages = {
       },
       {
         title: "A word for the risk, a line if you need it",
-        body: "Normal through Critical, with the reason attached. If the watch wants a human at AGRON, that is a desk, not another banner on the screen.",
+        body: "Normal through Critical, with the reason attached. If the watch wants a human at StarDome, that is a desk, not another banner on the screen.",
       },
     ],
     architecture: "Architecture",
@@ -1167,7 +1167,7 @@ export const en: Messages = {
         body: "After enough quiet nights it knows the usual. What is odd for this place gets a harder look.",
       },
       {
-        title: "A person at AGRON",
+        title: "A person at StarDome",
         body: "When the watch wants escalation, it is a specialist on the other end — not only a louder beep.",
       },
     ],
@@ -1179,12 +1179,12 @@ export const en: Messages = {
     steps: [
       "02:14 — a contact enters the 6 NM range with no AIS signal, on a bearing that could intercept M/Y Aurelia's course.",
       "StarWall correlates the radar and AIS feed within seconds and moves the risk level to Elevated.",
-      "AGRON 1 shows one clear recommendation: hail on VHF ch.16, increase watch, be ready to alter course if range closes under 1.0 NM.",
+      "StarDome 1 shows one clear recommendation: hail on VHF ch.16, increase watch, be ready to alter course if range closes under 1.0 NM.",
       "The event is logged automatically, timestamped, ready for the morning report — nothing has to be written up by hand.",
     ],
   },
   bridge: {
-    title: "AGRON 1",
+    title: "StarDome 1",
     watchKicker: "WATCH",
     subtitle: "Duty Station / Watch Desk",
     roleCaptain: "Captain",
@@ -1200,7 +1200,7 @@ export const en: Messages = {
     live: "LIVE",
     simulate: "Simulate alert",
     resolve: "Resolve & reset",
-    disclaimer: "© AGRON Inc. · StarWall — demo interface, illustrative data, not a live vessel.",
+    disclaimer: "© StarDome Inc. · StarWall — demo interface, illustrative data, not a live vessel.",
     risks: ["Normal", "Attention", "Elevated", "Critical"],
     systems: [
       "Radar",
@@ -1233,7 +1233,7 @@ export const en: Messages = {
     tiersLabel: "Service tiers",
     honestySr: "Available now and in development",
     mapNote:
-      "These levels map to AGRON Maritime's existing service structure: LIGHT and ADVANCED sit within Protect, INTELLIGENCE and CUSTOM extend into Intelligence + Support.",
+      "These levels map to StarDome Maritime's existing service structure: LIGHT and ADVANCED sit within Protect, INTELLIGENCE and CUSTOM extend into Intelligence + Support.",
     honesty: "We'd rather tell you exactly what's built than promise everything at once.",
     available: "Available now",
     developing: "In development",
@@ -1279,7 +1279,7 @@ export const en: Messages = {
       "Equipment integration (Gateway)",
       "Unified situational picture",
       "Rule-based risk levels",
-      "AGRON 1",
+      "StarDome 1",
       "Manual escalation to Support Center",
     ],
     inDevelopment: [
@@ -1301,7 +1301,7 @@ export const en: Messages = {
     contactUs: "Contact us",
     customNote: "Fully custom configuration",
     getStarted: "Get started",
-    contactAgron: "Contact AGRON",
+    contactAgron: "Contact StarDome",
     disclaimer:
       "Nothing on this page is a quote. The person who will write the contract names the figure after they have seen the object.",
     salesNote:
@@ -1310,7 +1310,7 @@ export const en: Messages = {
     faqTitle: "Questions about the plans",
     faq1q: "What does the one-time equipment cover?",
     faq1aBefore:
-      "The AGRON Security Gateway and installation for your object. AGRON Container hardware is a separate conversation — see",
+      "The StarDome Security Gateway and installation for your object. StarDome Container hardware is a separate conversation — see",
     faq1aLink: "/containers",
     faq1aAfter: ".",
     faq2q: "Can I change tiers later?",
@@ -1324,7 +1324,7 @@ export const en: Messages = {
     config: {
       stepObject: "Object type",
       stepSoftware: "StarWall software",
-      stepContainer: "AGRON Container hardware",
+      stepContainer: "StarDome Container hardware",
       stepAddons: "Additional equipment",
       yourConfig: "Your configuration",
       monthlyLabel: "Monthly",
@@ -1332,7 +1332,7 @@ export const en: Messages = {
       oneTimeShort: "one-time",
       perMonth: "quoted",
       contactPricing: "Contact us for pricing",
-      customQuote: "Contact AGRON for a custom quote",
+      customQuote: "Contact StarDome for a custom quote",
       requestQuote: "Ask the person on the contract",
       summaryNote:
         "This is a brief, not a quote. The salesperson who will write the contract names the figure after a look at the object.",
@@ -1371,12 +1371,12 @@ export const en: Messages = {
         ADVANCED: {
           name: "ADVANCED",
           detail:
-            "Risk engine with four words. History that does not vanish when an alert closes. AGRON Support Center around the clock.",
+            "Risk engine with four words. History that does not vanish when an alert closes. StarDome Support Center around the clock.",
         },
         INTELLIGENCE: {
           name: "INTELLIGENCE",
           detail:
-            "The picture learns this yacht or this harbour. Anomaly detection. Scenario engine. A person on the AGRON desk who already knows the object.",
+            "The picture learns this yacht or this harbour. Anomaly detection. Scenario engine. A person on the StarDome desk who already knows the object.",
         },
         CUSTOM: {
           name: "CUSTOM",
@@ -1507,7 +1507,7 @@ export const en: Messages = {
   },
   contact: {
     kicker: "Contact",
-    title: "Write to AGRON",
+    title: "Write to StarDome",
     lead: "Yacht, marina, island, something odd — say what you have on board and what you are trying to stop guessing at. Someone reads this. It is not a ticket robot.",
     name: "Name",
     organization: "Organization",
@@ -1535,12 +1535,12 @@ export const en: Messages = {
     invalidEmail: "Enter a valid email address.",
   },
   containers: {
-    kicker: "AGRON container",
+    kicker: "StarDome container",
     title: "The steel box, if you need hardware as well as software",
     lead: "Detection and the picture run on StarWall inside the container. Some tiers can carry a response bay. That bay does not fire itself. A person authorizes it, and local law still applies. How fast it can sit on a quay or a road depends on the site, not on a slogan.",
-    contact: "Contact AGRON",
+    contact: "Contact StarDome",
     back: "← Back to Containers overview",
-    eyebrow: "AGRON Containers",
+    eyebrow: "StarDome Containers",
     howLink: "see how it works →",
     detectionLink:
       "Detection and analysis on this container run on StarWall —",
@@ -1596,7 +1596,7 @@ export const en: Messages = {
     rapid: "Rapid deployment: under 2 hours from arrival to operational.",
     cmTitle: "Countermeasures",
     cmLegal:
-      "Countermeasure equipment is available on select container tiers. Enabling or operating it always requires jurisdiction-specific authorization and a licensed operator. AGRON Container's detection and analysis layer (StarWall) never triggers these systems autonomously — activation is a human decision, made by an authorized operator, every time.",
+      "Countermeasure equipment is available on select container tiers. Enabling or operating it always requires jurisdiction-specific authorization and a licensed operator. StarDome Container's detection and analysis layer (StarWall) never triggers these systems autonomously — activation is a human decision, made by an authorized operator, every time.",
     cmItems: [
       {
         name: "Interceptor drone system",
@@ -1646,9 +1646,9 @@ export const en: Messages = {
   },
   about: {
     kicker: "About",
-    title: "Who is behind AGRON 1",
+    title: "Who is behind StarDome 1",
     lead:
-      "AGRON has been tying sensors and comms together for a long time. StarWall is the watch layer: whatever brand of radar or camera is already on the yacht, the marina, the port or the island, it should land on one picture. The next step is a suggestion. The person on watch still has to take it.",
+      "StarDome has been tying sensors and comms together for a long time. StarWall is the watch layer: whatever brand of radar or camera is already on the yacht, the marina, the port or the island, it should land on one picture. The next step is a suggestion. The person on watch still has to take it.",
     beliefsTitle: "How we refuse to sell it",
     beliefs: [
       {
@@ -1680,18 +1680,18 @@ export const en: Messages = {
       },
       {
         title: "Time-to-decision",
-        body: "They have had to shrink the gap from a blip to a call. AGRON 1 is meant to match that, not to look busy.",
+        body: "They have had to shrink the gap from a blip to a call. StarDome 1 is meant to match that, not to look busy.",
       },
     ],
-    agronTitle: "AGRON",
+    agronTitle: "StarDome",
     agronBefore:
-      "StarWall is an AGRON product. The rest of the house — other integration and deployable work — is on ",
-    agronLink: "agron1.com",
+      "StarWall is a StarDome product. The rest of the house — other integration and deployable work — is on ",
+    agronLink: "star-wall.com",
     agronAfter: ".",
     agronTeam:
       "Engineers and people who have had to decide on site. The tools came after the nights, not the other way around.",
     todayCta:
       "If you have a hull, a basin or a fence in mind, use the contact page. Say what is already installed.",
-    contactCta: "Contact AGRON",
+    contactCta: "Contact StarDome",
   },
 };

@@ -19,12 +19,12 @@ describe("localPilotReply", () => {
     expect(localPilotReply("Can you hear me?", "en").reply).toBe("Yes. I hear you.");
   });
 
-  it("answers English AGRON 1 questions from the site copy", () => {
+  it("answers English StarDome 1 questions from the site copy", () => {
     const { reply, langCode } = localPilotReply(
-      "What is on AGRON 1?",
+      "What is on StarDome 1?",
       "en",
     );
     expect(langCode).toBe("en");
-    expect(reply.toLowerCase()).toMatch(/demo|agron 1|interface/);
+    expect(reply.toLowerCase()).toMatch(/demo|stardome 1|interface/);
   });
 });

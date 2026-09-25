@@ -123,7 +123,7 @@ export const ja: PlansPageCopy = {
   hardware: {
     heading: "機器は任意です",
     subheading: "すでにあるものを使う。必要なものだけ足す。",
-    body: "StarWall は、船舶または敷地に既設の互換インフラと接続できます。必要な場合に AGRON 機器と展開モジュールを追加します。",
+    body: "StarWall は、船舶または敷地に既設の互換インフラと接続できます。必要な場合に StarDome 機器と展開モジュールを追加します。",
     cta: "機器を見る",
     items: {
       existing: {
@@ -131,7 +131,7 @@ export const ja: PlansPageCopy = {
         body: "船舶または敷地に既設の互換システムへ StarWall を接続します。",
       },
       modules: {
-        title: "AGRON モジュール",
+        title: "StarDome モジュール",
         body: "探知、センシング、通信など、必要なモジュールを追加します。",
       },
       mobile: {
@@ -139,7 +139,7 @@ export const ja: PlansPageCopy = {
         body: "一時的、変化する、または遠隔の運用向けに移動構成を展開します。",
       },
       complete: {
-        title: "AGRON 一式",
+        title: "StarDome 一式",
         body: "敷地に合わせて StarWall と機器の一式を設計します。",
       },
     },
@@ -173,7 +173,7 @@ export const ja: PlansPageCopy = {
   },
   request: {
     heading: "どの StarWall プランが運用に合うか分からない場合",
-    body: "守っている対象と、既設の機器を教えてください。AGRON が適切な StarWall 構成を提案できます。",
+    body: "守っている対象と、既設の機器を教えてください。StarDome が適切な StarWall 構成を提案できます。",
     cta: "StarWall 構成を依頼",
     assetLabel: "何を守っていますか？",
     assets: {

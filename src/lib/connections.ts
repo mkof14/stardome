@@ -102,7 +102,7 @@ export const ENDPOINTS: MapEndpoint[] = [
     y: 120,
     kind: "sensor",
     flow: "in",
-    tip: "Primary Starlink data path — latency, SNR, and obstruction on AGRON 1.",
+    tip: "Primary Starlink data path — latency, SNR, and obstruction on StarDome 1.",
   },
   {
     id: "starlink-priority",
@@ -133,7 +133,7 @@ export const ENDPOINTS: MapEndpoint[] = [
   },
   {
     id: "bridge",
-    label: "AGRON 1",
+    label: "StarDome 1",
     x: 1200,
     y: 780,
     kind: "console",

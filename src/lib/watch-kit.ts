@@ -28,7 +28,7 @@ export const WATCH_KIT: KitInstrument[] = [
   { id: "starlink-priority", kind: "comms", name: "Starlink Priority", band: "Ka · UT-B" },
   { id: "vhf", kind: "comms", name: "VHF ch.16", band: "156.800 MHz" },
   { id: "support", kind: "comms", name: "Support Center", band: "Authorized path" },
-  { id: "lan", kind: "comms", name: "Onboard LAN", band: "Core / AGRON 1" },
+  { id: "lan", kind: "comms", name: "Onboard LAN", band: "Core / StarDome 1" },
 ];
 
 export const KIT_KINDS: KitKind[] = ["radar", "underwater", "rf", "comms"];

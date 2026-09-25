@@ -123,7 +123,7 @@ export const zh: PlansPageCopy = {
   hardware: {
     heading: "硬件可选",
     subheading: "用已有设备。需要时再加。",
-    body: "StarWall 可接入船舶或场地上已安装且兼容的基础设施。需要时再增加 AGRON 设备与部署模块。",
+    body: "StarWall 可接入船舶或场地上已安装且兼容的基础设施。需要时再增加 StarDome 设备与部署模块。",
     cta: "了解硬件",
     items: {
       existing: {
@@ -131,7 +131,7 @@ export const zh: PlansPageCopy = {
         body: "把 StarWall 接到船舶或场地已安装的兼容系统。",
       },
       modules: {
-        title: "AGRON 模块",
+        title: "StarDome 模块",
         body: "按需增加探测、传感、通信或其他模块。",
       },
       mobile: {
@@ -139,7 +139,7 @@ export const zh: PlansPageCopy = {
         body: "为临时、变化或偏远作业部署机动配置。",
       },
       complete: {
-        title: "完整 AGRON 系统",
+        title: "完整 StarDome 系统",
         body: "围绕场地设计完整的 StarWall 与硬件配置。",
       },
     },
@@ -173,7 +173,7 @@ export const zh: PlansPageCopy = {
   },
   request: {
     heading: "不确定哪套 StarWall 方案适合您的作业？",
-    body: "告诉我们您在防护什么、现场已有哪些设备。AGRON 可以建议合适的 StarWall 配置。",
+    body: "告诉我们您在防护什么、现场已有哪些设备。StarDome 可以建议合适的 StarWall 配置。",
     cta: "申请 StarWall 配置",
     assetLabel: "您在防护什么？",
     assets: {

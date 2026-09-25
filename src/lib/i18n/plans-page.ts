@@ -214,7 +214,7 @@ const en: PlansPageCopy = {
   hardware: {
     heading: "Hardware is Optional",
     subheading: "Use what you already have. Add what you need.",
-    body: "StarWall can integrate with compatible onboard or site infrastructure already in place. Additional AGRON equipment and deployment modules can be added where required.",
+    body: "StarWall can integrate with compatible onboard or site infrastructure already in place. Additional StarDome equipment and deployment modules can be added where required.",
     cta: "Explore Hardware",
     items: {
       existing: {
@@ -222,7 +222,7 @@ const en: PlansPageCopy = {
         body: "Connect StarWall to compatible systems already installed on the vessel or site.",
       },
       modules: {
-        title: "AGRON Modules",
+        title: "StarDome Modules",
         body: "Add dedicated detection, sensing, communications, or other required modules.",
       },
       mobile: {
@@ -230,7 +230,7 @@ const en: PlansPageCopy = {
         body: "Deploy a mobile configuration for temporary, changing, or remote operations.",
       },
       complete: {
-        title: "Complete AGRON System",
+        title: "Complete StarDome System",
         body: "Design a complete StarWall and hardware configuration around the site.",
       },
     },
@@ -264,7 +264,7 @@ const en: PlansPageCopy = {
   },
   request: {
     heading: "Not sure which StarWall plan fits your operation?",
-    body: "Tell us what you are protecting and what equipment is already in place. AGRON can recommend the appropriate StarWall configuration.",
+    body: "Tell us what you are protecting and what equipment is already in place. StarDome can recommend the appropriate StarWall configuration.",
     cta: "Request StarWall Configuration",
     assetLabel: "What are you protecting?",
     assets: {
@@ -442,7 +442,7 @@ const ru: PlansPageCopy = {
   hardware: {
     heading: "Оборудование по необходимости",
     subheading: "Используйте то, что уже есть. Добавляйте то, чего не хватает.",
-    body: "StarWall стыкуется с совместимой бортовой или объектовой инфраструктурой. Модули AGRON добавляются только там, где это нужно.",
+    body: "StarWall стыкуется с совместимой бортовой или объектовой инфраструктурой. Модули StarDome добавляются только там, где это нужно.",
     cta: "Смотреть оборудование",
     items: {
       existing: {
@@ -450,7 +450,7 @@ const ru: PlansPageCopy = {
         body: "Подключить StarWall к совместимым системам, уже стоящим на судне или объекте.",
       },
       modules: {
-        title: "Модули AGRON",
+        title: "Модули StarDome",
         body: "Добавить обнаружение, сенсорику, связь или другие нужные модули.",
       },
       mobile: {
@@ -458,7 +458,7 @@ const ru: PlansPageCopy = {
         body: "Мобильная конфигурация для временных, меняющихся или удалённых операций.",
       },
       complete: {
-        title: "Полная система AGRON",
+        title: "Полная система StarDome",
         body: "Собрать StarWall и оборудование вокруг конкретного объекта.",
       },
     },
@@ -492,7 +492,7 @@ const ru: PlansPageCopy = {
   },
   request: {
     heading: "Не уверены, какой план StarWall подходит?",
-    body: "Напишите, что вы защищаете и какое оборудование уже стоит. AGRON предложит подходящую конфигурацию StarWall.",
+    body: "Напишите, что вы защищаете и какое оборудование уже стоит. StarDome предложит подходящую конфигурацию StarWall.",
     cta: "Запросить конфигурацию StarWall",
     assetLabel: "Что вы защищаете?",
     assets: {
@@ -671,7 +671,7 @@ const es: PlansPageCopy = {
   hardware: {
     heading: "El hardware es opcional",
     subheading: "Use lo que ya tiene. Añada lo que haga falta.",
-    body: "StarWall puede integrarse con infraestructura compatible ya instalada a bordo o en el sitio. El equipo AGRON se añade solo donde se requiere.",
+    body: "StarWall puede integrarse con infraestructura compatible ya instalada a bordo o en el sitio. El equipo StarDome se añade solo donde se requiere.",
     cta: "Ver hardware",
     items: {
       existing: {
@@ -679,7 +679,7 @@ const es: PlansPageCopy = {
         body: "Conectar StarWall a sistemas compatibles ya instalados en el buque o el sitio.",
       },
       modules: {
-        title: "Módulos AGRON",
+        title: "Módulos StarDome",
         body: "Añadir detección, sensores, comunicaciones u otros módulos necesarios.",
       },
       mobile: {
@@ -687,7 +687,7 @@ const es: PlansPageCopy = {
         body: "Una configuración móvil para operaciones temporales, cambiantes o remotas.",
       },
       complete: {
-        title: "Sistema AGRON completo",
+        title: "Sistema StarDome completo",
         body: "Diseñar StarWall y el hardware alrededor del sitio.",
       },
     },
@@ -713,7 +713,7 @@ const es: PlansPageCopy = {
   request: {
     ...en.request,
     heading: "¿No está seguro de qué plan StarWall encaja?",
-    body: "Díganos qué protege y qué equipo ya está instalado. AGRON puede recomendar la configuración StarWall adecuada.",
+    body: "Díganos qué protege y qué equipo ya está instalado. StarDome puede recomendar la configuración StarWall adecuada.",
     cta: "Solicitar configuración StarWall",
     assetLabel: "¿Qué está protegiendo?",
     assets: {
@@ -892,7 +892,7 @@ const fr: PlansPageCopy = {
   hardware: {
     heading: "Le matériel est optionnel",
     subheading: "Utilisez ce que vous avez. Ajoutez ce qu'il faut.",
-    body: "StarWall s'intègre à l'infrastructure compatible déjà en place à bord ou sur site. Le matériel AGRON s'ajoute seulement si nécessaire.",
+    body: "StarWall s'intègre à l'infrastructure compatible déjà en place à bord ou sur site. Le matériel StarDome s'ajoute seulement si nécessaire.",
     cta: "Voir le matériel",
     items: {
       existing: {
@@ -900,7 +900,7 @@ const fr: PlansPageCopy = {
         body: "Connecter StarWall aux systèmes compatibles déjà installés.",
       },
       modules: {
-        title: "Modules AGRON",
+        title: "Modules StarDome",
         body: "Ajouter la détection, les capteurs, les communications ou d'autres modules requis.",
       },
       mobile: {
@@ -908,7 +908,7 @@ const fr: PlansPageCopy = {
         body: "Une configuration mobile pour des opérations temporaires, changeantes ou isolées.",
       },
       complete: {
-        title: "Système AGRON complet",
+        title: "Système StarDome complet",
         body: "Concevoir StarWall et le matériel autour du site.",
       },
     },
@@ -934,7 +934,7 @@ const fr: PlansPageCopy = {
   request: {
     ...en.request,
     heading: "Pas sûr du plan StarWall adapté à votre opération ?",
-    body: "Indiquez ce que vous protégez et quel équipement est déjà en place. AGRON peut recommander la configuration StarWall appropriée.",
+    body: "Indiquez ce que vous protégez et quel équipement est déjà en place. StarDome peut recommander la configuration StarWall appropriée.",
     cta: "Demander une configuration StarWall",
     assetLabel: "Que protégez-vous ?",
     assets: {
@@ -1113,7 +1113,7 @@ const de: PlansPageCopy = {
   hardware: {
     heading: "Hardware ist optional",
     subheading: "Nutzen Sie, was schon da ist. Ergänzen Sie, was fehlt.",
-    body: "StarWall lässt sich an kompatible Bord- oder Standorttechnik anbinden. AGRON-Module kommen nur dazu, wo sie gebraucht werden.",
+    body: "StarWall lässt sich an kompatible Bord- oder Standorttechnik anbinden. StarDome-Module kommen nur dazu, wo sie gebraucht werden.",
     cta: "Hardware ansehen",
     items: {
       existing: {
@@ -1121,7 +1121,7 @@ const de: PlansPageCopy = {
         body: "StarWall an kompatible Systeme anschließen, die schon an Bord oder am Standort stehen.",
       },
       modules: {
-        title: "AGRON-Module",
+        title: "StarDome-Module",
         body: "Detektion, Sensorik, Kommunikation oder andere erforderliche Module ergänzen.",
       },
       mobile: {
@@ -1129,7 +1129,7 @@ const de: PlansPageCopy = {
         body: "Eine mobile Konfiguration für zeitlich begrenzte, wechselnde oder abgelegene Einsätze.",
       },
       complete: {
-        title: "Vollständiges AGRON-System",
+        title: "Vollständiges StarDome-System",
         body: "StarWall und Hardware um den Standort herum auslegen.",
       },
     },
@@ -1155,7 +1155,7 @@ const de: PlansPageCopy = {
   request: {
     ...en.request,
     heading: "Unsicher, welcher StarWall-Plan zu Ihrem Betrieb passt?",
-    body: "Sagen Sie uns, was Sie schützen und welche Technik schon steht. AGRON kann die passende StarWall-Konfiguration vorschlagen.",
+    body: "Sagen Sie uns, was Sie schützen und welche Technik schon steht. StarDome kann die passende StarWall-Konfiguration vorschlagen.",
     cta: "StarWall-Konfiguration anfragen",
     assetLabel: "Was schützen Sie?",
     assets: {
@@ -1332,7 +1332,7 @@ const uk: PlansPageCopy = {
   hardware: {
     heading: "Обладнання за потреби",
     subheading: "Використовуйте те, що вже є. Додавайте те, чого бракує.",
-    body: "StarWall стикується із сумісною бортовою або об’єктовою інфраструктурою. Модулі AGRON додають лише там, де це потрібно.",
+    body: "StarWall стикується із сумісною бортовою або об’єктовою інфраструктурою. Модулі StarDome додають лише там, де це потрібно.",
     cta: "Дивитися обладнання",
     items: {
       existing: {
@@ -1340,7 +1340,7 @@ const uk: PlansPageCopy = {
         body: "Підключити StarWall до сумісних систем, які вже стоять на судні або об’єкті.",
       },
       modules: {
-        title: "Модулі AGRON",
+        title: "Модулі StarDome",
         body: "Додати виявлення, сенсорику, зв’язок або інші потрібні модулі.",
       },
       mobile: {
@@ -1348,7 +1348,7 @@ const uk: PlansPageCopy = {
         body: "Мобільна конфігурація для тимчасових, змінних або віддалених операцій.",
       },
       complete: {
-        title: "Повна система AGRON",
+        title: "Повна система StarDome",
         body: "Зібрати StarWall і обладнання навколо конкретного об’єкта.",
       },
     },
@@ -1373,7 +1373,7 @@ const uk: PlansPageCopy = {
   },
   request: {
     heading: "Не впевнені, який план StarWall пасує?",
-    body: "Напишіть, що ви захищаєте і яке обладнання вже стоїть. AGRON запропонує відповідну конфігурацію StarWall.",
+    body: "Напишіть, що ви захищаєте і яке обладнання вже стоїть. StarDome запропонує відповідну конфігурацію StarWall.",
     cta: "Запитати конфігурацію StarWall",
     assetLabel: "Що ви захищаєте?",
     assets: {

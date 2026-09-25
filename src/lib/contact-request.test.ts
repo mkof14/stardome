@@ -24,7 +24,7 @@ describe("parseContactBody", () => {
     const parsed = parseContactBody({
       name: " Ada Lovelace ",
       email: "Ada@Example.COM",
-      organization: "AGRON Inc.",
+      organization: "StarDome Inc.",
       phone: "+1 202 555 0100",
       assetType: "yacht",
       source: "plans",
@@ -35,7 +35,7 @@ describe("parseContactBody", () => {
     if (!parsed.ok) return;
     expect(parsed.value.name).toBe("Ada Lovelace");
     expect(parsed.value.email).toBe("ada@example.com");
-    expect(parsed.value.organization).toBe("AGRON Inc.");
+    expect(parsed.value.organization).toBe("StarDome Inc.");
     expect(parsed.value.assetType).toBe("yacht");
     expect(parsed.value.source).toBe("plans");
     expect(parsed.value.phone).toContain("202");

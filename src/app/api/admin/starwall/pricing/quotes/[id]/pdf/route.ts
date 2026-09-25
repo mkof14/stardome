@@ -21,7 +21,7 @@ export async function GET(
   const proposal = customerProposal(data);
   let logo: Uint8Array | undefined;
   try {
-    logo = await readFile(join(process.cwd(), "public", "SW3.png"));
+    logo = await readFile(join(process.cwd(), "public", "SD_Logo1.png"));
   } catch {
     logo = undefined;
   }

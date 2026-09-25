@@ -129,7 +129,7 @@ function endpointCopy(item: MapEndpoint, hud: HudCopy) {
     case "support":
       return { label: "Support Center", tip: hud.map.supportTip };
     case "bridge":
-      return { label: "AGRON 1", tip: hud.map.bridgeTip };
+      return { label: "StarDome 1", tip: hud.map.bridgeTip };
     default:
       return { label: item.label, tip: item.tip };
   }
@@ -367,7 +367,7 @@ export function ConnectionsMap() {
             fontWeight="700"
             letterSpacing="0.08em"
           >
-            AGRON 1
+            StarDome 1
           </text>
           {live ? (
             <text

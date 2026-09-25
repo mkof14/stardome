@@ -1,8 +1,8 @@
-# StarWall by AGRON
+# StarWall by StarDome
 
 Scaffold for the StarWall marketing and product site — a maritime security intelligence product.
 
-**Names.** StarWall is the security system and the platform. **AGRON 1** is the official name of the program — this version of the watch software and the code behind it. Later major versions will be AGRON 2, and so on. AGRON Inc. is the company. AGRON Container is the hardware box. Pilot is the watch advisor. The old working name “AGRON Bridge” is retired.
+**Names.** StarWall is the security system and the platform. **StarDome 1** is the official name of the program — this version of the watch software and the code behind it. Later major versions will be StarDome 2, and so on. StarDome Inc. is the company. StarDome Container is the hardware box. Pilot is the watch advisor. The site mark is the StarDome wordmark (`SD_Logo1.png`).
 
 ## Stack
 
@@ -41,7 +41,7 @@ Stay on **DEMO** for partner showings. `/interface` opens the flagship case (Rec
 
 In DEMO, Pilot is a working watch simulation: it remembers the last chat turns, answers from the current picture (contacts, advice, Starlink, instruments), speaks a halt ack, and logs Accept / Decline plus a simulated designated ACK on Comms.
 
-Pilot (the watch advisor) sits in AGRON 1 as a single watch display. Open Pilot on `/interface` and switch Talk / Instruments / Advice / Comms with labeled tabs. Watch communications (`#watch-comms-panel`) and Pilot **Comms / Связь** carry two Starlink services — Maritime and Priority — with lock, latency, SNR, and obstruction on the same board. The D next to Pilot runs a spoken DEMO drill in the language selected on Pilot. DEMO follows the current scenario, sensors, and recommended action. LIVE stays honest: no invented contacts, and comms stay offline until a real satcom path exists. While Pilot is speaking, a HUD talk window opens (chat on the left, studio waveform on the right). AGRON 1 panels use rounded cards and Inter for readable labels. The jump rail shows an icon with its name underneath — no hex frames. The meter is a real green/red VU from the audio itself — not a simulated bounce. Speak, type, or tap a watch call and Pilot stops at once and takes your words first. **Clear** and labeled fullscreen sit in the sticky header on `/interface`. Light and dark theme tokens apply to Pilot, talk HUD, jump nav, library, and watch circuits.
+Pilot (the watch advisor) sits in StarDome 1 as a single watch display. Open Pilot on `/interface` and switch Talk / Instruments / Advice / Comms with labeled tabs. Watch communications (`#watch-comms-panel`) and Pilot **Comms / Связь** carry two Starlink services — Maritime and Priority — with lock, latency, SNR, and obstruction on the same board. The D next to Pilot runs a spoken DEMO drill in the language selected on Pilot. DEMO follows the current scenario, sensors, and recommended action. LIVE stays honest: no invented contacts, and comms stay offline until a real satcom path exists. While Pilot is speaking, a HUD talk window opens (chat on the left, studio waveform on the right). StarDome 1 panels use rounded cards and Inter for readable labels. The jump rail shows an icon with its name underneath — no hex frames. The meter is a real green/red VU from the audio itself — not a simulated bounce. Speak, type, or tap a watch call and Pilot stops at once and takes your words first. **Clear** and labeled fullscreen sit in the sticky header on `/interface`. Light and dark theme tokens apply to Pilot, talk HUD, jump nav, library, and watch circuits.
 
 Pilot speaks with a real adult male neural voice in every site language: English Andrew, Spanish Álvaro, French Henri, German Conrad, Russian Dmitry, Ukrainian Ostap, Arabic Hamed, Chinese Yunxi, Japanese Keita, Hebrew Avri. Demo also speaks the officer on a second neural voice so the drill is two people, not one. Replies go through `POST /api/tts` (`text`, `locale`, `tone`, `speaker`: `pilot` | `officer`) and play as MP3.
 
@@ -79,7 +79,7 @@ The homepage “Download overview (PDF)” button uses the one-page leaflet in `
 
 The Technology page embeds the briefing deck `public/starwall-intelligence-platform.pdf`.
 
-AGRON 1 walkthrough stills go in `public/bridge/`:
+StarDome 1 walkthrough stills go in `public/bridge/`:
 
 - `public/bridge/radar-normal.png`
 - `public/bridge/risk-elevated.png`
@@ -88,19 +88,19 @@ AGRON 1 walkthrough stills go in `public/bridge/`:
 
 ## Routes
 
-Shared sticky header and footer wrap every route via the root layout. The header keeps the main product pages. Levels, FAQ, and AGRON Container live in the footer.
+Shared sticky header and footer wrap every route via the root layout. The header keeps the main product pages. Levels, FAQ, and StarDome Container live in the footer.
 
 | Path | Heading |
 |---|---|
 | `/` | StarWall — Overview |
 | `/how-it-works` | How it works |
-| `/interface` | Interface (public AGRON 1 demo — no sign-in) |
+| `/interface` | Interface (public StarDome 1 demo — no sign-in) |
 | `/interface/connections` | System Connections Map |
 | `/levels` | Levels |
 | `/pricing` | Plans — four levels, comparison, how pricing is built, request form |
 | `/technology` | Technology (briefing deck + equipment catalog) |
 | `/faq` | FAQ |
-| `/containers` | AGRON Containers |
+| `/containers` | StarDome Containers |
 | `/containers/detection` | Detection Suite |
 | `/containers/countermeasures` | Countermeasures |
 | `/containers/tiers` | Container Tiers |
@@ -121,7 +121,7 @@ Shared sticky header and footer wrap every route via the root layout. The header
 
 ## Brand, theme, and language
 
-The site logo is the chrome hex StarWall badge. Pages load `public/starwall-logo.webp` (about 50 KB; AVIF sibling is smaller). `public/SW3.png` is the PNG used in proposal PDFs. Favicon and Apple touch icons are separate small files; social previews use `public/og-starwall.jpg`. Rebuild optimized assets with `node scripts/optimize-logo.mjs <source.png>`. Do not recreate the wordmark.
+The site logo is the chrome StarDome wordmark. Pages load `public/SD_Logo1.webp`; `public/SD_Logo1.png` is the official PNG (also used in proposal PDFs). Favicon and Apple touch icons use the star from the D. Social previews use `public/og-starwall.jpg`. Rebuild optimized assets with `node scripts/optimize-logo.mjs <source.png>`. Do not recreate the wordmark.
 
 Header and footer include a sun/moon theme switch (light/dark, stored in the browser) and a ten-language menu: English, Spanish, French, German, Russian, Ukrainian, Arabic, Chinese, Japanese, Hebrew. The choice is stored in `localStorage` (`starwall-locale`) and survives navigation. Arabic and Hebrew set `dir="rtl"`; Arabic also loads Noto Sans Arabic for body and headings.
 
@@ -159,9 +159,9 @@ Generate `NEXTAUTH_SECRET` with `openssl rand -base64 32`. After a successful si
 
 `/backend` and `/tasks` still require a signed-in session.
 
-Translated now: marketing chrome (nav, footer), all public pages including Plans (`/pricing`) in every header language (en es fr de ru uk ar zh ja he), the AGRON 1 HUD (jump rail, library, crisis protocol, Pilot chrome, connections map labels), the LIVE banner, `/backend`, and `/tasks`. The watch picture itself stays `dir="ltr"` so Arabic and Hebrew do not mirror radar and instruments. Arabic and Hebrew also load Noto Sans for body and headings.
+Translated now: marketing chrome (nav, footer), all public pages including Plans (`/pricing`) in every header language (en es fr de ru uk ar zh ja he), the StarDome 1 HUD (jump rail, library, crisis protocol, Pilot chrome, connections map labels), the LIVE banner, `/backend`, and `/tasks`. The watch picture itself stays `dir="ltr"` so Arabic and Hebrew do not mirror radar and instruments. Arabic and Hebrew also load Noto Sans for body and headings.
 
-Still English: instrument skins on the radar/sonar/spectrum drawings (HF SONAR, CORE, range rings), product names (StarWall, AGRON 1, Support Center, Pilot, tier codes LIGHT / ADVANCED / INTELLIGENCE / CUSTOM), and Pilot replies (those follow the spoken/typed language when an API key is set). Sign-in, sign-up, and forgot-password now follow the site language. The demonstration sign-in stays `demo` / `demo`.
+Still English: instrument skins on the radar/sonar/spectrum drawings (HF SONAR, CORE, range rings), product names (StarWall, StarDome 1, Support Center, Pilot, tier codes LIGHT / ADVANCED / INTELLIGENCE / CUSTOM), and Pilot replies (those follow the spoken/typed language when an API key is set). Sign-in, sign-up, and forgot-password now follow the site language. The demonstration sign-in stays `demo` / `demo`.
 
 ## Deploy on Vercel
 
@@ -169,7 +169,7 @@ This is a standard Next.js 14 App Router app. Do **not** set `output: "standalon
 
 - Marketing pages work immediately.
 - `/login` accepts `demo` / `demo` even before Postgres is attached. Sessions are JWTs.
-- `/interface` is a public AGRON 1 demo. It does not require a session, so a missing `NEXTAUTH_SECRET` never renders NextAuth’s “Server error” page. `NEXTAUTH_URL` is taken from the request host; a leftover `http://127.0.0.1:3000` value is ignored on Vercel.
+- `/interface` is a public StarDome 1 demo. It does not require a session, so a missing `NEXTAUTH_SECRET` never renders NextAuth’s “Server error” page. `NEXTAUTH_URL` is taken from the request host; a leftover `http://127.0.0.1:3000` value is ignored on Vercel.
 - Google sign-in stays hidden until both `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are set.
 - `ANTHROPIC_API_KEY` — richer Pilot answers. Without it Pilot still replies from the product briefing.
 - Male neural speech for Pilot needs no key (Edge online voices). Optional: `ELEVENLABS_API_KEY` plus `ELEVENLABS_PILOT_VOICE_ID` / `ELEVENLABS_OFFICER_VOICE_ID` (defaults Adam + Josh), `AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION`, or `OPENAI_API_KEY` (voices `onyx` / `echo`).
@@ -184,7 +184,7 @@ Optional, after the first green deploy:
 
 ## Postgres on Vercel (required)
 
-SQLite (`file:./dev.db`) is not used. Serverless hosts cannot keep a local file, so accounts, audit rows, and cloud copies of AGRON 1 records need a hosted Postgres database.
+SQLite (`file:./dev.db`) is not used. Serverless hosts cannot keep a local file, so accounts, audit rows, and cloud copies of StarDome 1 records need a hosted Postgres database.
 
 **Use Neon via Vercel Storage.** That is the recommended production database for this project (Vercel’s current Postgres offering is Neon). A self-hosted Postgres or a generic “bring your own server” setup is more work than this site needs. Supabase works if you already have a project there, but Neon is the shorter path on Vercel.
 
@@ -215,7 +215,7 @@ npm run dev
 Two layers, local first:
 
 - **IndexedDB** (via `idb`) in the browser — `events`, `conversations`, `sessionReports`, plus a local Black Box index. A refresh during a DEMO session restores the Event Log, Pilot history, and Black Box list. Switching to **LIVE** wipes those four stores so DEMO records cannot come back. The signed-in NextAuth session is left alone. Switching back to DEMO starts a fresh idle watch (seed Event Log lines only — not the previous scenario history) and an empty Black Box.
-- **Prisma / Postgres** — accounts, RBAC, equipment checks, notification routes, integrations, the audit log, and the optional cloud copy of AGRON 1 records. A AGRON 1 record is written locally first (`Local`), then the badge becomes `Local + Cloud` only after `/api/blackbox` confirms the write.
+- **Prisma / Postgres** — accounts, RBAC, equipment checks, notification routes, integrations, the audit log, and the optional cloud copy of StarDome 1 records. A StarDome 1 record is written locally first (`Local`), then the badge becomes `Local + Cloud` only after `/api/blackbox` confirms the write.
 
 Schema: `prisma/schema.prisma` (`User`, `Session`, `Event`, `Conversation`, `BlackBoxRecord`, `Equipment`, `NotificationRoute`, `AuditLog`, `Integration`).
 
@@ -224,7 +224,7 @@ npx prisma generate
 npx prisma migrate deploy
 ```
 
-`/backend` is a working pre-pilot admin: Super Admin only on `/backend/users`; Admin and above can run diagnostics and save notification routing; Operators can view and use the AGRON 1; Viewers see reports and the Black Box only. Equipment is checked every 30 seconds while `/backend` is open (simulated heartbeat until hardware is connected). DEMO/LIVE switches, role changes, diagnostics, and notify saves write real audit rows.
+`/backend` is a working pre-pilot admin: Super Admin only on `/backend/users`; Admin and above can run diagnostics and save notification routing; Operators can view and use the StarDome 1; Viewers see reports and the Black Box only. Equipment is checked every 30 seconds while `/backend` is open (simulated heartbeat until hardware is connected). DEMO/LIVE switches, role changes, diagnostics, and notify saves write real audit rows.
 
 Production checks locally before a deploy:
 
@@ -237,6 +237,6 @@ npm start
 
 `/pricing` is a public product page: LIGHT, ADVANCED, INTELLIGENCE, and CUSTOM, a comparison matrix, environments, optional hardware, and how a configuration is priced. There are no dollar figures. The request form posts to `/api/contact`. Plan CTAs can still open `/contact?plan=ADVANCED` from older links.
 
-`/pricing` is the public Plans page and never shows dollar figures. After sign-in, Super Admin, Admin, and people with an assigned commercial role (`admin`, `sales`, `engineering`) open the commercial desk from **Plans** at `/pricing/desk`: a pipeline board, catalog shelf, quote tickets, and a branded PDF proposal (`/api/admin/starwall/pricing/quotes/[id]/pdf`) on AGRON Inc. letterhead with the StarWall mark. Older `/admin/starwall/pricing` URLs redirect there. Seeded desk accounts: `sales@starwall.demo` and `engineering@starwall.demo`. License list prices are seeded (LIGHT $6,000, ADVANCED $18,000, INTELLIGENCE $42,000, CUSTOM starting $75,000). Every other catalog row is PRICE REQUIRED until AGRON enters real costs. Public APIs never return this book. The customer PDF never includes cost or margin.
+`/pricing` is the public Plans page and never shows dollar figures. After sign-in, Super Admin, Admin, and people with an assigned commercial role (`admin`, `sales`, `engineering`) open the commercial desk from **Plans** at `/pricing/desk`: a pipeline board, catalog shelf, quote tickets, and a branded PDF proposal (`/api/admin/starwall/pricing/quotes/[id]/pdf`) on StarDome Inc. letterhead with the StarWall mark. Older `/admin/starwall/pricing` URLs redirect there. Seeded desk accounts: `sales@starwall.demo` and `engineering@starwall.demo`. License list prices are seeded (LIGHT $6,000, ADVANCED $18,000, INTELLIGENCE $42,000, CUSTOM starting $75,000). Every other catalog row is PRICE REQUIRED until StarDome enters real costs. Public APIs never return this book. The customer PDF never includes cost or margin.
 
 `/api/contact` stores every briefing or configuration request as a lead. Postgres is used when `DATABASE_URL` is up; otherwise the lead is written to `data/leads.json` (or `/tmp/starwall-leads.json`). A copy is emailed via Resend when `RESEND_API_KEY` and `CONTACT_INBOX` are set, or posted as JSON when `CONTACT_WEBHOOK_URL` is set. The response is `{ ok, stored, delivered, id }` — `delivered` is true only after a mailbox or webhook actually accepts the copy. `GET /api/contact` lists recent leads for a signed-in actor. `/backend` writes through `/api/equipment`, `/api/notifications`, `/api/audit`, `/api/integrations`, and `/api/users`. Unauthorized writes return 403.

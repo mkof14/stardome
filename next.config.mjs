@@ -53,7 +53,7 @@ const nextConfig = {
         ],
       },
       {
-        source: "/:file(SW3.png|starwall-logo.webp|starwall-logo.avif|favicon.ico|favicon-16.png|favicon-32.png|apple-touch-icon.png)",
+        source: "/:file(SD_Logo1.png|SD_Logo1.webp|SW3.png|starwall-logo.webp|starwall-logo.avif|favicon.ico|favicon-16.png|favicon-32.png|apple-touch-icon.png)",
         headers: [
           {
             key: "Cache-Control",

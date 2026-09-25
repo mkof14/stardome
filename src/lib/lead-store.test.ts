@@ -32,7 +32,7 @@ describe("lead file fallback without Postgres", () => {
     const lead = await createLead({
       name: "Ada Lovelace",
       email: "ada@example.com",
-      organization: "AGRON Inc.",
+      organization: "StarDome Inc.",
       phone: "",
       assetType: "marina",
       source: "contact",

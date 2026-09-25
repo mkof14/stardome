@@ -68,7 +68,7 @@ export async function POST(request: Request) {
 
   const situation = live
     ? "Current mode is LIVE. There is no live scenario or sensor data. This deployment is not connected to any radar, AIS, camera, or other equipment. If asked about current status, say you do not have live sensor data yet — this vessel is not connected to any equipment. They can ask about StarWall in general, or switch to DEMO mode to see a simulated scenario. Do not invent contacts, risk levels, equipment status, or events."
-    : `Current AGRON 1 picture (DEMO): scenario is '${watchSession.scenarioName}', risk level is '${watchSession.riskLevel}', aboard ${watchSession.vessel}. Panel: ${watchSession.panelType}. ${watchBrief} Advice only — the person on watch decides.`;
+    : `Current StarDome 1 picture (DEMO): scenario is '${watchSession.scenarioName}', risk level is '${watchSession.riskLevel}', aboard ${watchSession.vessel}. Panel: ${watchSession.panelType}. ${watchBrief} Advice only — the person on watch decides.`;
 
   const apiKey = process.env.ANTHROPIC_API_KEY?.trim();
   if (!apiKey) {
@@ -78,7 +78,7 @@ export async function POST(request: Request) {
   }
 
   const watchRule = onWatch
-    ? " The visitor is on AGRON 1. Answer from the current picture first. Do not pitch the product or website unless they ask about plans, AGRON, containers, or how StarWall works."
+    ? " The visitor is on StarDome 1. Answer from the current picture first. Do not pitch the product or website unless they ask about plans, StarDome, containers, or how StarWall works."
     : "";
 
   const system = `${PILOT_SITE_BRIEFING} The visitor is on ${path}. Spoken and written StarWall languages: ${locales.join(", ")}. Context locale is ${locale}. ${situation}${watchRule} Use the recent conversation if they refer back. Respond in 2-4 sentences unless more detail is needed. IMPORTANT: Reply in the visitor's language (the message if it is one of those languages, otherwise ${locale}). At the very start of your response, output a language code in this exact format on its own first line: [LANG:xx] where xx is one of ${locales.join(", ")} — then a newline, then your actual response.`;

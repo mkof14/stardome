@@ -13,7 +13,7 @@ export const navItems: Array<{ href: string; key: keyof Messages["nav"] }> = [
   { href: "/contact", key: "contact" },
 ];
 
-/** Primary header: product and company only. Levels, FAQ, AGRON Container live in the footer. */
+/** Primary header: product and company only. Levels, FAQ, StarDome Container live in the footer. */
 export const headerNavItems = navItems.filter(
   (item) =>
     item.href !== "/levels" &&
