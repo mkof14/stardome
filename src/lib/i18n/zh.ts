@@ -4,7 +4,7 @@ export const zh: Messages = {
   nav: {
     home: "首页",
     howItWorks: "工作原理",
-    interface: "StarDome 1",
+    interface: "AGRON 1",
     levels: "层级",
     pricing: "方案",
     technology: "技术",
@@ -38,7 +38,7 @@ export const zh: Messages = {
   seo: {
     home: "StarWall by StarDome — 海上安全情报",
     howItWorks: "StarWall 如何工作 — StarWall by StarDome",
-    interface: "StarDome 1 — 交互演示 — StarWall by StarDome",
+    interface: "AGRON 1",
     levels: "订阅层级 — StarWall by StarDome",
     pricing: "方案 — StarWall by StarDome",
     technology: "设备与集成 — StarWall by StarDome",
@@ -457,7 +457,7 @@ export const zh: Messages = {
     ],
   },
   bridge: {
-    title: "StarDome 1",
+    title: "AGRON 1",
     watchKicker: "值班",
     subtitle: "值班台 / 值班桌",
     roleCaptain: "船长",

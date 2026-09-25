@@ -4,7 +4,7 @@ export const es: Messages = {
   nav: {
     home: "Inicio",
     howItWorks: "Cómo funciona",
-    interface: "StarDome 1",
+    interface: "AGRON 1",
     levels: "Niveles",
     pricing: "Planes",
     technology: "Tecnología",
@@ -38,7 +38,7 @@ export const es: Messages = {
   seo: {
     home: "StarWall by StarDome — inteligencia de seguridad marítima",
     howItWorks: "Cómo funciona StarWall — StarWall by StarDome",
-    interface: "StarDome 1 — demostración interactiva — StarWall by StarDome",
+    interface: "AGRON 1",
     levels: "Niveles de suscripción — StarWall by StarDome",
     pricing: "Planes — StarWall by StarDome",
     technology: "Equipos e integración — StarWall by StarDome",
@@ -459,7 +459,7 @@ export const es: Messages = {
     ],
   },
   bridge: {
-    title: "StarDome 1",
+    title: "AGRON 1",
     watchKicker: "GUARDIA",
     subtitle: "Puesto de guardia / Mesa de guardia",
     roleCaptain: "Capitán",

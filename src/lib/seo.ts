@@ -10,7 +10,7 @@ export const pageMeta = {
       "How StarWall connects existing equipment, builds one picture, and supports a decision on StarDome 1.",
   },
   interface: {
-    title: "StarDome 1 — Interactive Demo — StarWall by StarDome",
+    title: "AGRON 1",
     description:
       "Interactive StarDome 1 demo: radar, telemetry, risk levels, and an event log with illustrative data.",
   },

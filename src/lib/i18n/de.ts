@@ -4,7 +4,7 @@ export const de: Messages = {
   nav: {
     home: "Start",
     howItWorks: "So funktioniert es",
-    interface: "StarDome 1",
+    interface: "AGRON 1",
     levels: "Stufen",
     pricing: "Pläne",
     technology: "Technik",
@@ -38,7 +38,7 @@ export const de: Messages = {
   seo: {
     home: "StarWall by StarDome — maritime Sicherheitslage",
     howItWorks: "So funktioniert StarWall — StarWall by StarDome",
-    interface: "StarDome 1 — interaktive Demonstration — StarWall by StarDome",
+    interface: "AGRON 1",
     levels: "Abonnementstufen — StarWall by StarDome",
     pricing: "Pläne — StarWall by StarDome",
     technology: "Ausrüstung und Integration — StarWall by StarDome",
@@ -459,7 +459,7 @@ export const de: Messages = {
     ],
   },
   bridge: {
-    title: "StarDome 1",
+    title: "AGRON 1",
     watchKicker: "WACHE",
     subtitle: "Wachstation / Wachtisch",
     roleCaptain: "Kapitän",

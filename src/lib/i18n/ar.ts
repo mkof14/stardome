@@ -4,7 +4,7 @@ export const ar: Messages = {
   nav: {
     home: "الرئيسية",
     howItWorks: "كيف يعمل",
-    interface: "StarDome 1",
+    interface: "AGRON 1",
     levels: "المستويات",
     pricing: "الخطط",
     technology: "التقنية",
@@ -38,7 +38,7 @@ export const ar: Messages = {
   seo: {
     home: "StarWall by StarDome — استخبارات الأمن البحري",
     howItWorks: "كيف يعمل StarWall — StarWall by StarDome",
-    interface: "StarDome 1 — عرض تفاعلي — StarWall by StarDome",
+    interface: "AGRON 1",
     levels: "مستويات الاشتراك — StarWall by StarDome",
     pricing: "الخطط — StarWall by StarDome",
     technology: "المعدات والتكامل — StarWall by StarDome",
@@ -459,7 +459,7 @@ export const ar: Messages = {
     ],
   },
   bridge: {
-    title: "StarDome 1",
+    title: "AGRON 1",
     watchKicker: "خفارة",
     subtitle: "محطة المناوبة / مكتب الخفارة",
     roleCaptain: "الربان",

@@ -4,7 +4,7 @@ export const uk: Messages = {
   nav: {
     home: "Головна",
     howItWorks: "Як це працює",
-    interface: "StarDome 1",
+    interface: "AGRON 1",
     levels: "Рівні",
     pricing: "Плани",
     technology: "Технології",
@@ -38,7 +38,7 @@ export const uk: Messages = {
   seo: {
     home: "StarWall by StarDome — морська охоронна розвідка",
     howItWorks: "Як працює StarWall — StarWall by StarDome",
-    interface: "StarDome 1 — інтерактивне демо — StarWall by StarDome",
+    interface: "AGRON 1",
     levels: "Рівні підписки — StarWall by StarDome",
     pricing: "Плани — StarWall by StarDome",
     technology: "Обладнання та інтеграція — StarWall by StarDome",
@@ -459,7 +459,7 @@ export const uk: Messages = {
     ],
   },
   bridge: {
-    title: "StarDome 1",
+    title: "AGRON 1",
     watchKicker: "ВАХТА",
     subtitle: "Черговий пост",
     roleCaptain: "Капітан",

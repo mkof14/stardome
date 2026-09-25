@@ -4,7 +4,7 @@ export const ja: Messages = {
   nav: {
     home: "ホーム",
     howItWorks: "仕組み",
-    interface: "StarDome 1",
+    interface: "AGRON 1",
     levels: "レベル",
     pricing: "プラン",
     technology: "技術",
@@ -38,7 +38,7 @@ export const ja: Messages = {
   seo: {
     home: "StarWall by StarDome — 海上セキュリティインテリジェンス",
     howItWorks: "StarWall の仕組み — StarWall by StarDome",
-    interface: "StarDome 1 — インタラクティブデモ — StarWall by StarDome",
+    interface: "AGRON 1",
     levels: "サブスクリプションレベル — StarWall by StarDome",
     pricing: "プラン — StarWall by StarDome",
     technology: "装備と統合 — StarWall by StarDome",
@@ -457,7 +457,7 @@ export const ja: Messages = {
     ],
   },
   bridge: {
-    title: "StarDome 1",
+    title: "AGRON 1",
     watchKicker: "当直",
     subtitle: "当直ステーション / 当直デスク",
     roleCaptain: "船長",
