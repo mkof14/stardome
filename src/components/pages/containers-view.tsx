@@ -62,17 +62,17 @@ export function ContainersView() {
           height={CONTAINER_BRAND.height}
           priority
           sizes="100vw"
-          className="h-[min(44rem,92vw)] w-full object-cover object-center"
+          className="h-[min(44rem,92vw)] w-full object-cover object-[center_12%]"
         />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy via-navy/55 to-navy/15" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy from-30% via-navy/75 to-transparent" />
         <div className="absolute inset-x-0 bottom-0">
-          <div className="mx-auto max-w-6xl px-4 pb-10 pt-24 md:px-6">
+          <div className="mx-auto max-w-6xl px-4 pb-10 pt-28 md:px-6">
             <p className="font-ui text-[12px] tracking-wide text-attn">{show.kicker}</p>
-            <div className="mt-3 flex gap-1.5" aria-hidden>
-              <span className="h-1 w-10 bg-attn" />
-              <span className="h-1 w-6 bg-teal" />
-              <span className="h-1 w-6 bg-sky" />
-              <span className="h-1 w-4 bg-orange" />
+            <div className="mt-3 flex gap-1.5" aria-hidden data-testid="agron-hero-accents">
+              <span className="h-1.5 w-12 bg-attn shadow-[0_0_0_1px_rgba(0,0,0,0.35)]" />
+              <span className="h-1.5 w-8 bg-teal shadow-[0_0_0_1px_rgba(0,0,0,0.35)]" />
+              <span className="h-1.5 w-8 bg-sky shadow-[0_0_0_1px_rgba(0,0,0,0.35)]" />
+              <span className="h-1.5 w-6 bg-orange shadow-[0_0_0_1px_rgba(0,0,0,0.35)]" />
             </div>
             <h1 className="mt-4 max-w-[16ch] font-heading text-[3.4rem] font-bold leading-[0.95] text-sand sm:text-[5.4rem]">
               {show.title}
