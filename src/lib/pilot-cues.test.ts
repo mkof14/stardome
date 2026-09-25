@@ -6,6 +6,7 @@ import {
   cueDurationMs,
   cueForDemoBeat,
   cuesEnabled,
+  playPilotCue,
   voiceEnabled,
   writeCuesEnabled,
   writeVoiceEnabled,
@@ -96,6 +97,29 @@ describe("pilot cues", () => {
     writeCuesEnabled(true, storage);
     expect(cuesEnabled(storage)).toBe(true);
     expect(cuesEnabled(null)).toBe(true);
+    expect(playPilotCue("open", false)).toBe(false);
+  });
+
+  it("keeps voice on when signals are muted for a floor demo", () => {
+    const store = new Map<string, string>();
+    const storage = {
+      getItem: (key: string) => store.get(key) ?? null,
+      setItem: (key: string, value: string) => {
+        store.set(key, value);
+      },
+    };
+    writeCuesEnabled(false, storage);
+    expect(cuesEnabled(storage)).toBe(false);
+    expect(voiceEnabled(storage)).toBe(true);
+    expect(playPilotCue("demo", false)).toBe(false);
+    expect(playPilotCue("speak", false)).toBe(false);
+    expect(playPilotCue("stop", false)).toBe(false);
+    writeVoiceEnabled(false, storage);
+    expect(voiceEnabled(storage)).toBe(false);
+    expect(cuesEnabled(storage)).toBe(false);
+    writeCuesEnabled(true, storage);
+    expect(cuesEnabled(storage)).toBe(true);
+    expect(voiceEnabled(storage)).toBe(false);
   });
 
   it("remembers speaker mute separately from signals", () => {

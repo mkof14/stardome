@@ -130,30 +130,49 @@ export function PilotCueToggle({
       type="button"
       data-testid={compact ? "pilot-cues-dock" : "pilot-cues-toggle"}
       data-on={on ? "true" : "false"}
+      data-muted={on ? "false" : "true"}
       onClick={onToggle}
-      aria-pressed={!on}
+      aria-pressed={on}
       aria-label={on ? onLabel : offLabel}
       title={on ? onLabel : offLabel}
       className={cn(
         "relative flex shrink-0 items-center justify-center",
         compact
-          ? "h-12 w-12 overflow-hidden rounded-full border bg-bridge-bg"
-          : "h-8 w-8 rounded-lg",
+          ? "h-12 w-12 overflow-hidden rounded-full border-2 bg-bridge-bg"
+          : "h-8 w-8 rounded-lg border",
         on
           ? compact
             ? "border-[#38BDF8] text-[#38BDF8]"
-            : "text-[#38BDF8]"
-          : compact
-            ? "border-attn text-attn"
-            : "text-attn",
+            : "border-transparent text-[#38BDF8]"
+          : "border-[#DC2626] bg-[#DC2626]/30 text-[#DC2626]",
       )}
     >
-      <HudGlyph name="bell" className="h-4 w-4" />
+      <HudGlyph name="bell" className={compact ? "h-5 w-5" : "h-4 w-4"} />
       {on ? null : (
-        <span
-          className="pointer-events-none absolute inset-x-3 top-1/2 h-px -rotate-45 bg-current"
+        <svg
+          viewBox="0 0 48 48"
+          className="pointer-events-none absolute inset-0 h-full w-full"
           aria-hidden
-        />
+        >
+          <line
+            x1="8"
+            y1="40"
+            x2="40"
+            y2="8"
+            stroke="#1A0A0A"
+            strokeWidth="7"
+            strokeLinecap="round"
+          />
+          <line
+            x1="8"
+            y1="40"
+            x2="40"
+            y2="8"
+            stroke="#DC2626"
+            strokeWidth="4.5"
+            strokeLinecap="round"
+          />
+        </svg>
       )}
     </button>
   );
