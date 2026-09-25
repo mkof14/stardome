@@ -20,6 +20,61 @@ export const PILOT_PLATES: Record<PilotMood, string> = {
   urgent: "/pilot/urgent.webp",
 };
 
+export const PILOT_LOOP_FRAMES: Record<PilotMood, readonly string[]> = {
+  ease: ["/pilot/ease.webp", "/pilot/idle-breath.webp", "/pilot/idle.webp", "/pilot/ease.webp"],
+  idle: [
+    "/pilot/idle.webp",
+    "/pilot/idle-breath.webp",
+    "/pilot/idle-turn.webp",
+    "/pilot/idle.webp",
+    "/pilot/idle-blink.webp",
+  ],
+  listen: ["/pilot/listen.webp", "/pilot/listen-nod.webp", "/pilot/idle-turn.webp"],
+  speak: [
+    "/pilot/speak.webp",
+    "/pilot/speak-open.webp",
+    "/pilot/speak-point.webp",
+    "/pilot/speak-close.webp",
+  ],
+  serious: ["/pilot/serious.webp", "/pilot/idle-turn.webp", "/pilot/idle-blink.webp"],
+  urgent: ["/pilot/urgent.webp", "/pilot/urgent-lean.webp", "/pilot/speak-point.webp"],
+};
+
+export const PILOT_VIDEOS: Record<PilotMood, { webm: string; mp4: string }> = {
+  ease: { webm: "/pilot/anim-ease.webm", mp4: "/pilot/anim-ease.mp4" },
+  idle: { webm: "/pilot/anim-idle.webm", mp4: "/pilot/anim-idle.mp4" },
+  listen: { webm: "/pilot/anim-listen.webm", mp4: "/pilot/anim-listen.mp4" },
+  speak: { webm: "/pilot/anim-speak.webm", mp4: "/pilot/anim-speak.mp4" },
+  serious: { webm: "/pilot/anim-serious.webm", mp4: "/pilot/anim-serious.mp4" },
+  urgent: { webm: "/pilot/anim-urgent.webm", mp4: "/pilot/anim-urgent.mp4" },
+};
+
+export function loopStep(
+  index: number,
+  length: number,
+  dir: 1 | -1,
+): { index: number; dir: 1 | -1 } {
+  if (length <= 1) return { index: 0, dir: 1 };
+  let next = index + dir;
+  let nextDir = dir;
+  if (next >= length - 1) {
+    next = length - 1;
+    nextDir = -1;
+  } else if (next <= 0) {
+    next = 0;
+    nextDir = 1;
+  }
+  return { index: next, dir: nextDir };
+}
+
+export function loopMs(mood: PilotMood, speaking: boolean, level: number) {
+  const drive = Math.max(0, Math.min(1, level));
+  if (speaking || mood === "speak") return Math.round(160 - drive * 55);
+  if (mood === "urgent") return 220;
+  if (mood === "listen") return 300;
+  return 360;
+}
+
 export type RiskTone = "calm" | "attention" | "urgent";
 
 export function riskTone(risk?: string): RiskTone {

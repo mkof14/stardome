@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
+  PILOT_LOOP_FRAMES,
   PILOT_MOODS,
   PILOT_PLATES,
+  PILOT_VIDEOS,
+  loopMs,
+  loopStep,
   pilotMood,
   riskTone,
   voiceLevelFromBars,
@@ -25,10 +29,23 @@ describe("pilotMood", () => {
     expect(pilotMood({ mic: "speaking", risk: "CRITICAL" })).toBe("urgent");
   });
 
-  it("ships a plate for every mood", () => {
+  it("ships a plate, a frame loop, and a video loop for every mood", () => {
     for (const mood of PILOT_MOODS) {
       expect(PILOT_PLATES[mood]).toMatch(/^\/pilot\/.+\.webp$/);
+      expect(PILOT_LOOP_FRAMES[mood].length).toBeGreaterThan(2);
+      expect(PILOT_VIDEOS[mood].webm).toMatch(/anim-.+\.webm$/);
     }
+  });
+
+  it("ping-pongs the animation index", () => {
+    expect(loopStep(0, 4, 1)).toEqual({ index: 1, dir: 1 });
+    expect(loopStep(3, 4, 1)).toEqual({ index: 3, dir: -1 });
+    expect(loopStep(3, 4, -1)).toEqual({ index: 2, dir: -1 });
+    expect(loopStep(0, 4, -1)).toEqual({ index: 0, dir: 1 });
+  });
+
+  it("speaks faster than it idles", () => {
+    expect(loopMs("speak", true, 0.8)).toBeLessThan(loopMs("ease", false, 0));
   });
 });
 
