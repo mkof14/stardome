@@ -64,12 +64,12 @@ Without a key, Demo still uses two Edge Neural voices (no account) in every Star
 | Español | Álvaro | Arnau |
 | Français | Henri | Claude |
 | Deutsch | Conrad | Killian |
-| Русский | Dmitry | Svetlana |
-| Українська | Ostap | Polina |
-| العربية | Hamed | Zariyah |
+| Русский | Dmitry | Brian multilingual |
+| Українська | Ostap | Brian multilingual |
+| العربية | Hamed | Brian multilingual |
 | 中文 | Yunxi | Yunjian |
 | 日本語 | Keita | Daichi |
-| עברית | Avri | Hila | Azure (`AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION`) and OpenAI (`OPENAI_API_KEY`, `onyx` / `echo`) are optional fallbacks. If neural speech is down, Pilot falls back to a male browser voice when one is installed, then types. Listening uses Web Speech Recognition in Chrome or Edge after the microphone is allowed. Copy `.env.local.example` to `.env.local` and set `ANTHROPIC_API_KEY` for richer spoken answers. `.env*.local` is gitignored. Without the key Pilot still answers from the on-site briefing — it does not invent prices.
+| עברית | Avri | Brian multilingual | Azure (`AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION`) and OpenAI (`OPENAI_API_KEY`, `onyx` / `echo`) are optional fallbacks. If neural speech is down, Pilot falls back to a male browser voice when one is installed, then types. Listening uses Web Speech Recognition in Chrome or Edge after the microphone is allowed. Copy `.env.local.example` to `.env.local` and set `ANTHROPIC_API_KEY` for richer spoken answers. `.env*.local` is gitignored. Without the key Pilot still answers from the on-site briefing — it does not invent prices.
 
 `NEXT_PUBLIC_SITE_URL` is used for canonical metadata, Open Graph, `robots.txt`, and `sitemap.xml`. Locally it defaults to `http://127.0.0.1:3000`. On Vercel it falls back to `https://$VERCEL_URL` if you leave it blank.
 
@@ -125,7 +125,7 @@ The site logo is the chrome hex StarWall badge. Pages load `public/starwall-logo
 
 Header and footer include a sun/moon theme switch (light/dark, stored in the browser) and a ten-language menu: English, Spanish, French, German, Russian, Ukrainian, Arabic, Chinese, Japanese, Hebrew. The choice is stored in `localStorage` (`starwall-locale`) and survives navigation. Arabic and Hebrew set `dir="rtl"`; Arabic also loads Noto Sans Arabic for body and headings.
 
-Pilot, the watch advisor, sits as a living icon at the bottom-right of every page. Speech/type languages fold into a dropdown inside the panel.
+Pilot, the watch advisor, sits as an animated HUD assistant at the bottom-right of every page. Speech/type languages fold into a dropdown inside the panel.
 
 `/interface`, `/backend`, and `/tasks` carry a DEMO / LIVE mode switch (`localStorage` key `starwall-mode`, default DEMO). DEMO is the full illustrative simulation. LIVE is an honest empty deployment: no fake contacts, events, or equipment status. Pilot stays available in both modes.
 

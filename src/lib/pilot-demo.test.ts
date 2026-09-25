@@ -124,12 +124,16 @@ describe("pickVoice", () => {
     const voices = [
       { lang: "en-US", name: "Microsoft Zira", localService: true },
       { lang: "en-US", name: "Microsoft David", localService: false },
+      { lang: "en-US", name: "Microsoft Mark", localService: true },
       { lang: "ru-RU", name: "Microsoft Irina", localService: true },
     ];
-    expect(pickVoice(voices, "en")?.name).toBe("Microsoft David");
+    expect(pickVoice(voices, "en")?.name).toBe("Microsoft Mark");
     expect(isLikelyMaleVoice("Microsoft David")).toBe(true);
     expect(isLikelyMaleVoice("Microsoft Zira")).toBe(false);
-    expect(pickOfficerVoice(voices, "en", "Microsoft David")?.name).toBe(
+    expect(pickOfficerVoice(voices, "en", "Microsoft Mark")?.name).toBe(
+      "Microsoft David",
+    );
+    expect(pickOfficerVoice(voices, "en", "Microsoft Mark")?.name).not.toBe(
       "Microsoft Zira",
     );
   });
@@ -154,6 +158,8 @@ describe("male neural voices", () => {
       const officer = officerVoiceFor(code);
       expect(neuralVoiceFor(code, "officer").voice).toBe(officer.voice);
       expect(officer.voice).not.toBe(male.voice);
+      expect(isLikelyMaleVoice(officer.voice)).toBe(true);
+      expect(isLikelyMaleVoice(male.voice)).toBe(true);
       const edge = voiceNeedLine(code, {
         tts: "neural",
         stt: "ready",

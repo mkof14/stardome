@@ -171,5 +171,7 @@ describe("speech tone", () => {
     expect(officer).toContain(officerVoiceFor("ru").voice);
     expect(pilot).toContain(maleVoiceFor("ru").voice);
     expect(officerVoiceFor("ru").voice).not.toBe(maleVoiceFor("ru").voice);
+    expect(officerVoiceFor("ru").voice).toMatch(/Brian/);
+    expect(officerVoiceFor("ru").voice).not.toMatch(/Svetlana|Polina|Hila|Zariyah/i);
   });
 });

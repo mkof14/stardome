@@ -32,18 +32,19 @@ export function maleVoiceFor(locale: Locale) {
   return MALE_NEURAL[locale];
 }
 
-/** Second watch voice so Demo can play officer and Pilot as two people. */
+/** Second watch voice so Demo can play officer and Pilot as two people.
+ *  Always male — locales with only one native male neural use Brian multilingual. */
 export const OFFICER_NEURAL: Record<Locale, { voice: string; lang: string }> = {
   en: { voice: "en-US-BrianNeural", lang: "en-US" },
   es: { voice: "es-ES-ArnauNeural", lang: "es-ES" },
   fr: { voice: "fr-FR-ClaudeNeural", lang: "fr-FR" },
   de: { voice: "de-DE-KillianNeural", lang: "de-DE" },
-  ru: { voice: "ru-RU-SvetlanaNeural", lang: "ru-RU" },
-  uk: { voice: "uk-UA-PolinaNeural", lang: "uk-UA" },
-  ar: { voice: "ar-SA-ZariyahNeural", lang: "ar-SA" },
+  ru: { voice: "en-US-BrianMultilingualNeural", lang: "ru-RU" },
+  uk: { voice: "en-US-BrianMultilingualNeural", lang: "uk-UA" },
+  ar: { voice: "en-US-BrianMultilingualNeural", lang: "ar-SA" },
   zh: { voice: "zh-CN-YunjianNeural", lang: "zh-CN" },
   ja: { voice: "ja-JP-DaichiNeural", lang: "ja-JP" },
-  he: { voice: "he-IL-HilaNeural", lang: "he-IL" },
+  he: { voice: "en-US-BrianMultilingualNeural", lang: "he-IL" },
 };
 
 export function officerVoiceFor(locale: Locale) {
@@ -75,10 +76,10 @@ function norm(lang: string) {
 }
 
 const MALE_NAME =
-  /male|\bman\b|\bguy\b|andrew|david|daniel|dmitry|dmitri|ostap|alvaro|henri|conrad|killian|hamed|yunxi|yunyang|keita|avri|onyx|echo|thomas|george|james|mark|paul|ryan|brian|eric|christopher|davis|jorge|ichiro|ravi|fred|microsoft david|microsoft mark|microsoft george|google uk english male/i;
+  /male|\bman\b|\bguy\b|andrew|david|daniel|dmitry|dmitri|ostap|alvaro|arnau|henri|claude|conrad|killian|hamed|yunxi|yunjian|yunyang|keita|daichi|avri|onyx|echo|thomas|george|james|mark|paul|ryan|brian|eric|christopher|davis|jorge|ichiro|ravi|fred|microsoft david|microsoft mark|microsoft george|google uk english male/i;
 
 const FEMALE_NAME =
-  /female|woman|girl|zira|samantha|karen|susan|helena|katya|hila|nanami|xiaoxiao|aria|jenny|sonia|elvira|denise|katja|dariya|polina|salma|yael|google uk english female|microsoft zira|microsoft helena/i;
+  /female|woman|girl|zira|samantha|karen|susan|helena|katya|hila|nanami|xiaoxiao|aria|jenny|sonia|elvira|denise|katja|dariya|polina|salma|yael|svetlana|irina|zariyah|masha|google uk english female|microsoft zira|microsoft helena/i;
 
 export function isLikelyMaleVoice(name: string) {
   if (!name.trim()) return false;
@@ -128,25 +129,20 @@ export function pickOfficerVoice(
   skipName?: string | null,
 ): Pick<SpeechSynthesisVoice, "lang" | "name" | "localService"> | null {
   if (!voices.length) return null;
-  const localeCode = isLocale(locale) ? locale : "en";
-  const preferFemale = FEMALE_NAME.test(officerVoiceFor(localeCode).voice);
   let best: Pick<SpeechSynthesisVoice, "lang" | "name" | "localService"> | null =
     null;
   let bestScore = -1;
   for (const voice of voices) {
     if (skipName && voice.name === skipName) continue;
-    let score = scoreVoice(voice, locale);
+    if (FEMALE_NAME.test(voice.name) && !isLikelyMaleVoice(voice.name)) continue;
+    const score = scoreVoice(voice, locale);
     if (score < 0) continue;
-    if (preferFemale) {
-      if (FEMALE_NAME.test(voice.name)) score += 55;
-      if (isLikelyMaleVoice(voice.name)) score -= 25;
-    }
     if (score > bestScore) {
       bestScore = score;
       best = voice;
     }
   }
-  return best ?? pickVoice(voices, locale);
+  return best;
 }
 
 export type NeuralVoiceStatus = {
