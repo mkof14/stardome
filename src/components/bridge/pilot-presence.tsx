@@ -7,17 +7,17 @@ import { fieldSamples, type PilotMood } from "@/lib/pilot-presence";
 export type PilotPresenceSize = "rail" | "talk" | "dock" | "watch";
 
 const SIZE: Record<PilotPresenceSize, string> = {
-  rail: "h-11 w-11 rounded-full",
-  talk: "h-10 w-10 rounded-full",
-  dock: "h-[10rem] w-[7.15rem] rounded-2xl",
-  watch: "h-[10.5rem] w-[7.5rem] rounded-2xl sm:h-[13.25rem] sm:w-[9.4rem]",
+  rail: "h-8 w-8 rounded-full",
+  talk: "h-8 w-8 rounded-full",
+  dock: "h-14 w-14 rounded-full",
+  watch: "h-12 w-12 rounded-full sm:h-14 sm:w-14",
 };
 
 const BINS: Record<PilotPresenceSize, number> = {
-  rail: 14,
-  talk: 14,
-  dock: 28,
-  watch: 32,
+  rail: 11,
+  talk: 11,
+  dock: 18,
+  watch: 18,
 };
 
 export function PilotPresence({
@@ -39,7 +39,6 @@ export function PilotPresence({
 }) {
   const drive = Math.max(0, Math.min(1, level));
   const live = Boolean(speaking || listening);
-  const compact = size === "rail" || size === "talk";
   const samples = fieldSamples(wave, BINS[size], live, drive);
   return (
     <span
@@ -55,6 +54,7 @@ export function PilotPresence({
       style={{ "--pilot-level": String(drive) } as CSSProperties}
     >
       <span className="pilot-presence-well" aria-hidden />
+      <span className="pilot-orbit" aria-hidden />
       <span className="pilot-glow" aria-hidden />
       <span className="pilot-field" aria-hidden>
         {samples.map((value, index) => (
@@ -70,7 +70,7 @@ export function PilotPresence({
           />
         ))}
       </span>
-      {compact ? null : <span className="pilot-word">PILOT</span>}
+      <span className="pilot-core" aria-hidden />
       <span className="pilot-presence-rim" aria-hidden />
     </span>
   );

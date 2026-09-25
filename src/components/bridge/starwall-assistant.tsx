@@ -1821,7 +1821,7 @@ export function Helm() {
           aria-pressed={open}
           aria-label={open ? surface.hide : surface.open}
           className={cn(
-            "relative flex w-[7.45rem] shrink-0 flex-col items-center overflow-hidden rounded-2xl border border-orange/70 bg-bridge-bg px-1 pb-1.5 pt-1 text-orange",
+            "relative flex w-[4.6rem] shrink-0 flex-col items-center overflow-hidden rounded-2xl border border-orange/70 bg-bridge-bg px-1 pb-1 pt-1 text-orange",
             (unread || (!open && watch.urgent)) && (watch.urgent ? "helm-fab-pulse-urgent" : "helm-fab-pulse"),
             open && "border-orange bg-orange/10",
           )}
