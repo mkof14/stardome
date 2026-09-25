@@ -33,12 +33,7 @@ export function ContainerFigure({
         height={image.height}
         priority={priority}
         sizes={sizes ?? (bleed ? "100vw" : "(min-width: 1024px) 36rem, 100vw")}
-        className={cn(
-          "w-full",
-          bleed
-            ? "h-[min(32rem,62vw)] object-cover object-[center_28%]"
-            : "h-auto",
-        )}
+        className="h-auto w-full"
       />
       {caption ? (
         <figcaption
