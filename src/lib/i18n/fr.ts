@@ -33,38 +33,38 @@ export const fr: Messages = {
     footerCompany: "Société",
     footerLegal: "Mentions légales",
     footerBlurb:
-      "StarWall by StarDome — une image unique à partir de l'équipement déjà en place, et une prochaine étape claire pour la personne de quart.",
+      "StarDome — une image unique à partir de l'équipement déjà en place, et une prochaine étape claire pour la personne de quart.",
   },
   seo: {
-    home: "StarWall by StarDome — renseignement de sécurité maritime",
-    howItWorks: "Comment fonctionne StarWall — StarWall by StarDome",
+    home: "StarDome — renseignement de sécurité maritime",
+    howItWorks: "Fonctionnement — StarDome",
     interface: "AGRON 1",
-    levels: "Niveaux d'abonnement — StarWall by StarDome",
-    pricing: "Plans — StarWall by StarDome",
-    technology: "Équipements et intégration — StarWall by StarDome",
-    faq: "FAQ — StarWall by StarDome",
+    levels: "Niveaux d'abonnement — StarDome",
+    pricing: "Plans — StarDome",
+    technology: "Équipements et intégration — StarDome",
+    faq: "FAQ — StarDome",
     containers: "Conteneurs — StarDome",
     containersDetection: "Suite de détection — StarDome Containers",
     containersSpecs: "Spécifications — StarDome Containers",
     containersCountermeasures: "Contre-mesures — StarDome Containers",
     containersTiers: "Niveaux — StarDome Containers",
     containersDeployment: "Déploiement — StarDome Containers",
-    about: "Pourquoi StarWall — StarWall by StarDome",
-    contact: "Contact — StarWall by StarDome",
-    backend: "StarWall Backend — administration système — StarWall by StarDome",
-    connections: "Carte des connexions — StarWall by StarDome",
-    login: "Connexion — StarWall by StarDome",
-    signup: "Créer un compte — StarWall by StarDome",
-    forgotPassword: "Mot de passe oublié — StarWall by StarDome",
-    tasks: "Toutes les tâches — StarWall by StarDome",
-    privacy: "Confidentialité — StarWall by StarDome",
-    terms: "Conditions d'utilisation — StarWall by StarDome",
+    about: "Pourquoi StarWall — StarDome",
+    contact: "Contact — StarDome",
+    backend: "StarWall Backend — administration système — StarDome",
+    connections: "Carte des connexions — StarDome",
+    login: "Connexion — StarDome",
+    signup: "Créer un compte — StarDome",
+    forgotPassword: "Mot de passe oublié — StarDome",
+    tasks: "Toutes les tâches — StarDome",
+    privacy: "Confidentialité — StarDome",
+    terms: "Conditions d'utilisation — StarDome",
   },
   legal: {
     privacyTitle: "Politique de confidentialité",
     privacyUpdated: "Mis à jour : 7 septembre 2026",
     privacyIntro:
-      "Cette politique explique comment StarDome Inc. (« StarDome », « nous ») traite les informations lorsque vous utilisez le site StarWall, StarDome 1 illustratif, Pilot et les écrans d'administration. Elle décrit le produit tel qu'il existe aujourd'hui, y compris DEMO et LIVE.",
+      "Cette politique explique comment StarDome Inc. (« StarDome », « nous ») traite les informations lorsque vous utilisez le site StarDome 1 illustratif, Pilot et les écrans d'administration. Elle décrit le produit tel qu'il existe aujourd'hui, y compris DEMO et LIVE.",
     privacySections: [
       { title: "Qui est responsable", body: "StarDome Inc. est derrière StarWall. Questions de confidentialité : formulaire de contact ou star-wall.com. Si un déploiement contractuel désigne un contact protection des données, il figure dans l'accord écrit." },
       { title: "Ce qu'est ce site", body: "Les pages publiques sont le produit. Le StarDome 1 sur /interface est un tableau de quart illustratif : DEMO utilise des contacts, événements et statuts d'équipement simulés. LIVE montre l'état réel de ce déploiement — vide tant qu'aucun capteur n'est relié. La démo publique n'est pas un flux live d'un yacht, d'une marina ou d'un port, sauf accord écrit avec StarDome." },
@@ -83,7 +83,7 @@ export const fr: Messages = {
       { title: "Comptes", body: "Vous êtes responsable des identifiants. Les comptes de démonstration sur la page de connexion, s'ils sont affichés, illustrent les rôles : changez-les avant un déploiement réel." },
       { title: "Usage acceptable", body: "Pas d'accès non autorisé ; pas d'usage de StarWall pour nuire aux personnes ou aux biens ; ne pas présenter le service comme un flux opérationnel live." },
       { title: "Autorisation humaine et droit local", body: "Les équipements spécialisés et toute capacité de réponse restent sous autorisation humaine et le droit du lieu. StarWall n'accorde pas de licence pour des systèmes restreints." },
-      { title: "Propriété, responsabilité, contact", body: "StarWall, StarDome et le logo sont des marques StarDome. Le contenu est fourni « en l'état ». StarDome n'est pas responsable des décisions prises uniquement à partir de la démo publique ou de Pilot sur ce site. Questions : /contact ou star-wall.com." },
+      { title: "Propriété, responsabilité, contact", body: "StarDome et le logo sont des marques StarDome. Le contenu est fourni « en l'état ». StarDome n'est pas responsable des décisions prises uniquement à partir de la démo publique ou de Pilot sur ce site. Questions : /contact ou star-wall.com." },
     ],
   },
   surface: {
@@ -104,7 +104,7 @@ export const fr: Messages = {
     helmHide: "Masquer",
     helmOpen: "Ouvrir Pilot",
     helmEmpty:
-      "Pilot est de quart. Interrogez StarWall, StarDome 1, les offres ou les conteneurs StarDome — voix ou texte. Conseil seulement ; vous décidez.",
+      "Pilot est de quart. Interrogez StarDome 1, les offres ou les conteneurs StarDome — voix ou texte. Conseil seulement ; vous décidez.",
     helmLive: "CONSEILLER DE QUART · LIVE · aucun capteur",
     helmSpeakerOn: "Haut-parleur allumé",
     helmSpeakerOff: "Haut-parleur coupé",
@@ -112,7 +112,7 @@ export const fr: Messages = {
       "MODE LIVE — état réel de ce déploiement. Aucun équipement n'est encore connecté. Passez en DEMO pour voir toutes les capacités de StarWall avec des données simulées.",
   },
   backend: {
-    kicker: "STARWALL BACKEND",
+    kicker: "STARDOME",
     title: "Administration système",
     lead:
       "Connectivité, santé des équipements, contrôle d'accès et supervision — y compris le matériel de conteneurs StarDome. Plus dense qu'StarDome 1 : pour les administrateurs, pas pour un coup d'œil.",
@@ -267,7 +267,7 @@ export const fr: Messages = {
   },
   auth: {
     kicker: "AUTORISATION",
-    title: "Connexion à StarWall",
+    title: "Connexion à StarDome",
     lead:
       "Ceci est une démonstration d'idée. Connectez-vous avec demo / demo. Les nouveaux comptes commencent Operator si une base est branchée.",
     leadLive:
@@ -316,7 +316,7 @@ export const fr: Messages = {
     noAccount: "Pas de compte ?",
     hasAccount: "Déjà un compte ?",
     signUpLink: "Créer un compte",
-    signUpTitle: "Créer un compte StarWall",
+    signUpTitle: "Créer un compte StarDome",
     organizationOptional: "Organisation (facultatif)",
     confirmPassword: "Confirmer le mot de passe",
     creatingAccount: "Création du compte…",
@@ -356,7 +356,7 @@ export const fr: Messages = {
     },
   },
   home: {
-    kicker: "StarWall, StarDome",
+    kicker: "StarDome",
     title: "Le quart reste une personne. Les écrans n'ont pas à se disputer.",
     lead: "Sur un yacht, une marina, un port ou une île, radar et caméras sont souvent déjà là. Le problème, c'est qu'ils n'ont pas la même horloge. StarWall lit ce qui est déjà payé et le pose sur un StarDome 1. Ensuite il dit ce qu'il ferait. Vous prenez, ou pas.",
     points: [
@@ -917,7 +917,7 @@ export const fr: Messages = {
   },
   about: {
     kicker: "À propos",
-    title: "Pourquoi StarWall",
+    title: "Pourquoi StarDome",
     lead:
       "StarDome construit des systèmes d'intelligence et d'intégration pour la sécurité maritime et physique. StarWall est la couche qui relie les équipements d'un yacht, d'une marina, d'un port ou d'une île privée — radar, caméras, navigation, capteurs de tout fabricant — en une seule image et une prochaine étape claire pour la personne aux commandes.",
     beliefsTitle: "Ce que nous défendons",

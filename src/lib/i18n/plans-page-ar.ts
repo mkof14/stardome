@@ -2,7 +2,7 @@ import type { PlansPageCopy } from "@/lib/i18n/plans-page";
 
 export const ar: PlansPageCopy = {
   kicker: "الخطط",
-  title: "خطط StarWall",
+  title: "خطط StarDome",
   supporting: "اختاروا مستوى الذكاء الذي تحتاجه عمليتكم.",
   body: "من يخت واحد إلى مارينا أو جزيرة خاصة أو ميناء أو عدة مواقع، يعمل StarWall مع البنية القائمة ويتوسع مع نمو المتطلبات.",
   compareCta: "مقارنة الخطط",
@@ -72,7 +72,7 @@ export const ar: PlansPageCopy = {
     },
   },
   compare: {
-    heading: "مقارنة خطط StarWall",
+    heading: "مقارنة خطط StarDome",
     subheading: "ابدأوا بمستوى الذكاء الذي تحتاجونه. التكوين النهائي يُكيَّف مع السفينة أو الموقع.",
     capability: "القدرة",
     rows: {
@@ -150,7 +150,7 @@ export const ar: PlansPageCopy = {
     cta: "طلب التسعير",
     items: {
       plan: {
-        title: "خطة StarWall",
+        title: "خطة StarDome",
         caption: "مستوى البرمجيات والذكاء",
       },
       integration: {
@@ -172,7 +172,7 @@ export const ar: PlansPageCopy = {
     },
   },
   request: {
-    heading: "غير متأكدين أي خطة StarWall تناسب عمليتكم؟",
+    heading: "غير متأكدين أي خطة StarDome تناسب عمليتكم؟",
     body: "أخبرونا عما تحمون وما المعدات القائمة. تستطيع StarDome أن توصي بتكوين StarWall المناسب.",
     cta: "طلب تكوين StarWall",
     assetLabel: "ماذا تحمون؟",

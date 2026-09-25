@@ -88,7 +88,7 @@ export type PlansPageCopy = {
 
 const en: PlansPageCopy = {
   kicker: "Plans",
-  title: "StarWall Plans",
+  title: "StarDome Plans",
   supporting: "Choose the level of intelligence your operation needs.",
   body: "From a single yacht to a marina, private island, port, or multi-site operation, StarWall works with existing infrastructure and expands as requirements grow.",
   compareCta: "Compare Plans",
@@ -162,7 +162,7 @@ const en: PlansPageCopy = {
     },
   },
   compare: {
-    heading: "Compare StarWall Plans",
+    heading: "Compare StarDome Plans",
     subheading:
       "Start with the level of intelligence you need. The final configuration is adapted to the vessel or site.",
     capability: "Capability",
@@ -316,7 +316,7 @@ const en: PlansPageCopy = {
 
 const ru: PlansPageCopy = {
   kicker: "Планы",
-  title: "Планы StarWall",
+  title: "Планы StarDome",
   supporting: "Выберите уровень интеллекта, который нужен вашей операции.",
   body: "От одной яхты до марины, частного острова, порта или нескольких площадок StarWall работает с уже стоящей инфраструктурой и расширяется по мере роста задач.",
   compareCta: "Сравнить планы",
@@ -469,7 +469,7 @@ const ru: PlansPageCopy = {
     cta: "Запросить цену",
     items: {
       plan: {
-        title: "План StarWall",
+        title: "План StarDome",
         caption: "Уровень ПО и интеллекта",
       },
       integration: {
@@ -545,7 +545,7 @@ const ru: PlansPageCopy = {
 const es: PlansPageCopy = {
   ...en,
   kicker: "Planes",
-  title: "Planes StarWall",
+  title: "Planes StarDome",
   supporting: "Elija el nivel de inteligencia que necesita su operación.",
   body: "Desde un yate hasta una marina, una isla privada, un puerto o varias sedes, StarWall trabaja con la infraestructura existente y crece con los requisitos.",
   compareCta: "Comparar planes",
@@ -697,7 +697,7 @@ const es: PlansPageCopy = {
     body: "Cada buque y cada sitio son distintos. El precio refleja la configuración real, no un paquete genérico.",
     cta: "Solicitar precio",
     items: {
-      plan: { title: "Plan StarWall", caption: "Nivel de software e inteligencia" },
+      plan: { title: "Plan StarDome", caption: "Nivel de software e inteligencia" },
       integration: { title: "Integración", caption: "Sistemas y fuentes de datos existentes" },
       hardware: { title: "Hardware", caption: "Solo cuando hace falta" },
       support: {
@@ -766,7 +766,7 @@ const es: PlansPageCopy = {
 const fr: PlansPageCopy = {
   ...en,
   kicker: "Plans",
-  title: "Plans StarWall",
+  title: "Plans StarDome",
   supporting: "Choisissez le niveau d'intelligence dont votre opération a besoin.",
   body: "D'un yacht unique à une marina, une île privée, un port ou plusieurs sites, StarWall s'appuie sur l'infrastructure existante et s'étend avec les besoins.",
   compareCta: "Comparer les plans",
@@ -918,7 +918,7 @@ const fr: PlansPageCopy = {
     body: "Chaque navire et chaque site sont différents. Le tarif reflète la configuration réelle, pas un forfait générique.",
     cta: "Demander un tarif",
     items: {
-      plan: { title: "Plan StarWall", caption: "Niveau logiciel et d'intelligence" },
+      plan: { title: "Plan StarDome", caption: "Niveau logiciel et d'intelligence" },
       integration: { title: "Intégration", caption: "Systèmes et sources de données existants" },
       hardware: { title: "Matériel", caption: "Uniquement si nécessaire" },
       support: {
@@ -987,7 +987,7 @@ const fr: PlansPageCopy = {
 const de: PlansPageCopy = {
   ...en,
   kicker: "Pläne",
-  title: "StarWall-Pläne",
+  title: "StarDome-Pläne",
   supporting: "Wählen Sie die Intelligenzstufe, die Ihr Betrieb braucht.",
   body: "Von einer einzelnen Yacht bis zu Marina, Privatinsel, Hafen oder mehreren Standorten arbeitet StarWall mit vorhandener Infrastruktur und wächst mit den Anforderungen.",
   compareCta: "Pläne vergleichen",
@@ -1061,7 +1061,7 @@ const de: PlansPageCopy = {
     },
   },
   compare: {
-    heading: "StarWall-Pläne vergleichen",
+    heading: "StarDome-Pläne vergleichen",
     subheading:
       "Beginnen Sie mit der benötigten Intelligenzstufe. Die endgültige Konfiguration wird an Schiff oder Standort angepasst.",
     capability: "Fähigkeit",
@@ -1139,7 +1139,7 @@ const de: PlansPageCopy = {
     body: "Jedes Schiff und jeder Standort ist anders. Der Preis folgt der tatsächlichen Konfiguration, keinem Schaufensterpaket.",
     cta: "Preis anfragen",
     items: {
-      plan: { title: "StarWall-Plan", caption: "Software- und Intelligenzstufe" },
+      plan: { title: "StarDome-Plan", caption: "Software- und Intelligenzstufe" },
       integration: { title: "Integration", caption: "Vorhandene Systeme und Datenquellen" },
       hardware: { title: "Hardware", caption: "Nur wenn nötig" },
       support: {
@@ -1154,7 +1154,7 @@ const de: PlansPageCopy = {
   },
   request: {
     ...en.request,
-    heading: "Unsicher, welcher StarWall-Plan zu Ihrem Betrieb passt?",
+    heading: "Unsicher, welcher StarDome-Plan zu Ihrem Betrieb passt?",
     body: "Sagen Sie uns, was Sie schützen und welche Technik schon steht. StarDome kann die passende StarWall-Konfiguration vorschlagen.",
     cta: "StarWall-Konfiguration anfragen",
     assetLabel: "Was schützen Sie?",
@@ -1207,7 +1207,7 @@ const de: PlansPageCopy = {
 
 const uk: PlansPageCopy = {
   kicker: "Плани",
-  title: "Плани StarWall",
+  title: "Плани StarDome",
   supporting: "Оберіть рівень інтелекту, який потрібен вашій операції.",
   body: "Від однієї яхти до марини, приватного острова, порту чи кількох майданчиків StarWall працює з наявною інфраструктурою і розширюється разом із завданнями.",
   compareCta: "Порівняти плани",
@@ -1358,7 +1358,7 @@ const uk: PlansPageCopy = {
     body: "Кожне судно і кожен об’єкт інші. Ціна відбиває фактичну конфігурацію, а не вітринний пакет.",
     cta: "Запитати ціну",
     items: {
-      plan: { title: "План StarWall", caption: "Рівень ПЗ та інтелекту" },
+      plan: { title: "План StarDome", caption: "Рівень ПЗ та інтелекту" },
       integration: { title: "Інтеграція", caption: "Наявні системи та джерела даних" },
       hardware: { title: "Обладнання", caption: "Лише якщо потрібно" },
       support: {

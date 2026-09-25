@@ -2,7 +2,7 @@ import type { PlansPageCopy } from "@/lib/i18n/plans-page";
 
 export const he: PlansPageCopy = {
   kicker: "תוכניות",
-  title: "תוכניות StarWall",
+  title: "תוכניות StarDome",
   supporting: "בחרו את רמת המודיעין שהפעילות שלכם צריכה.",
   body: "מיאכטה אחת ועד מרינה, אי פרטי, נמל או כמה אתרים — StarWall עובד עם התשתית הקיימת ומתרחב כשהדרישות גדלות.",
   compareCta: "השוואת תוכניות",
@@ -72,7 +72,7 @@ export const he: PlansPageCopy = {
     },
   },
   compare: {
-    heading: "השוואת תוכניות StarWall",
+    heading: "השוואת תוכניות StarDome",
     subheading: "התחילו מרמת המודיעין שאתם צריכים. התצורה הסופית מותאמת לכלי השיט או לאתר.",
     capability: "יכולת",
     rows: {
@@ -150,7 +150,7 @@ export const he: PlansPageCopy = {
     cta: "בקשת מחיר",
     items: {
       plan: {
-        title: "תוכנית StarWall",
+        title: "תוכנית StarDome",
         caption: "רמת התוכנה והמודיעין",
       },
       integration: {
@@ -172,7 +172,7 @@ export const he: PlansPageCopy = {
     },
   },
   request: {
-    heading: "לא בטוחים איזו תוכנית StarWall מתאימה לפעילות?",
+    heading: "לא בטוחים איזו תוכנית StarDome מתאימה לפעילות?",
     body: "ספרו לנו מה אתם מגנים ומה כבר מותקן. StarDome יכולה להמליץ על תצורת StarWall המתאימה.",
     cta: "בקשת תצורת StarWall",
     assetLabel: "מה אתם מגנים?",

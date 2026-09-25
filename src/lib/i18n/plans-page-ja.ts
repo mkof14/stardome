@@ -2,7 +2,7 @@ import type { PlansPageCopy } from "@/lib/i18n/plans-page";
 
 export const ja: PlansPageCopy = {
   kicker: "プラン",
-  title: "StarWall プラン",
+  title: "StarDome プラン",
   supporting: "運用に必要な知能の段階を選んでください。",
   body: "一隻のヨットからマリーナ、プライベートアイランド、港、複数拠点まで、StarWall は既存インフラと接続し、要件の拡大に合わせて伸びます。",
   compareCta: "プランを比較",
@@ -72,7 +72,7 @@ export const ja: PlansPageCopy = {
     },
   },
   compare: {
-    heading: "StarWall プランの比較",
+    heading: "StarDome プランの比較",
     subheading: "必要な知能の段階から始めます。最終構成は船舶または敷地に合わせて調整します。",
     capability: "能力",
     rows: {
@@ -150,7 +150,7 @@ export const ja: PlansPageCopy = {
     cta: "価格を依頼",
     items: {
       plan: {
-        title: "StarWall プラン",
+        title: "StarDome プラン",
         caption: "ソフトウェアと知能の段階",
       },
       integration: {
@@ -172,7 +172,7 @@ export const ja: PlansPageCopy = {
     },
   },
   request: {
-    heading: "どの StarWall プランが運用に合うか分からない場合",
+    heading: "どの StarDome プランが運用に合うか分からない場合",
     body: "守っている対象と、既設の機器を教えてください。StarDome が適切な StarWall 構成を提案できます。",
     cta: "StarWall 構成を依頼",
     assetLabel: "何を守っていますか？",

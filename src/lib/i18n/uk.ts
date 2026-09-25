@@ -33,32 +33,32 @@ export const uk: Messages = {
     footerCompany: "Компанія",
     footerLegal: "Правова інформація",
     footerBlurb:
-      "StarWall by StarDome — одна картина з уже встановленого обладнання і чіткий наступний крок для вахтового.",
+      "StarDome — одна картина з уже встановленого обладнання і чіткий наступний крок для вахтового.",
   },
   seo: {
-    home: "StarWall by StarDome — морська охоронна розвідка",
-    howItWorks: "Як працює StarWall — StarWall by StarDome",
+    home: "StarDome — морська охоронна розвідка",
+    howItWorks: "Як це працює — StarDome",
     interface: "AGRON 1",
-    levels: "Рівні підписки — StarWall by StarDome",
-    pricing: "Плани — StarWall by StarDome",
-    technology: "Обладнання та інтеграція — StarWall by StarDome",
-    faq: "FAQ — StarWall by StarDome",
+    levels: "Рівні підписки — StarDome",
+    pricing: "Плани — StarDome",
+    technology: "Обладнання та інтеграція — StarDome",
+    faq: "FAQ — StarDome",
     containers: "Контейнери — StarDome",
     containersDetection: "Комплекс виявлення — StarDome Containers",
     containersSpecs: "Специфікації — StarDome Containers",
     containersCountermeasures: "Засоби протидії — StarDome Containers",
     containersTiers: "Рівні — StarDome Containers",
     containersDeployment: "Розгортання — StarDome Containers",
-    about: "Чому StarWall — StarWall by StarDome",
-    contact: "Контакт — StarWall by StarDome",
-    backend: "StarWall Backend — системне адміністрування — StarWall by StarDome",
-    connections: "Карта з'єднань — StarWall by StarDome",
-    login: "Вхід — StarWall by StarDome",
-    signup: "Реєстрація — StarWall by StarDome",
-    forgotPassword: "Скидання пароля — StarWall by StarDome",
-    tasks: "Усі завдання — StarWall by StarDome",
-    privacy: "Конфіденційність — StarWall by StarDome",
-    terms: "Умови використання — StarWall by StarDome",
+    about: "Чому StarWall — StarDome",
+    contact: "Контакт — StarDome",
+    backend: "StarWall Backend — системне адміністрування — StarDome",
+    connections: "Карта з'єднань — StarDome",
+    login: "Вхід — StarDome",
+    signup: "Реєстрація — StarDome",
+    forgotPassword: "Скидання пароля — StarDome",
+    tasks: "Усі завдання — StarDome",
+    privacy: "Конфіденційність — StarDome",
+    terms: "Умови використання — StarDome",
   },
   legal: {
     privacyTitle: "Політика конфіденційності",
@@ -83,7 +83,7 @@ export const uk: Messages = {
       { title: "Облікові записи", body: "Ви відповідаєте за дані входу. Демо-реквізити на сторінці входу, якщо показані, потрібні щоб показати ролі — змініть їх до реального розгортання." },
       { title: "Допустиме використання", body: "Не можна намагатися отримати несанкціонований доступ; не можна використовувати StarWall на шкоду людям чи майну; не можна видавати сервіс за живу операційну стрічку." },
       { title: "Людський дозвіл і місцеве право", body: "Спеціальне обладнання та будь-яке реагування залишаються під людським дозволом і правом місця використання. StarWall не видає ліцензію на обмежені системи." },
-      { title: "Права, відповідальність, контакти", body: "StarWall, StarDome і логотип — знаки StarDome. Зміст сторінок надається «як є». StarDome не відповідає за рішення, ухвалені лише за публічним демо або порадами Pilot на цьому сайті. Питання: /contact або star-wall.com." },
+      { title: "Права, відповідальність, контакти", body: "StarDome і логотип — знаки StarDome. Зміст сторінок надається «як є». StarDome не відповідає за рішення, ухвалені лише за публічним демо або порадами Pilot на цьому сайті. Питання: /contact або star-wall.com." },
     ],
   },
   surface: {
@@ -112,7 +112,7 @@ export const uk: Messages = {
       "РЕЖИМ LIVE — показано реальний стан цього розгортання. Обладнання ще не підключено. Перемкніться в DEMO, щоб побачити повні можливості StarWall на навчальних даних.",
   },
   backend: {
-    kicker: "STARWALL BACKEND",
+    kicker: "STARDOME",
     title: "Системне адміністрування",
     lead:
       "Зв'язок, стан обладнання, доступ і моніторинг — включно з контейнерним обладнанням StarDome. Щільніше за StarDome 1: для адміністраторів, не для швидкого погляду.",
@@ -267,7 +267,7 @@ export const uk: Messages = {
   },
   auth: {
     kicker: "АВТОРИЗАЦІЯ",
-    title: "Вхід у StarWall",
+    title: "Вхід у StarDome",
     lead:
       "Це демонстрація ідеї. Увійдіть як demo / demo. Нові облікові записи стають Operator, якщо підключена база.",
     leadLive:
@@ -316,7 +316,7 @@ export const uk: Messages = {
     noAccount: "Немає облікового запису?",
     hasAccount: "Уже є обліковий запис?",
     signUpLink: "Реєстрація",
-    signUpTitle: "Створити обліковий запис StarWall",
+    signUpTitle: "Створити обліковий запис StarDome",
     organizationOptional: "Організація (необов’язково)",
     confirmPassword: "Підтвердіть пароль",
     creatingAccount: "Створюємо обліковий запис…",
@@ -356,7 +356,7 @@ export const uk: Messages = {
     },
   },
   home: {
-    kicker: "StarWall, StarDome",
+    kicker: "StarDome",
     title: "Вахту веде людина. Екрани не повинні сперечатися між собою.",
     lead: "На яхті, в марині, в порту чи на острові радар і камери здебільшого вже є. Біда в різних годинах. StarWall читає те, за що вже заплатили, і кладе це на StarDome 1. Далі — порада. Берете чи ні.",
     points: [
@@ -904,7 +904,7 @@ export const uk: Messages = {
   },
   about: {
     kicker: "Про нас",
-    title: "Чому StarWall",
+    title: "Чому StarDome",
     lead:
       "StarDome створює системи інтелекту та інтеграції для морської і фізичної безпеки. StarWall — шар, що з'єднує обладнання яхти, марини, порту чи приватного острова — радар, камери, навігацію, датчики будь-якого виробника — в одну картину і один чіткий наступний крок для того, хто приймає рішення.",
     beliefsTitle: "На чому ми стоїмо",

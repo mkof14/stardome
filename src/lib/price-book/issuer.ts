@@ -6,7 +6,7 @@ export const ISSUER = {
   web: "https://star-wall.com",
   webLabel: "star-wall.com",
   correspondence: "Commercial correspondence via star-wall.com",
-  mark: "StarWall by StarDome",
+  mark: "StarDome",
   terms:
     "This proposal is valid 30 days from the issue date. The figure follows site survey, integration scope, and a signed agreement. It is not a purchase order.",
   caveat:

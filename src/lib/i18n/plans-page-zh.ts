@@ -2,7 +2,7 @@ import type { PlansPageCopy } from "@/lib/i18n/plans-page";
 
 export const zh: PlansPageCopy = {
   kicker: "方案",
-  title: "StarWall 方案",
+  title: "StarDome 方案",
   supporting: "选择您的作业所需的情报层级。",
   body: "从单艘游艇到码头、私人岛屿、港口或多站点作业，StarWall 接入现有基础设施，并随需求扩展。",
   compareCta: "比较方案",
@@ -72,7 +72,7 @@ export const zh: PlansPageCopy = {
     },
   },
   compare: {
-    heading: "比较 StarWall 方案",
+    heading: "比较 StarDome 方案",
     subheading: "先选所需情报层级。最终配置按船舶或场地调整。",
     capability: "能力",
     rows: {
@@ -150,7 +150,7 @@ export const zh: PlansPageCopy = {
     cta: "申请报价",
     items: {
       plan: {
-        title: "StarWall 方案",
+        title: "StarDome 方案",
         caption: "软件与情报层级",
       },
       integration: {
@@ -172,7 +172,7 @@ export const zh: PlansPageCopy = {
     },
   },
   request: {
-    heading: "不确定哪套 StarWall 方案适合您的作业？",
+    heading: "不确定哪套 StarDome 方案适合您的作业？",
     body: "告诉我们您在防护什么、现场已有哪些设备。StarDome 可以建议合适的 StarWall 配置。",
     cta: "申请 StarWall 配置",
     assetLabel: "您在防护什么？",

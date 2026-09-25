@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { HeroRadar } from "@/components/hero-radar";
 import {
@@ -42,19 +41,6 @@ export function HomeView() {
           >
             {t.home.contactCta}
           </Link>
-          <a
-            href="/starwall-overview.pdf"
-            className="inline-flex items-center justify-center gap-2.5 px-1 py-2 text-sm text-ink underline decoration-stroke underline-offset-4 hover:decoration-orange"
-          >
-            <Image
-              src="/overview-leaflet-thumb.jpg"
-              alt=""
-              width={24}
-              height={36}
-              className="h-8 w-5 shrink-0 border border-stroke object-cover"
-            />
-            {t.home.pdfCta}
-          </a>
         </div>
       </PageHero>
 

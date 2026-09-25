@@ -33,32 +33,32 @@ export const he: Messages = {
     footerCompany: "חברה",
     footerLegal: "משפטי",
     footerBlurb:
-      "StarWall by StarDome — תמונה אחת מהציוד שכבר יש, וצעד הבא ברור למי שבמשמרת.",
+      "StarDome — תמונה אחת מהציוד שכבר יש, וצעד הבא ברור למי שבמשמרת.",
   },
   seo: {
-    home: "StarWall by StarDome — מודיעין אבטחה ימי",
-    howItWorks: "איך StarWall עובד — StarWall by StarDome",
+    home: "StarDome — מודיעין אבטחה ימי",
+    howItWorks: "איך זה עובד — StarDome",
     interface: "AGRON 1",
-    levels: "רמות מנוי — StarWall by StarDome",
-    pricing: "תוכניות — StarWall by StarDome",
-    technology: "ציוד ואינטגרציה — StarWall by StarDome",
-    faq: "FAQ — StarWall by StarDome",
+    levels: "רמות מנוי — StarDome",
+    pricing: "תוכניות — StarDome",
+    technology: "ציוד ואינטגרציה — StarDome",
+    faq: "FAQ — StarDome",
     containers: "מכולות — StarDome",
     containersDetection: "מערך גילוי — StarDome Containers",
     containersSpecs: "מפרטים — StarDome Containers",
     containersCountermeasures: "אמצעי נגד — StarDome Containers",
     containersTiers: "רמות — StarDome Containers",
     containersDeployment: "פריסה — StarDome Containers",
-    about: "למה StarWall — StarWall by StarDome",
-    contact: "יצירת קשר — StarWall by StarDome",
-    backend: "StarWall Backend — ניהול מערכת — StarWall by StarDome",
-    connections: "מפת חיבורים — StarWall by StarDome",
-    login: "כניסה — StarWall by StarDome",
-    signup: "הרשמה — StarWall by StarDome",
-    forgotPassword: "שכחתי סיסמה — StarWall by StarDome",
-    tasks: "כל המשימות — StarWall by StarDome",
-    privacy: "פרטיות — StarWall by StarDome",
-    terms: "תנאי שימוש — StarWall by StarDome",
+    about: "למה StarWall — StarDome",
+    contact: "יצירת קשר — StarDome",
+    backend: "StarWall Backend — ניהול מערכת — StarDome",
+    connections: "מפת חיבורים — StarDome",
+    login: "כניסה — StarDome",
+    signup: "הרשמה — StarDome",
+    forgotPassword: "שכחתי סיסמה — StarDome",
+    tasks: "כל המשימות — StarDome",
+    privacy: "פרטיות — StarDome",
+    terms: "תנאי שימוש — StarDome",
   },
   legal: {
     privacyTitle: "מדיניות פרטיות",
@@ -83,7 +83,7 @@ export const he: Messages = {
       { title: "חשבונות", body: "אתם אחראים לפרטי הכניסה. חשבונות הדגמה בדף הכניסה, אם מוצגים, נועדו להמחיש תפקידים — החליפו אותם לפני פריסה אמיתית." },
       { title: "שימוש מותר", body: "אין לנסות גישה לא מורשית; אין להשתמש ב־StarWall לפגיעה באנשים או ברכוש; אין להציג את השירות כפיד תפעולי חי." },
       { title: "הרשאה אנושית ודין מקומי", body: "ציוד ייעודי וכל יכולת תגובה נשארים תחת הרשאה אנושית ודין המקום. StarWall אינו מעניק רישיון למערכות מוגבלות." },
-      { title: "קניין, אחריות, קשר", body: "StarWall, StarDome והלוגו הם סימני StarDome. התוכן ניתן «כפי שהוא». StarDome אינה אחראית להחלטות שהתקבלו רק מהדמו הציבורי או מ־Pilot באתר זה. שאלות: /contact או star-wall.com." },
+      { title: "קניין, אחריות, קשר", body: "StarDome והלוגו הם סימני StarDome. התוכן ניתן «כפי שהוא». StarDome אינה אחראית להחלטות שהתקבלו רק מהדמו הציבורי או מ־Pilot באתר זה. שאלות: /contact או star-wall.com." },
     ],
   },
   surface: {
@@ -112,7 +112,7 @@ export const he: Messages = {
       "מצב LIVE — מצב אמיתי של הפריסה הזו. עדיין לא מחובר ציוד. עברו ל־DEMO כדי לראות את מלוא יכולת StarWall בנתונים מדומים.",
   },
   backend: {
-    kicker: "STARWALL BACKEND",
+    kicker: "STARDOME",
     title: "ניהול מערכת",
     lead:
       "קישוריות, בריאות ציוד, בקרת גישה וניטור — כולל חומרת מכולות StarDome. צפוף יותר מ־StarDome 1: למנהלים, לא למבט חטוף.",
@@ -267,7 +267,7 @@ export const he: Messages = {
   },
   auth: {
     kicker: "הרשאה",
-    title: "כניסה ל־StarWall",
+    title: "כניסה ל־StarDome",
     lead:
       "זו הדגמת רעיון. היכנסו עם demo / demo. חשבונות חדשים מתחילים כ־Operator אם יש מסד.",
     leadLive:
@@ -314,7 +314,7 @@ export const he: Messages = {
     noAccount: "אין חשבון?",
     hasAccount: "כבר יש חשבון?",
     signUpLink: "הרשמה",
-    signUpTitle: "יצירת חשבון StarWall",
+    signUpTitle: "יצירת חשבון StarDome",
     organizationOptional: "ארגון (לא חובה)",
     confirmPassword: "אישור סיסמה",
     creatingAccount: "יוצרים חשבון…",
@@ -354,7 +354,7 @@ export const he: Messages = {
     },
   },
   home: {
-    kicker: "StarWall, StarDome",
+    kicker: "StarDome",
     title: "את המשמרת מנהל אדם. המסכים לא צריכים להתווכח.",
     lead: "ביאכטה, במרינה, בנמל או באי כבר יש בדרך כלל מכ״ם ומצלמות. הבעיה שהשעון שלהם לא משותף. StarWall קורא מה שכבר שולם ומניח את זה על StarDome 1 אחד. אחר כך אומר מה היה עושה. אתם לוקחים או לא.",
     points: [
@@ -915,7 +915,7 @@ export const he: Messages = {
   },
   about: {
     kicker: "אודות",
-    title: "למה StarWall",
+    title: "למה StarDome",
     lead:
       "StarDome בונה מערכות מודיעין ואינטגרציה לביטחון ימי ופיזי. StarWall היא השכבה שמחברת את הציוד על יאכטה, מרינה, נמל או אי פרטי — מכ״ם, מצלמות, ניווט, חיישנים מכל יצרן — לתמונה אחת ולצעד הבא הברור למי שמקבל את ההחלטה.",
     beliefsTitle: "במה אנחנו עומדים",

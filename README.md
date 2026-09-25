@@ -75,9 +75,7 @@ Without a key, Demo still uses two Edge Neural voices (no account) in every Star
 
 ## PDF overview
 
-The homepage “Download overview (PDF)” button uses the one-page leaflet in `public/overview-leaflet.jpg` as a thumbnail and serves `public/starwall-overview.pdf`.
-
-The Technology page embeds the briefing deck `public/starwall-intelligence-platform.pdf`.
+Public marketing PDFs are not on the site. The commercial desk can still issue a proposal PDF for signed-in staff.
 
 StarDome 1 walkthrough stills go in `public/bridge/`:
 

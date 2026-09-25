@@ -33,32 +33,32 @@ export const de: Messages = {
     footerCompany: "Unternehmen",
     footerLegal: "Rechtliches",
     footerBlurb:
-      "StarWall by StarDome — ein Lagebild aus der vorhandenen Ausrüstung und ein klarer nächster Schritt für die Wache.",
+      "StarDome — ein Lagebild aus der vorhandenen Ausrüstung und ein klarer nächster Schritt für die Wache.",
   },
   seo: {
-    home: "StarWall by StarDome — maritime Sicherheitslage",
-    howItWorks: "So funktioniert StarWall — StarWall by StarDome",
+    home: "StarDome — maritime Sicherheitslage",
+    howItWorks: "So funktioniert es — StarDome",
     interface: "AGRON 1",
-    levels: "Abonnementstufen — StarWall by StarDome",
-    pricing: "Pläne — StarWall by StarDome",
-    technology: "Ausrüstung und Integration — StarWall by StarDome",
-    faq: "FAQ — StarWall by StarDome",
+    levels: "Abonnementstufen — StarDome",
+    pricing: "Pläne — StarDome",
+    technology: "Ausrüstung und Integration — StarDome",
+    faq: "FAQ — StarDome",
     containers: "Container — StarDome",
     containersDetection: "Erfassungsmodul — StarDome Containers",
     containersSpecs: "Technische Daten — StarDome Containers",
     containersCountermeasures: "Gegenmaßnahmen — StarDome Containers",
     containersTiers: "Stufen — StarDome Containers",
     containersDeployment: "Einsatz — StarDome Containers",
-    about: "Warum StarWall — StarWall by StarDome",
-    contact: "Kontakt — StarWall by StarDome",
-    backend: "StarWall Backend — Systemverwaltung — StarWall by StarDome",
-    connections: "Verbindungskarte — StarWall by StarDome",
-    login: "Anmelden — StarWall by StarDome",
-    signup: "Konto erstellen — StarWall by StarDome",
-    forgotPassword: "Passwort vergessen — StarWall by StarDome",
-    tasks: "Alle Aufgaben — StarWall by StarDome",
-    privacy: "Datenschutz — StarWall by StarDome",
-    terms: "Nutzungsbedingungen — StarWall by StarDome",
+    about: "Warum StarWall — StarDome",
+    contact: "Kontakt — StarDome",
+    backend: "StarWall Backend — Systemverwaltung — StarDome",
+    connections: "Verbindungskarte — StarDome",
+    login: "Anmelden — StarDome",
+    signup: "Konto erstellen — StarDome",
+    forgotPassword: "Passwort vergessen — StarDome",
+    tasks: "Alle Aufgaben — StarDome",
+    privacy: "Datenschutz — StarDome",
+    terms: "Nutzungsbedingungen — StarDome",
   },
   legal: {
     privacyTitle: "Datenschutzrichtlinie",
@@ -83,7 +83,7 @@ export const de: Messages = {
       { title: "Konten", body: "Sie verantworten die Zugangsdaten. Demo-Zugänge auf der Anmeldeseite, falls gezeigt, dienen der Rollenillustration — ändern Sie sie vor einem echten Einsatz." },
       { title: "Zulässige Nutzung", body: "Kein unbefugter Zugriff; StarWall nicht nutzen, um Menschen oder Eigentum zu schädigen; den Dienst nicht als live operativen Feed ausgeben." },
       { title: "Menschliche Freigabe und örtliches Recht", body: "Spezialausrüstung und jede Reaktionsfähigkeit bleiben unter menschlicher Freigabe und dem Recht des Einsatzorts. StarWall erteilt keine Lizenz für beschränkte Systeme." },
-      { title: "Rechte, Haftung, Kontakt", body: "StarWall, StarDome und das Logo sind StarDome-Zeichen. Inhalte stehen «wie besehen». StarDome haftet nicht für Entscheidungen allein aus der öffentlichen Demo oder Pilot auf dieser Website. Fragen: /contact oder star-wall.com." },
+      { title: "Rechte, Haftung, Kontakt", body: "StarDome und das Logo sind StarDome-Zeichen. Inhalte stehen «wie besehen». StarDome haftet nicht für Entscheidungen allein aus der öffentlichen Demo oder Pilot auf dieser Website. Fragen: /contact oder star-wall.com." },
     ],
   },
   surface: {
@@ -112,7 +112,7 @@ export const de: Messages = {
       "LIVE-MODUS — zeigt den tatsächlichen Zustand dieser Installation. Es ist noch kein Gerät verbunden. Wechseln Sie zu DEMO, um die volle Fähigkeit von StarWall mit simulierten Daten zu sehen.",
   },
   backend: {
-    kicker: "STARWALL BACKEND",
+    kicker: "STARDOME",
     title: "Systemverwaltung",
     lead:
       "Konnektivität, Gerätezustand, Zugriffskontrolle und Überwachung — einschließlich StarDome-Container-Hardware. Dichter als die StarDome 1: für Administratoren, nicht für einen Blick.",
@@ -267,7 +267,7 @@ export const de: Messages = {
   },
   auth: {
     kicker: "AUTORISIERUNG",
-    title: "Bei StarWall anmelden",
+    title: "Bei StarDome anmelden",
     lead:
       "Das ist eine Ideendemonstration. Melden Sie sich mit demo / demo an. Neue Konten starten als Operator, wenn eine Datenbank hängt.",
     leadLive:
@@ -316,7 +316,7 @@ export const de: Messages = {
     noAccount: "Noch kein Konto?",
     hasAccount: "Schon ein Konto?",
     signUpLink: "Registrieren",
-    signUpTitle: "StarWall-Konto anlegen",
+    signUpTitle: "StarDome-Konto anlegen",
     organizationOptional: "Organisation (optional)",
     confirmPassword: "Passwort bestätigen",
     creatingAccount: "Konto wird angelegt…",
@@ -356,7 +356,7 @@ export const de: Messages = {
     },
   },
   home: {
-    kicker: "StarWall, StarDome",
+    kicker: "StarDome",
     title: "Die Wache führt ein Mensch. Die Schirme sollen nicht miteinander streiten.",
     lead: "Auf Yacht, Marina, Hafen oder Insel stehen Radar und Kameras meist schon. Das Problem ist die fehlende gemeinsame Uhr. StarWall liest, was schon bezahlt ist, und legt es auf einen StarDome 1. Dann sagt es, was es als Nächstes täte. Sie nehmen das — oder nicht.",
     points: [
@@ -917,7 +917,7 @@ export const de: Messages = {
   },
   about: {
     kicker: "Über uns",
-    title: "Warum StarWall",
+    title: "Warum StarDome",
     lead:
       "StarDome baut Intelligenz- und Integrationssysteme für maritime und physische Sicherheit. StarWall ist die Schicht, die die Ausrüstung auf einer Yacht, in einer Marina, einem Hafen oder auf einer Privatinsel — Radar, Kameras, Navigation, Sensoren jedes Herstellers — zu einem Lagebild und einem klaren nächsten Schritt für die Person verbindet, die das Kommando hat.",
     beliefsTitle: "Wofür wir stehen",
