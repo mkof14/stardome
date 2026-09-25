@@ -2,24 +2,6 @@ export type PilotMic = "idle" | "listening" | "processing" | "speaking";
 
 export type PilotMood = "ease" | "idle" | "listen" | "speak" | "serious" | "urgent";
 
-export const PILOT_MOODS: readonly PilotMood[] = [
-  "ease",
-  "idle",
-  "listen",
-  "speak",
-  "serious",
-  "urgent",
-];
-
-export const PILOT_PLATES: Record<PilotMood, string> = {
-  ease: "/pilot/ease.webp",
-  idle: "/pilot/idle.webp",
-  listen: "/pilot/listen.webp",
-  speak: "/pilot/speak.webp",
-  serious: "/pilot/serious.webp",
-  urgent: "/pilot/urgent.webp",
-};
-
 export type RiskTone = "calm" | "attention" | "urgent";
 
 export function riskTone(risk?: string): RiskTone {
@@ -45,4 +27,26 @@ export function pilotMood(input: {
 export function voiceLevelFromBars(bars: number[]): number {
   if (!bars.length) return 0;
   return Math.min(1, Math.max(0, ...bars));
+}
+
+/** Real voice bins when Pilot is live; a calm field when the channel is quiet. */
+export function fieldSamples(
+  wave: number[] | undefined,
+  bins: number,
+  live: boolean,
+  level = 0,
+): number[] {
+  const count = Math.max(8, bins);
+  if (live && wave?.length) {
+    const step = wave.length / count;
+    return Array.from({ length: count }, (_, i) => {
+      const index = Math.min(wave.length - 1, Math.floor(i * step));
+      return Math.min(1, Math.max(0.06, Math.abs(wave[index] ?? 0)));
+    });
+  }
+  const drive = Math.max(0, Math.min(1, level));
+  return Array.from({ length: count }, (_, i) => {
+    const t = i / Math.max(1, count - 1);
+    return 0.16 + 0.2 * Math.sin(t * Math.PI) + drive * 0.18;
+  });
 }

@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
-  PILOT_MOODS,
-  PILOT_PLATES,
+  fieldSamples,
   pilotMood,
   riskTone,
   voiceLevelFromBars,
@@ -26,16 +25,7 @@ describe("pilotMood", () => {
   });
 });
 
-describe("Pilot plates", () => {
-  it("keeps a maritime officer plate for every mood", () => {
-    expect(PILOT_MOODS).toEqual(["ease", "idle", "listen", "speak", "serious", "urgent"]);
-    for (const mood of PILOT_MOODS) {
-      expect(PILOT_PLATES[mood]).toBe(`/pilot/${mood}.webp`);
-    }
-  });
-});
-
-describe("riskTone and voice level", () => {
+describe("riskTone and voice field", () => {
   it("reads the watch risk without inventing urgency", () => {
     expect(riskTone("NORMAL")).toBe("calm");
     expect(riskTone("attention")).toBe("attention");
@@ -45,5 +35,14 @@ describe("riskTone and voice level", () => {
   it("takes the loudest bar as the voice drive", () => {
     expect(voiceLevelFromBars([])).toBe(0);
     expect(voiceLevelFromBars([0.1, 0.8, 0.2])).toBe(0.8);
+  });
+
+  it("uses the live wave when Pilot is speaking, and a calm field when quiet", () => {
+    const live = fieldSamples([0, 0.5, 1, 0.25], 8, true, 0);
+    expect(live).toHaveLength(8);
+    expect(Math.max(...live)).toBeGreaterThan(Math.min(...live));
+    const idle = fieldSamples(undefined, 12, false, 0);
+    expect(idle).toHaveLength(12);
+    expect(Math.max(...idle)).toBeLessThan(0.5);
   });
 });

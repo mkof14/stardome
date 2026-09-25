@@ -98,6 +98,7 @@ export function PilotTalkWindow({
               level={voiceLevel}
               speaking={mic === "speaking"}
               listening={mic === "listening"}
+              wave={wave}
             />
             <div className="min-w-0">
             <p className="truncate font-body text-base font-semibold tracking-tight">
@@ -146,6 +147,7 @@ export function PilotTalkWindow({
                       level={voiceLevel}
                       speaking={mic === "speaking"}
                       listening={mic === "listening"}
+                      wave={wave}
                     />
                   ) : null}
                   <p

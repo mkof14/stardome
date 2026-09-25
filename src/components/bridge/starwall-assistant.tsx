@@ -1448,6 +1448,7 @@ export function Helm() {
                 level={voiceLevel}
                 speaking={mic === "speaking"}
                 listening={mic === "listening"}
+                wave={wave}
               />
               <div className="min-w-0">
               <p
@@ -1831,6 +1832,7 @@ export function Helm() {
             level={voiceLevel}
             speaking={mic === "speaking"}
             listening={mic === "listening"}
+            wave={wave}
           />
           <span className="relative mt-1 font-body text-xs font-bold leading-none">
             {surface.title}
