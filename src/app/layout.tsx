@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
 import { siteUrl } from "@/lib/site-url";
 import {
@@ -123,13 +123,16 @@ export async function generateMetadata(): Promise<Metadata> {
       images: ["/og-stardome.jpg"],
     },
     manifest: "/site.webmanifest",
-    themeColor: [
-      { media: "(prefers-color-scheme: dark)", color: "#00091c" },
-      { media: "(prefers-color-scheme: light)", color: "#f4efe4" },
-    ],
     robots: { index: true, follow: true },
   };
 }
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#00091c" },
+    { media: "(prefers-color-scheme: light)", color: "#f4efe4" },
+  ],
+};
 
 export default function RootLayout({
   children,
