@@ -26,7 +26,23 @@ describe("localPilotReply", () => {
       "en",
     );
     expect(langCode).toBe("en");
-    expect(reply.toLowerCase()).toMatch(/demo|stardome 1|interface/);
+    expect(reply.toLowerCase()).toMatch(/demo|stardome 1|interface|agron 1/);
+  });
+
+  it("answers radar range instead of asking how to help", () => {
+    const { reply, langCode } = localPilotReply(
+      "на какое расстояние меряет радар",
+      "en",
+      { path: "/interface" },
+    );
+    expect(langCode).toBe("ru");
+    expect(reply).toMatch(/15\s*км/);
+    expect(reply).not.toMatch(/чем помочь|интересует/);
+    expect(
+      localPilotReply("How far does the radar measure?", "en", {
+        path: "/interface",
+      }).reply,
+    ).toMatch(/15\s*km/i);
   });
 
   it("asks what they need when told to talk, instead of a picture dump", () => {

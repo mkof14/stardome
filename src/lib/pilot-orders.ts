@@ -86,6 +86,46 @@ const FILLER = new Set([
   "ください",
   "בבקשה",
   "pilot",
+  "пилот",
+]);
+
+const TALK_GLUE = new Set([
+  "to",
+  "with",
+  "me",
+  "us",
+  "you",
+  "a",
+  "the",
+  "let",
+  "lets",
+  "can",
+  "we",
+  "i",
+  "want",
+  "start",
+  "have",
+  "со",
+  "мной",
+  "мною",
+  "мне",
+  "зі",
+  "мною",
+  "давай",
+  "хочу",
+  "conmigo",
+  "avec",
+  "moi",
+  "mit",
+  "mir",
+  "معي",
+  "listen",
+  "listening",
+  "слушай",
+  "слушайте",
+  "слухай",
+  "меня",
+  "тебя",
 ]);
 
 const CONVERSE_WORD = new Set([
@@ -180,9 +220,17 @@ export function isGreeting(heard: string) {
   return GREETING.has(words[0] ?? "");
 }
 
-/** Talk-to-me, greet, or “let’s talk” — Pilot asks what they need instead of dumping a brief. */
+function leftoverAfterTalk(heard: string) {
+  return normalizeHeard(heard)
+    .split(" ")
+    .filter((word) => word.length > 1)
+    .filter((word) => !FILLER.has(word) && !CONVERSE_WORD.has(word) && !GREETING.has(word) && !TALK_GLUE.has(word));
+}
+
+/** Talk-to-me or a greeting with no other question attached. */
 export function isTalkOpen(heard: string) {
-  return isConverseOffer(heard) || isGreeting(heard);
+  if (!(isConverseOffer(heard) || isGreeting(heard))) return false;
+  return leftoverAfterTalk(heard).length === 0;
 }
 
 /** A real watch ask, not a one-word mutter or a halt. Used to cut speech and answer. */

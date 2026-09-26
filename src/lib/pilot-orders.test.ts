@@ -99,5 +99,7 @@ describe("pilot orders", () => {
     expect(isGreeting("привет")).toBe(true);
     expect(isGreeting("What should I do?")).toBe(false);
     expect(isOfficerAsk("говори")).toBe(true);
+    expect(isTalkOpen("на какое расстояние меряет радар")).toBe(false);
+    expect(isTalkOpen("говори со мной какая дальность радара")).toBe(false);
   });
 });

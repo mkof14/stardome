@@ -98,7 +98,7 @@ export function watchAskKind(message: string): WatchAskKind | null {
   if (isAdviceDecline(message)) return "decline";
   if (isNotifyAsk(message)) return "notify";
   if (/starlink|satcom|maritime|priority|терминал/.test(q)) return "starlink";
-  if (/instrument|прибор|прилад|sensor|датчик|rack/.test(q)) return "instruments";
+  if (/instrument|прибор|прилад|sensor|датчик|сенсор|rack/.test(q)) return "instruments";
   if (/comms|radio|радио|связь|зв’яз|канал|channel|vhf/.test(q)) return "comms";
   if (/what should|что делать|що робити|advice|совет|порад|recommend|рекоменд|protocol|протокол/.test(q)) {
     return "advice";
@@ -107,7 +107,7 @@ export function watchAskKind(message: string): WatchAskKind | null {
     return "contacts";
   }
   if (
-    /radar|ais|sonar|cctv|картин|обстанов|picture|watch|вахт|perimeter|спектр|what('s| is| s) this|what is going on|what'?s going on|что это|что тут|что происходит|що це|що відбувається/.test(
+    /radar|радар|ais|sonar|сонар|cctv|картин|обстанов|picture|watch|вахт|perimeter|периметр|спектр|what('s| is| s) this|what is going on|what'?s going on|что это|что тут|что происходит|що це|що відбувається|что на радар|что показывает/.test(
       q,
     )
   ) {

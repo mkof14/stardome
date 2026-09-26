@@ -65,6 +65,7 @@ describe("watch ask kinds", () => {
     expect(watchAskKind("What should I do?")).toBe("advice");
     expect(watchAskKind("What is this?")).toBe("picture");
     expect(watchAskKind("говори со мной")).toBeNull();
+    expect(watchAskKind("Что показывает радар?")).toBe("picture");
   });
 });
 

@@ -78,8 +78,8 @@ export async function POST(request: Request) {
   }
 
   const watchRule = onWatch
-    ? " The visitor is on AGRON 1. If they ask you to talk, speak with them, greet you, or do not name a watch task, do not brief the picture. Ask what they care about and how you can help, then wait. If they ask whether you hear them, say yes in one short sentence and wait. Answer from the current picture only when they ask about contacts, radar, advice, instruments, comms, or the picture. Do not pitch the product or website unless they ask about plans, StarDome, containers, or how StarWall works."
-    : "";
+    ? " The visitor is on AGRON 1. If they only greet you or say talk-to-me with no topic, ask what they care about and how you can help, then wait. If they ask whether you hear them, say yes in one short sentence and wait. If they ask a real question — radar range, sensors, DEMO/LIVE, plans, Starlink, containers, who decides, or what is on the picture — answer it in 2–4 sentences. Do not repeat the question. Do not reply with only «how can I help». Use the published figures for hardware (AESA 15 km, cameras 10 km, sonar 1 km). Answer from the current picture when they ask what is on it now. Do not pitch the website unless they ask about plans, StarDome, containers, or how StarWall works."
+    : " If they ask a real product question, answer it. Do not reply with only «how can I help».";
 
   const system = `${PILOT_SITE_BRIEFING} The visitor is on ${path}. Spoken and written StarWall languages: ${locales.join(", ")}. Context locale is ${locale}. ${situation}${watchRule} Use the recent conversation if they refer back. Respond in 2-4 sentences unless more detail is needed. IMPORTANT: Reply in the visitor's language (the message if it is one of those languages, otherwise ${locale}). At the very start of your response, output a language code in this exact format on its own first line: [LANG:xx] where xx is one of ${locales.join(", ")} — then a newline, then your actual response.`;
 
