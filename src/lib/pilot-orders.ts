@@ -88,6 +88,45 @@ const FILLER = new Set([
   "pilot",
 ]);
 
+const CONVERSE_WORD = new Set([
+  "talk",
+  "speak",
+  "converse",
+  "chat",
+  "говори",
+  "поговори",
+  "поговорим",
+  "пообщайся",
+  "общайся",
+  "разговаривай",
+  "поговоримо",
+  "hablemos",
+  "parlons",
+  "كلمني",
+]);
+
+const GREETING = new Set([
+  "hi",
+  "hey",
+  "hello",
+  "howdy",
+  "привет",
+  "здрасте",
+  "здравствуй",
+  "здравствуйте",
+  "салют",
+  "hola",
+  "bonjour",
+  "hallo",
+  "שלום",
+  "مرحبا",
+  "你好",
+  "こんにちは",
+]);
+
+const CONVERSE_PHRASE =
+  /(talk to me|talk with me|speak to me|speak with me|speak with us|let s talk|lets talk|let us talk|can we talk|i want to talk|start talking|speak up|chat with me|have a (talk|chat|conversation)|listen to me|listen with me|говори со мной|говори со мною|поговори со мной|поговори со мною|давай поговорим|давай говорить|хочу поговорить|пообщайся со мной|общайся со мной|слушай меня|говори зі мною|давай поговоримо|habla conmigo|parle moi|parle avec moi|sprich mit mir|reden wir|تحدث معي|كلمني|跟我说话|跟我聊|話して|話そう|דבר איתי|תדבר איתי)/;
+
 export function isHaltOrder(heard: string) {
   const words = normalizeHeard(heard)
     .split(" ")
@@ -113,9 +152,43 @@ export function isHearCheck(heard: string) {
   );
 }
 
+export function isConverseOffer(heard: string) {
+  const q = normalizeHeard(heard);
+  if (CONVERSE_PHRASE.test(q)) return true;
+  const words = q
+    .split(" ")
+    .filter(Boolean)
+    .filter((word) => !FILLER.has(word));
+  if (!words.length || words.length > 6) return false;
+  return words.some((word) => CONVERSE_WORD.has(word));
+}
+
+export function isGreeting(heard: string) {
+  const q = normalizeHeard(heard);
+  if (
+    /^(добрый (день|вечер)|доброе утро|guten tag|good (morning|afternoon|evening|day))$/.test(
+      q,
+    )
+  ) {
+    return true;
+  }
+  const words = q
+    .split(" ")
+    .filter(Boolean)
+    .filter((word) => !FILLER.has(word));
+  if (!words.length || words.length > 2) return false;
+  return GREETING.has(words[0] ?? "");
+}
+
+/** Talk-to-me, greet, or “let’s talk” — Pilot asks what they need instead of dumping a brief. */
+export function isTalkOpen(heard: string) {
+  return isConverseOffer(heard) || isGreeting(heard);
+}
+
 /** A real watch ask, not a one-word mutter or a halt. Used to cut speech and answer. */
 export function isOfficerAsk(heard: string) {
   if (isHaltOrder(heard) || isListenOrder(heard)) return false;
+  if (isTalkOpen(heard) || isHearCheck(heard)) return true;
   const words = normalizeHeard(heard).split(" ").filter(Boolean);
   if (!words.length) return false;
   return words.length >= 2 || words.join("").length >= 8;

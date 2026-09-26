@@ -323,10 +323,10 @@ export function PilotWatchCalls({
   disabled?: boolean;
   onPick: (text: string) => void;
 }) {
-  const calls = [copy.callStatus, copy.callAdvice, copy.callNotify];
+  const calls = [copy.callTalk, copy.callStatus, copy.callAdvice, copy.callNotify];
   return (
     <div data-testid="pilot-watch-calls" className="space-y-1.5">
-      <p className="font-body text-sm font-medium text-orange">{copy.calls}</p>
+      <p className="font-body text-sm font-medium text-bridge-dim">{copy.calls}</p>
       <div className="flex flex-wrap gap-1">
         {calls.map((call) => (
           <button
@@ -371,6 +371,7 @@ export function PilotVoiceStudio({
   need,
   copy,
   disabled,
+  hideTitle,
   onHearPilot,
   onHearOfficer,
 }: {
@@ -378,12 +379,15 @@ export function PilotVoiceStudio({
   need: VoiceNeed;
   copy: PilotDemoCopy;
   disabled?: boolean;
+  hideTitle?: boolean;
   onHearPilot: () => void;
   onHearOfficer: () => void;
 }) {
   return (
     <div data-testid="pilot-voice-studio" className="space-y-1.5">
-      <p className="font-body text-sm font-medium text-bridge-text">{copy.studio}</p>
+      {hideTitle ? null : (
+        <p className="font-body text-sm font-medium text-bridge-text">{copy.studio}</p>
+      )}
       <PilotVoiceNeed locale={locale} need={need} />
       <div className="flex flex-wrap gap-1.5">
         <button

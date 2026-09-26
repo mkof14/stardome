@@ -11,7 +11,7 @@ import {
   type ToastKind,
 } from "@/components/bridge/event-toasts";
 import { HudPanel } from "@/components/bridge/hud-panel";
-import { HudGlyph, IconWell } from "@/components/bridge/hud-icons";
+import { HudGlyph } from "@/components/bridge/hud-icons";
 import { HudFrame } from "@/components/bridge/hud-visor";
 import { AgronPlantPanel } from "@/components/bridge/agron-plant-panel";
 import { ModeToggle } from "@/components/mode-toggle";
@@ -715,7 +715,7 @@ export function BridgeConsole() {
               data-testid="watch-station-roles"
               className="mt-3 flex flex-wrap gap-2"
             >
-              <span className="inline-flex items-center gap-2 rounded-2xl border border-orange/40 bg-orange/10 px-3 py-2 font-body text-sm font-semibold text-orange sm:text-base">
+              <span className="inline-flex items-center gap-2 rounded-2xl border border-bridge-line bg-bridge-panel px-3 py-2 font-body text-sm font-semibold text-bridge-text sm:text-base">
                 <HudGlyph name="captain" className="h-5 w-5" />
                 {t.bridge.roleCaptain}
               </span>
@@ -727,7 +727,7 @@ export function BridgeConsole() {
             {!live && selectedId === FLAGSHIP_SCENARIO_ID ? (
               <p
                 data-testid="partner-demo-cue"
-                className="mt-3 max-w-xl font-body text-sm leading-relaxed text-orange"
+                className="mt-3 max-w-xl font-body text-sm leading-relaxed text-bridge-dim"
               >
                 {hud.chrome.partnerCue}
               </p>
@@ -799,48 +799,23 @@ export function BridgeConsole() {
         <HudFrame variant="window" status={live ? "WATCH LIVE" : "WATCH DEMO"}>
         <div
           data-testid="telemetry-strip"
-          className="grid grid-cols-2 gap-3 bg-bridge-panel px-4 py-3 sm:grid-cols-4 lg:grid-cols-7"
+          className="grid grid-cols-2 gap-x-4 gap-y-2 bg-bridge-panel px-4 py-2.5 sm:grid-cols-4 lg:grid-cols-7"
         >
           {t.bridge.telemetry.map((label, index) => (
-            <div key={label} className="flex items-start gap-2">
-              <IconWell className="mt-0.5 h-7 w-7 text-orange">
-                <HudGlyph
-                  name={
-                    (
-                      [
-                        "ship",
-                        "compass",
-                        "radar",
-                        "antenna",
-                        "satellite",
-                        "clock",
-                        "lock",
-                      ] as const
-                    )[index] ?? "info"
-                  }
-                  className="h-3.5 w-3.5"
-                />
-              </IconWell>
-              <div>
-              <p className="font-body text-sm text-bridge-dim">
+            <div key={label} className="min-w-0">
+              <p className="font-body text-[11px] uppercase tracking-wider text-bridge-dim">
                 {label}
               </p>
-              <p className="font-body text-base text-bridge-text">
+              <p className="font-body text-sm text-bridge-text">
                 {live ? "—" : TELEMETRY_VALUES[index]}
               </p>
-              </div>
             </div>
           ))}
-          <div className="flex items-start gap-2">
-            <IconWell className="mt-0.5 h-7 w-7 text-orange">
-              <HudGlyph name="clock" className="h-3.5 w-3.5" />
-            </IconWell>
-            <div>
-            <p className="font-body text-xs text-bridge-dim">
+          <div className="min-w-0">
+            <p className="font-body text-[11px] uppercase tracking-wider text-bridge-dim">
               UTC
             </p>
             <UtcClock />
-            </div>
           </div>
         </div>
         </HudFrame>

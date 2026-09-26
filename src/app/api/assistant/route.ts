@@ -78,7 +78,7 @@ export async function POST(request: Request) {
   }
 
   const watchRule = onWatch
-    ? " The visitor is on StarDome 1. Answer from the current picture first. Do not pitch the product or website unless they ask about plans, StarDome, containers, or how StarWall works."
+    ? " The visitor is on AGRON 1. If they ask you to talk, speak with them, greet you, or do not name a watch task, do not brief the picture. Ask what they care about and how you can help, then wait. If they ask whether you hear them, say yes in one short sentence and wait. Answer from the current picture only when they ask about contacts, radar, advice, instruments, comms, or the picture. Do not pitch the product or website unless they ask about plans, StarDome, containers, or how StarWall works."
     : "";
 
   const system = `${PILOT_SITE_BRIEFING} The visitor is on ${path}. Spoken and written StarWall languages: ${locales.join(", ")}. Context locale is ${locale}. ${situation}${watchRule} Use the recent conversation if they refer back. Respond in 2-4 sentences unless more detail is needed. IMPORTANT: Reply in the visitor's language (the message if it is one of those languages, otherwise ${locale}). At the very start of your response, output a language code in this exact format on its own first line: [LANG:xx] where xx is one of ${locales.join(", ")} — then a newline, then your actual response.`;

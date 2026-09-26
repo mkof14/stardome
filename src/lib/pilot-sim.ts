@@ -106,7 +106,11 @@ export function watchAskKind(message: string): WatchAskKind | null {
   if (/contact|track|цель|контакт|дрон|uav|ais|кто на|who('s| is) on/.test(q)) {
     return "contacts";
   }
-  if (/radar|ais|sonar|cctv|картин|обстанов|picture|watch|вахт|perimeter|спектр/.test(q)) {
+  if (
+    /radar|ais|sonar|cctv|картин|обстанов|picture|watch|вахт|perimeter|спектр|what('s| is| s) this|what is going on|what'?s going on|что это|что тут|что происходит|що це|що відбувається/.test(
+      q,
+    )
+  ) {
     return "picture";
   }
   return null;

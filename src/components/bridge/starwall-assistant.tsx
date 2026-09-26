@@ -35,7 +35,7 @@ import {
   type PilotScreen,
 } from "@/components/bridge/pilot-desk";
 import { pilotDeskCopy } from "@/lib/i18n/pilot-desk-copy";
-import { buildPilotWatch, watchReply, type PilotAdvice } from "@/lib/pilot-watch";
+import { buildPilotWatch, type PilotAdvice } from "@/lib/pilot-watch";
 import { DEMO_CLEARED_EVENT } from "@/lib/demo-storage";
 import { listConversations, putConversation, type StoredConversation } from "@/lib/local-db";
 import { isAuthRoute, useAuthSession } from "@/lib/auth-session";
@@ -87,7 +87,8 @@ import {
   vadHotFrames,
   vadTriggered,
 } from "@/lib/barge-in";
-import { isHaltOrder, isListenOrder, isOfficerAsk } from "@/lib/pilot-orders";
+import { isHaltOrder, isListenOrder, isOfficerAsk, isTalkOpen } from "@/lib/pilot-orders";
+import { pilotDirectReply } from "@/lib/pilot-knowledge";
 import {
   clipChatHistory,
   isAdviceAccept,
@@ -402,16 +403,7 @@ export function Helm() {
       setNotePulse(true);
       cue(watch.urgent ? "urgent" : "note");
     }
-    if (!hasPicture || first) return;
-    const brief = watchReply(session, recogLang);
-    const assistantId = messageId();
-    setMessages((current) => {
-      const last = current[current.length - 1];
-      if (last?.role === "assistant" && last.text === brief) return current;
-      return [...current, { id: assistantId, role: "assistant", text: brief }];
-    });
-    setTypingId(assistantId);
-  }, [pathname, watch.noteKey, watch.urgent, session, recogLang]);
+  }, [pathname, watch.noteKey, watch.urgent, session]);
 
   useEffect(() => {
     function onCleared() {
@@ -693,7 +685,7 @@ export function Helm() {
         haltWatch();
         return;
       }
-      if (isFinal && isOfficerAsk(text)) {
+      if (isFinal && (isOfficerAsk(text) || isTalkOpen(text))) {
         stopDemo();
         stopSpeech();
         setTalkHud(false);
@@ -935,6 +927,13 @@ export function Helm() {
       if (current) stopSpeech();
       return next;
     });
+  }
+
+  function enableVoice() {
+    if (voiceOnRef.current) return;
+    writeVoiceEnabled(true);
+    voiceOnRef.current = true;
+    setVoiceOn(true);
   }
 
   function speakBrowser(
@@ -1210,6 +1209,52 @@ export function Helm() {
       setTalkHud(false);
       wantListen.current = true;
       resumeListen();
+      return;
+    }
+    const direct = pilotDirectReply(clean, recogLang);
+    if (direct) {
+      enableVoice();
+      sendingRef.current = false;
+      const ticket = ++askGen.current;
+      stopDemo();
+      holdSpeech.current = false;
+      setOpen(true);
+      setScreen("chat");
+      setTalkHud(false);
+      wantListen.current = true;
+      const userId = messageId();
+      const userAt = new Date().toISOString();
+      setMessages((current) => [
+        ...current,
+        { id: userId, role: "user", text: clean },
+      ]);
+      persistChat({
+        id: userId,
+        timestamp: userAt,
+        role: "user",
+        content: clean,
+        langCode: recogLang,
+      });
+      setDraft("");
+      const assistantId = messageId();
+      setMessages((current) => [
+        ...current,
+        { id: assistantId, role: "assistant", text: direct },
+      ]);
+      persistChat({
+        id: assistantId,
+        timestamp: new Date().toISOString(),
+        role: "assistant",
+        content: direct,
+        langCode: recogLang,
+      });
+      recordConversation({
+        summary: `Pilot exchange — ${clean.slice(0, 72)}`,
+        fullContent: `Officer: ${clean}\n\nPilot: ${direct}`,
+      });
+      if (ticket !== askGen.current) return;
+      setTypingId(assistantId);
+      void speakReply(direct, recogLang, true, "brief");
       return;
     }
     if (!live && isNotifyAsk(clean)) {
@@ -1742,23 +1787,31 @@ export function Helm() {
             ) : null}
             {!drilling && mic !== "speaking" ? (
               <div className="mb-2 space-y-3">
-                <PilotVoiceStudio
-                  locale={recogLang}
-                  need={voiceNeed(recogLang, voices, neural)}
-                  copy={demoCopy}
-                  disabled={mic === "processing"}
-                  onHearPilot={() =>
-                    void speakReply(demoCopy.previewPilot, recogLang, true, "brief", "pilot")
-                  }
-                  onHearOfficer={() =>
-                    void speakReply(demoCopy.previewOfficer, recogLang, true, "brief", "officer")
-                  }
-                />
                 <PilotWatchCalls
                   copy={demoCopy}
                   disabled={mic === "processing"}
                   onPick={(text) => void sendMessage(text)}
                 />
+                <details className="group rounded-lg border border-bridge-line/70 bg-bridge-bg px-2.5 py-1.5">
+                  <summary className="cursor-pointer font-body text-sm text-bridge-dim marker:text-bridge-dim">
+                    {demoCopy.studio}
+                  </summary>
+                  <div className="mt-2">
+                    <PilotVoiceStudio
+                      locale={recogLang}
+                      need={voiceNeed(recogLang, voices, neural)}
+                      copy={demoCopy}
+                      hideTitle
+                      disabled={mic === "processing"}
+                      onHearPilot={() =>
+                        void speakReply(demoCopy.previewPilot, recogLang, true, "brief", "pilot")
+                      }
+                      onHearOfficer={() =>
+                        void speakReply(demoCopy.previewOfficer, recogLang, true, "brief", "officer")
+                      }
+                    />
+                  </div>
+                </details>
               </div>
             ) : null}
             <form

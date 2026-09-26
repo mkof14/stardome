@@ -36,6 +36,7 @@ describe("pilotChrome", () => {
       expect(chrome.listening.length).toBeGreaterThan(0);
       expect(chrome.waiting.length).toBeGreaterThan(0);
       expect(chrome.haltAck.length).toBeGreaterThan(0);
+      expect(chrome.converseOffer.length).toBeGreaterThan(0);
       expect(chrome.emptyWatch.length).toBeGreaterThan(0);
       if (previous) expect(chrome.hide).not.toBe(previous);
       previous = chrome.hide;
@@ -60,6 +61,8 @@ describe("pilotChrome", () => {
   it("labels halt ack in every StarWall language", () => {
     expect(pilotChrome("ru").haltAck).toBe("Стоп. Слушаю.");
     expect(pilotChrome("en").haltAck).toBe("Stop. Listening.");
+    expect(pilotChrome("ru").converseOffer).toMatch(/интересует|помочь/);
+    expect(pilotChrome("en").converseOffer).toMatch(/care about|help/);
     expect(pilotChrome("en").listening).toBe("Listening");
     expect(pilotChrome("ru").listening).toBe("Слушает");
   });

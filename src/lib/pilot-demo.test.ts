@@ -36,6 +36,7 @@ describe("pilotDemoCopy", () => {
       const copy = pilotDemoCopy(code);
       expect(copy.demo.length).toBeGreaterThan(0);
       expect(copy.callStatus.toLowerCase()).toMatch(/pilot/);
+      expect(copy.callTalk.length).toBeGreaterThan(4);
       expect(copy.intro.toLowerCase()).not.toMatch(/\bcommand\b/);
       expect(copy.interruptHint.length).toBeGreaterThan(0);
       expect(copy.soundOn.length).toBeGreaterThan(0);

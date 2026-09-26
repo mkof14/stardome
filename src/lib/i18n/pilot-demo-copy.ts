@@ -11,6 +11,7 @@ export type PilotDemoCopy = {
   callStatus: string;
   callAdvice: string;
   callNotify: string;
+  callTalk: string;
   intro: string;
   officerStatus: string;
   quietStatus: string;
@@ -76,6 +77,7 @@ const DEMO = {
     callStatus: "Pilot, instruments",
     callAdvice: "Pilot, what do you recommend",
     callNotify: "Pilot, notify the designated",
+    callTalk: "Pilot, talk to me",
     intro:
       "Pilot on watch. Radar, AIS, cameras, perimeter, sonar, satcom — all on me. I advise. You decide.",
     officerStatus: "Pilot, instruments.",
@@ -149,6 +151,7 @@ const DEMO = {
     callStatus: "Pilot, instrumentos",
     callAdvice: "Pilot, ¿qué recomienda?",
     callNotify: "Pilot, avise al designado",
+    callTalk: "Pilot, habla conmigo",
     intro:
       "Pilot de guardia. Leo radar, AIS, cámaras, perímetro, sónar y satcom. Aconsejo. Usted decide.",
     officerStatus: "Pilot, instrumentos.",
@@ -222,6 +225,7 @@ const DEMO = {
     callStatus: "Pilot, instruments",
     callAdvice: "Pilot, que recommandez-vous",
     callNotify: "Pilot, prévenez la personne désignée",
+    callTalk: "Pilot, parle-moi",
     intro:
       "Pilot de quart. Je lis radar, AIS, caméras, périmètre, sonar et satcom. Je conseille. Vous décidez.",
     officerStatus: "Pilot, instruments.",
@@ -295,6 +299,7 @@ const DEMO = {
     callStatus: "Pilot, Instrumente",
     callAdvice: "Pilot, was empfehlen Sie",
     callNotify: "Pilot, benachrichtigen Sie die bestimmte Person",
+    callTalk: "Pilot, sprich mit mir",
     intro:
       "Pilot auf Wache. Ich lese Radar, AIS, Kameras, Perimeter, Sonar und Satcom. Ich rate. Sie entscheiden.",
     officerStatus: "Pilot, Instrumente.",
@@ -368,6 +373,7 @@ const DEMO = {
     callStatus: "Pilot, приборы",
     callAdvice: "Pilot, что рекомендуете",
     callNotify: "Pilot, известить назначенного",
+    callTalk: "Pilot, говори со мной",
     intro:
       "Pilot на вахте. Радар, AIS, камеры, периметр, сонар, satcom — всё на мне. Советую. Решение за вами.",
     officerStatus: "Pilot, приборы.",
@@ -441,6 +447,7 @@ const DEMO = {
     callStatus: "Pilot, прилади",
     callAdvice: "Pilot, що рекомендуєте",
     callNotify: "Pilot, сповістити призначеного",
+    callTalk: "Pilot, говори зі мною",
     intro:
       "Pilot на вахті. Читаю радар, AIS, камери, периметр, сонар і satcom. Раджу. Рішення за вами.",
     officerStatus: "Pilot, прилади.",
@@ -514,6 +521,7 @@ const DEMO = {
     callStatus: "Pilot، الأجهزة",
     callAdvice: "Pilot، ماذا توصي",
     callNotify: "Pilot، أبلغ المعيّن",
+    callTalk: "Pilot، تحدث معي",
     intro:
       "Pilot على الخفارة. أقرأ الرادار وAIS والكاميرات والمحيط والسونار وsatcom. أنصح. القرار لكم.",
     officerStatus: "Pilot، الأجهزة.",
@@ -587,6 +595,7 @@ const DEMO = {
     callStatus: "Pilot，仪器",
     callAdvice: "Pilot，你建议什么",
     callNotify: "Pilot，通知指定人员",
+    callTalk: "Pilot，跟我说话",
     intro:
       "Pilot 在值班。我读雷达、AIS、摄像头、周界、声呐和卫星链路。我给建议。由您决定。",
     officerStatus: "Pilot，仪器。",
@@ -654,6 +663,7 @@ const DEMO = {
     callStatus: "Pilot、計器",
     callAdvice: "Pilot、推奨は",
     callNotify: "Pilot、指名者に知らせて",
+    callTalk: "Pilot、話して",
     intro:
       "Pilot は当直中です。レーダー、AIS、カメラ、ペリメータ、ソナー、satcom を読みます。助言します。判断はあなたです。",
     officerStatus: "Pilot、計器。",
@@ -727,6 +737,7 @@ const DEMO = {
     callStatus: "Pilot, מכשירים",
     callAdvice: "Pilot, מה אתה ממליץ",
     callNotify: "Pilot, הודע לממונה",
+    callTalk: "Pilot, דבר איתי",
     intro:
       "Pilot במשמרת. אני קורא מכ״ם, AIS, מצלמות, היקף, סונאר ו־satcom. אני מייעץ. אתם מחליטים.",
     officerStatus: "Pilot, מכשירים.",

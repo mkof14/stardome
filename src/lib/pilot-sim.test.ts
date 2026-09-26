@@ -63,6 +63,8 @@ describe("watch ask kinds", () => {
     expect(isNotifyAsk("Notify designated person")).toBe(true);
     expect(watchAskKind("What does Starlink show?")).toBe("starlink");
     expect(watchAskKind("What should I do?")).toBe("advice");
+    expect(watchAskKind("What is this?")).toBe("picture");
+    expect(watchAskKind("говори со мной")).toBeNull();
   });
 });
 
@@ -76,6 +78,15 @@ describe("localWatchAnswer", () => {
     );
     expect(localWatchAnswer(session(), "en", "Accept")).toMatch(/Accepted|Black Box/i);
     expect(localWatchAnswer(session({ live: true }), "en", "Radar?")).toMatch(/no sensors/i);
+  });
+
+  it("asks how to help when the officer only opens a conversation", () => {
+    const { reply } = localPilotReply("говори со мной", "ru", {
+      path: "/interface",
+      session: session(),
+    });
+    expect(reply).toMatch(/интересует|помочь/);
+    expect(reply).not.toMatch(/UAV|200 m|Hold visual/i);
   });
 
   it("keeps /interface crisis asks on the picture, not a product pitch", () => {

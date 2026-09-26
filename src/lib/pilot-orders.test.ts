@@ -1,5 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { isHaltOrder, isHearCheck, isListenOrder, isOfficerAsk, pilotOrder } from "@/lib/pilot-orders";
+import {
+  isConverseOffer,
+  isGreeting,
+  isHaltOrder,
+  isHearCheck,
+  isListenOrder,
+  isOfficerAsk,
+  isTalkOpen,
+  pilotOrder,
+} from "@/lib/pilot-orders";
 
 describe("pilot orders", () => {
   it("halts on stop in every StarWall language", () => {
@@ -69,5 +78,26 @@ describe("pilot orders", () => {
     expect(isHearCheck("Ты меня слышишь?")).toBe(true);
     expect(isHearCheck("Can you hear me")).toBe(true);
     expect(isHearCheck("Pilot, instruments")).toBe(false);
+  });
+
+  it("treats talk-to-me as a converse order, not a watch dump", () => {
+    for (const said of [
+      "говори со мной",
+      "Pilot, говори со мной",
+      "Talk to me",
+      "speak with me",
+      "let's talk",
+      "слушай меня",
+      "привет",
+      "hello",
+    ]) {
+      expect(isTalkOpen(said)).toBe(true);
+      expect(isHaltOrder(said)).toBe(false);
+    }
+    expect(isConverseOffer("говори со мной")).toBe(true);
+    expect(isConverseOffer("Pilot, instruments")).toBe(false);
+    expect(isGreeting("привет")).toBe(true);
+    expect(isGreeting("What should I do?")).toBe(false);
+    expect(isOfficerAsk("говори")).toBe(true);
   });
 });
