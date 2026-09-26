@@ -1772,6 +1772,7 @@ export function Helm() {
                 speaking={mic === "speaking"}
                 listening={mic === "listening"}
                 levels={levels}
+                wave={wave}
                 peak={peak}
                 soundOnLabel={surface.speakerOn}
                 soundOffLabel={surface.speakerOff}

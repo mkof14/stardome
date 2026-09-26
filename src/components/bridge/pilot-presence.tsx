@@ -54,6 +54,7 @@ export function PilotPresence({
       style={{ "--pilot-level": String(drive) } as CSSProperties}
     >
       <span className="pilot-presence-well" aria-hidden />
+      <span className="pilot-pulse" aria-hidden />
       <span className="pilot-orbit" aria-hidden />
       <span className="pilot-glow" aria-hidden />
       <span className="pilot-field" aria-hidden>

@@ -183,6 +183,7 @@ export function PilotSoundDock({
   speaking,
   listening,
   levels,
+  wave,
   peak,
   soundOnLabel,
   soundOffLabel,
@@ -196,6 +197,7 @@ export function PilotSoundDock({
   speaking: boolean;
   listening?: boolean;
   levels: number[];
+  wave?: number[];
   peak?: boolean;
   soundOnLabel: string;
   soundOffLabel: string;
@@ -206,13 +208,16 @@ export function PilotSoundDock({
   onToggleCues?: () => void;
 }) {
   const live = Boolean((speaking && voiceOn) || listening);
+  const tone = speaking && voiceOn ? "speak" : listening ? "listen" : "idle";
   return (
     <div
       data-testid="pilot-sound-dock"
       className={cn(
-        "flex h-8 w-[7.5rem] shrink-0 items-center gap-1 rounded-lg border px-1.5",
+        "flex h-8 min-w-0 max-w-[11.5rem] flex-1 items-center gap-1 overflow-hidden rounded-lg border px-1.5",
         live
-          ? "border-ok/50 bg-ok/5"
+          ? speaking
+            ? "border-orange/45 bg-orange/5"
+            : "border-ok/50 bg-ok/5"
           : voiceOn
             ? "border-bridge-line bg-bridge-panel"
             : "border-attn/50 bg-attn/10",
@@ -240,7 +245,14 @@ export function PilotSoundDock({
           onToggle={onToggleCues}
         />
       ) : null}
-      <StudioVu levels={levels} peak={Boolean(peak)} live={live} compact />
+      <StudioVu
+        levels={levels}
+        samples={wave}
+        peak={Boolean(peak)}
+        live={live}
+        compact
+        tone={tone}
+      />
     </div>
   );
 }

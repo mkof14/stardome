@@ -180,6 +180,7 @@ export function PilotTalkWindow({
               speaking={mic === "speaking"}
               listening={mic === "listening"}
               levels={levels}
+              wave={wave}
               peak={peak}
               soundOnLabel={copy.soundOn}
               soundOffLabel={copy.soundOff}

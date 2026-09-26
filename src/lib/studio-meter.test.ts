@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  compactWave,
   meterFromTimeDomain,
   PEAK_SAMPLE,
   silenceBars,
@@ -29,16 +30,23 @@ describe("studio meter", () => {
     const quiet = meterFromTimeDomain(new Uint8Array(64).fill(128));
     expect(quiet.rms).toBeLessThan(0.02);
     expect(quiet.peak).toBe(false);
-    expect(quiet.bars.every((bar) => bar === 0)).toBe(true);
+    expect(quiet.bars.every((bar) => bar < 0.02)).toBe(true);
     expect(quiet.wave).toHaveLength(WAVE_BINS);
     expect(silenceWave()).toHaveLength(WAVE_BINS);
     expect(silenceBars()).toHaveLength(STUDIO_BARS);
+    expect(compactWave([0, 0.4, -0.8, 0.2], 4)).toEqual([0, 0.4, 0.8, 0.2]);
   });
 
   it("lights green, yellow, then red from real amplitude, never a simulated floor", () => {
     const soft = meterFromTimeDomain(sine(0.25));
     expect(soft.peak).toBe(false);
     expect(soft.bars.some((bar) => bar > 0)).toBe(true);
+    const shaped = new Uint8Array(1200);
+    shaped.fill(128, 0, 400);
+    for (let i = 400; i < 800; i += 1) shaped[i] = 200;
+    shaped.fill(128, 800);
+    const voice = meterFromTimeDomain(shaped);
+    expect(Math.max(...voice.bars)).toBeGreaterThan(Math.min(...voice.bars) + 0.08);
     expect(vuBand(0, STUDIO_BARS)).toBe("green");
     expect(vuBand(6, STUDIO_BARS)).toBe("yellow");
     expect(vuBand(STUDIO_BARS - 1, STUDIO_BARS)).toBe("red");

@@ -37,14 +37,14 @@ export function fieldSamples(
   level = 0,
 ): number[] {
   const count = Math.max(8, bins);
+  const drive = Math.max(0, Math.min(1, level));
   if (live && wave?.length) {
     const step = wave.length / count;
     return Array.from({ length: count }, (_, i) => {
       const index = Math.min(wave.length - 1, Math.floor(i * step));
-      return Math.min(1, Math.max(0.06, Math.abs(wave[index] ?? 0)));
+      return Math.min(1, Math.max(0.08, Math.abs(wave[index] ?? 0) * 1.45 + drive * 0.12));
     });
   }
-  const drive = Math.max(0, Math.min(1, level));
   return Array.from({ length: count }, (_, i) => {
     const t = i / Math.max(1, count - 1);
     return 0.16 + 0.2 * Math.sin(t * Math.PI) + drive * 0.18;

@@ -31,6 +31,31 @@ export type StudioReading = {
   bars: number[];
 };
 
+/** RMS of each time slice — a real voice shape, not a lit LED ladder. */
+export function windowedBars(samples: Uint8Array, barCount: number): number[] {
+  const count = Math.max(1, barCount);
+  if (!samples.length) return Array.from({ length: count }, () => 0);
+  return Array.from({ length: count }, (_, index) => {
+    const start = Math.floor((index / count) * samples.length);
+    const end = Math.max(start + 1, Math.floor(((index + 1) / count) * samples.length));
+    let energy = 0;
+    for (let i = start; i < end; i += 1) {
+      const value = ((samples[i] ?? 128) - 128) / 128;
+      energy += value * value;
+    }
+    return Math.min(1, Math.sqrt(energy / (end - start)) * 3.4);
+  });
+}
+
+export function compactWave(samples: number[], bins = 28): number[] {
+  if (!samples.length || bins <= 0) return Array.from({ length: Math.max(1, bins) }, () => 0);
+  const step = samples.length / bins;
+  return Array.from({ length: bins }, (_, index) => {
+    const at = Math.min(samples.length - 1, Math.floor(index * step));
+    return Math.min(1, Math.abs(samples[at] ?? 0));
+  });
+}
+
 export function downsampleWave(samples: Uint8Array, bins: number): number[] {
   const wave = Array.from({ length: bins }, () => 0);
   if (!samples.length || bins <= 0) return wave;
@@ -57,10 +82,7 @@ export function meterFromTimeDomain(
   }
   const rms = samples.length ? Math.sqrt(sum / samples.length) : 0;
   const peak = rms >= PEAK_RMS || maxAbs >= PEAK_SAMPLE;
-  const lit = Math.min(barCount, Math.round(rms * 24));
-  const bars = Array.from({ length: barCount }, (_, index) =>
-    index < lit ? Math.min(1, 0.28 + rms * 1.8) : 0,
-  );
+  const bars = windowedBars(samples, barCount);
   return {
     rms,
     peak,
