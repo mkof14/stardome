@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { WatchButton, WatchKicker } from "@/components/page-chrome";
 import { CONTAINER_HOME_TEASER } from "@/lib/container-gallery";
 import { containerShowCopy } from "@/lib/i18n/container-show-copy";
 import { usePreferences } from "@/lib/i18n/context";
@@ -12,13 +13,13 @@ export function FooterContainersBand() {
 
   return (
     <div
-      className="border-b border-sand/15 bg-navy"
+      className="border-b border-bridge-line bg-bridge-panel"
       data-testid="footer-agron-containers"
     >
       <div className="mx-auto grid max-w-6xl items-center gap-5 px-4 py-6 md:grid-cols-[11rem_minmax(0,1fr)_auto] md:px-6">
         <Link
           href="/containers"
-          className="relative hidden overflow-hidden border border-attn/40 md:block"
+          className="relative hidden overflow-hidden rounded-2xl border border-bridge-line md:block"
         >
           <Image
             src={CONTAINER_HOME_TEASER.src}
@@ -30,18 +31,13 @@ export function FooterContainersBand() {
           />
         </Link>
         <div className="min-w-0">
-          <p className="font-ui text-[12px] tracking-wide text-attn">{show.footerKicker}</p>
-          <p className="mt-1 font-heading text-2xl font-bold leading-tight text-sand">
+          <WatchKicker>{show.footerKicker}</WatchKicker>
+          <p className="mt-1 font-ui text-2xl font-bold tracking-tight text-bridge-text">
             {show.footerTitle}
           </p>
-          <p className="mt-1 text-[13px] text-sand/65">{show.footerLead}</p>
+          <p className="mt-1 font-body text-[13px] text-bridge-dim">{show.footerLead}</p>
         </div>
-        <Link
-          href="/containers"
-          className="inline-flex items-center justify-center border border-attn px-4 py-2.5 text-sm font-medium text-attn hover:bg-attn hover:text-navy"
-        >
-          {show.footerCta}
-        </Link>
+        <WatchButton href="/containers">{show.footerCta}</WatchButton>
       </div>
     </div>
   );

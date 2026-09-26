@@ -28,21 +28,21 @@ function CommercialInner({ children }: { children: ReactNode }) {
 
   if (!sessionHasDeskAccess(session)) {
     return (
-      <div className="bg-page text-ink" data-testid="desk-forbidden">
+      <div className="bg-bridge-bg font-ui text-bridge-text" data-testid="desk-forbidden">
         <div className="mx-auto max-w-xl px-4 py-16 md:px-6">
-          <p className="font-mono text-[10px] tracking-[0.22em] text-muted">
+          <p className="font-body text-sm font-semibold uppercase tracking-[0.28em] text-orange">
             {t.nav.pricing}
           </p>
-          <h1 className="mt-2 font-heading text-3xl font-bold">
+          <h1 className="mt-2 font-ui text-3xl font-bold tracking-tight">
             This Plans desk is closed for your account.
           </h1>
-          <p className="mt-3 text-sm text-muted">
+          <p className="mt-3 font-body text-sm text-bridge-dim">
             Super Admin, Admin, or an assigned commercial role is required. The
             public Plans page stays available without list prices.
           </p>
           <Link
             href={deskPaths.catalog}
-            className="mt-6 inline-flex border border-stroke px-3 py-2 text-sm text-ink hover:border-orange hover:text-orange"
+            className="mt-6 inline-flex rounded-2xl border border-bridge-line bg-bridge-panel px-3 py-2 text-sm text-bridge-text hover:border-orange hover:text-orange"
           >
             {t.nav.pricing}
           </Link>

@@ -77,7 +77,7 @@ export function LoginView({
               setEmail(event.target.value);
               setError(null);
             }}
-            className="mt-1 w-full border-b border-stroke bg-transparent px-0 py-2 text-ink outline-none focus:border-orange"
+            className="mt-1 w-full rounded-2xl border border-bridge-line bg-bridge-panel px-4 py-2.5 text-bridge-text outline-none focus:border-orange"
           />
         </label>
         <PasswordField
@@ -107,7 +107,7 @@ export function LoginView({
           type="submit"
           data-testid="auth-submit"
           disabled={busy}
-          className="mt-5 w-full bg-orange px-3 py-2.5 font-ui text-sm font-medium text-white hover:bg-orange/90 disabled:opacity-60"
+          className="mt-5 w-full rounded-2xl border border-orange/40 bg-orange/10 px-3 py-2.5 font-body text-sm font-semibold text-orange hover:bg-orange/15 disabled:opacity-60"
         >
           {busy ? t.auth.signingIn : t.auth.signIn}
         </button>
@@ -136,7 +136,7 @@ export function LoginView({
 
       <div
         data-testid="demo-role-accounts"
-        className="mt-6 border border-[#B7C9D8] bg-[#F7FBFD] px-3 py-3 text-start"
+        className="mt-6 rounded-2xl border border-bridge-line bg-bridge-panel px-4 py-4 text-start"
       >
         <p className="font-mono text-[10px] tracking-wider text-[#55687A]">
           {t.auth.demoAccounts}

@@ -88,13 +88,13 @@ function StatusPanel({
   action?: ReactNode;
 }) {
   return (
-    <div className="bg-page text-ink" data-testid={testId}>
+    <div className="bg-bridge-bg font-ui text-bridge-text" data-testid={testId}>
       <div className="mx-auto max-w-xl px-4 py-16 md:px-6">
-        <p className="font-mono text-[10px] tracking-[0.22em] text-muted">
+        <p className="font-body text-sm font-semibold uppercase tracking-[0.28em] text-orange">
           {kicker}
         </p>
-        <h1 className="mt-2 font-heading text-3xl font-bold">{title}</h1>
-        {body ? <p className="mt-3 text-sm text-muted">{body}</p> : null}
+        <h1 className="mt-2 font-ui text-3xl font-bold tracking-tight">{title}</h1>
+        {body ? <p className="mt-3 font-body text-sm text-bridge-dim">{body}</p> : null}
         {action ? <div className="mt-6">{action}</div> : null}
       </div>
     </div>

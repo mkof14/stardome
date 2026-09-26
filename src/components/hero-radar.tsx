@@ -1,7 +1,10 @@
 export function HeroRadar() {
   return (
-    <div className="hero-radar-scope mx-auto w-full max-w-[22rem]" aria-hidden>
-      <div className="relative aspect-square bg-[#061018] p-[1.15rem] shadow-[inset_0_0_0_1px_rgb(241_90_0/0.45),0_22px_48px_rgb(15_25_34/0.28)]">
+    <div
+      className="hero-radar-scope mx-auto w-full max-w-[22rem] overflow-hidden rounded-2xl border border-bridge-line bg-bridge-panel p-3 shadow-[0_10px_28px_rgb(15_25_34/0.08)]"
+      aria-hidden
+    >
+      <div className="relative aspect-square rounded-2xl bg-[#061018] p-[1.15rem] shadow-[inset_0_0_0_1px_rgb(241_90_0/0.35)]">
         <span className="absolute left-2 top-2 h-2 w-2 border-l border-t border-sand/40" />
         <span className="absolute right-2 top-2 h-2 w-2 border-r border-t border-sand/40" />
         <span className="absolute bottom-2 left-2 h-2 w-2 border-b border-l border-sand/40" />

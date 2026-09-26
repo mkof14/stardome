@@ -21,7 +21,7 @@ export function ContainersSpecsView() {
           ))}
         </RuleList>
         <OrangeRail>
-          <p className="font-heading text-xl font-bold text-ink">{t.containers.rapid}</p>
+          <p className="font-ui text-xl font-bold text-bridge-text">{t.containers.rapid}</p>
         </OrangeRail>
       </PageBody>
     </PageShell>

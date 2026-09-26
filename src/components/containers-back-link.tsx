@@ -9,7 +9,7 @@ export function ContainersBackLink() {
 
   return (
     <p>
-      <Link href="/containers" className="text-sm text-muted hover:text-orange">
+      <Link href="/containers" className="font-body text-sm text-bridge-dim hover:text-orange">
         <RtlAwareLabel text={t.containers.back} />
       </Link>
     </p>

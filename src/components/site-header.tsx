@@ -32,7 +32,7 @@ export function SiteHeader() {
   if (isAuthRoute(pathname) || isInternalDesk(pathname)) return null;
 
   return (
-    <header className="sticky top-0 z-40 h-16 w-full border-b border-stroke bg-header/92 shadow-[inset_0_2px_0_0_#F15A00] backdrop-blur-md print:hidden">
+    <header className="sticky top-0 z-40 h-16 w-full border-b border-bridge-line bg-bridge-bg/92 shadow-[inset_0_2px_0_0_#F15A00] backdrop-blur-md print:hidden">
       <div className="flex h-full items-center justify-between gap-2 px-4 md:gap-3 md:px-6">
         <Link
           href="/"
@@ -58,8 +58,8 @@ export function SiteHeader() {
                 href={href}
                 className={`relative font-ui text-[13px] ${
                   active
-                    ? "text-ink after:absolute after:-bottom-1 after:start-0 after:h-px after:w-full after:bg-orange"
-                    : "text-muted hover:text-ink"
+                    ? "text-bridge-text after:absolute after:-bottom-1 after:start-0 after:h-px after:w-full after:bg-orange"
+                    : "text-bridge-dim hover:text-bridge-text"
                 }`}
               >
                 {t.nav[item.key]}
@@ -72,10 +72,10 @@ export function SiteHeader() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`inline-flex items-center border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider ${
+                className={`inline-flex items-center rounded-2xl border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider ${
                   active
                     ? "border-orange text-orange"
-                    : "border-stroke text-muted hover:text-ink"
+                    : "border-bridge-line text-bridge-dim hover:text-bridge-text"
                 }`}
               >
                 {t.nav[item.key]}
@@ -104,7 +104,7 @@ export function SiteHeader() {
           <button
             type="button"
             data-testid="mobile-nav-toggle"
-            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-stroke text-ink transition duration-150 hover:-translate-y-0.5 hover:border-orange hover:text-orange hover:shadow-[0_6px_14px_rgb(241_90_0/0.28)] lg:hidden"
+            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-bridge-line text-bridge-text transition duration-150 hover:-translate-y-0.5 hover:border-orange hover:text-orange hover:shadow-[0_6px_14px_rgb(241_90_0/0.28)] lg:hidden"
             aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
             aria-expanded={open}
             aria-controls="mobile-nav"
@@ -132,15 +132,15 @@ export function SiteHeader() {
       {open ? (
         <nav
           id="mobile-nav"
-          className="w-full border-t border-stroke bg-header lg:hidden"
+          className="w-full border-t border-bridge-line bg-bridge-bg lg:hidden"
           aria-label={t.nav.mobile}
         >
           <ul>
             {headerNavItems.map((item) => (
-              <li key={item.href} className="border-b border-stroke last:border-b-0">
+              <li key={item.href} className="border-b border-bridge-line last:border-b-0">
                 <Link
                   href={navHref(item, hasDesk)}
-                  className="block px-4 py-3 text-sm text-ink"
+                  className="block px-4 py-3 text-sm text-bridge-text"
                   onClick={() => setOpen(false)}
                 >
                   {t.nav[item.key]}
@@ -148,10 +148,10 @@ export function SiteHeader() {
               </li>
             ))}
             {workItems.map((item) => (
-              <li key={item.href} className="border-b border-stroke last:border-b-0">
+              <li key={item.href} className="border-b border-bridge-line last:border-b-0">
                 <Link
                   href={item.href}
-                  className="flex items-center gap-2 px-4 py-3 font-mono text-xs uppercase tracking-wider text-ink"
+                  className="flex items-center gap-2 px-4 py-3 font-mono text-xs uppercase tracking-wider text-bridge-text"
                   onClick={() => setOpen(false)}
                 >
                   {t.nav[item.key]}

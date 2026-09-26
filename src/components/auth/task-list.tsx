@@ -47,7 +47,7 @@ export function TaskList({ signedIn, onLocked }: TaskListProps) {
         const items = TASKS.filter((task) => task.group === group);
         if (items.length === 0) {
           return (
-            <p key={group} className="font-mono text-xs text-muted">
+            <p key={group} className="font-mono text-xs text-bridge-dim">
               {t.auth.tasksEmpty}
             </p>
           );
@@ -56,11 +56,11 @@ export function TaskList({ signedIn, onLocked }: TaskListProps) {
           <section key={group} aria-labelledby={`tasks-${group}`}>
             <h2
               id={`tasks-${group}`}
-              className="font-ui text-[12px] tracking-wide text-orange"
+              className="font-body text-sm font-semibold uppercase tracking-[0.28em] text-orange"
             >
               {group === "backend" ? t.auth.groupBackend : t.auth.groupSite}
             </h2>
-            <ul className="mt-6 grid gap-x-10 gap-y-8 border-t border-stroke pt-8 sm:grid-cols-2">
+            <ul className="mt-5 grid gap-3 sm:grid-cols-2">
               {items.map((task, index) => (
                 <li key={task.id}>
                   <TaskCard
@@ -103,21 +103,22 @@ function TaskCard({
   onLocked: (href: string) => void;
 }) {
   const locked = task.gated && !signedIn;
-  const className = "group block text-start";
+  const className =
+    "group block rounded-2xl border border-bridge-line bg-bridge-panel px-5 py-5 text-start shadow-[0_10px_28px_rgb(15_25_34/0.08)]";
 
   const inner = (
     <>
       <p className="font-mono text-[11px] text-orange">
         {String(index).padStart(2, "0")}
       </p>
-      <p className="mt-1 font-heading text-2xl font-bold text-ink group-hover:text-orange">
+      <p className="mt-1 font-ui text-2xl font-bold tracking-tight text-bridge-text group-hover:text-orange">
         {title}
       </p>
-      <p className="mt-2 max-w-md text-sm leading-relaxed text-muted">{body}</p>
+      <p className="mt-2 max-w-md font-body text-sm leading-relaxed text-bridge-dim">{body}</p>
       <p
         className={cn(
           "mt-3 font-mono text-[11px]",
-          locked ? "text-muted" : "text-orange",
+          locked ? "text-bridge-dim" : "text-orange",
         )}
       >
         {locked ? lockedHint : `${openLabel} →`}

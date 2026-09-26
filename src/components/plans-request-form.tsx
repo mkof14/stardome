@@ -15,7 +15,7 @@ import {
 import { REQUIREMENT_BY_PLAN } from "@/lib/plans";
 
 const fieldClass =
-  "w-full border-b border-stroke bg-transparent px-0 py-2 text-ink outline-none focus:border-orange";
+  "w-full rounded-2xl border border-bridge-line bg-bridge-bg px-4 py-2.5 text-bridge-text outline-none focus:border-orange";
 
 type Field = "name" | "email" | "asset" | "requirement";
 
@@ -127,7 +127,7 @@ export function PlansRequestForm({
 
   if (sent) {
     return (
-      <p className="max-w-xl text-base leading-relaxed text-ink" role="status">
+      <p className="max-w-xl font-body text-base leading-relaxed text-bridge-text" role="status">
         {copy.success}
       </p>
     );
@@ -136,16 +136,16 @@ export function PlansRequestForm({
   return (
     <form onSubmit={onSubmit} className="max-w-3xl space-y-8" noValidate>
       <fieldset className="space-y-3">
-        <legend className="text-sm text-ink">{copy.assetLabel}</legend>
+        <legend className="text-sm text-bridge-text">{copy.assetLabel}</legend>
         <div className="flex flex-wrap gap-2">
           {ASSET_KEYS.map((key) => (
             <label
               key={key}
               className={cn(
-                "cursor-pointer border px-3 py-1.5 text-sm",
+                "cursor-pointer rounded-2xl border px-3 py-1.5 text-sm",
                 asset === key
                   ? "border-orange text-orange"
-                  : "border-stroke text-muted hover:text-ink",
+                  : "border-bridge-line text-bridge-dim hover:text-bridge-text",
               )}
             >
               <input
@@ -169,9 +169,9 @@ export function PlansRequestForm({
       </fieldset>
 
       <div className="space-y-2">
-        <label htmlFor="plans-scale" className="block text-sm text-ink">
+        <label htmlFor="plans-scale" className="block text-sm text-bridge-text">
           {copy.scaleLabel}{" "}
-          <span className="text-muted">({copy.optional})</span>
+          <span className="text-bridge-dim">({copy.optional})</span>
         </label>
         <input
           id="plans-scale"
@@ -185,9 +185,9 @@ export function PlansRequestForm({
       </div>
 
       <fieldset className="space-y-3">
-        <legend className="text-sm text-ink">
+        <legend className="text-sm text-bridge-text">
           {copy.systemsLabel}{" "}
-          <span className="font-normal text-muted">({copy.optional})</span>
+          <span className="font-normal text-bridge-dim">({copy.optional})</span>
         </legend>
         <div className="flex flex-wrap gap-2">
           {SYSTEM_KEYS.map((key) => {
@@ -196,10 +196,10 @@ export function PlansRequestForm({
               <label
                 key={key}
                 className={cn(
-                  "cursor-pointer border px-3 py-1.5 text-sm",
+                  "cursor-pointer rounded-2xl border px-3 py-1.5 text-sm",
                   checked
                     ? "border-orange text-orange"
-                    : "border-stroke text-muted hover:text-ink",
+                    : "border-bridge-line text-bridge-dim hover:text-bridge-text",
                 )}
               >
                 <input
@@ -218,7 +218,7 @@ export function PlansRequestForm({
       </fieldset>
 
       <div className="space-y-2">
-        <label htmlFor="plans-requirement" className="block text-sm text-ink">
+        <label htmlFor="plans-requirement" className="block text-sm text-bridge-text">
           {copy.requirementLabel}
         </label>
         <select
@@ -230,7 +230,7 @@ export function PlansRequestForm({
             setErrors((current) => ({ ...current, requirement: undefined }));
           }}
           aria-invalid={Boolean(errors.requirement)}
-          className={cn(fieldClass, errors.requirement ? "border-crit" : "border-stroke")}
+          className={cn(fieldClass, errors.requirement && "border-crit")}
         >
           <option value=""></option>
           {REQUIREMENT_KEYS.map((key) => (
@@ -246,7 +246,7 @@ export function PlansRequestForm({
 
       <div className="grid gap-6 sm:grid-cols-2">
         <div className="space-y-2">
-          <label htmlFor="plans-name" className="block text-sm text-ink">
+          <label htmlFor="plans-name" className="block text-sm text-bridge-text">
             {copy.name}
           </label>
           <input
@@ -260,14 +260,14 @@ export function PlansRequestForm({
               setErrors((current) => ({ ...current, name: undefined }));
             }}
             aria-invalid={Boolean(errors.name)}
-            className={cn(fieldClass, errors.name ? "border-crit" : "border-stroke")}
+            className={cn(fieldClass, errors.name && "border-crit")}
           />
           {errors.name ? <p className="text-sm text-crit">{errors.name}</p> : null}
         </div>
         <div className="space-y-2">
-          <label htmlFor="plans-company" className="block text-sm text-ink">
+          <label htmlFor="plans-company" className="block text-sm text-bridge-text">
             {copy.company}{" "}
-            <span className="text-muted">({copy.optional})</span>
+            <span className="text-bridge-dim">({copy.optional})</span>
           </label>
           <input
             id="plans-company"
@@ -280,7 +280,7 @@ export function PlansRequestForm({
           />
         </div>
         <div className="space-y-2">
-          <label htmlFor="plans-email" className="block text-sm text-ink">
+          <label htmlFor="plans-email" className="block text-sm text-bridge-text">
             {copy.email}
           </label>
           <input
@@ -294,14 +294,14 @@ export function PlansRequestForm({
               setErrors((current) => ({ ...current, email: undefined }));
             }}
             aria-invalid={Boolean(errors.email)}
-            className={cn(fieldClass, errors.email ? "border-crit" : "border-stroke")}
+            className={cn(fieldClass, errors.email && "border-crit")}
           />
           {errors.email ? <p className="text-sm text-crit">{errors.email}</p> : null}
         </div>
         <div className="space-y-2">
-          <label htmlFor="plans-phone" className="block text-sm text-ink">
+          <label htmlFor="plans-phone" className="block text-sm text-bridge-text">
             {copy.phone}{" "}
-            <span className="text-muted">({copy.optional})</span>
+            <span className="text-bridge-dim">({copy.optional})</span>
           </label>
           <input
             id="plans-phone"
@@ -325,7 +325,7 @@ export function PlansRequestForm({
         type="submit"
         data-testid="request-configuration"
         disabled={busy}
-        className="bg-orange px-4 py-2.5 text-sm font-medium text-white hover:bg-orange/90 disabled:opacity-60"
+        className="inline-flex items-center justify-center rounded-2xl border border-orange/40 bg-orange/10 px-4 py-2.5 font-body text-sm font-semibold text-orange hover:bg-orange/15 disabled:opacity-60"
       >
         {busy ? copy.sending : copy.submit}
       </button>

@@ -1,7 +1,6 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
-import { ACCENT_BAR, type AccentName } from "@/lib/container-accents";
 import type { ContainerFigure as ContainerFigureImage } from "@/lib/container-gallery";
 
 export function ContainerFigure({
@@ -9,7 +8,6 @@ export function ContainerFigure({
   caption,
   priority = false,
   bleed = false,
-  accent,
   className,
   sizes,
 }: {
@@ -17,19 +15,17 @@ export function ContainerFigure({
   caption?: ReactNode;
   priority?: boolean;
   bleed?: boolean;
-  accent?: AccentName;
   className?: string;
   sizes?: string;
 }) {
   return (
     <figure
       className={cn(
-        "overflow-hidden border-stroke bg-navy",
-        bleed ? "border-y" : "border",
+        "overflow-hidden border-bridge-line bg-bridge-panel shadow-[0_10px_28px_rgb(15_25_34/0.08)]",
+        bleed ? "border-y" : "rounded-2xl border",
         className,
       )}
     >
-      {accent ? <div className={cn("h-1 w-full", ACCENT_BAR[accent])} /> : null}
       <Image
         src={image.src}
         alt={image.alt}
@@ -42,8 +38,8 @@ export function ContainerFigure({
       {caption ? (
         <figcaption
           className={cn(
-            "border-t border-stroke bg-page text-sm leading-relaxed text-muted",
-            bleed ? "mx-auto max-w-6xl px-4 py-3 md:px-6" : "px-4 py-3",
+            "border-t border-bridge-line bg-bridge-panel font-body text-sm leading-relaxed text-bridge-dim",
+            bleed ? "mx-auto max-w-6xl px-4 py-3 md:px-6" : "px-5 py-4",
           )}
         >
           {caption}

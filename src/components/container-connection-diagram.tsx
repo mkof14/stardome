@@ -138,7 +138,7 @@ export function ContainerConnectionDiagram() {
           />
         </svg>
       </div>
-      <figcaption className="max-w-3xl text-sm leading-relaxed text-muted">
+      <figcaption className="max-w-3xl font-body text-sm leading-relaxed text-bridge-dim">
         The container provides the hardware. StarWall provides the intelligence.
         Together they give the operator one clear picture and a fast decision.
       </figcaption>

@@ -24,7 +24,7 @@ export function ContainersDetectionView() {
             value: row.spec,
           }))}
         />
-        <p className="text-sm text-muted">
+        <p className="font-body text-sm text-bridge-dim">
           {t.containers.detectionNote}{" "}
           <Link href="/how-it-works" className="text-orange hover:underline">
             <RtlAwareLabel text={t.containers.howLink} />

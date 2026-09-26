@@ -40,13 +40,13 @@ export function ForgotPasswordView() {
               autoComplete="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="mt-1 w-full border-b border-stroke bg-transparent px-0 py-2 text-ink outline-none focus:border-orange"
+              className="mt-1 w-full rounded-2xl border border-bridge-line bg-bridge-panel px-4 py-2.5 text-bridge-text outline-none focus:border-orange"
             />
           </label>
           <button
             type="submit"
             data-testid="forgot-submit"
-            className="mt-5 w-full bg-orange px-3 py-2.5 font-ui text-sm font-medium text-white hover:bg-orange/90"
+            className="mt-5 w-full rounded-2xl border border-orange/40 bg-orange/10 px-3 py-2.5 font-body text-sm font-semibold text-orange hover:bg-orange/15"
           >
             {t.auth.forgotSubmit}
           </button>

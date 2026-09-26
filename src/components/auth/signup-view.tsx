@@ -134,7 +134,7 @@ export function SignupView({ google = false }: { google?: boolean }) {
           type="submit"
           data-testid="signup-submit"
           disabled={busy}
-          className="mt-5 w-full bg-orange px-3 py-2.5 font-ui text-sm font-medium text-white hover:bg-orange/90 disabled:opacity-60"
+          className="mt-5 w-full rounded-2xl border border-orange/40 bg-orange/10 px-3 py-2.5 font-body text-sm font-semibold text-orange hover:bg-orange/15 disabled:opacity-60"
         >
           {busy ? t.auth.creatingAccount : t.auth.signUpAction}
         </button>
@@ -191,7 +191,7 @@ function Field({
         value={value}
         autoComplete={autoComplete}
         onChange={(event) => onChange(event.target.value)}
-        className="mt-1 w-full border-b border-stroke bg-transparent px-0 py-2 text-ink outline-none focus:border-orange"
+        className="mt-1 w-full rounded-2xl border border-bridge-line bg-bridge-panel px-4 py-2.5 text-bridge-text outline-none focus:border-orange"
       />
     </label>
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import { ContactForm } from "@/components/contact-form";
-import { PageBody, PageHero, PageShell } from "@/components/page-chrome";
+import { PageBody, PageHero, PageShell, WatchPanel } from "@/components/page-chrome";
 import { usePreferences } from "@/lib/i18n/context";
 import { quoteFromSearch, type PricingSelection } from "@/lib/pricing";
 
@@ -46,9 +46,9 @@ export function ContactView({
     <PageShell>
       <PageHero kicker={t.contact.kicker} title={t.contact.title} lead={t.contact.lead} />
       <PageBody>
-        <div className="max-w-3xl">
+        <WatchPanel className="max-w-3xl">
           <ContactForm initialMessage={initialMessage} />
-        </div>
+        </WatchPanel>
       </PageBody>
     </PageShell>
   );

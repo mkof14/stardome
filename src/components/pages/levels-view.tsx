@@ -44,7 +44,7 @@ export function LevelsView() {
           </NumberedGrid>
         </section>
 
-        <p className="max-w-3xl text-sm leading-relaxed text-muted">{t.levels.mapNote}</p>
+        <p className="max-w-3xl font-body text-sm leading-relaxed text-bridge-dim">{t.levels.mapNote}</p>
         <p className="max-w-3xl text-sm leading-relaxed">
           <Link
             href="/pricing"
@@ -55,7 +55,7 @@ export function LevelsView() {
         </p>
 
         <section aria-labelledby="honesty-heading">
-          <p className="text-sm italic text-muted">{t.levels.honesty}</p>
+          <p className="font-body text-sm italic text-bridge-dim">{t.levels.honesty}</p>
           <h2 id="honesty-heading" className="sr-only">
             {t.levels.honestySr}
           </h2>

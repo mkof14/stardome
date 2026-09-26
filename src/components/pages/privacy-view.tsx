@@ -16,8 +16,8 @@ export function PrivacyView({
 
   const privacyBlock = (
     <>
-      <p className="text-sm italic text-muted">{legal.privacyUpdated}</p>
-      <p className="mt-4 max-w-3xl text-[1.02rem] leading-[1.7] text-muted">
+      <p className="font-body text-sm italic text-bridge-dim">{legal.privacyUpdated}</p>
+      <p className="mt-4 max-w-3xl font-body text-[1.02rem] leading-relaxed text-bridge-dim">
         {legal.privacyIntro}
       </p>
       <RuleList>
@@ -30,8 +30,8 @@ export function PrivacyView({
 
   const termsBlock = (
     <>
-      <p className="text-sm italic text-muted">{legal.termsUpdated}</p>
-      <p className="mt-4 max-w-3xl text-[1.02rem] leading-[1.7] text-muted">
+      <p className="font-body text-sm italic text-bridge-dim">{legal.termsUpdated}</p>
+      <p className="mt-4 max-w-3xl font-body text-[1.02rem] leading-relaxed text-bridge-dim">
         {legal.termsIntro}
       </p>
       <RuleList>
@@ -45,20 +45,20 @@ export function PrivacyView({
   if (framed) {
     return (
       <div className="space-y-10 text-bridge-text">
-        <h1 className="font-heading text-3xl font-bold">
+        <h1 className="font-ui text-3xl font-bold tracking-tight">
           {termsFirst ? legal.termsTitle : legal.privacyTitle}
         </h1>
         {termsFirst ? (
           <>
             <div id="terms">{termsBlock}</div>
-            <h2 className="font-heading text-3xl font-bold">{legal.privacyTitle}</h2>
+            <h2 className="font-ui text-3xl font-bold tracking-tight">{legal.privacyTitle}</h2>
             {privacyBlock}
           </>
         ) : (
           <>
             {privacyBlock}
             <section id="terms" className="space-y-6">
-              <h2 className="font-heading text-3xl font-bold">{legal.termsTitle}</h2>
+              <h2 className="font-ui text-3xl font-bold tracking-tight">{legal.termsTitle}</h2>
               {termsBlock}
             </section>
           </>
@@ -80,7 +80,7 @@ export function PrivacyView({
               {termsBlock}
             </div>
             <section className="space-y-6">
-              <h2 className="font-heading text-3xl font-bold text-ink">{legal.privacyTitle}</h2>
+              <h2 className="font-ui text-3xl font-bold tracking-tight text-bridge-text">{legal.privacyTitle}</h2>
               {privacyBlock}
             </section>
           </>
@@ -88,7 +88,7 @@ export function PrivacyView({
           <>
             <div className="space-y-6">{privacyBlock}</div>
             <section id="terms" className="space-y-6">
-              <h2 className="font-heading text-3xl font-bold text-ink">{legal.termsTitle}</h2>
+              <h2 className="font-ui text-3xl font-bold tracking-tight text-bridge-text">{legal.termsTitle}</h2>
               {termsBlock}
             </section>
           </>

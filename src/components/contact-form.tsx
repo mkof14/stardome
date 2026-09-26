@@ -95,19 +95,19 @@ export function ContactForm({ initialMessage = "" }: { initialMessage?: string }
 
   if (sent) {
     return (
-      <p className="border-s-2 border-orange ps-4 text-base leading-relaxed text-ink" role="status">
+      <p className="border-s-2 border-orange ps-4 font-body text-base leading-relaxed text-bridge-text" role="status">
         {t.contact.success}
       </p>
     );
   }
 
   const fieldClass =
-    "w-full border-b border-stroke bg-transparent px-0 py-2 text-ink outline-none focus:border-orange";
+    "w-full rounded-2xl border border-bridge-line bg-bridge-bg px-4 py-2.5 text-bridge-text outline-none focus:border-orange";
 
   return (
     <form onSubmit={onSubmit} className="space-y-5" noValidate>
       <div className="space-y-2">
-        <label htmlFor="contact-name" className="block text-sm text-ink">
+        <label htmlFor="contact-name" className="block text-sm text-bridge-text">
           {t.contact.name}
         </label>
         <input
@@ -119,7 +119,7 @@ export function ContactForm({ initialMessage = "" }: { initialMessage?: string }
           onChange={(event) => setField("name", event.target.value)}
           aria-invalid={Boolean(errors.name)}
           aria-describedby={errors.name ? "contact-name-error" : undefined}
-          className={`${fieldClass} ${errors.name ? "border-crit" : "border-stroke"}`}
+          className={`${fieldClass} ${errors.name ? "border-crit" : ""}`}
         />
         {errors.name ? (
           <p id="contact-name-error" className="text-sm text-crit">
@@ -129,9 +129,9 @@ export function ContactForm({ initialMessage = "" }: { initialMessage?: string }
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="contact-organization" className="block text-sm text-ink">
+        <label htmlFor="contact-organization" className="block text-sm text-bridge-text">
           {t.contact.organization}{" "}
-          <span className="text-muted">({t.contact.optional})</span>
+          <span className="text-bridge-dim">({t.contact.optional})</span>
         </label>
         <input
           id="contact-organization"
@@ -140,12 +140,12 @@ export function ContactForm({ initialMessage = "" }: { initialMessage?: string }
           autoComplete="organization"
           value={values.organization}
           onChange={(event) => setField("organization", event.target.value)}
-          className={`${fieldClass} border-stroke`}
+          className={fieldClass}
         />
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="contact-email" className="block text-sm text-ink">
+        <label htmlFor="contact-email" className="block text-sm text-bridge-text">
           {t.contact.email}
         </label>
         <input
@@ -157,7 +157,7 @@ export function ContactForm({ initialMessage = "" }: { initialMessage?: string }
           onChange={(event) => setField("email", event.target.value)}
           aria-invalid={Boolean(errors.email)}
           aria-describedby={errors.email ? "contact-email-error" : undefined}
-          className={`${fieldClass} ${errors.email ? "border-crit" : "border-stroke"}`}
+          className={`${fieldClass} ${errors.email ? "border-crit" : ""}`}
         />
         {errors.email ? (
           <p id="contact-email-error" className="text-sm text-crit">
@@ -167,7 +167,7 @@ export function ContactForm({ initialMessage = "" }: { initialMessage?: string }
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="contact-asset" className="block text-sm text-ink">
+        <label htmlFor="contact-asset" className="block text-sm text-bridge-text">
           {t.contact.assetType}
         </label>
         <select
@@ -177,7 +177,7 @@ export function ContactForm({ initialMessage = "" }: { initialMessage?: string }
           onChange={(event) => setField("asset", event.target.value)}
           aria-invalid={Boolean(errors.asset)}
           aria-describedby={errors.asset ? "contact-asset-error" : undefined}
-          className={`${fieldClass} ${errors.asset ? "border-crit" : "border-stroke"}`}
+          className={`${fieldClass} ${errors.asset ? "border-crit" : ""}`}
         >
           <option value="">{t.contact.assetSelect}</option>
           {ASSET_KEYS.map((key, index) => (
@@ -194,7 +194,7 @@ export function ContactForm({ initialMessage = "" }: { initialMessage?: string }
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="contact-message" className="block text-sm text-ink">
+        <label htmlFor="contact-message" className="block text-sm text-bridge-text">
           {t.contact.message}
         </label>
         <textarea
@@ -207,7 +207,7 @@ export function ContactForm({ initialMessage = "" }: { initialMessage?: string }
           onChange={(event) => setField("message", event.target.value)}
           aria-invalid={Boolean(errors.message)}
           aria-describedby={errors.message ? "contact-message-error" : undefined}
-          className={`${fieldClass} ${errors.message ? "border-crit" : "border-stroke"}`}
+          className={`${fieldClass} ${errors.message ? "border-crit" : ""}`}
         />
         {errors.message ? (
           <p id="contact-message-error" className="text-sm text-crit">
@@ -225,7 +225,7 @@ export function ContactForm({ initialMessage = "" }: { initialMessage?: string }
       <button
         type="submit"
         disabled={busy}
-        className="bg-orange px-4 py-2.5 text-sm font-medium text-white hover:bg-orange/90 disabled:opacity-60"
+        className="inline-flex items-center justify-center rounded-2xl border border-orange/40 bg-orange/10 px-4 py-2.5 font-body text-sm font-semibold text-orange hover:bg-orange/15 disabled:opacity-60"
       >
         {busy ? t.contact.sending : t.contact.send}
       </button>

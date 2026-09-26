@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import {
   OrangeRail,
   PageBody,
@@ -8,7 +7,9 @@ import {
   PageShell,
   RuleList,
   RuleRow,
+  SectionLead,
   SectionTitle,
+  WatchButton,
 } from "@/components/page-chrome";
 import { usePreferences } from "@/lib/i18n/context";
 
@@ -31,17 +32,13 @@ export function AboutView() {
 
         <section aria-labelledby="team-heading">
           <SectionTitle id="team-heading">{copy.teamTitle}</SectionTitle>
-          <p className="mt-4 max-w-2xl text-[1.02rem] leading-[1.7] text-muted">
-            {copy.teamBody}
-          </p>
-          <p className="mt-4 max-w-2xl text-[1.02rem] leading-[1.7] text-ink/80">
-            {copy.teamField}
-          </p>
+          <SectionLead>{copy.teamBody}</SectionLead>
+          <SectionLead className="text-bridge-text">{copy.teamField}</SectionLead>
           <OrangeRail className="mt-6 space-y-4">
             {copy.teamPoints.map((item) => (
               <div key={item.title}>
-                <p className="font-heading text-lg font-semibold text-ink">{item.title}</p>
-                <p className="mt-1 text-sm leading-relaxed text-muted">{item.body}</p>
+                <p className="font-ui text-lg font-bold text-bridge-text">{item.title}</p>
+                <p className="mt-1 text-sm leading-relaxed text-bridge-dim">{item.body}</p>
               </div>
             ))}
           </OrangeRail>
@@ -49,7 +46,7 @@ export function AboutView() {
 
         <section aria-labelledby="agron-heading">
           <SectionTitle id="agron-heading">{copy.agronTitle}</SectionTitle>
-          <p className="mt-4 max-w-2xl text-[1.02rem] leading-[1.7] text-muted">
+          <p className="mt-4 max-w-2xl font-body text-[1.02rem] leading-relaxed text-bridge-dim">
             {copy.agronBefore}
             <a
               href="https://star-wall.com"
@@ -61,7 +58,7 @@ export function AboutView() {
             </a>
             {copy.agronAfter}
           </p>
-          <p className="mt-4 max-w-2xl text-[1.02rem] leading-[1.7] text-ink/80">
+          <p className="mt-4 max-w-2xl font-body text-[1.02rem] leading-relaxed text-bridge-text">
             {copy.agronTeam}
           </p>
         </section>
@@ -70,12 +67,7 @@ export function AboutView() {
           <OrangeRail>
             <p>{copy.todayCta}</p>
           </OrangeRail>
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center bg-orange px-4 py-2.5 text-sm font-medium text-white hover:bg-orange/90"
-          >
-            {copy.contactCta}
-          </Link>
+          <WatchButton href="/contact">{copy.contactCta}</WatchButton>
         </section>
       </PageBody>
     </PageShell>
