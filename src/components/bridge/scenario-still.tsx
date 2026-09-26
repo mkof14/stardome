@@ -36,7 +36,7 @@ export function ScenarioStill({ file }: ScenarioStillProps) {
       <Image
         src={src}
         alt=""
-        unoptimized
+        sizes="(min-width: 1024px) 48rem, 100vw"
         className="relative z-[1] h-auto w-full object-cover object-top"
       />
     </HudFrame>

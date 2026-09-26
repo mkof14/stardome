@@ -7,6 +7,8 @@ const nextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 60 * 60 * 24 * 30,
+    deviceSizes: [640, 750, 828, 1080, 1200, 1600, 1920],
+    imageSizes: [32, 48, 64, 96, 128, 180, 220, 256, 384],
   },
   experimental: {
     optimizePackageImports: ["framer-motion"],
@@ -48,12 +50,15 @@ const nextConfig = {
           { key: "X-Frame-Options", value: "SAMEORIGIN" },
           {
             key: "Permissions-Policy",
-            value: "camera=(), geolocation=(), microphone=(self)",
+            value:
+              "camera=(), geolocation=(), microphone=(self), payment=(), usb=(), interest-cohort=()",
           },
+          { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+          { key: "X-DNS-Prefetch-Control", value: "on" },
         ],
       },
       {
-        source: "/:file(SD_Logo1.png|SD_Logo1.webp|SW3.png|starwall-logo.webp|starwall-logo.avif|favicon.ico|favicon-16.png|favicon-32.png|apple-touch-icon.png)",
+        source: "/:file(SD_Logo1.png|SD_Logo1.webp|SW3.png|starwall-logo.webp|starwall-logo.avif|favicon.ico|favicon-16.png|favicon-32.png|apple-touch-icon.png|icon-192.png|icon-512.png|site.webmanifest)",
         headers: [
           {
             key: "Cache-Control",
@@ -62,7 +67,7 @@ const nextConfig = {
         ],
       },
       {
-        source: "/:file(og-starwall.jpg|opengraph-image.jpg)",
+        source: "/:file(og-stardome.jpg|og-starwall.jpg|opengraph-image.jpg)",
         headers: [
           {
             key: "Cache-Control",

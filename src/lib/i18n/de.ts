@@ -49,7 +49,7 @@ export const de: Messages = {
     containersCountermeasures: "Gegenmaßnahmen — StarDome Containers",
     containersTiers: "Stufen — StarDome Containers",
     containersDeployment: "Einsatz — StarDome Containers",
-    about: "Warum StarDome",
+    about: "Wer steht hinter StarDome",
     contact: "Kontakt — StarDome",
     backend: "Backend — Systemverwaltung — StarDome",
     connections: "Verbindungskarte — StarDome",
@@ -378,11 +378,11 @@ export const de: Messages = {
       "Der StarDome 1 ist das Arbeitslagebild, keine Folie. Das sind die Teile, die heute auf /interface gebaut sind — einschließlich eines ehrlichen LIVE, wenn noch nichts angeschlossen ist.",
     interfaceCta: "StarDome 1 öffnen",
     interfacePoints: [
-      { title: "Situational Picture", body: "Eine Karte der Kontakte aus den Quellen des Bildes — Radar, Kameras, AIS und der Rest — statt eines Stapels getrennter Schirme." },
+      { title: "Lagebild", body: "Eine Karte der Kontakte aus den Quellen des Bildes — Radar, Kameras, AIS und der Rest — statt eines Stapels getrennter Schirme." },
       { title: "Risikostufe", body: "Normal, Attention, Elevated, Critical. Der Grund für eine Änderung bleibt sichtbar, nicht hinter einer Farbe versteckt." },
       { title: "Empfohlene Handlung", body: "Ein geordneter nächster Schritt für die Wache. Nur Rat. Der Mensch entscheidet." },
       { title: "Ereignisprotokoll", body: "Eine zeitliche Aufzeichnung dessen, was das Bild gemeldet hat, bleibt nach dem Schließen einer Alarmierung." },
-      { title: "Jump rail", body: "Direkt zwischen Bild, Risiko, Systemen, Protokoll, Lernen, Black Box, Pilot und der Verbindungskarte wechseln." },
+      { title: "Sprungleiste", body: "Direkt zwischen Bild, Risiko, Systemen, Protokoll, Lernen, Black Box, Pilot und der Verbindungskarte wechseln." },
       { title: "DEMO und LIVE", body: "DEMO ist die volle simulierte Wache, um das Layout zu lernen. LIVE ist dieser Einsatz, wie er ist: leer, bis Ausrüstung steht." },
       { title: "Adaptive Learning", body: "Ein Objektprofil, das mit der Zeit wachsen kann. Keine erfundenen Werte. LIVE bleibt leer ohne echte Historie." },
       { title: "Black Box, Karte, Pilot", body: "Sitzungsaufzeichnungen in der Black Box, Topologie von Sensoren zu Kern und StarDome 1, und Pilot — der Wachberater." },
@@ -917,7 +917,7 @@ export const de: Messages = {
   },
   about: {
     kicker: "Über uns",
-    title: "Warum StarDome",
+    title: "Wer steht hinter StarDome",
     lead:
       "StarDome baut Intelligenz- und Integrationssysteme für maritime und physische Sicherheit. StarWall ist die Schicht, die die Ausrüstung auf einer Yacht, in einer Marina, einem Hafen oder auf einer Privatinsel — Radar, Kameras, Navigation, Sensoren jedes Herstellers — zu einem Lagebild und einem klaren nächsten Schritt für die Person verbindet, die das Kommando hat.",
     beliefsTitle: "Wofür wir stehen",

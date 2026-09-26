@@ -714,7 +714,7 @@ export const en: Messages = {
     containersCountermeasures: "Countermeasures — StarDome Containers",
     containersTiers: "Tiers — StarDome Containers",
     containersDeployment: "Deployment — StarDome Containers",
-    about: "Why StarDome",
+    about: "Who is behind StarDome",
     contact: "Contact — StarDome",
     backend: "Backend — System administration — StarDome",
     connections: "System Connections Map — StarDome",

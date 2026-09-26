@@ -49,7 +49,7 @@ export const ru: Messages = {
     containersCountermeasures: "Средства противодействия — StarDome Containers",
     containersTiers: "Уровни — StarDome Containers",
     containersDeployment: "Развёртывание — StarDome Containers",
-    about: "Почему StarDome",
+    about: "Кто за StarDome",
     contact: "Контакт — StarDome",
     backend: "Backend — системное администрирование — StarDome",
     connections: "Карта соединений — StarDome",
@@ -415,7 +415,7 @@ export const ru: Messages = {
     interfaceCta: "Открыть StarDome 1",
     interfacePoints: [
       {
-        title: "Situational Picture",
+        title: "Картина обстановки",
         body: "Контакты с тех лент, которые реально в картине, на одной карте. Радар, камеры, AIS, что ещё подключено.",
       },
       {
@@ -431,7 +431,7 @@ export const ru: Messages = {
         body: "Что показала картина, по времени. Закрыли тревогу — строка не выкидывается.",
       },
       {
-        title: "Jump rail",
+        title: "Полоска переходов",
         body: "Полоска слева. Картина, риск, системы, журнал, обучение, Black Box, Pilot, карта соединений.",
       },
       {
@@ -439,7 +439,7 @@ export const ru: Messages = {
         body: "DEMO — полное учение. LIVE — эта установка как есть. Пустой LIVE — не баг.",
       },
       {
-        title: "Adaptive learning",
+        title: "Адаптивное обучение",
         body: "Профиль объекта, который может обрасти днями на этом корпусе или объекте. Без липовых баллов. В LIVE нет истории, пока её нет.",
       },
       {

@@ -2,7 +2,7 @@
 
 Scaffold for the StarWall marketing and product site — a maritime security intelligence product.
 
-**Names.** StarWall is the security system and the platform. **StarDome 1** is the official name of the program — this version of the watch software and the code behind it. Later major versions will be StarDome 2, and so on. StarDome Inc. is the company. StarDome Container is the hardware box. Pilot is the watch advisor. The site mark is the StarDome wordmark (`SD_Logo1.png`).
+**Names.** StarWall is the security system and the platform. **AGRON 1** is the official name of the watch program. StarDome Inc. is the company. StarDome Container is the hardware box. Pilot is the watch advisor. The site mark is the StarDome wordmark (`SD_Logo1.png`).
 
 ## Stack
 
@@ -71,7 +71,7 @@ Without a key, Demo still uses two Edge Neural voices (no account) in every Star
 | 日本語 | Keita | Daichi |
 | עברית | Avri | Brian multilingual | Azure (`AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION`) and OpenAI (`OPENAI_API_KEY`, `onyx` / `echo`) are optional fallbacks. If neural speech is down, Pilot falls back to a male browser voice when one is installed, then types. Listening uses Web Speech Recognition in Chrome or Edge after the microphone is allowed. Copy `.env.local.example` to `.env.local` and set `ANTHROPIC_API_KEY` for richer spoken answers. `.env*.local` is gitignored. Without the key Pilot still answers from the on-site briefing — it does not invent prices.
 
-`NEXT_PUBLIC_SITE_URL` is used for canonical metadata, Open Graph, `robots.txt`, and `sitemap.xml`. Locally it defaults to `http://127.0.0.1:3000`. On Vercel it falls back to `https://$VERCEL_URL` if you leave it blank.
+`NEXT_PUBLIC_SITE_URL` is used for canonical metadata, Open Graph, `robots.txt`, and `sitemap.xml`. Set it to `https://star-wall.com` in Vercel Production so shared links resolve the StarDome wordmark on the real host. Locally it defaults to `http://127.0.0.1:3000`. If it is blank on Vercel it falls back to `https://$VERCEL_URL`.
 
 ## PDF overview
 
@@ -119,7 +119,7 @@ Shared sticky header and footer wrap every route via the root layout. The header
 
 ## Brand, theme, and language
 
-The site logo is the chrome StarDome wordmark. Pages load `public/SD_Logo1.webp`; `public/SD_Logo1.png` is the official PNG (also used in proposal PDFs). Favicon and Apple touch icons use the star from the D. Social previews use `public/og-starwall.jpg`. Rebuild optimized assets with `node scripts/optimize-logo.mjs <source.png>`. Do not recreate the wordmark.
+The site logo is the chrome StarDome wordmark. Pages load `public/SD_Logo1.webp`; `public/SD_Logo1.png` is the official PNG (also used in proposal PDFs). Favicon and Apple touch icons use the star from the D. Shared links use `public/og-stardome.jpg` (1200×630, full wordmark on navy). Rebuild share assets with `npm run logo:share`. Do not recreate the wordmark.
 
 Header and footer include a sun/moon theme switch (light/dark, stored in the browser) and a ten-language menu: English, Spanish, French, German, Russian, Ukrainian, Arabic, Chinese, Japanese, Hebrew. The choice is stored in `localStorage` (`starwall-locale`) and survives navigation. Arabic and Hebrew set `dir="rtl"`; Arabic also loads Noto Sans Arabic for body and headings.
 
@@ -171,6 +171,8 @@ This is a standard Next.js 14 App Router app. Do **not** set `output: "standalon
 - Google sign-in stays hidden until both `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are set.
 - `ANTHROPIC_API_KEY` — richer Pilot answers. Without it Pilot still replies from the product briefing.
 - Male neural speech for Pilot needs no key (Edge online voices). Optional: `ELEVENLABS_API_KEY` plus `ELEVENLABS_PILOT_VOICE_ID` / `ELEVENLABS_OFFICER_VOICE_ID` (defaults Adam + Josh), `AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION`, or `OPENAI_API_KEY` (voices `onyx` / `echo`).
+- Shared-link previews use `/og-stardome.jpg` (full StarDome wordmark). Set `NEXT_PUBLIC_SITE_URL` on Production so Slack/iMessage resolve that file on `https://star-wall.com`.
+- Do not invent a new Vercel project. Connect the existing GitHub repo, leave Framework Preset as Next.js, region `iad1`.
 
 Optional, after the first green deploy:
 

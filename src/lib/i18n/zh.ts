@@ -49,7 +49,7 @@ export const zh: Messages = {
     containersCountermeasures: "反制措施 — StarDome Containers",
     containersTiers: "层级 — StarDome Containers",
     containersDeployment: "部署 — StarDome Containers",
-    about: "为何选择 StarDome",
+    about: "谁站在 StarDome 背后",
     contact: "联系 — StarDome",
     backend: "Backend — 系统管理 — StarDome",
     connections: "系统连接图 — StarDome",
@@ -376,11 +376,11 @@ export const zh: Messages = {
       "StarDome 1 是工作态势，不是幻灯片。以下是今天已做进 /interface 的部分，包括尚未接入设备时诚实的 LIVE。",
     interfaceCta: "打开 StarDome 1",
     interfacePoints: [
-      { title: "Situational Picture", body: "把画面中的来源——雷达、摄像机、AIS 等——合成一张目标图，而不是一叠独立屏幕。" },
+      { title: "态势图", body: "把画面中的来源——雷达、摄像机、AIS 等——合成一张目标图，而不是一叠独立屏幕。" },
       { title: "风险等级", body: "Normal、Attention、Elevated、Critical。等级变化的原因可见，不藏在颜色后面。" },
       { title: "建议行动", body: "给值班人员排序后的下一步。仅是建议。仍由人决定。" },
       { title: "事件日志", body: "按时间记录画面所报内容，告警关闭后仍保留。" },
-      { title: "Jump rail", body: "在态势、风险、系统、日志、学习、Black Box、Pilot 与连接图之间直接跳转。" },
+      { title: "跳转栏", body: "在态势、风险、系统、日志、学习、Black Box、Pilot 与连接图之间直接跳转。" },
       { title: "DEMO 与 LIVE", body: "DEMO 是完整模拟值班，用来熟悉布局。LIVE 是本部署的真实状态：设备未装则空。" },
       { title: "Adaptive Learning", body: "可随时间增长的对象档案。没有编造分数。没有真实历史时 LIVE 保持为空。" },
       { title: "Black Box、地图、Pilot", body: "Black Box 中的会话记录、从传感器到核心再到 StarDome 1 的拓扑，以及可说可写的值班顾问 Pilot。" },
@@ -914,7 +914,7 @@ export const zh: Messages = {
   },
   about: {
     kicker: "关于",
-    title: "为何选择 StarDome",
+    title: "谁站在 StarDome 背后",
     lead:
       "StarDome 为海上与实体安全构建情报与集成系统。StarWall 把游艇、码头、港口或私人岛屿上的设备——雷达、摄像机、导航、任意厂商的传感器——连成同一幅态势，并给决策者一个明确的下一步。",
     beliefsTitle: "我们坚持什么",

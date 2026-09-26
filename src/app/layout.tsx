@@ -10,7 +10,7 @@ import {
   Noto_Sans_Hebrew,
   Space_Grotesk,
 } from "next/font/google";
-import { Helm } from "@/components/bridge/starwall-assistant";
+import { HelmMount } from "@/components/bridge/helm-mount";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { ThemeScript } from "@/components/theme-script";
@@ -93,6 +93,7 @@ export async function generateMetadata(): Promise<Metadata> {
         { url: "/favicon.ico", sizes: "any" },
         { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
         { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+        { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
       ],
       apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
       shortcut: "/favicon.ico",
@@ -106,7 +107,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: "StarDome",
       images: [
         {
-          url: "/og-starwall.jpg",
+          url: "/og-stardome.jpg",
           width: 1200,
           height: 630,
           alt: "StarDome",
@@ -119,8 +120,13 @@ export async function generateMetadata(): Promise<Metadata> {
       title: "StarDome — Maritime Security Intelligence",
       description:
         "Intelligence, integration, and decision support for yacht, marina, port, and private island security.",
-      images: ["/og-starwall.jpg"],
+      images: ["/og-stardome.jpg"],
     },
+    manifest: "/site.webmanifest",
+    themeColor: [
+      { media: "(prefers-color-scheme: dark)", color: "#00091c" },
+      { media: "(prefers-color-scheme: light)", color: "#f4efe4" },
+    ],
     robots: { index: true, follow: true },
   };
 }
@@ -149,7 +155,7 @@ export default function RootLayout({
                     <SiteHeader />
                     <main className="flex-1">{children}</main>
                     <SiteFooter />
-                    <Helm />
+                    <HelmMount />
                   </BlackBoxProvider>
                 </AgronViewProvider>
               </BridgeSessionProvider>

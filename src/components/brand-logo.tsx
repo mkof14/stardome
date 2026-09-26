@@ -21,7 +21,7 @@ export function BrandLogo({ className, priority = false }: BrandLogoProps) {
       alt="StarDome"
       width={STARWALL_MARK_W}
       height={STARWALL_MARK_H}
-      unoptimized
+      sizes="220px"
       priority={priority}
       className={cn(
         "w-auto shrink-0 object-contain object-left [filter:drop-shadow(0_0_0.7px_#041018)_drop-shadow(0_1px_2px_rgb(4_16_24/0.4))]",

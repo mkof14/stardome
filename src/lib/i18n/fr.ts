@@ -49,7 +49,7 @@ export const fr: Messages = {
     containersCountermeasures: "Contre-mesures — StarDome Containers",
     containersTiers: "Niveaux — StarDome Containers",
     containersDeployment: "Déploiement — StarDome Containers",
-    about: "Pourquoi StarDome",
+    about: "Qui est derrière StarDome",
     contact: "Contact — StarDome",
     backend: "Backend — administration système — StarDome",
     connections: "Carte des connexions — StarDome",
@@ -378,11 +378,11 @@ export const fr: Messages = {
       "Le StarDome 1 est le tableau de travail, pas une diapositive. Voici les parties déjà construites sur /interface, y compris un LIVE honnête quand rien n'est encore relié.",
     interfaceCta: "Ouvrir StarDome 1",
     interfacePoints: [
-      { title: "Situational Picture", body: "Une carte des contacts depuis les sources du tableau — radar, caméras, AIS et le reste — au lieu d'une pile d'écrans." },
+      { title: "Image de situation", body: "Une carte des contacts depuis les sources du tableau — radar, caméras, AIS et le reste — au lieu d'une pile d'écrans." },
       { title: "Niveau de risque", body: "Normal, Attention, Elevated, Critical. La raison d'un changement reste visible, pas cachée derrière une couleur." },
       { title: "Action recommandée", body: "Une prochaine étape classée pour la personne de quart. Conseil seulement. L'humain décide." },
       { title: "Journal d'événements", body: "Un enregistrement daté de ce que le tableau a reporté, conservé après clôture d'une alerte." },
-      { title: "Jump rail", body: "Aller droit entre tableau, risque, systèmes, journal, apprentissage, Black Box, Pilot et la carte des liaisons." },
+      { title: "Barre de saut", body: "Aller droit entre tableau, risque, systèmes, journal, apprentissage, Black Box, Pilot et la carte des liaisons." },
       { title: "DEMO et LIVE", body: "DEMO est le quart simulé complet pour apprendre la disposition. LIVE est ce déploiement tel quel : vide tant que l'équipement n'est pas installé." },
       { title: "Adaptive Learning", body: "Un profil d'objet qui peut grandir avec le temps. Pas de scores inventés. LIVE reste vide sans historique réel." },
       { title: "Black Box, carte, Pilot", body: "Enregistrements de session dans la Black Box, carte de topologie des capteurs vers le cœur et StarDome 1, et Pilot — le conseiller de quart." },
@@ -917,7 +917,7 @@ export const fr: Messages = {
   },
   about: {
     kicker: "À propos",
-    title: "Pourquoi StarDome",
+    title: "Qui est derrière StarDome",
     lead:
       "StarDome construit des systèmes d'intelligence et d'intégration pour la sécurité maritime et physique. StarWall est la couche qui relie les équipements d'un yacht, d'une marina, d'un port ou d'une île privée — radar, caméras, navigation, capteurs de tout fabricant — en une seule image et une prochaine étape claire pour la personne aux commandes.",
     beliefsTitle: "Ce que nous défendons",

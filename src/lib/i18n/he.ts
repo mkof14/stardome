@@ -49,7 +49,7 @@ export const he: Messages = {
     containersCountermeasures: "אמצעי נגד — StarDome Containers",
     containersTiers: "רמות — StarDome Containers",
     containersDeployment: "פריסה — StarDome Containers",
-    about: "למה StarDome",
+    about: "מי מאחורי StarDome",
     contact: "יצירת קשר — StarDome",
     backend: "Backend — ניהול מערכת — StarDome",
     connections: "מפת חיבורים — StarDome",
@@ -376,11 +376,11 @@ export const he: Messages = {
       "ה־StarDome 1 הוא תמונת העבודה, לא שקף. אלה החלקים שנבנו ב־/interface היום, כולל LIVE כנה כשעדיין לא מחובר דבר.",
     interfaceCta: "לפתוח את StarDome 1",
     interfacePoints: [
-      { title: "Situational Picture", body: "מפת מגעים אחת ממקורות התמונה — מכ״ם, מצלמות, AIS והשאר — במקום ערמת מסכים." },
+      { title: "תמונת מצב", body: "מפת מגעים אחת ממקורות התמונה — מכ״ם, מצלמות, AIS והשאר — במקום ערמת מסכים." },
       { title: "רמת סיכון", body: "Normal, Attention, Elevated, Critical. סיבת השינוי נראית, לא מוסתרת מאחורי צבע." },
       { title: "פעולה מומלצת", body: "צעד הבא מדורג למי שבמשמרת. עצה בלבד. האדם מחליט." },
       { title: "יומן אירועים", body: "רישום לפי זמן של מה שהתמונה דיווחה, נשמר אחרי סגירת התראה." },
-      { title: "Jump rail", body: "מעבר ישיר בין תמונה, סיכון, מערכות, יומן, למידה, Black Box, Pilot ומפת החיבורים." },
+      { title: "פס מעבר", body: "מעבר ישיר בין תמונה, סיכון, מערכות, יומן, למידה, Black Box, Pilot ומפת החיבורים." },
       { title: "DEMO ו־LIVE", body: "DEMO הוא משמרת מדומה מלאה ללמידת הפריסה. LIVE הוא הפריסה הזו כפי שהיא: ריק עד שמותקן ציוד." },
       { title: "Adaptive Learning", body: "פרופיל עצם שיכול לגדול עם הזמן. בלי ציונים בדויים. LIVE נשאר ריק בלי היסטוריה אמיתית." },
       { title: "Black Box, מפה, Pilot", body: "רשומות סשן ב־Black Box, מפת טופולוגיה מחיישנים לליבה ול־StarDome 1, ו־Pilot — יועץ המשמרת." },
@@ -915,7 +915,7 @@ export const he: Messages = {
   },
   about: {
     kicker: "אודות",
-    title: "למה StarDome",
+    title: "מי מאחורי StarDome",
     lead:
       "StarDome בונה מערכות מודיעין ואינטגרציה לביטחון ימי ופיזי. StarWall היא השכבה שמחברת את הציוד על יאכטה, מרינה, נמל או אי פרטי — מכ״ם, מצלמות, ניווט, חיישנים מכל יצרן — לתמונה אחת ולצעד הבא הברור למי שמקבל את ההחלטה.",
     beliefsTitle: "במה אנחנו עומדים",

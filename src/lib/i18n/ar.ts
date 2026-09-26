@@ -49,7 +49,7 @@ export const ar: Messages = {
     containersCountermeasures: "الإجراءات المضادة — StarDome Containers",
     containersTiers: "المستويات — StarDome Containers",
     containersDeployment: "النشر — StarDome Containers",
-    about: "لماذا StarDome",
+    about: "من وراء StarDome",
     contact: "تواصل — StarDome",
     backend: "Backend — إدارة النظام — StarDome",
     connections: "خريطة الاتصالات — StarDome",
@@ -378,11 +378,11 @@ export const ar: Messages = {
       "StarDome 1 هو صورة العمل، لا شريحة. هذه الأجزاء المبنية اليوم في /interface، بما في ذلك LIVE الصادق عندما لا يتصل شيء بعد.",
     interfaceCta: "فتح StarDome 1",
     interfacePoints: [
-      { title: "Situational Picture", body: "خريطة واحدة للجهات من مصادر الصورة — رادار وكاميرات وAIS والباقي — بدل كومة شاشات." },
+      { title: "صورة الموقف", body: "خريطة واحدة للجهات من مصادر الصورة — رادار وكاميرات وAIS والباقي — بدل كومة شاشات." },
       { title: "مستوى الخطر", body: "Normal وAttention وElevated وCritical. سبب التغيير يبقى ظاهرًا لا مخفيًا خلف لون." },
       { title: "الإجراء الموصى به", body: "خطوة تالية مرتبة لمن في النوبة. نصيحة فقط. الإنسان يقرر." },
       { title: "سجل الأحداث", body: "سجل زمني لما أبلغت عنه الصورة، يُحفظ بعد إغلاق التنبيه." },
-      { title: "Jump rail", body: "انتقال مباشر بين الصورة والخطر والأنظمة والسجل والتعلم وBlack Box وPilot وخريطة الاتصالات." },
+      { title: "شريط الانتقال", body: "انتقال مباشر بين الصورة والخطر والأنظمة والسجل والتعلم وBlack Box وPilot وخريطة الاتصالات." },
       { title: "DEMO وLIVE", body: "DEMO نوبة محاكاة كاملة لتعلم التخطيط. LIVE هذا النشر كما هو: فارغ إلى أن تُركَّب المعدات." },
       { title: "Adaptive Learning", body: "ملف كائن قد ينمو مع الوقت. بلا درجات مخترعة. LIVE يبقى فارغًا بلا تاريخ حقيقي." },
       { title: "Black Box والخريطة وPilot", body: "سجلات الجلسة في Black Box، وخريطة الطوبولوجيا من المستشعرات إلى النواة ثم StarDome 1، وPilot مستشار النوبة." },
@@ -917,7 +917,7 @@ export const ar: Messages = {
   },
   about: {
     kicker: "عن الشركة",
-    title: "لماذا StarDome",
+    title: "من وراء StarDome",
     lead:
       "تبني StarDome أنظمة الاستخبارات والتكامل للأمن البحري والمادي. StarWall هي الطبقة التي تربط المعدات على اليخت أو المرسى أو الميناء أو الجزيرة الخاصة — رادار وكاميرات وملاحة ومستشعرات من أي مصنع — في صورة واحدة وخطوة تالية واضحة لمن يتولى القرار.",
     beliefsTitle: "ما نؤمن به",

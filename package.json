@@ -11,6 +11,8 @@
     "test": "vitest run",
     "lint": "next lint && npm run lint:copy",
     "lint:copy": "node scripts/check-banned-terms.mjs",
+    "logo:share": "node scripts/optimize-logo.mjs --share",
+    "photos:recompress": "node scripts/recompress-photos.mjs",
     "capture:scenario": "node scripts/capture-scenario.js",
     "postinstall": "node scripts/prisma-generate.mjs",
     "db:generate": "node scripts/prisma-generate.mjs",

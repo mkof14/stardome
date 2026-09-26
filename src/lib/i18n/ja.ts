@@ -49,7 +49,7 @@ export const ja: Messages = {
     containersCountermeasures: "対抗手段 — StarDome Containers",
     containersTiers: "ティア — StarDome Containers",
     containersDeployment: "展開 — StarDome Containers",
-    about: "なぜ StarDome か",
+    about: "StarDome の背後にいるのは誰か",
     contact: "お問い合わせ — StarDome",
     backend: "Backend — システム管理 — StarDome",
     connections: "接続マップ — StarDome",
@@ -376,11 +376,11 @@ export const ja: Messages = {
       "StarDome 1 は作業用の絵であり、スライドではありません。/interface に今日入っている部分です。何もつながっていないときの正直な LIVE も含みます。",
     interfaceCta: "StarDome 1 を開く",
     interfacePoints: [
-      { title: "Situational Picture", body: "絵の中の源 — レーダー、カメラ、AIS など — からの物標を一枚の地図に。別画面の山ではありません。" },
+      { title: "状況図", body: "絵の中の源 — レーダー、カメラ、AIS など — からの物標を一枚の地図に。別画面の山ではありません。" },
       { title: "リスクレベル", body: "Normal、Attention、Elevated、Critical。変化の理由は色の後ろに隠れません。" },
       { title: "推奨アクション", body: "当直者への順位付きの次の一手。助言のみ。決めるのは人です。" },
       { title: "イベントログ", body: "絵が報じたことの時系列。警報を閉じたあとも残ります。" },
-      { title: "Jump rail", body: "絵、リスク、システム、ログ、学習、Black Box、Pilot、接続図の間を直接移ります。" },
+      { title: "ジャンプレール", body: "絵、リスク、システム、ログ、学習、Black Box、Pilot、接続図の間を直接移ります。" },
       { title: "DEMO と LIVE", body: "DEMO は配置を学ぶための完全な模擬当直です。LIVE はこの展開の実状で、装備がなければ空です。" },
       { title: "Adaptive Learning", body: "時間とともに育ちうる対象プロファイル。作った点数はありません。実履歴がなければ LIVE は空のままです。" },
       { title: "Black Box、地図、Pilot", body: "Black Box のセッション記録、センサーからコア、StarDome 1 への位相図、そして話せる当直アドバイザー Pilot。" },
@@ -915,7 +915,7 @@ export const ja: Messages = {
   },
   about: {
     kicker: "私たちについて",
-    title: "なぜ StarDome か",
+    title: "StarDome の背後にいるのは誰か",
     lead:
       "StarDome は海上および物理セキュリティ向けのインテリジェンスと統合システムを構築しています。StarWall は、ヨット、マリーナ、港、私有島の装備 — レーダー、カメラ、航行、どのメーカーのセンサーでも — を一枚の絵と、判断する人のための明確な次の一手につなぐ層です。",
     beliefsTitle: "私たちが守るもの",
