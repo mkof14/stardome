@@ -88,19 +88,22 @@ export function TrackSwitch({
   const copy = trackCopy(locale);
   if (tracks.length === 0) return null;
   return (
-    <div data-testid="track-switcher" className="flex flex-wrap items-center gap-1.5">
-      <p className="me-1 font-mono text-[11px] tracking-[0.16em] text-[#6a9a7c]">{copy.tracks}</p>
+    <div data-testid="track-switcher" className="flex flex-wrap items-center gap-2">
+      <p className="me-1 font-body text-sm font-semibold text-[#9ec9ae]">{copy.tracks}</p>
       {tracks.map((track, index) => {
         const hue = trackHue(track, index);
         const active = track.id === selectedId;
+        const no = track.trackNo ?? `T${String(index + 1).padStart(2, "0")}`;
         return (
           <button
             key={track.id}
             type="button"
-            data-testid={`track-switch-${track.trackNo ?? track.id}`}
+            data-testid={`track-switch-${no}`}
             aria-pressed={active}
+            aria-label={`${no} ${track.label}`}
+            title={track.object ?? track.name}
             onClick={() => onSelect(track.id)}
-            className="rounded-md border px-2 py-1 font-mono text-[12px] font-semibold tracking-wider"
+            className="inline-flex items-center gap-2 rounded-2xl border px-3 py-1.5 text-start"
             style={{
               color: hue,
               borderColor: hue,
@@ -108,7 +111,8 @@ export function TrackSwitch({
               boxShadow: active ? `0 0 0 1px ${hue}` : undefined,
             }}
           >
-            {track.trackNo ?? `T${String(index + 1).padStart(2, "0")}`}
+            <span className="font-mono text-[10px] tracking-wider opacity-70">{no}</span>
+            <span className="font-ui text-sm font-bold leading-tight">{track.label}</span>
           </button>
         );
       })}
@@ -149,8 +153,11 @@ export function TrackReadout({
         className="flex items-center justify-between gap-2 border-b px-3 py-2"
         style={{ borderColor: hue, background: trackTint(hue, 0.18) }}
       >
-        <p className="font-mono text-[11px] tracking-[0.2em]" style={{ color: hue }}>
-          {kind === "primary" ? copy.primary : copy.selected} {track.trackNo}
+        <p className="font-ui text-sm font-bold" style={{ color: hue }}>
+          {kind === "primary" ? copy.primary : copy.selected}
+          <span className="ms-2 font-mono text-[11px] tracking-wider opacity-80">
+            {track.trackNo}
+          </span>
         </p>
         <p
           className="rounded-md border px-2 py-0.5 font-mono text-[11px] tracking-[0.14em]"

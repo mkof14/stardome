@@ -173,7 +173,7 @@ function numbered(contacts: PictureContact[]): PictureContact[] {
 function headline(range: string, contacts: PictureContact[]) {
   const primary = contacts.find((item) => item.primary) ?? contacts.find((item) => item.tone !== "ok");
   const tag = primary ? ` · PRI ${primary.trackNo} ${primary.label}` : "";
-  return `${range} · ${contacts.length} TRACKS${tag}`;
+  return `${range} · ${contacts.length} ON PICTURE${tag}`;
 }
 
 const KESTREL = mark({
