@@ -136,13 +136,16 @@ describe("escapeSsml", () => {
 });
 
 describe("speech tone", () => {
-  it("speaks faster than the old slow watch voice", () => {
+  it("holds a measured captain voice, lower and firmer on warning", () => {
     const brief = speechProsody("brief");
     const warn = speechProsody("warn");
-    expect(brief.rate.startsWith("+")).toBe(true);
-    expect(brief.browserRate).toBeGreaterThan(1);
+    expect(brief.rate.startsWith("-")).toBe(true);
+    expect(brief.browserRate).toBeLessThan(1);
+    expect(brief.browserPitch).toBeLessThan(0.9);
     expect(warn.browserPitch).toBeLessThan(brief.browserPitch);
     expect(warn.volume).toContain("+");
+    expect(brief.style).toBe("narration-professional");
+    expect(warn.style).toBe("newscast");
     expect(speechToneFor("Posted to the watch net. Confirm the designated.")).toBe(
       "warn",
     );
@@ -154,15 +157,19 @@ describe("speech tone", () => {
     expect(speechToneFor("立即撤离。")).toBe("warn");
   });
 
-  it("marks warning commands in SSML with a stronger voice", () => {
+  it("marks warning commands in SSML with a stronger captain voice", () => {
     const warn = azureSsml("Confirm the designated has it.", "en", "warn");
-    const brief = azureSsml("Pilot on watch.", "en", "brief");
+    const brief = azureSsml("Pilot on watch. Instruments are quiet.", "en", "brief");
     expect(warn).toContain("emphasis");
-    expect(warn).toContain('rate="+12%"');
-    expect(warn).toContain("express-as");
-    expect(brief).toContain('rate="+20%"');
+    expect(warn).toContain('rate="+4%"');
+    expect(warn).toContain('style="newscast"');
+    expect(brief).toContain('rate="-6%"');
+    expect(brief).toContain("narration-professional");
+    expect(brief).toContain("break");
     expect(brief).not.toContain("emphasis");
+    expect(brief).not.toContain("customerservice");
     expect(warn).toContain("Confirm the designated has it.");
+    expect(warn).toContain("en-US-DavisNeural");
   });
 
   it("puts the officer on a second neural voice", () => {

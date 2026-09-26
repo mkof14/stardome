@@ -16,14 +16,14 @@ export const SPEAK_BCP47: Record<Locale, string> = {
 
 /** Locale-matched adult male neural voices (Azure / Edge short names). */
 export const MALE_NEURAL: Record<Locale, { voice: string; lang: string }> = {
-  en: { voice: "en-US-AndrewNeural", lang: "en-US" },
+  en: { voice: "en-US-DavisNeural", lang: "en-US" },
   es: { voice: "es-ES-AlvaroNeural", lang: "es-ES" },
   fr: { voice: "fr-FR-HenriNeural", lang: "fr-FR" },
   de: { voice: "de-DE-ConradNeural", lang: "de-DE" },
   ru: { voice: "ru-RU-DmitryNeural", lang: "ru-RU" },
   uk: { voice: "uk-UA-OstapNeural", lang: "uk-UA" },
   ar: { voice: "ar-SA-HamedNeural", lang: "ar-SA" },
-  zh: { voice: "zh-CN-YunxiNeural", lang: "zh-CN" },
+  zh: { voice: "zh-CN-YunyangNeural", lang: "zh-CN" },
   ja: { voice: "ja-JP-KeitaNeural", lang: "ja-JP" },
   he: { voice: "he-IL-AvriNeural", lang: "he-IL" },
 };

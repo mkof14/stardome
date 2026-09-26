@@ -7,6 +7,8 @@ export type SpeechProsody = {
   volume: string;
   browserRate: number;
   browserPitch: number;
+  style: "newscast" | "narration-professional";
+  styledegree: string;
 };
 
 export function isSpeechTone(value: unknown): value is SpeechTone {
@@ -55,24 +57,34 @@ export function speechToneFor(text: string, crisis = false): SpeechTone {
 export function speechProsody(tone: SpeechTone): SpeechProsody {
   if (tone === "warn") {
     return {
-      rate: "+12%",
-      pitch: "-12Hz",
-      volume: "+36%",
-      browserRate: 1.1,
-      browserPitch: 0.68,
+      rate: "+4%",
+      pitch: "-16Hz",
+      volume: "+28%",
+      browserRate: 1.02,
+      browserPitch: 0.6,
+      style: "newscast",
+      styledegree: "2",
     };
   }
   return {
-    rate: "+20%",
-    pitch: "-2Hz",
-    volume: "+18%",
-    browserRate: 1.2,
-    browserPitch: 0.92,
+    rate: "-6%",
+    pitch: "-10Hz",
+    volume: "+14%",
+    browserRate: 0.92,
+    browserPitch: 0.74,
+    style: "narration-professional",
+    styledegree: "1.4",
   };
 }
 
 export function ssmlInner(text: string, tone: SpeechTone, escape: (value: string) => string) {
-  const safe = escape(text);
-  if (tone === "warn") return `<emphasis level="strong">${safe}</emphasis>`;
-  return safe;
+  const parts = text
+    .split(/(?<=[.!?…。！？])\s+/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+  const chunks = (parts.length ? parts : [text]).map((part) => {
+    const safe = escape(part);
+    return tone === "warn" ? `<emphasis level="strong">${safe}</emphasis>` : safe;
+  });
+  return chunks.join('<break time="260ms"/>');
 }

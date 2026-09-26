@@ -12,8 +12,8 @@ import { neuralVoiceFor } from "@/lib/pilot-voice";
 
 export const TTS_MAX_CHARS = 1800;
 
-/** Premade ElevenLabs voices: Adam (Pilot) and Josh (officer). */
-export const ELEVEN_PILOT_VOICE = "pNInz6obpgDQGcFmaJgB";
+/** Premade ElevenLabs voices: Daniel (captain Pilot) and Josh (officer). */
+export const ELEVEN_PILOT_VOICE = "onwK4e9ZLuTAKqWW03F9";
 export const ELEVEN_OFFICER_VOICE = "TxGEqnHWrfWFTfGW9XjX";
 
 export type TtsProvider = "azure" | "edge" | "openai" | "elevenlabs";
@@ -239,11 +239,8 @@ export function azureSsml(
   const neural = neuralVoiceFor(locale, speaker);
   const voice = speechProsody(tone);
   const inner = ssmlInner(text, tone, escapeSsml);
-  const style =
-    tone === "warn"
-      ? `<mstts:express-as style="customerservice" styledegree="2"><prosody rate="${voice.rate}" pitch="${voice.pitch}" volume="${voice.volume}">${inner}</prosody></mstts:express-as>`
-      : `<prosody rate="${voice.rate}" pitch="${voice.pitch}" volume="${voice.volume}">${inner}</prosody>`;
-  return `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="https://www.w3.org/2001/mstts" xml:lang="${neural.lang}"><voice name="${neural.voice}">${style}</voice></speak>`;
+  const styled = `<mstts:express-as style="${voice.style}" styledegree="${voice.styledegree}"><prosody rate="${voice.rate}" pitch="${voice.pitch}" volume="${voice.volume}">${inner}</prosody></mstts:express-as>`;
+  return `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="https://www.w3.org/2001/mstts" xml:lang="${neural.lang}"><voice name="${neural.voice}">${styled}</voice></speak>`;
 }
 
 async function synthAzure(
@@ -330,18 +327,18 @@ export function elevenVoiceSettings(tone: SpeechTone, speaker: SpeechSpeaker) {
   }
   return tone === "warn"
     ? {
-        stability: 0.28,
-        similarity_boost: 0.82,
-        style: 0.55,
+        stability: 0.46,
+        similarity_boost: 0.84,
+        style: 0.58,
         use_speaker_boost: true,
-        speed: 1.05,
+        speed: 0.98,
       }
     : {
-        stability: 0.42,
-        similarity_boost: 0.78,
-        style: 0.18,
+        stability: 0.68,
+        similarity_boost: 0.8,
+        style: 0.32,
         use_speaker_boost: true,
-        speed: 1.15,
+        speed: 0.92,
       };
 }
 

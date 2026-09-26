@@ -58,6 +58,19 @@ function motionClass(motion?: ContactMotion) {
   return undefined;
 }
 
+function courseVector(contact: PictureContact) {
+  if (contact.course == null || contact.speedKn == null || contact.speedKn <= 0) {
+    return null;
+  }
+  const len = Math.min(56, 14 + contact.speedKn * 1.6);
+  const rad = ((contact.course - 90) * Math.PI) / 180;
+  return { x: Math.cos(rad) * len, y: Math.sin(rad) * len };
+}
+
+function labelWidth(text: string) {
+  return Math.max(64, 16 + text.length * 7.2);
+}
+
 function ContactMark({ contact }: { contact: PictureContact }) {
   const color = trackHue(contact);
   const alarm = toneColor(contact.tone);
@@ -144,8 +157,11 @@ export function BridgeRadar({
       data-testid="picture-scene"
       data-scene={scenarioId || "watch"}
     >
-      <div className="flex items-center justify-between gap-3 border-b border-[#13432C] bg-[#07150E] px-3 py-1.5 font-mono text-[11px] tracking-[0.16em] text-[#7DCF9A]">
-        <span>S-BAND ARPA · RDR-6</span>
+      <div className="flex items-center justify-between gap-3 border-b border-[#1c5a38] bg-[#06140e] px-3 py-1.5 font-mono text-[11px] tracking-[0.16em] text-[#8EE4B0]">
+        <span className="inline-flex items-center gap-2">
+          <span className="radar-live-pip h-2 w-2 rounded-full bg-[#2EE59A]" />
+          S-BAND ARPA · RDR-6
+        </span>
         <span className="hidden truncate sm:inline">{scene.extra}</span>
         <span>GAIN 72 · SEA 18 · RAIN 0 · TRAILS 6M</span>
       </div>
@@ -153,17 +169,41 @@ export function BridgeRadar({
         <defs>
           <linearGradient id={`sweepGrad-${uid}`} x1="0" y1="1" x2="1" y2="0">
             <stop offset="0%" stopColor="#2EE59A" stopOpacity="0" />
-            <stop offset="100%" stopColor="#2EE59A" stopOpacity="0.32" />
+            <stop offset="55%" stopColor="#2EE59A" stopOpacity="0.18" />
+            <stop offset="100%" stopColor="#7DFFC2" stopOpacity="0.5" />
+          </linearGradient>
+          <linearGradient id={`sweepTrail-${uid}`} x1="0" y1="1" x2="1" y2="0">
+            <stop offset="0%" stopColor="#2EE59A" stopOpacity="0" />
+            <stop offset="100%" stopColor="#2EE59A" stopOpacity="0.16" />
           </linearGradient>
           <radialGradient id={`scopeGlow-${uid}`} cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#0C321C" />
-            <stop offset="72%" stopColor="#052014" />
+            <stop offset="0%" stopColor="#14532D" />
+            <stop offset="42%" stopColor="#0C321C" />
+            <stop offset="78%" stopColor="#052014" />
             <stop offset="100%" stopColor="#03140C" />
           </radialGradient>
+          <filter id={`bloom-${uid}`} x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="2.4" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+          <marker
+            id={`vec-${uid}`}
+            viewBox="0 0 8 8"
+            refX="7"
+            refY="4"
+            markerWidth="6"
+            markerHeight="6"
+            orient="auto"
+          >
+            <path d="M0,0 L8,4 L0,8 Z" fill="#9AFFE0" />
+          </marker>
         </defs>
         <rect width={SZ} height={SZ} fill={`url(#scopeGlow-${uid})`} />
         <circle cx={CX} cy={CY} r={RING + 36} fill="none" stroke="#0F3A24" strokeWidth="22" />
-        <circle cx={CX} cy={CY} r={RING + 24} fill="none" stroke="#1A5C3A" strokeWidth="1.2" />
+        <circle cx={CX} cy={CY} r={RING + 24} fill="none" stroke="#2A7A4C" strokeWidth="1.6" />
         {RANGE_RINGS.map((nm) => {
           const r = (nm / MAX_NM) * RING;
           return (
@@ -182,7 +222,8 @@ export function BridgeRadar({
                 y={CY - r + 4}
                 fontFamily="monospace"
                 fontSize="13"
-                fill="#4C8A64"
+                fill="#7DCF9A"
+                fontWeight={nm % 2 === 0 ? "bold" : "normal"}
               >
                 {nm} NM
               </text>
@@ -256,17 +297,31 @@ export function BridgeRadar({
         {degraded === "radar" || empty ? null : (
           <g className="bridge-sweep">
             <path
-              d={`M${CX},${CY} L${CX},${CY - RING} A${RING},${RING} 0 0,1 ${polarPoint(42, RING).x},${polarPoint(42, RING).y} Z`}
+              d={`M${CX},${CY} L${polarPoint(-28, RING).x},${polarPoint(-28, RING).y} A${RING},${RING} 0 0,1 ${polarPoint(8, RING).x},${polarPoint(8, RING).y} Z`}
+              fill={`url(#sweepTrail-${uid})`}
+            />
+            <path
+              d={`M${CX},${CY} L${CX},${CY - RING} A${RING},${RING} 0 0,1 ${polarPoint(48, RING).x},${polarPoint(48, RING).y} Z`}
               fill={`url(#sweepGrad-${uid})`}
+            />
+            <line
+              x1={CX}
+              y1={CY}
+              x2={CX}
+              y2={CY - RING}
+              stroke="#9AFFE0"
+              strokeWidth="1.6"
+              opacity="0.85"
             />
           </g>
         )}
-        <g transform={`translate(${CX},${CY})`}>
-          <circle r="16" fill="none" stroke="#7DCF9A" strokeWidth="1" />
-          <circle r="4" fill="#E7ECEF" />
-          <path d="M0,-20 L7,12 L0,6 L-7,12 Z" fill="#E7ECEF" />
+        <g transform={`translate(${CX},${CY})`} filter={`url(#bloom-${uid})`}>
+          <circle r="28" className="radar-own-bloom" fill="#2EE59A" fillOpacity="0.12" />
+          <circle r="16" fill="none" stroke="#9AFFE0" strokeWidth="1.6" />
+          <circle r="5" fill="#F4FFF8" />
+          <path d="M0,-24 L8,14 L0,7 L-8,14 Z" fill="#F4FFF8" />
           {empty ? null : (
-            <text x="18" y="28" fontFamily="monospace" fontSize="12" fill="#7DCF9A">
+            <text x="20" y="30" fontFamily="monospace" fontSize="13" fontWeight="bold" fill="#9AFFE0">
               {scene.heading}
             </text>
           )}
@@ -286,11 +341,24 @@ export function BridgeRadar({
             <circle
               cx={selected.x}
               cy={selected.y}
-              r="26"
+              r="28"
               fill="none"
               stroke={trackHue(selected)}
-              strokeWidth="1.4"
+              strokeWidth="1.8"
+              className="radar-select-ring"
             />
+            {selected.rangeNm != null ? (
+              <circle
+                cx={CX}
+                cy={CY}
+                r={(selected.rangeNm / MAX_NM) * RING}
+                fill="none"
+                stroke={trackHue(selected)}
+                strokeWidth="1.1"
+                strokeDasharray="4 6"
+                opacity="0.45"
+              />
+            ) : null}
           </g>
         ) : null}
         {empty
@@ -304,6 +372,8 @@ export function BridgeRadar({
               const active = contact.id === selectedId;
               const bound = focusIds.includes(contact.id);
               const dimmed = layerBound && !bound;
+              const vector = courseVector(contact);
+              const title = `${contact.trackNo ? `${contact.trackNo} ` : ""}${contact.label}`;
               return (
                 <g
                   key={contact.id}
@@ -337,24 +407,48 @@ export function BridgeRadar({
                     }}
                   >
                     <circle r="18" fill="transparent" />
-                    <ContactMark contact={contact} />
-                    <text
-                      x="12"
-                      y="4"
-                      fontFamily="monospace"
-                      fontSize="12"
-                      fontWeight={active || bound ? "bold" : "normal"}
-                      fill={bound ? "#7DCF9A" : trackHue(contact)}
-                    >
-                      {contact.trackNo ? `${contact.trackNo} ` : ""}
-                      {contact.label}
-                    </text>
-                    {active && contact.rangeText ? (
-                      <text x="12" y="16" fontFamily="monospace" fontSize="10" fill="#9ec9ae">
-                        {contact.rangeText}
-                        {contact.object ? ` · ${contact.object}` : ""}
-                      </text>
+                    {vector ? (
+                      <line
+                        x1="0"
+                        y1="0"
+                        x2={vector.x}
+                        y2={vector.y}
+                        stroke={trackHue(contact)}
+                        strokeWidth="1.6"
+                        markerEnd={`url(#vec-${uid})`}
+                        opacity="0.85"
+                      />
                     ) : null}
+                    <g filter={`url(#bloom-${uid})`}>
+                      <ContactMark contact={contact} />
+                    </g>
+                    <g transform="translate(14,-16)">
+                      <rect
+                        width={labelWidth(title)}
+                        height={active ? 32 : 20}
+                        rx="4"
+                        fill="#03140C"
+                        fillOpacity="0.88"
+                        stroke={bound || active ? "#7DCF9A" : trackHue(contact)}
+                        strokeWidth={active ? 1.4 : 0.9}
+                      />
+                      <text
+                        x="6"
+                        y="14"
+                        fontFamily="monospace"
+                        fontSize="12"
+                        fontWeight={active || bound ? "bold" : "normal"}
+                        fill={bound || active ? "#C8FFE0" : trackHue(contact)}
+                      >
+                        {title}
+                      </text>
+                      {active && contact.rangeText ? (
+                        <text x="6" y="26" fontFamily="monospace" fontSize="10" fill="#9ec9ae">
+                          {contact.rangeText}
+                          {contact.object ? ` · ${contact.object}` : ""}
+                        </text>
+                      ) : null}
+                    </g>
                   </g>
                 </g>
               );
