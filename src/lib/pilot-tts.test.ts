@@ -169,7 +169,7 @@ describe("speech tone", () => {
     expect(brief).not.toContain("emphasis");
     expect(brief).not.toContain("customerservice");
     expect(warn).toContain("Confirm the designated has it.");
-    expect(warn).toContain("en-US-DavisNeural");
+    expect(warn).toContain("en-US-GuyNeural");
   });
 
   it("puts the officer on a second neural voice", () => {

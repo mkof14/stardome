@@ -196,38 +196,61 @@ async function withRetry<T>(run: () => Promise<T>, attempts = 3): Promise<T> {
   throw last instanceof Error ? last : new Error("Speech is unavailable.");
 }
 
+function edgeVoiceNames(locale: Locale, speaker: SpeechSpeaker) {
+  const primary = neuralVoiceFor(locale, speaker).voice;
+  const reserve =
+    speaker === "officer"
+      ? ["en-US-BrianNeural", "en-US-BrianMultilingualNeural", "en-US-GuyNeural"]
+      : ["en-US-GuyNeural", "en-US-ChristopherNeural", "en-US-AndrewNeural"];
+  return [primary, ...reserve.filter((name) => name !== primary)];
+}
+
+async function synthEdgeVoice(
+  text: string,
+  voiceName: string,
+  tone: SpeechTone,
+  speaker: SpeechSpeaker,
+): Promise<SpeechClip> {
+  const voice = speechProsody(tone);
+  const tts = new MsEdgeTTS();
+  try {
+    await tts.setMetadata(
+      voiceName,
+      OUTPUT_FORMAT.AUDIO_24KHZ_48KBITRATE_MONO_MP3,
+    );
+    const { audioStream } = tts.toStream(escapeSsml(text), {
+      rate: voice.rate,
+      pitch: voice.pitch,
+      volume: voice.volume,
+    });
+    const audio = await bufferFromAudioStream(audioStream, 22_000);
+    return {
+      audio,
+      contentType: "audio/mpeg",
+      provider: "edge",
+      voice: voiceName,
+      speaker,
+    };
+  } finally {
+    tts.close();
+  }
+}
+
 async function synthEdge(
   text: string,
   locale: Locale,
   tone: SpeechTone,
   speaker: SpeechSpeaker,
 ): Promise<SpeechClip> {
-  return withRetry(async () => {
-    const neural = neuralVoiceFor(locale, speaker);
-    const voice = speechProsody(tone);
-    const tts = new MsEdgeTTS();
+  const errors: string[] = [];
+  for (const voiceName of edgeVoiceNames(locale, speaker)) {
     try {
-      await tts.setMetadata(
-        neural.voice,
-        OUTPUT_FORMAT.AUDIO_24KHZ_48KBITRATE_MONO_MP3,
-      );
-      const { audioStream } = tts.toStream(escapeSsml(text), {
-        rate: voice.rate,
-        pitch: voice.pitch,
-        volume: voice.volume,
-      });
-      const audio = await bufferFromAudioStream(audioStream, 22_000);
-      return {
-        audio,
-        contentType: "audio/mpeg",
-        provider: "edge",
-        voice: neural.voice,
-        speaker,
-      };
-    } finally {
-      tts.close();
+      return await withRetry(() => synthEdgeVoice(text, voiceName, tone, speaker), 2);
+    } catch (err) {
+      errors.push(`${voiceName}: ${err instanceof Error ? err.message : "failed"}`);
     }
-  });
+  }
+  throw new Error(errors.join("; ") || "Edge speech failed.");
 }
 
 export function azureSsml(

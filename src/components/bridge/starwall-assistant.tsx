@@ -50,6 +50,8 @@ import { usePathname } from "next/navigation";
 import { pilotDemoCopy } from "@/lib/i18n/pilot-demo-copy";
 import { demoBeats, type DemoBeat } from "@/lib/pilot-demo";
 import {
+  isLikelyFemaleVoice,
+  isLikelyMaleVoice,
   maleVoiceFor,
   officerVoiceFor,
   SPEAK_BCP47,
@@ -964,14 +966,20 @@ export function Helm() {
       const installed = window.speechSynthesis.getVoices();
       const pool = installed.length ? installed : voices;
       const match = spokenBrowserVoice(pool, locale, speaker);
-      if (!match) {
+      const full = match
+        ? installed.find(
+            (item) => item.name === match.name && item.lang === match.lang,
+          ) ?? installed.find((item) => item.name === match.name)
+        : null;
+      if (
+        !full ||
+        isLikelyFemaleVoice(full.name) ||
+        !isLikelyMaleVoice(full.name)
+      ) {
         finish();
         return;
       }
-      const full = installed.find(
-        (item) => item.name === match.name && item.lang === match.lang,
-      );
-      if (full) utterance.voice = full;
+      utterance.voice = full;
       utterance.pitch =
         speaker === "officer"
           ? Math.min(1.15, voice.browserPitch + 0.12)

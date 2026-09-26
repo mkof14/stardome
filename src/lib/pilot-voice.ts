@@ -16,7 +16,7 @@ export const SPEAK_BCP47: Record<Locale, string> = {
 
 /** Locale-matched adult male neural voices (Azure / Edge short names). */
 export const MALE_NEURAL: Record<Locale, { voice: string; lang: string }> = {
-  en: { voice: "en-US-DavisNeural", lang: "en-US" },
+  en: { voice: "en-US-GuyNeural", lang: "en-US" },
   es: { voice: "es-ES-AlvaroNeural", lang: "es-ES" },
   fr: { voice: "fr-FR-HenriNeural", lang: "fr-FR" },
   de: { voice: "de-DE-ConradNeural", lang: "de-DE" },
@@ -76,10 +76,10 @@ function norm(lang: string) {
 }
 
 const MALE_NAME =
-  /male|\bman\b|\bguy\b|andrew|david|daniel|dmitry|dmitri|ostap|alvaro|arnau|henri|claude|conrad|killian|hamed|yunxi|yunjian|yunyang|keita|daichi|avri|onyx|echo|thomas|george|james|mark|paul|ryan|brian|eric|christopher|davis|jorge|ichiro|ravi|fred|microsoft david|microsoft mark|microsoft george|google uk english male/i;
+  /male|\bman\b|guyneural|\bguy\b|andrew|david|daniel|dmitry|dmitri|ostap|alvaro|arnau|henri|claude|conrad|killian|hamed|yunxi|yunjian|yunyang|keita|daichi|avri|onyx|echo|thomas|george|james|mark|paul|ryan|brian|eric|christopher|davis|jorge|ichiro|ravi|fred|pavel|yuri|microsoft david|microsoft mark|microsoft george|google uk english male|google us english male/i;
 
 const FEMALE_NAME =
-  /female|woman|girl|zira|samantha|karen|susan|helena|katya|hila|nanami|xiaoxiao|aria|jenny|sonia|elvira|denise|katja|dariya|polina|salma|yael|svetlana|irina|zariyah|masha|google uk english female|microsoft zira|microsoft helena/i;
+  /female|woman|girl|zira|samantha|karen|susan|helena|katya|hila|nanami|xiaoxiao|aria|jenny|sonia|elvira|denise|katja|dariya|polina|salma|yael|svetlana|irina|zariyah|masha|oksana|milena|victoria|moira|tessa|fiona|anna|google us english(?! male)|google uk english female|microsoft zira|microsoft helena|microsoft irina/i;
 
 export function isLikelyMaleVoice(name: string) {
   if (!name.trim()) return false;
@@ -118,7 +118,7 @@ export function pickVoice(
     null;
   let bestScore = -1;
   for (const voice of voices) {
-    if (isLikelyFemaleVoice(voice.name)) continue;
+    if (isLikelyFemaleVoice(voice.name) || !isLikelyMaleVoice(voice.name)) continue;
     const score = scoreVoice(voice, locale);
     if (score > bestScore) {
       bestScore = score;
@@ -140,7 +140,7 @@ export function pickOfficerVoice(
   let bestScore = -1;
   for (const voice of voices) {
     if (skipName && voice.name === skipName) continue;
-    if (isLikelyFemaleVoice(voice.name)) continue;
+    if (isLikelyFemaleVoice(voice.name) || !isLikelyMaleVoice(voice.name)) continue;
     const score = scoreVoice(voice, locale);
     if (score < 0) continue;
     if (score > bestScore) {

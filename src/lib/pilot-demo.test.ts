@@ -111,14 +111,20 @@ describe("pickVoice", () => {
   it("prefers an exact BCP-47 match for the locale", () => {
     const voices = [
       { lang: "en-US", name: "English US", localService: true },
-      { lang: "ru-RU", name: "Russian", localService: true },
-      { lang: "uk-UA", name: "Ukrainian", localService: false },
+      { lang: "en-US", name: "Google US English", localService: false },
+      { lang: "ru-RU", name: "Microsoft Dmitry", localService: true },
+      { lang: "uk-UA", name: "Ostap", localService: false },
     ];
-    expect(pickVoice(voices, "ru")?.name).toBe("Russian");
-    expect(pickVoice(voices, "uk")?.name).toBe("Ukrainian");
+    expect(pickVoice(voices, "ru")?.name).toBe("Microsoft Dmitry");
+    expect(pickVoice(voices, "uk")?.name).toBe("Ostap");
+    expect(pickVoice(voices, "en")).toBeNull();
+    expect(isLikelyFemaleVoice("Google US English")).toBe(true);
+    expect(isLikelyMaleVoice("Google US English")).toBe(false);
+    expect(isLikelyMaleVoice("en-US-GuyNeural")).toBe(true);
+    expect(spokenBrowserVoice(voices, "en")).toBeNull();
     expect(speakTag("he")).toBe("he-IL");
     expect(voiceNeed("ja", []).tts).toBe("none");
-    expect(voiceNeed("en", voices).tts).toBe("native");
+    expect(voiceNeed("en", voices).tts).toBe("fallback");
     expect(voiceNeed("zh", voices).tts).toBe("fallback");
   });
 
