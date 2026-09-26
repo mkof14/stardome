@@ -17,7 +17,7 @@ export const pageMeta = {
   connections: {
     title: "System Connections Map — StarDome",
     description:
-      "Radial map of StarWall Core, the StarDome Container, standalone sensors, StarDome 1, and Support Center.",
+      "Radial map of StarDome Core, the StarDome Container, standalone sensors, StarDome 1, and Support Center.",
   },
   levels: {
     title: "Subscription Levels — StarDome",

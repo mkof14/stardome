@@ -87,10 +87,10 @@ export const uk: Messages = {
     ],
   },
   surface: {
-    connectionsKicker: "STARWALL · ТОПОЛОГІЯ",
+    connectionsKicker: "STARDOME · ТОПОЛОГІЯ",
     connectionsTitle: "Карта системних з'єднань",
     connectionsLead:
-      "Жива топологія навчальної картини: датчики живлять StarWall Core; ядро передає ту саму картину на StarDome 1 і в Support Center.",
+      "Жива топологія навчальної картини: датчики живлять StarDome Core; ядро передає ту саму картину на StarDome 1 і в Support Center.",
     connectionsLeadLive:
       "Та сама схема робочої картини — кожен блок чекає встановлення. Живих датчиків ще немає.",
     connectionsBack: "← Назад до StarDome 1",

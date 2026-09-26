@@ -87,10 +87,10 @@ export const de: Messages = {
     ],
   },
   surface: {
-    connectionsKicker: "STARWALL · TOPOLOGIE",
+    connectionsKicker: "STARDOME · TOPOLOGIE",
     connectionsTitle: "System-Verbindungskarte",
     connectionsLead:
-      "Lebendige Topologie des Trainingsbildes: Sensoren speisen StarWall Core; der Kern sendet dasselbe Bild an StarDome 1 und das Support Center.",
+      "Lebendige Topologie des Trainingsbildes: Sensoren speisen StarDome Core; der Kern sendet dasselbe Bild an StarDome 1 und das Support Center.",
     connectionsLeadLive:
       "Dieselbe Anordnung wie das Arbeitsbild — jede Einheit wartet auf die Installation. Noch keine Live-Sensoren.",
     connectionsBack: "← Zurück zu StarDome 1",

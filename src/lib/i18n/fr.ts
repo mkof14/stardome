@@ -87,10 +87,10 @@ export const fr: Messages = {
     ],
   },
   surface: {
-    connectionsKicker: "STARWALL · TOPOLOGIE",
+    connectionsKicker: "STARDOME · TOPOLOGIE",
     connectionsTitle: "Carte des connexions système",
     connectionsLead:
-      "Topologie en direct du tableau d'entraînement : les capteurs alimentent StarWall Core ; le noyau envoie la même image à StarDome 1 et au Support Center.",
+      "Topologie en direct du tableau d'entraînement : les capteurs alimentent StarDome Core ; le noyau envoie la même image à StarDome 1 et au Support Center.",
     connectionsLeadLive:
       "Le même schéma que le tableau opérationnel — chaque unité attend l'installation. Aucun capteur en direct pour l'instant.",
     connectionsBack: "← Retour à StarDome 1",

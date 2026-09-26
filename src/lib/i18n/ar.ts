@@ -87,10 +87,10 @@ export const ar: Messages = {
     ],
   },
   surface: {
-    connectionsKicker: "STARWALL · الطوبولوجيا",
+    connectionsKicker: "STARDOME · الطوبولوجيا",
     connectionsTitle: "خريطة اتصالات النظام",
     connectionsLead:
-      "طوبولوجيا حيّة للصورة التدريبية: تغذي المستشعرات StarWall Core؛ ويدفع النواة الصورة نفسها إلى StarDome 1 وSupport Center.",
+      "طوبولوجيا حيّة للصورة التدريبية: تغذي المستشعرات StarDome Core؛ ويدفع النواة الصورة نفسها إلى StarDome 1 وSupport Center.",
     connectionsLeadLive:
       "نفس تخطيط الصورة التشغيلية — كل وحدة بانتظار التركيب. لا مستشعرات حيّة بعد.",
     connectionsBack: "← العودة إلى StarDome 1",

@@ -87,10 +87,10 @@ export const ja: Messages = {
     ],
   },
   surface: {
-    connectionsKicker: "STARWALL · トポロジ",
+    connectionsKicker: "STARDOME · トポロジ",
     connectionsTitle: "システム接続マップ",
     connectionsLead:
-      "訓練画面のライブ・トポロジ：センサーが StarWall Core に送り、コアが同じ画面を StarDome 1 と Support Center に渡します。",
+      "訓練画面のライブ・トポロジ：センサーが StarDome Core に送り、コアが同じ画面を StarDome 1 と Support Center に渡します。",
     connectionsLeadLive:
       "稼働画面と同じ配置 — 各ユニットは設置待ちです。ライブセンサーはまだありません。",
     connectionsBack: "← StarDome 1 に戻る",

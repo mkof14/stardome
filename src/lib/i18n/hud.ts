@@ -529,7 +529,7 @@ const en: HudCopy = {
     satcom: "Satcom link",
   },
   map: {
-    aria: "StarWall system connections map",
+    aria: "StarDome system connections map",
     container: "StarDome CONTAINER",
     containerTip: "Deployable hardware unit — see /containers for details",
     radarTip: "360° detection, feeds the Situational Picture panel.",
@@ -838,7 +838,7 @@ const ru = overlay({
     satcom: "Спутниковая связь",
   },
   map: {
-    aria: "Карта соединений системы StarWall",
+    aria: "Карта соединений системы StarDome",
     container: "КОНТЕЙНЕР StarDome",
     containerTip: "Выносной аппаратный блок — подробности на /containers",
     radarTip: "Обзор 360° — питает панель обстановки.",
@@ -1126,7 +1126,7 @@ const es = overlay({
     satcom: "Enlace satelital",
   },
   map: {
-    aria: "Mapa de conexiones del sistema StarWall",
+    aria: "Mapa de conexiones del sistema StarDome",
     container: "CONTENEDOR StarDome",
     containerTip: "Unidad de hardware desplegable — detalles en /containers",
     radarTip: "Detección 360° — alimenta el panel de imagen situacional.",
@@ -1414,7 +1414,7 @@ const fr = overlay({
     satcom: "Liaison satellite",
   },
   map: {
-    aria: "Carte des connexions du système StarWall",
+    aria: "Carte des connexions du système StarDome",
     container: "CONTENEUR StarDome",
     containerTip: "Unité matérielle déployable — détails sur /containers",
     radarTip: "Détection 360° — alimente le panneau d'image situationnelle.",
@@ -1702,7 +1702,7 @@ const de = overlay({
     satcom: "Satellitenverbindung",
   },
   map: {
-    aria: "Verbindungskarte des StarWall-Systems",
+    aria: "Verbindungskarte des StarDome-Systems",
     container: "StarDome-CONTAINER",
     containerTip: "Verlegbare Hardwareeinheit — Details unter /containers",
     radarTip: "360°-Erfassung, speist das Lagebild-Feld.",
@@ -1989,7 +1989,7 @@ const uk = overlay({
     satcom: "Супутниковий зв'язок",
   },
   map: {
-    aria: "Карта з'єднань системи StarWall",
+    aria: "Карта з'єднань системи StarDome",
     container: "КОНТЕЙНЕР StarDome",
     containerTip: "Виносний апаратний блок — подробиці на /containers",
     radarTip: "Огляд 360° — живить панель обстановки.",
@@ -2276,7 +2276,7 @@ const ar = overlay({
     satcom: "وصلة اتصالات فضائية",
   },
   map: {
-    aria: "خريطة اتصالات نظام StarWall",
+    aria: "خريطة اتصالات نظام StarDome",
     container: "حاوية StarDome",
     containerTip: "وحدة عتاد قابلة للنشر — التفاصيل في /containers",
     radarTip: "كشف 360° يغذي لوحة الصورة الموقفية.",
@@ -2556,7 +2556,7 @@ const zh = overlay({
     satcom: "卫星通信链路",
   },
   map: {
-    aria: "StarWall 系统连接图",
+    aria: "StarDome 系统连接图",
     container: "StarDome 集装箱",
     containerTip: "可部署硬件单元 — 详见 /containers",
     radarTip: "360° 探测，供给态势图面板。",
@@ -2839,7 +2839,7 @@ const ja = overlay({
     satcom: "衛星通信リンク",
   },
   map: {
-    aria: "StarWall システム接続マップ",
+    aria: "StarDome システム接続マップ",
     container: "StarDome コンテナ",
     containerTip: "展開可能なハードウェアユニット — 詳細は /containers",
     radarTip: "360° 探知。状況図パネルへ供給します。",
@@ -3126,7 +3126,7 @@ const he = overlay({
     satcom: "קישור סאטקום",
   },
   map: {
-    aria: "מפת חיבורי מערכת StarWall",
+    aria: "מפת חיבורי מערכת StarDome",
     container: "מכולת StarDome",
     containerTip: "יחידת חומרה לפריסה — פרטים ב־/containers",
     radarTip: "גילוי 360° — מזין את לוח תמונת המצב.",

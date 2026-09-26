@@ -87,10 +87,10 @@ export const zh: Messages = {
     ],
   },
   surface: {
-    connectionsKicker: "STARWALL · 拓扑",
+    connectionsKicker: "STARDOME · 拓扑",
     connectionsTitle: "系统连接图",
     connectionsLead:
-      "训练画面的实时拓扑：传感器送入 StarWall Core；核心把同一画面推送到 StarDome 1 与 Support Center。",
+      "训练画面的实时拓扑：传感器送入 StarDome Core；核心把同一画面推送到 StarDome 1 与 Support Center。",
     connectionsLeadLive:
       "与工作画面相同的布局 — 每个单元都在等待安装。尚未接入实时传感器。",
     connectionsBack: "← 返回 StarDome 1",

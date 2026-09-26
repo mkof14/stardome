@@ -87,10 +87,10 @@ export const es: Messages = {
     ],
   },
   surface: {
-    connectionsKicker: "STARWALL · TOPOLOGÍA",
+    connectionsKicker: "STARDOME · TOPOLOGÍA",
     connectionsTitle: "Mapa de conexiones del sistema",
     connectionsLead:
-      "Topología en vivo del cuadro de entrenamiento: los sensores alimentan StarWall Core; el núcleo envía la misma imagen a StarDome 1 y al Support Center.",
+      "Topología en vivo del cuadro de entrenamiento: los sensores alimentan StarDome Core; el núcleo envía la misma imagen a StarDome 1 y al Support Center.",
     connectionsLeadLive:
       "El mismo esquema del cuadro operativo — cada unidad espera instalación. Aún no hay sensores en vivo.",
     connectionsBack: "← Volver a StarDome 1",

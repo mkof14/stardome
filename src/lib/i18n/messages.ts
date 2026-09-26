@@ -788,10 +788,10 @@ export const en: Messages = {
     ],
   },
   surface: {
-    connectionsKicker: "STARWALL · TOPOLOGY",
+    connectionsKicker: "STARDOME · TOPOLOGY",
     connectionsTitle: "System Connections Map",
     connectionsLead:
-      "Live topology of the training picture: sensors feed StarWall Core; Core pushes the same picture to StarDome 1 and Support Center.",
+      "Live topology of the training picture: sensors feed StarDome Core; Core pushes the same picture to StarDome 1 and Support Center.",
     connectionsLeadLive:
       "Same layout as the working picture — every unit is waiting for installation. No live sensors are connected yet.",
     connectionsBack: "← Back to StarDome 1",

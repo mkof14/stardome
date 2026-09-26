@@ -87,10 +87,10 @@ export const he: Messages = {
     ],
   },
   surface: {
-    connectionsKicker: "STARWALL · טופולוגיה",
+    connectionsKicker: "STARDOME · טופולוגיה",
     connectionsTitle: "מפת חיבורי המערכת",
     connectionsLead:
-      "טופולוגיה חיה של תמונת האימון: חיישנים מזינים את StarWall Core; הליבה דוחפת את אותה תמונה ל־StarDome 1 ול־Support Center.",
+      "טופולוגיה חיה של תמונת האימון: חיישנים מזינים את StarDome Core; הליבה דוחפת את אותה תמונה ל־StarDome 1 ול־Support Center.",
     connectionsLeadLive:
       "אותו פריסה כמו התמונה התפעולית — כל יחידה ממתינה להתקנה. אין עדיין חיישנים חיים.",
     connectionsBack: "← חזרה ל־StarDome 1",
