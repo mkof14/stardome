@@ -53,7 +53,10 @@ const nextConfig = {
             value:
               "camera=(), geolocation=(), microphone=(self), payment=(), usb=(), interest-cohort=()",
           },
-          { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+          {
+            key: "Cross-Origin-Opener-Policy",
+            value: "same-origin-allow-popups",
+          },
           { key: "X-DNS-Prefetch-Control", value: "on" },
         ],
       },
@@ -67,7 +70,8 @@ const nextConfig = {
         ],
       },
       {
-        source: "/:file(og-stardome.jpg|og-starwall.jpg|opengraph-image.jpg)",
+        source:
+          "/:file(og-stardome.jpg|og-starwall.jpg|opengraph-image.jpg|twitter-image.jpg)",
         headers: [
           {
             key: "Cache-Control",
@@ -76,7 +80,7 @@ const nextConfig = {
         ],
       },
       {
-        source: "/containers/:file(.*)\\.webp",
+        source: "/:dir(containers|home)/:file(.*)\\.webp",
         headers: [
           {
             key: "Cache-Control",
