@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import { FlagIcon } from "@/components/flag-icon";
-import { HudGlyph } from "@/components/bridge/hud-icons";
 import { usePreferences } from "@/lib/i18n/context";
 import { localeMeta, siteLocales, type Locale } from "@/lib/i18n/locales";
 import { cn } from "@/lib/cn";
@@ -62,11 +60,7 @@ export function LanguageSwitcher({
         aria-label={t.chrome.language}
         onClick={() => setOpen((value) => !value)}
       >
-        <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-page text-current transition duration-150 group-hover:scale-110">
-          <HudGlyph name="globe" className="h-3.5 w-3.5" />
-        </span>
-        <FlagIcon locale={locale} />
-        <span className="hidden sm:inline">{localeMeta[locale].native}</span>
+        <span>{localeMeta[locale].native}</span>
         <span aria-hidden className="text-[10px]">
           ▾
         </span>
@@ -99,7 +93,6 @@ export function LanguageSwitcher({
                 )}
                 onClick={() => choose(code)}
               >
-                <FlagIcon locale={code} />
                 <span>{localeMeta[code].native}</span>
               </button>
             </li>
