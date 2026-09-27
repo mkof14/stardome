@@ -108,6 +108,29 @@ export function isHelpOffer(text: string) {
   );
 }
 
+export function isGenericSiteDump(text: string) {
+  return /(на яхте, в марине|yacht, marina|разные часы|different clocks|за что уже заплатили|already paid for|у них разные часы)/i.test(
+    text,
+  );
+}
+
+const GROUND_MARK =
+  /(лазер|laser|луч|импульс|pulse|пво|дрон|drone|15\s*км|15\s*km|сонар|sonar|радар|radar|геоинформа|перехват|рэр|elint)/i;
+
+export function preferGroundedReply(
+  message: string,
+  locale: Locale,
+  extra: { path?: string; session?: BridgeSessionValue } | undefined,
+  candidate: string,
+): { reply: string; langCode: string } {
+  const local = localPilotReply(message, locale, extra);
+  const direct = pilotDirectReply(message, locale);
+  if (isHelpOffer(candidate) && !isTalkOpen(message)) return local;
+  if (isGenericSiteDump(candidate) && (direct || isContentAsk(message))) return local;
+  if (direct && GROUND_MARK.test(direct) && !GROUND_MARK.test(candidate)) return local;
+  return { reply: candidate, langCode: local.langCode };
+}
+
 export function pilotDirectReply(message: string, locale: Locale): string | null {
   if (isHearCheck(message)) return HEAR_YES[locale];
   const fact = pilotFactReply(message, locale) ?? (heardTopic(message)

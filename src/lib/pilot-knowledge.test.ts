@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { localPilotReply, pilotDirectReply } from "@/lib/pilot-knowledge";
+import {
+  localPilotReply,
+  pilotDirectReply,
+  preferGroundedReply,
+} from "@/lib/pilot-knowledge";
 import { pilotChrome } from "@/lib/i18n/pilot-chrome";
 
 describe("localPilotReply", () => {
@@ -109,5 +113,13 @@ describe("localPilotReply", () => {
       session,
     });
     expect(mutter.reply).not.toBe(pilotChrome("ru").converseOffer);
+  });
+
+  it("replaces a generic yacht dump when a station answer exists", () => {
+    const dump =
+      "На яхте, в марине, в порту или на острове радар, камеры и AIS чаще всего уже есть. Беда в том, что у них разные часы.";
+    const { reply } = preferGroundedReply("что такое лазер", "ru", { path: "/interface" }, dump);
+    expect(reply.toLowerCase()).toMatch(/лазер|луч/);
+    expect(reply).not.toMatch(/разные часы/);
   });
 });

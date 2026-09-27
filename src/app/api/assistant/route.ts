@@ -1,11 +1,10 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { NextResponse } from "next/server";
 import {
-  isHelpOffer,
   localPilotReply,
   PILOT_SITE_BRIEFING,
+  preferGroundedReply,
 } from "@/lib/pilot-knowledge";
-import { isTalkOpen } from "@/lib/pilot-orders";
 import { isLocale, locales, type Locale } from "@/lib/i18n/locales";
 import { claudeMessages, clipChatHistory } from "@/lib/pilot-sim";
 import { sessionFromAssistantContext, watchReply } from "@/lib/pilot-watch";
@@ -107,13 +106,9 @@ export async function POST(request: Request) {
     }
 
     const parsed = parseLangTag(raw, locale);
-    if (isHelpOffer(parsed.reply) && !isTalkOpen(message)) {
-      return NextResponse.json(
-        localPilotReply(message, locale, { path, session: watchSession }),
-      );
-    }
-
-    return NextResponse.json(parsed);
+    return NextResponse.json(
+      preferGroundedReply(message, locale, { path, session: watchSession }, parsed.reply),
+    );
   } catch {
     return NextResponse.json(
       localPilotReply(message, locale, { path, session: watchSession }),

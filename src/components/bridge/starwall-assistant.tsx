@@ -95,7 +95,7 @@ import {
   isTalkOpen,
   wantsVoice,
 } from "@/lib/pilot-orders";
-import { pilotDirectReply } from "@/lib/pilot-knowledge";
+import { pilotDirectReply, preferGroundedReply } from "@/lib/pilot-knowledge";
 import {
   clipChatHistory,
   isAdviceAccept,
@@ -1409,6 +1409,13 @@ export function Helm() {
       if (ticket !== askGen.current) {
         sendingRef.current = false;
         return;
+      }
+      const grounded = data.reply
+        ? preferGroundedReply(clean, recogLang, { path: pathname, session }, data.reply)
+        : null;
+      if (grounded?.reply) {
+        data.reply = grounded.reply;
+        data.langCode = grounded.langCode;
       }
       if (!response.ok || !data.reply) {
         const errorText = data.error ?? helmHud.noReply;
