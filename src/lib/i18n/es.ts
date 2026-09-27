@@ -66,7 +66,7 @@ export const es: Messages = {
     privacyIntro:
       "Esta política explica cómo StarDome Inc. («StarDome», «nosotros») trata la información cuando usa el sitio StarDome 1 ilustrativo, Pilot y las pantallas de administración. Describe el producto tal como existe hoy, incluidos DEMO y LIVE.",
     privacySections: [
-      { title: "Quién responde", body: "StarDome Inc. está detrás de StarWall. Preguntas de privacidad: formulario de contacto o star-wall.com. Si un despliegue contratado nombra un contacto de protección de datos, consta en el acuerdo escrito." },
+      { title: "Quién responde", body: "StarDome Inc. está detrás de StarWall. Preguntas de privacidad: formulario de contacto o stardome.life. Si un despliegue contratado nombra un contacto de protección de datos, consta en el acuerdo escrito." },
       { title: "Qué es este sitio", body: "Las páginas públicas son el producto. El StarDome 1 en /interface es un cuadro de guardia ilustrativo: DEMO usa contactos, eventos y estado de equipo simulados. LIVE muestra el estado real de este despliegue — vacío hasta que haya sensores. La demo pública no es un feed en vivo de un yate, marina o puerto salvo acuerdo escrito con StarDome." },
       { title: "Qué información tratamos", body: "Si crea una cuenta guardamos el email y el hash de la contraseña (o el identificador del proveedor de acceso) y el rol. Las solicitudes de contacto y configuración guardan nombre, email, mensaje y, si los indica, organización, teléfono o tipo de activo como un lead — en la base del despliegue si está configurada, si no en un archivo local. Se envía copia por correo o webhook solo cuando esos servicios están configurados. El navegador guarda idioma, tema y DEMO/LIVE. Registros, Black Box y conversaciones con Pilot se escriben primero en el dispositivo; solo llegan a la base del despliegue si está configurada. No usamos el contenido de StarDome 1 ni de Pilot para entrenar modelos." },
       { title: "Cookies y almacenamiento similar", body: "Una cookie de sesión mantiene el acceso; el almacenamiento local guarda idioma, tema y modo. No colocamos cookies publicitarias ni vendemos datos personales." },
@@ -83,7 +83,7 @@ export const es: Messages = {
       { title: "Cuentas", body: "Usted responde de las credenciales. Los datos de demostración en el inicio de sesión, si se muestran, ilustran roles: cámbielos antes de un despliegue real." },
       { title: "Uso aceptable", body: "No intente acceso no autorizado; no use StarWall para dañar a personas o bienes; no presente el servicio como un feed operativo en vivo." },
       { title: "Autorización humana y derecho local", body: "El equipo especializado y cualquier capacidad de respuesta siguen bajo autorización humana y la ley del lugar. StarWall no otorga licencia para sistemas restringidos." },
-      { title: "Propiedad, responsabilidad, contacto", body: "StarDome y el logotipo son marcas de StarDome. El contenido se ofrece «tal cual». StarDome no responde de decisiones tomadas solo a partir de la demo pública o de Pilot en este sitio. Preguntas: /contact o star-wall.com." },
+      { title: "Propiedad, responsabilidad, contacto", body: "StarDome y el logotipo son marcas de StarDome. El contenido se ofrece «tal cual». StarDome no responde de decisiones tomadas solo a partir de la demo pública o de Pilot en este sitio. Preguntas: /contact o stardome.life." },
     ],
   },
   surface: {
@@ -957,7 +957,7 @@ export const es: Messages = {
     agronTitle: "StarDome",
     agronBefore:
       "StarWall lo desarrolla StarDome, en inteligencia marítima, integración de seguridad y sistemas de protección desplegables. Más sobre el trabajo de StarDome en ",
-    agronLink: "star-wall.com",
+    agronLink: "stardome.life",
     agronAfter: ".",
     agronTeam:
       "Detrás de StarDome hay, ante todo, prácticos e ingenieros: profesionales que han tenido que decidir rápido en el terreno y luego construyeron las herramientas que les faltaban.",

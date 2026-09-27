@@ -733,7 +733,7 @@ export const en: Messages = {
     privacySections: [
       {
         title: "Who is responsible",
-        body: "StarDome Inc. is the organisation behind StarWall. For privacy questions use the contact form on this site or write via star-wall.com. If we appoint a data-protection contact for a contracted deployment, that person is named in the written agreement.",
+        body: "StarDome Inc. is the organisation behind StarWall. For privacy questions use the contact form on this site or write via stardome.life. If we appoint a data-protection contact for a contracted deployment, that person is named in the written agreement.",
       },
       {
         title: "What this site is",
@@ -783,7 +783,7 @@ export const en: Messages = {
       },
       {
         title: "Intellectual property, liability, contact",
-        body: "StarDome, and the site logo are StarDome marks. Page content is provided “as is” for information. StarDome is not liable for decisions taken solely from the public demo picture or from Pilot advice on this site. Operational liability, if any, is set in a written agreement. Questions: use /contact or star-wall.com. These website terms are governed by the laws applicable to StarDome Inc., without choosing a venue we have not agreed in writing.",
+        body: "StarDome, and the site logo are StarDome marks. Page content is provided “as is” for information. StarDome is not liable for decisions taken solely from the public demo picture or from Pilot advice on this site. Operational liability, if any, is set in a written agreement. Questions: use /contact or stardome.life. These website terms are governed by the laws applicable to StarDome Inc., without choosing a venue we have not agreed in writing.",
       },
     ],
   },
@@ -1686,7 +1686,7 @@ export const en: Messages = {
     agronTitle: "StarDome",
     agronBefore:
       "StarWall is a StarDome product. The rest of the house — other integration and deployable work — is on ",
-    agronLink: "star-wall.com",
+    agronLink: "stardome.life",
     agronAfter: ".",
     agronTeam:
       "Engineers and people who have had to decide on site. The tools came after the nights, not the other way around.",

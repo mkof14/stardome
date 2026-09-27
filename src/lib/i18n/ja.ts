@@ -66,7 +66,7 @@ export const ja: Messages = {
     privacyIntro:
       "本ポリシーは、StarWall サイト、説明用 StarDome 1、Pilot、管理画面の利用時に StarDome Inc.（「StarDome」「当社」）が情報をどう扱うかを説明します。DEMO と LIVE を含む、今日の製品の姿を述べます。",
     privacySections: [
-      { title: "責任者", body: "StarWall の背後は StarDome Inc. です。プライバシーの問い合わせは連絡フォームまたは star-wall.com。契約展開でデータ保護の連絡先を置く場合は書面契約に記します。" },
+      { title: "責任者", body: "StarWall の背後は StarDome Inc. です。プライバシーの問い合わせは連絡フォームまたは stardome.life。契約展開でデータ保護の連絡先を置く場合は書面契約に記します。" },
       { title: "このサイトは何か", body: "公開ページは製品サイトです。/interface の StarDome 1 は説明用の当直画面です。DEMO は模擬の物標・事象・装備状態を使います。LIVE はこの展開の実状態で、センサー未接続なら空です。StarDome との書面が無い限り、公開デモはヨット・マリーナ・港のライブ源ではありません。" },
       { title: "取り扱う情報", body: "アカウント作成時はメールとパスワードハッシュ（またはログイン提供者の識別子）と役割を保存します。連絡と構成の依頼は氏名、メール、本文、任意の組織・電話・対象種別をリードとして保存します。展開用データベースがあればそこに、なければローカルファイルへ。写しのメールや webhook は、それらのサービスがこの展開に設定されているときだけ送られます。ブラウザは言語・テーマ・DEMO/LIVE をローカルに保ちます。イベントログ、Black Box、Pilot の会話はまず端末に書き、展開用データベースが設定されているときだけ同期します。StarDome 1 や Pilot の内容をモデル学習には使いません。" },
       { title: "Cookie と類似の保存", body: "セッション Cookie でログインを維持し、ローカル保存は言語・テーマ・当直モード用です。広告 Cookie は置かず、個人データは販売しません。" },
@@ -83,7 +83,7 @@ export const ja: Messages = {
       { title: "アカウント", body: "認証情報は利用者が責任を負います。ログインページのデモ口座は役割の説明用です。実展開の前に変更してください。" },
       { title: "利用の範囲", body: "無断アクセスを試みてはなりません。人や財産を害する目的で StarWall を使ってはなりません。本サービスをライブ運用源と称してはなりません。" },
       { title: "人の許可と現地法", body: "特殊装備とあらゆる対応能力は、人の許可と現地法の下に残ります。StarWall は制限システムの免許を与えません。" },
-      { title: "知的財産、責任、連絡", body: "StarWall、StarDome、サイトのロゴは StarDome の標章です。内容は現状有姿です。本サイトの公開デモや Pilot だけに基づく判断について StarDome は責任を負いません。問い合わせ: /contact または star-wall.com。" },
+      { title: "知的財産、責任、連絡", body: "StarWall、StarDome、サイトのロゴは StarDome の標章です。内容は現状有姿です。本サイトの公開デモや Pilot だけに基づく判断について StarDome は責任を負いません。問い合わせ: /contact または stardome.life。" },
     ],
   },
   surface: {
@@ -955,7 +955,7 @@ export const ja: Messages = {
     agronTitle: "StarDome",
     agronBefore:
       "StarWall は StarDome が開発しています。海上インテリジェンス、セキュリティ統合、展開可能な防護システムにわたる取り組みです。StarDome のより広い仕事は ",
-    agronLink: "star-wall.com",
+    agronLink: "stardome.life",
     agronAfter: " でご覧ください。",
     agronTeam:
       "StarDome の後ろにいるのは、まず実務者と技術者です。現場で速く決めなければならなかったプロが、当時欲しかった道具を後から作ったのです。",

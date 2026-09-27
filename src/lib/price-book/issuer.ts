@@ -3,9 +3,9 @@ export const ISSUER = {
   legalName: "StarDome Inc.",
   product: "StarWall",
   line: "Maritime Security Intelligence",
-  web: "https://star-wall.com",
-  webLabel: "star-wall.com",
-  correspondence: "Commercial correspondence via star-wall.com",
+  web: "https://stardome.life",
+  webLabel: "stardome.life",
+  correspondence: "Commercial correspondence via stardome.life",
   mark: "StarDome",
   terms:
     "This proposal is valid 30 days from the issue date. The figure follows site survey, integration scope, and a signed agreement. It is not a purchase order.",

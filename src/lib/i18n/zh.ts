@@ -66,7 +66,7 @@ export const zh: Messages = {
     privacyIntro:
       "本政策说明 StarDome Inc.（「StarDome」「我们」）在您使用 StarWall 网站、说明性 StarDome 1、Pilot 及相关管理界面时如何处理信息。它描述产品的现状，包括 DEMO 与 LIVE。",
     privacySections: [
-      { title: "责任方", body: "StarWall 由 StarDome Inc. 提供。隐私问题请通过联系表单或 star-wall.com。若合同部署指定了数据保护联系人，会写在书面协议中。" },
+      { title: "责任方", body: "StarWall 由 StarDome Inc. 提供。隐私问题请通过联系表单或 stardome.life。若合同部署指定了数据保护联系人，会写在书面协议中。" },
       { title: "本站是什么", body: "公开页面是产品介绍。/interface 上的 StarDome 1 是说明性值班画面：DEMO 使用模拟目标、事件与设备状态。LIVE 显示本部署的真实状态——在传感器接入前为空。除非与 StarDome 另有书面约定，公开演示不是游艇、码头或港口的实时源。" },
       { title: "我们处理哪些信息", body: "若您创建账户，我们保存电子邮件与密码哈希（或登录提供方标识）以及角色。联系与配置申请会把姓名、邮箱、留言以及可选的机构、电话或资产类型存为线索——部署数据库可用时写入数据库，否则写入本地文件。仅当本部署配置了邮箱或 webhook 时才会发送副本。浏览器在本地保存语言、主题和 DEMO/LIVE。事件日志、Black Box 与 Pilot 对话先写在设备上；仅在部署数据库已配置时才会同步。我们不用 StarDome 1 或 Pilot 内容训练模型。" },
       { title: "Cookie 与类似存储", body: "会话 cookie 用于保持登录；本地存储用于语言、主题和值班模式。我们不下发广告 cookie，也不出售个人数据。" },
@@ -83,7 +83,7 @@ export const zh: Messages = {
       { title: "账户", body: "您对登录凭据负责。登录页上的演示账户若展示，仅用于说明角色——真实部署前请更换。" },
       { title: "可接受使用", body: "不得尝试未经授权的访问；不得用 StarWall 伤害人或财产；不得把本服务表述为实时作业源。" },
       { title: "人工授权与当地法律", body: "专用设备及任何响应能力仍须经人工授权并遵守当地法律。StarWall 不授予受限系统的许可。" },
-      { title: "知识产权、责任与联系", body: "StarWall、StarDome 与站点标志为 StarDome 标记。页面内容按「现状」提供。StarDome 不对仅依据本站公开演示或 Pilot 作出的决定承担责任。问题：/contact 或 star-wall.com。" },
+      { title: "知识产权、责任与联系", body: "StarWall、StarDome 与站点标志为 StarDome 标记。页面内容按「现状」提供。StarDome 不对仅依据本站公开演示或 Pilot 作出的决定承担责任。问题：/contact 或 stardome.life。" },
     ],
   },
   surface: {
@@ -954,7 +954,7 @@ export const zh: Messages = {
     agronTitle: "StarDome",
     agronBefore:
       "StarWall 由 StarDome 开发，覆盖海上情报、安全集成与可部署防护系统。了解 StarDome 的更广泛工作：",
-    agronLink: "star-wall.com",
+    agronLink: "stardome.life",
     agronAfter: "。",
     agronTeam:
       "StarDome 背后首先是实践者与工程师：曾在现场必须迅速决断的专业人士，随后做出了他们当时缺少的工具。",

@@ -66,7 +66,7 @@ export const fr: Messages = {
     privacyIntro:
       "Cette politique explique comment StarDome Inc. (« StarDome », « nous ») traite les informations lorsque vous utilisez le site StarDome 1 illustratif, Pilot et les écrans d'administration. Elle décrit le produit tel qu'il existe aujourd'hui, y compris DEMO et LIVE.",
     privacySections: [
-      { title: "Qui est responsable", body: "StarDome Inc. est derrière StarWall. Questions de confidentialité : formulaire de contact ou star-wall.com. Si un déploiement contractuel désigne un contact protection des données, il figure dans l'accord écrit." },
+      { title: "Qui est responsable", body: "StarDome Inc. est derrière StarWall. Questions de confidentialité : formulaire de contact ou stardome.life. Si un déploiement contractuel désigne un contact protection des données, il figure dans l'accord écrit." },
       { title: "Ce qu'est ce site", body: "Les pages publiques sont le produit. Le StarDome 1 sur /interface est un tableau de quart illustratif : DEMO utilise des contacts, événements et statuts d'équipement simulés. LIVE montre l'état réel de ce déploiement — vide tant qu'aucun capteur n'est relié. La démo publique n'est pas un flux live d'un yacht, d'une marina ou d'un port, sauf accord écrit avec StarDome." },
       { title: "Quelles informations nous traitons", body: "Si vous créez un compte, nous conservons l'e-mail et le hash du mot de passe (ou l'identifiant du fournisseur d'accès) et le rôle. Les demandes de contact et de configuration enregistrent nom, e-mail, message et, le cas échéant, organisation, téléphone ou type d'actif comme lead — dans la base du déploiement si elle est configurée, sinon dans un fichier local. Une copie part par e-mail ou webhook seulement si ces services sont réglés. Le navigateur conserve langue, thème et DEMO/LIVE. Journaux, Black Box et conversations Pilot s'écrivent d'abord sur l'appareil ; ils n'atteignent la base du déploiement que si elle est configurée. Nous n'utilisons pas le contenu StarDome 1 ou Pilot pour entraîner des modèles." },
       { title: "Cookies et stockage similaire", body: "Un cookie de session maintient la connexion ; le stockage local sert à la langue, au thème et au mode. Pas de cookies publicitaires, pas de vente de données personnelles." },
@@ -83,7 +83,7 @@ export const fr: Messages = {
       { title: "Comptes", body: "Vous êtes responsable des identifiants. Les comptes de démonstration sur la page de connexion, s'ils sont affichés, illustrent les rôles : changez-les avant un déploiement réel." },
       { title: "Usage acceptable", body: "Pas d'accès non autorisé ; pas d'usage de StarWall pour nuire aux personnes ou aux biens ; ne pas présenter le service comme un flux opérationnel live." },
       { title: "Autorisation humaine et droit local", body: "Les équipements spécialisés et toute capacité de réponse restent sous autorisation humaine et le droit du lieu. StarWall n'accorde pas de licence pour des systèmes restreints." },
-      { title: "Propriété, responsabilité, contact", body: "StarDome et le logo sont des marques StarDome. Le contenu est fourni « en l'état ». StarDome n'est pas responsable des décisions prises uniquement à partir de la démo publique ou de Pilot sur ce site. Questions : /contact ou star-wall.com." },
+      { title: "Propriété, responsabilité, contact", body: "StarDome et le logo sont des marques StarDome. Le contenu est fourni « en l'état ». StarDome n'est pas responsable des décisions prises uniquement à partir de la démo publique ou de Pilot sur ce site. Questions : /contact ou stardome.life." },
     ],
   },
   surface: {
@@ -957,7 +957,7 @@ export const fr: Messages = {
     agronTitle: "StarDome",
     agronBefore:
       "StarWall est développé par StarDome, dans l'intelligence maritime, l'intégration de sécurité et les systèmes de protection déployables. En savoir plus sur le travail de StarDome sur ",
-    agronLink: "star-wall.com",
+    agronLink: "stardome.life",
     agronAfter: ".",
     agronTeam:
       "Derrière StarDome, ce sont d'abord des praticiens et des ingénieurs : des professionnels qui ont dû décider vite sur le terrain, puis ont construit les outils qui leur manquaient.",

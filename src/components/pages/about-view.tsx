@@ -49,7 +49,7 @@ export function AboutView() {
           <p className="mt-4 max-w-2xl font-body text-[1.02rem] leading-relaxed text-bridge-dim">
             {copy.agronBefore}
             <a
-              href="https://star-wall.com"
+              href="https://stardome.life"
               target="_blank"
               rel="noopener noreferrer"
               className="font-medium text-orange underline-offset-2 hover:underline"

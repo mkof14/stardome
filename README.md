@@ -71,7 +71,7 @@ Without a key, Demo still uses two Edge Neural voices (no account) in every Star
 | 日本語 | Keita | Daichi |
 | עברית | Avri | Brian multilingual | Azure (`AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION`) and OpenAI (`OPENAI_API_KEY`, `onyx` / `echo`) are optional fallbacks. If neural speech is down, Pilot falls back to a male browser voice when one is installed, then types. Listening uses Web Speech Recognition in Chrome or Edge after the microphone is allowed. Copy `.env.local.example` to `.env.local` and set `ANTHROPIC_API_KEY` for richer spoken answers. `.env*.local` is gitignored. Without the key Pilot still answers from the on-site briefing — it does not invent prices.
 
-`NEXT_PUBLIC_SITE_URL` is used for canonical metadata, Open Graph, `robots.txt`, and `sitemap.xml`. Set it to `https://star-wall.com` in Vercel Production so shared links resolve the StarDome wordmark on the real host. Locally it defaults to `http://127.0.0.1:3000`. If it is blank on Vercel it falls back to `https://$VERCEL_URL`.
+`NEXT_PUBLIC_SITE_URL` is used for canonical metadata, Open Graph, `robots.txt`, and `sitemap.xml`. Set it to `https://stardome.life` in Vercel Production so shared links resolve the StarDome wordmark on the real host. Locally it defaults to `http://127.0.0.1:3000`. If it is blank on Vercel it falls back to `https://$VERCEL_URL`.
 
 ## PDF overview
 
@@ -171,7 +171,7 @@ This is a standard Next.js 14 App Router app. Do **not** set `output: "standalon
 - Google sign-in stays hidden until both `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are set.
 - `ANTHROPIC_API_KEY` — richer Pilot answers. Without it Pilot still replies from the product briefing.
 - Male neural speech for Pilot needs no key (Edge online voices). Optional: `ELEVENLABS_API_KEY` plus `ELEVENLABS_PILOT_VOICE_ID` / `ELEVENLABS_OFFICER_VOICE_ID` (defaults Adam + Josh), `AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION`, or `OPENAI_API_KEY` (voices `onyx` / `echo`).
-- Shared-link previews use `/og-stardome.jpg` and `src/app/opengraph-image.jpg` (full StarDome wordmark). Set `NEXT_PUBLIC_SITE_URL=https://star-wall.com` on Production so Slack/iMessage do not resolve a `*.vercel.app` host.
+- Shared-link previews use `/og-stardome.jpg` and `src/app/opengraph-image.jpg` (full StarDome wordmark). Set `NEXT_PUBLIC_SITE_URL=https://stardome.life` on Production so Slack/iMessage do not resolve a `*.vercel.app` host.
 - Keep **Deployment Protection** off for Production. If Vercel Authentication is on, crawlers get a login wall and the share image does not appear.
 - Do not invent a new Vercel project. Connect the existing GitHub repo, leave Framework Preset as Next.js, region `iad1`.
 

@@ -66,7 +66,7 @@ export const de: Messages = {
     privacyIntro:
       "Diese Richtlinie erklärt, wie StarDome Inc. («StarDome», «wir») Informationen verarbeitet, wenn Sie die StarWall-Website, den illustrativen StarDome 1, Pilot und die Administrationsoberflächen nutzen. Sie beschreibt das Produkt, wie es heute ist — einschließlich DEMO und LIVE.",
     privacySections: [
-      { title: "Wer verantwortlich ist", body: "Hinter StarWall steht StarDome Inc. Datenschutzfragen: Kontaktformular oder star-wall.com. Ist für einen vertraglichen Einsatz eine Datenschutzstelle benannt, steht sie in der schriftlichen Vereinbarung." },
+      { title: "Wer verantwortlich ist", body: "Hinter StarWall steht StarDome Inc. Datenschutzfragen: Kontaktformular oder stardome.life. Ist für einen vertraglichen Einsatz eine Datenschutzstelle benannt, steht sie in der schriftlichen Vereinbarung." },
       { title: "Was diese Website ist", body: "Die öffentlichen Seiten sind das Produkt. Der StarDome 1 unter /interface ist ein illustratives Wachbild: DEMO nutzt simulierte Kontakte, Ereignisse und Gerätestatus. LIVE zeigt den echten Zustand dieses Einsatzes — leer, bis Sensoren angeschlossen sind. Die öffentliche Demo ist kein Live-Feed einer Yacht, Marina oder eines Hafens, außer ein schriftlicher StarDome-Vertrag sagt etwas anderes." },
       { title: "Welche Angaben wir verarbeiten", body: "Bei einem Konto speichern wir E-Mail und Passwort-Hash (oder die Kennung des Anmeldeanbieters) und die Rolle. Kontakt- und Konfigurationsanfragen speichern Name, E-Mail, Nachricht und optional Organisation, Telefon oder Objekttyp als Lead — in der Einsatzdatenbank, wenn sie konfiguriert ist, sonst in einer lokalen Datei. Eine Kopie geht per E-Mail oder Webhook nur, wenn diese Dienste eingerichtet sind. Der Browser speichert Sprache, Thema und DEMO/LIVE lokal. Ereignisprotokolle, Black Box und Pilot-Gespräche werden zuerst auf dem Gerät geschrieben; sie erreichen die Einsatzdatenbank nur, wenn sie konfiguriert ist. StarDome 1- und Pilot-Inhalte nutzen wir nicht zum Modelltraining." },
       { title: "Cookies und ähnlicher Speicher", body: "Ein Sitzungs-Cookie hält Sie angemeldet; lokaler Speicher dient Sprache, Thema und Wachmodus. Keine Werbe-Cookies, kein Verkauf personenbezogener Daten." },
@@ -83,7 +83,7 @@ export const de: Messages = {
       { title: "Konten", body: "Sie verantworten die Zugangsdaten. Demo-Zugänge auf der Anmeldeseite, falls gezeigt, dienen der Rollenillustration — ändern Sie sie vor einem echten Einsatz." },
       { title: "Zulässige Nutzung", body: "Kein unbefugter Zugriff; StarWall nicht nutzen, um Menschen oder Eigentum zu schädigen; den Dienst nicht als live operativen Feed ausgeben." },
       { title: "Menschliche Freigabe und örtliches Recht", body: "Spezialausrüstung und jede Reaktionsfähigkeit bleiben unter menschlicher Freigabe und dem Recht des Einsatzorts. StarWall erteilt keine Lizenz für beschränkte Systeme." },
-      { title: "Rechte, Haftung, Kontakt", body: "StarDome und das Logo sind StarDome-Zeichen. Inhalte stehen «wie besehen». StarDome haftet nicht für Entscheidungen allein aus der öffentlichen Demo oder Pilot auf dieser Website. Fragen: /contact oder star-wall.com." },
+      { title: "Rechte, Haftung, Kontakt", body: "StarDome und das Logo sind StarDome-Zeichen. Inhalte stehen «wie besehen». StarDome haftet nicht für Entscheidungen allein aus der öffentlichen Demo oder Pilot auf dieser Website. Fragen: /contact oder stardome.life." },
     ],
   },
   surface: {
@@ -957,7 +957,7 @@ export const de: Messages = {
     agronTitle: "StarDome",
     agronBefore:
       "StarWall wird von StarDome entwickelt — in maritimer Intelligenz, Sicherheitsintegration und einsetzbaren Schutzsystemen. Mehr zur Arbeit von StarDome unter ",
-    agronLink: "star-wall.com",
+    agronLink: "stardome.life",
     agronAfter: ".",
     agronTeam:
       "Hinter StarDome stehen zuerst Praktiker und Ingenieure: Profis, die im Feld schnell entscheiden mussten — und danach die Werkzeuge gebaut haben, die ihnen gefehlt haben.",

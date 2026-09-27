@@ -1,4 +1,4 @@
-export const CANONICAL_SITE = "https://star-wall.com";
+export const CANONICAL_SITE = "https://stardome.life";
 
 export function siteUrl() {
   const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
