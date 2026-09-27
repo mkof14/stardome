@@ -6,8 +6,10 @@ import {
   isHearCheck,
   isListenOrder,
   isOfficerAsk,
+  isSpeakNow,
   isTalkOpen,
   pilotOrder,
+  wantsVoice,
 } from "@/lib/pilot-orders";
 
 describe("pilot orders", () => {
@@ -101,5 +103,32 @@ describe("pilot orders", () => {
     expect(isOfficerAsk("говори")).toBe(true);
     expect(isTalkOpen("на какое расстояние меряет радар")).toBe(false);
     expect(isTalkOpen("говори со мной какая дальность радара")).toBe(false);
+  });
+
+  it("treats answer-me as speak-now, not a leftover radar question", () => {
+    for (const said of [
+      "отвечай мне",
+      "Pilot, отвечай мне",
+      "отвечай голосом",
+      "ответь голосом",
+      "говори голосом",
+      "answer me",
+      "answer with voice",
+      "speak out loud",
+    ]) {
+      expect(isSpeakNow(said)).toBe(true);
+      expect(wantsVoice(said)).toBe(true);
+      expect(isTalkOpen(said)).toBe(false);
+      expect(isHaltOrder(said)).toBe(false);
+      expect(isOfficerAsk(said)).toBe(true);
+    }
+    expect(isSpeakNow("говори со мной")).toBe(false);
+    expect(isSpeakNow("Talk to me")).toBe(false);
+    expect(isSpeakNow("на какое расстояние меряет радар")).toBe(false);
+    expect(isSpeakNow("отвечай какая дальность радара")).toBe(false);
+    expect(wantsVoice("отвечай какая дальность радара")).toBe(true);
+    expect(isSpeakNow("answer me how far the radar measures")).toBe(false);
+    expect(wantsVoice("answer me how far the radar measures")).toBe(true);
+    expect(isTalkOpen("отвечай мне")).toBe(false);
   });
 });

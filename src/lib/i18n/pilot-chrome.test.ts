@@ -38,6 +38,8 @@ describe("pilotChrome", () => {
       expect(chrome.haltAck.length).toBeGreaterThan(0);
       expect(chrome.converseOffer.length).toBeGreaterThan(0);
       expect(chrome.emptyWatch.length).toBeGreaterThan(0);
+      expect(chrome.speakNow.length).toBeGreaterThan(0);
+      expect(chrome.speakerOn.length).toBeGreaterThan(0);
       if (previous) expect(chrome.hide).not.toBe(previous);
       previous = chrome.hide;
     }
@@ -65,5 +67,20 @@ describe("pilotChrome", () => {
     expect(pilotChrome("en").converseOffer).toMatch(/care about|help/);
     expect(pilotChrome("en").listening).toBe("Listening");
     expect(pilotChrome("ru").listening).toBe("Слушает");
+  });
+
+  it("labels Speak in every StarWall language", () => {
+    expect(Object.fromEntries(locales.map((code) => [code, pilotChrome(code).speakNow]))).toEqual({
+      en: "Speak",
+      es: "Hablar",
+      fr: "Parler",
+      de: "Sprechen",
+      ru: "Говорить",
+      uk: "Говорити",
+      ar: "تكلم",
+      zh: "说话",
+      ja: "話す",
+      he: "דבר",
+    });
   });
 });

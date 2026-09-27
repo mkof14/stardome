@@ -167,6 +167,70 @@ const GREETING = new Set([
 const CONVERSE_PHRASE =
   /(talk to me|talk with me|speak to me|speak with me|speak with us|let s talk|lets talk|let us talk|can we talk|i want to talk|start talking|speak up|chat with me|have a (talk|chat|conversation)|listen to me|listen with me|говори со мной|говори со мною|поговори со мной|поговори со мною|давай поговорим|давай говорить|хочу поговорить|пообщайся со мной|общайся со мной|слушай меня|говори зі мною|давай поговоримо|habla conmigo|parle moi|parle avec moi|sprich mit mir|reden wir|تحدث معي|كلمني|跟我说话|跟我聊|話して|話そう|דבר איתי|תדבר איתי)/;
 
+const SPEAK_PHRASE =
+  /(отвечай мне|отвечай голосом|ответь мне|ответь голосом|говори голосом|скажи голосом|скажи мне голосом|озвучь|озвучи|answer me|answer with voice|answer out loud|answer aloud|speak out loud|speak aloud|speak it|say it out loud|say it aloud|say it|read it aloud|read it out loud|read it|speak the answer|tell me out loud|talk out loud|contestame|contéstame|responde con voz|habla en voz alta|dilo en voz alta|reponds moi|réponds moi|reponds a voix|réponds à voix|parle a voix|parle à voix|antworte mir|antworte mit stimme|sprich laut|sag es laut|відповідай мені|відповідай голосом|відповіж мені|скажи голосом|أجب لي|أجب بصوت|تكلم بصوت|用声音回答|回答我|说出来|声で答えて|声で話して|答えて|תענה לי|תענה בקול|דבר בקול)/;
+
+const SPEAK_WORD = new Set([
+  "отвечай",
+  "ответь",
+  "озвучь",
+  "озвучи",
+  "answer",
+  "contestame",
+  "contesta",
+  "responde",
+  "reponds",
+  "réponds",
+  "antworte",
+  "відповідай",
+  "відповіж",
+  "أجب",
+  "回答",
+  "答えて",
+  "תענה",
+]);
+
+const SPEAK_GLUE = new Set([
+  "голосом",
+  "voice",
+  "aloud",
+  "loud",
+  "out",
+  "it",
+  "that",
+  "this",
+  "voix",
+  "haute",
+  "laut",
+  "stimme",
+  "es",
+  "voz",
+  "alta",
+  "en",
+  "dilo",
+  "صوت",
+  "بصوت",
+  "声音",
+  "声",
+  "קול",
+  "בקול",
+]);
+
+const VOICE_MARK = new Set([
+  "голосом",
+  "voice",
+  "aloud",
+  "loud",
+  "voix",
+  "laut",
+  "stimme",
+  "صوت",
+  "بصوت",
+  "声音",
+  "קול",
+  "בקול",
+]);
+
 export function isHaltOrder(heard: string) {
   const words = normalizeHeard(heard)
     .split(" ")
@@ -227,6 +291,40 @@ function leftoverAfterTalk(heard: string) {
     .filter((word) => !FILLER.has(word) && !CONVERSE_WORD.has(word) && !GREETING.has(word) && !TALK_GLUE.has(word));
 }
 
+function leftoverAfterSpeak(heard: string) {
+  return normalizeHeard(heard)
+    .replace(SPEAK_PHRASE, " ")
+    .split(" ")
+    .filter((word) => word.length > 1)
+    .filter(
+      (word) =>
+        !FILLER.has(word) &&
+        !CONVERSE_WORD.has(word) &&
+        !GREETING.has(word) &&
+        !TALK_GLUE.has(word) &&
+        !SPEAK_WORD.has(word) &&
+        !SPEAK_GLUE.has(word),
+    );
+}
+
+/** Officer wants Pilot to use voice, even if a real question follows. */
+export function wantsVoice(heard: string) {
+  const q = normalizeHeard(heard);
+  if (SPEAK_PHRASE.test(q)) return true;
+  const words = q.split(" ").filter(Boolean);
+  if (words.some((word) => SPEAK_WORD.has(word))) return true;
+  return (
+    words.some((word) => CONVERSE_WORD.has(word)) &&
+    words.some((word) => VOICE_MARK.has(word))
+  );
+}
+
+/** Speak-now only — no leftover question. Replay last reply or the converse offer. */
+export function isSpeakNow(heard: string) {
+  if (!wantsVoice(heard)) return false;
+  return leftoverAfterSpeak(heard).length === 0;
+}
+
 /** Talk-to-me or a greeting with no other question attached. */
 export function isTalkOpen(heard: string) {
   if (!(isConverseOffer(heard) || isGreeting(heard))) return false;
@@ -236,7 +334,7 @@ export function isTalkOpen(heard: string) {
 /** A real watch ask, not a one-word mutter or a halt. Used to cut speech and answer. */
 export function isOfficerAsk(heard: string) {
   if (isHaltOrder(heard) || isListenOrder(heard)) return false;
-  if (isTalkOpen(heard) || isHearCheck(heard)) return true;
+  if (isTalkOpen(heard) || isHearCheck(heard) || isSpeakNow(heard)) return true;
   const words = normalizeHeard(heard).split(" ").filter(Boolean);
   if (!words.length) return false;
   return words.length >= 2 || words.join("").length >= 8;

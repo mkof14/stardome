@@ -39,6 +39,8 @@ export function PilotTalkWindow({
   onMic,
   onStop,
   stopLabel,
+  speakLabel,
+  onSpeak,
   onToggleSound,
   onToggleCues,
 }: {
@@ -64,6 +66,8 @@ export function PilotTalkWindow({
   onMic: () => void;
   onStop?: () => void;
   stopLabel?: string;
+  speakLabel?: string;
+  onSpeak?: () => void;
   onToggleSound: () => void;
   onToggleCues: () => void;
 }) {
@@ -205,6 +209,18 @@ export function PilotTalkWindow({
                   className="flex h-9 shrink-0 items-center justify-center rounded-xl bg-attn px-3 font-body text-sm font-semibold text-white"
                 >
                   {stopLabel}
+                </button>
+              ) : null}
+              {speakLabel && onSpeak ? (
+                <button
+                  type="button"
+                  data-testid="pilot-talk-speak"
+                  onClick={onSpeak}
+                  disabled={mic === "processing"}
+                  aria-label={speakLabel}
+                  className="flex h-9 shrink-0 items-center justify-center rounded-xl bg-orange px-3 font-body text-sm font-semibold text-white disabled:opacity-40"
+                >
+                  {speakLabel}
                 </button>
               ) : null}
               <input

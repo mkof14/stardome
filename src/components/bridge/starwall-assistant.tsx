@@ -87,7 +87,14 @@ import {
   vadHotFrames,
   vadTriggered,
 } from "@/lib/barge-in";
-import { isHaltOrder, isListenOrder, isOfficerAsk, isTalkOpen } from "@/lib/pilot-orders";
+import {
+  isHaltOrder,
+  isListenOrder,
+  isOfficerAsk,
+  isSpeakNow,
+  isTalkOpen,
+  wantsVoice,
+} from "@/lib/pilot-orders";
 import { pilotDirectReply } from "@/lib/pilot-knowledge";
 import {
   clipChatHistory,
@@ -193,6 +200,7 @@ export function Helm() {
   const askGen = useRef(0);
   const cutLock = useRef(false);
   const holdSpeech = useRef(false);
+  const messagesRef = useRef(messages);
   const keepListen = useRef(false);
   const vadRaf = useRef<number | null>(null);
   const vadCtx = useRef<AudioContext | null>(null);
@@ -207,6 +215,7 @@ export function Helm() {
   voiceOnRef.current = voiceOn;
   cuesOnRef.current = cuesOn;
   micRef.current = mic;
+  messagesRef.current = messages;
 
   useEffect(() => {
     setCuesOn(cuesEnabled());
@@ -685,7 +694,7 @@ export function Helm() {
         haltWatch();
         return;
       }
-      if (isFinal && (isOfficerAsk(text) || isTalkOpen(text))) {
+      if (isFinal && (isOfficerAsk(text) || isTalkOpen(text) || isSpeakNow(text))) {
         stopDemo();
         stopSpeech();
         setTalkHud(false);
@@ -1197,6 +1206,73 @@ export function Helm() {
     resumeListen();
   }
 
+  function lastSpeakable() {
+    const halt = surface.haltAck;
+    for (let i = messagesRef.current.length - 1; i >= 0; i -= 1) {
+      const item = messagesRef.current[i];
+      if (item?.role === "assistant" && item.text.trim() && item.text !== halt) {
+        return item.text;
+      }
+    }
+    if (spokenText.current && spokenText.current !== halt) return spokenText.current;
+    return "";
+  }
+
+  function speakLastOrOffer(said?: string) {
+    enableVoice();
+    sendingRef.current = false;
+    const ticket = ++askGen.current;
+    stopDemo();
+    holdSpeech.current = false;
+    setOpen(true);
+    setTalkHud(false);
+    wantListen.current = true;
+    const last = lastSpeakable();
+    const fallback =
+      pathname.startsWith("/interface") && !live && session.scenarioId
+        ? surface.emptyWatch
+        : surface.converseOffer;
+    const text = last || fallback;
+    if (said) {
+      const userId = messageId();
+      setMessages((current) => [...current, { id: userId, role: "user", text: said }]);
+      persistChat({
+        id: userId,
+        timestamp: new Date().toISOString(),
+        role: "user",
+        content: said,
+        langCode: recogLang,
+      });
+      setDraft("");
+    }
+    if (!last) {
+      const assistantId = messageId();
+      setMessages((current) => [
+        ...current,
+        { id: assistantId, role: "assistant", text: fallback },
+      ]);
+      persistChat({
+        id: assistantId,
+        timestamp: new Date().toISOString(),
+        role: "assistant",
+        content: fallback,
+        langCode: recogLang,
+      });
+      setTypingId(assistantId);
+      recordConversation({
+        summary: `Pilot exchange — ${(said ?? surface.speakNow).slice(0, 72)}`,
+        fullContent: `Officer: ${said ?? surface.speakNow}\n\nPilot: ${fallback}`,
+      });
+    } else if (said) {
+      recordConversation({
+        summary: `Pilot speak — ${said.slice(0, 72)}`,
+        fullContent: `Officer: ${said}\n\nPilot: ${last}`,
+      });
+    }
+    if (ticket !== askGen.current) return;
+    void speakReply(text, recogLang, true, "brief");
+  }
+
   async function sendMessage(text: string) {
     const clean = text.trim();
     if (!clean) return;
@@ -1210,6 +1286,15 @@ export function Helm() {
       wantListen.current = true;
       resumeListen();
       return;
+    }
+    const voiceOrder = wantsVoice(clean);
+    if (isSpeakNow(clean)) {
+      speakLastOrOffer(clean);
+      return;
+    }
+    if (voiceOrder) {
+      enableVoice();
+      holdSpeech.current = false;
     }
     const direct = pilotDirectReply(clean, recogLang);
     if (direct) {
@@ -1375,7 +1460,7 @@ export function Helm() {
       speakReply(
         data.reply,
         recogLang,
-        false,
+        voiceOrder,
         speechToneFor(data.reply, session.crisis),
       );
     } catch {
@@ -1487,6 +1572,8 @@ export function Helm() {
           onMic={() => void toggleMic()}
           onStop={haltWatch}
           stopLabel={surface.stop}
+          speakLabel={surface.speakNow}
+          onSpeak={() => speakLastOrOffer()}
           onToggleSound={toggleSpeaker}
           onToggleCues={toggleCues}
         />
@@ -1766,6 +1853,21 @@ export function Helm() {
                     ) : null}
                   </span>
                 )}
+              </button>
+              <button
+                type="button"
+                data-testid="assistant-speak"
+                onClick={() => speakLastOrOffer()}
+                disabled={mic === "processing"}
+                aria-label={surface.speakNow}
+                className={cn(
+                  "flex h-10 shrink-0 items-center justify-center rounded-lg px-3 font-body text-sm font-bold disabled:opacity-40",
+                  mic === "speaking"
+                    ? "border border-orange text-orange hover:bg-orange/10"
+                    : "bg-orange text-white hover:bg-orange/90",
+                )}
+              >
+                {surface.speakNow}
               </button>
               <PilotSoundDock
                 voiceOn={voiceOn}

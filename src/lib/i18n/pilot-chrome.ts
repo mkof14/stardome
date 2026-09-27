@@ -19,6 +19,7 @@ export type PilotChrome = {
   live: string;
   speakerOn: string;
   speakerOff: string;
+  speakNow: string;
 };
 
 const PILOT_CHROME = {
@@ -40,6 +41,7 @@ const PILOT_CHROME = {
     live: "WATCH ADVISOR · LIVE · no sensors",
     speakerOn: "Speaker on",
     speakerOff: "Speaker off",
+    speakNow: "Speak",
   },
   es: {
     title: "Pilot",
@@ -59,6 +61,7 @@ const PILOT_CHROME = {
     live: "ASESOR DE GUARDIA · LIVE · sin sensores",
     speakerOn: "Altavoz encendido",
     speakerOff: "Altavoz apagado",
+    speakNow: "Hablar",
   },
   fr: {
     title: "Pilot",
@@ -78,6 +81,7 @@ const PILOT_CHROME = {
     live: "CONSEILLER DE QUART · LIVE · aucun capteur",
     speakerOn: "Haut-parleur allumé",
     speakerOff: "Haut-parleur coupé",
+    speakNow: "Parler",
   },
   de: {
     title: "Pilot",
@@ -97,6 +101,7 @@ const PILOT_CHROME = {
     live: "WACHBERATER · LIVE · keine Sensoren",
     speakerOn: "Lautsprecher an",
     speakerOff: "Lautsprecher aus",
+    speakNow: "Sprechen",
   },
   ru: {
     title: "Pilot",
@@ -116,6 +121,7 @@ const PILOT_CHROME = {
     live: "СОВЕТНИК ВАХТЫ · LIVE · нет датчиков",
     speakerOn: "Динамик включён",
     speakerOff: "Динамик выключен",
+    speakNow: "Говорить",
   },
   uk: {
     title: "Pilot",
@@ -135,6 +141,7 @@ const PILOT_CHROME = {
     live: "РАДНИК ВАХТИ · LIVE · немає датчиків",
     speakerOn: "Динамік увімкнено",
     speakerOff: "Динамік вимкнено",
+    speakNow: "Говорити",
   },
   ar: {
     title: "Pilot",
@@ -154,6 +161,7 @@ const PILOT_CHROME = {
     live: "مستشار الخفارة · LIVE · لا مستشعرات",
     speakerOn: "مكبر الصوت يعمل",
     speakerOff: "مكبر الصوت مغلق",
+    speakNow: "تكلم",
   },
   zh: {
     title: "Pilot",
@@ -173,6 +181,7 @@ const PILOT_CHROME = {
     live: "值班顾问 · LIVE · 无传感器",
     speakerOn: "扬声器开",
     speakerOff: "扬声器关",
+    speakNow: "说话",
   },
   ja: {
     title: "Pilot",
@@ -192,6 +201,7 @@ const PILOT_CHROME = {
     live: "当直アドバイザー · LIVE · センサーなし",
     speakerOn: "スピーカーオン",
     speakerOff: "スピーカーオフ",
+    speakNow: "話す",
   },
   he: {
     title: "Pilot",
@@ -211,6 +221,7 @@ const PILOT_CHROME = {
     live: "יועץ משמרת · LIVE · אין חיישנים",
     speakerOn: "רמקול דולק",
     speakerOff: "רמקול כבוי",
+    speakNow: "דבר",
   },
 } as const satisfies Record<Locale, PilotChrome>;
 
