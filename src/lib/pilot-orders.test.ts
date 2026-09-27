@@ -5,6 +5,7 @@ import {
   isHaltOrder,
   isHearCheck,
   isListenOrder,
+  heardTopic,
   isOfficerAsk,
   isSpeakNow,
   isTalkOpen,
@@ -130,5 +131,14 @@ describe("pilot orders", () => {
     expect(isSpeakNow("answer me how far the radar measures")).toBe(false);
     expect(wantsVoice("answer me how far the radar measures")).toBe(true);
     expect(isTalkOpen("отвечай мне")).toBe(false);
+  });
+
+  it("hears a leftover topic and short radar asks", () => {
+    expect(heardTopic("говори со мной какая дальность радара")).toMatch(/дальность/);
+    expect(heardTopic("Pilot, расскажи про радар")).toMatch(/радар/);
+    expect(heardTopic("говори со мной")).toBe("");
+    expect(isOfficerAsk("радар?")).toBe(true);
+    expect(isOfficerAsk("какая дальность")).toBe(true);
+    expect(isTalkOpen("говори со мной какая дальность радара")).toBe(false);
   });
 });

@@ -71,4 +71,43 @@ describe("localPilotReply", () => {
       pilotChrome("en").converseOffer,
     );
   });
+
+  it("answers leftover and station questions instead of the converse offer", () => {
+    const session = {
+      scenarioName: "Reconnaissance drone",
+      riskLevel: "ATTENTION" as const,
+      vessel: "M/Y AURELIA",
+      scenarioId: "recon-drone",
+      panelType: "radar" as const,
+      actionText: "Hold visual track",
+      recommended: "Hold visual track",
+      logText: "UAV",
+      crisis: false,
+      faultId: null,
+      live: false,
+    };
+    const radar = localPilotReply("расскажи про радар", "ru", {
+      path: "/interface",
+      session,
+    });
+    expect(radar.reply).toMatch(/15/);
+    expect(radar.reply).not.toMatch(/чем помочь|интересует/);
+    const leftover = localPilotReply("говори со мной какая дальность радара", "ru", {
+      path: "/interface",
+      session,
+    });
+    expect(leftover.reply).toMatch(/15/);
+    expect(leftover.reply).not.toBe(pilotChrome("ru").converseOffer);
+    const laser = localPilotReply("что такое лазер", "ru", {
+      path: "/interface",
+      session,
+    });
+    expect(laser.reply.toLowerCase()).toMatch(/лазер|луч/);
+    expect(laser.reply).not.toMatch(/чем помочь|интересует/);
+    const mutter = localPilotReply("ну расскажи что-нибудь про вахту", "ru", {
+      path: "/interface",
+      session,
+    });
+    expect(mutter.reply).not.toBe(pilotChrome("ru").converseOffer);
+  });
 });

@@ -23,6 +23,13 @@ describe("pilot facts", () => {
     }
   });
 
+  it("hears leftover questions after talk or speak glue", () => {
+    expect(matchPilotFact("говори со мной какая дальность радара")).toBe("radarRange");
+    expect(matchPilotFact(" Pilot, расскажи про радар")).toBe("radarRange");
+    expect(matchPilotFact("какая дальность")).toBe(null);
+    expect(pilotFactReply("расскажи про радар", "ru")).toMatch(/15/);
+  });
+
   it("does not parrot a watch question into the converse offer", () => {
     const session = {
       scenarioName: "Reconnaissance drone",

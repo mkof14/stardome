@@ -2,8 +2,13 @@ import type { BridgeSessionValue } from "@/lib/bridge-session-types";
 import { messagesFor } from "@/lib/i18n/dictionaries";
 import { isLocale, type Locale } from "@/lib/i18n/locales";
 import { pilotChrome } from "@/lib/i18n/pilot-chrome";
-import { isContentAsk, isProductFactAsk, pilotFactReply } from "@/lib/pilot-facts";
-import { isHearCheck, isTalkOpen } from "@/lib/pilot-orders";
+import {
+  isContentAsk,
+  isProductFactAsk,
+  pilotFactReply,
+  pilotStationReply,
+} from "@/lib/pilot-facts";
+import { heardTopic, isHearCheck, isTalkOpen } from "@/lib/pilot-orders";
 import { localWatchAnswer, watchAskKind } from "@/lib/pilot-sim";
 
 export const PILOT_SITE_BRIEFING = `You are Pilot, the watch advisor for StarWall by StarDome. Never call yourself Helm.
@@ -30,7 +35,7 @@ This website:
 - AGRON 1 (/interface): the watch program. Jump rail, picture, risk, recommended action, event log, Black Box, connections map, Pilot.
 - Plans (/pricing), Technology (/technology), containers (/containers), About, FAQ, Contact.
 
-Answer every on-topic question. If they only greet you or say "talk to me" with no topic, ask what they care about and how you can help, then wait. If they ask whether you hear them, say yes in one short sentence and wait. If they name radar range, sensors, plans, DEMO/LIVE, Starlink, containers, or the current picture, answer that. Do not repeat their question. Do not invent live contacts in LIVE. Advice only — the human decides.`;
+Answer every on-topic question. If they only greet you or say "talk to me" with no leftover topic, ask what they care about and how you can help, then wait. If they ask whether you hear them, say yes in one short sentence and wait. If a talk or speak order still names a topic — radar, cameras, drones, laser, pulse, air or underwater defense, ELINT, GIS, sensors, plans, DEMO/LIVE, Starlink, containers, or the picture — answer that topic. Never answer a real question with only «I am here. What do you care about» or «чем помочь». Do not repeat their question. Do not invent live contacts in LIVE. Advice only — the human decides.`;
 
 type Topic =
   | "plans"
@@ -97,10 +102,20 @@ function isWatchAsk(message: string) {
   );
 }
 
+export function isHelpOffer(text: string) {
+  return /(что вас интересует|чем помочь|what do you care about|how can i help|en qué puedo ayudar|qu.est-ce qui vous occupe|was ist ihnen wichtig|що вас цікавить|أين أساعد)/i.test(
+    text,
+  );
+}
+
 export function pilotDirectReply(message: string, locale: Locale): string | null {
   if (isHearCheck(message)) return HEAR_YES[locale];
-  const fact = pilotFactReply(message, locale);
+  const fact = pilotFactReply(message, locale) ?? (heardTopic(message)
+    ? pilotFactReply(heardTopic(message), locale)
+    : null);
   if (fact) return fact;
+  const station = pilotStationReply(message, locale);
+  if (station) return station;
   if (isTalkOpen(message)) return pilotChrome(locale).converseOffer;
   return null;
 }
@@ -115,11 +130,12 @@ export function localPilotReply(
     isLocale(fallbackLocale) ? fallbackLocale : "en",
   );
   const t = messagesFor(locale);
+  const asked = heardTopic(message) || message;
   const direct = pilotDirectReply(message, locale);
   if (direct) {
     return { reply: direct, langCode: locale };
   }
-  const topic = topicOf(message);
+  const topic = topicOf(message) !== "general" ? topicOf(message) : topicOf(asked);
   const siteTopic =
     topic === "plans" ||
     topic === "about" ||
@@ -128,25 +144,13 @@ export function localPilotReply(
     topic === "how";
   const onWatch = Boolean(extra?.path?.startsWith("/interface"));
   const session = extra?.session;
-  const watchKind = watchAskKind(message);
-  const factAsk = isProductFactAsk(message);
+  const watchKind = watchAskKind(asked) ?? watchAskKind(message);
+  const factAsk = isProductFactAsk(message) || isProductFactAsk(asked);
   const watchFirst =
     Boolean(session) &&
     !siteTopic &&
     !factAsk &&
-    (Boolean(watchKind) || isWatchAsk(message));
-
-  if (session && watchFirst) {
-    return {
-      reply: localWatchAnswer(session, locale, message).replace(/\s+/g, " ").trim(),
-      langCode: locale,
-    };
-  }
-
-  if ((onWatch || session) && !siteTopic && !factAsk && !isContentAsk(message)) {
-    return { reply: pilotChrome(locale).converseOffer, langCode: locale };
-  }
-
+    (Boolean(watchKind) || isWatchAsk(asked) || isWatchAsk(message));
   const replies: Record<Topic, string> = {
     general: `${t.home.lead} ${t.home.cards[1].body} ${t.chrome.footerBlurb}`,
     plans: `${t.home.cards[2].body} ${t.auth.bodies.pricing}`,
@@ -157,6 +161,23 @@ export function localPilotReply(
     contact: `${t.auth.bodies.contact} ${t.nav.contact}: /contact.`,
     demo: `${t.home.interfacePoints[5].body} ${t.home.cards[1].body}`,
   };
+
+  if (session && watchFirst) {
+    return {
+      reply: localWatchAnswer(session, locale, asked).replace(/\s+/g, " ").trim(),
+      langCode: locale,
+    };
+  }
+
+  if ((onWatch || session) && !siteTopic && !factAsk && !isContentAsk(message) && !isContentAsk(asked)) {
+    if (session) {
+      return {
+        reply: localWatchAnswer(session, locale, asked).replace(/\s+/g, " ").trim(),
+        langCode: locale,
+      };
+    }
+    return { reply: replies.interface.replace(/\s+/g, " ").trim(), langCode: locale };
+  }
 
   return { reply: replies[topic].replace(/\s+/g, " ").trim(), langCode: locale };
 }

@@ -284,10 +284,14 @@ export function isGreeting(heard: string) {
   return GREETING.has(words[0] ?? "");
 }
 
+function keepHeardWord(word: string) {
+  return word.length > 1 || /^\d+$/.test(word);
+}
+
 function leftoverAfterTalk(heard: string) {
   return normalizeHeard(heard)
     .split(" ")
-    .filter((word) => word.length > 1)
+    .filter(keepHeardWord)
     .filter((word) => !FILLER.has(word) && !CONVERSE_WORD.has(word) && !GREETING.has(word) && !TALK_GLUE.has(word));
 }
 
@@ -295,7 +299,7 @@ function leftoverAfterSpeak(heard: string) {
   return normalizeHeard(heard)
     .replace(SPEAK_PHRASE, " ")
     .split(" ")
-    .filter((word) => word.length > 1)
+    .filter(keepHeardWord)
     .filter(
       (word) =>
         !FILLER.has(word) &&
@@ -325,6 +329,16 @@ export function isSpeakNow(heard: string) {
   return leftoverAfterSpeak(heard).length === 0;
 }
 
+/** Words left after talk/speak glue — the real question, if any. */
+export function heardTopic(heard: string) {
+  const speak = leftoverAfterSpeak(heard);
+  if (speak.length) return speak.join(" ");
+  return leftoverAfterTalk(heard).join(" ");
+}
+
+const ASK_HINT =
+  /(what|who|how|where|why|when|which|does|tell|explain|show|describe|что|как|какая|какой|какие|какое|какую|каким|сколько|где|зачем|почему|расскаж|покаж|объясн|скажи|поясн|що |як |яка |які |скільки)/;
+
 /** Talk-to-me or a greeting with no other question attached. */
 export function isTalkOpen(heard: string) {
   if (!(isConverseOffer(heard) || isGreeting(heard))) return false;
@@ -335,6 +349,9 @@ export function isTalkOpen(heard: string) {
 export function isOfficerAsk(heard: string) {
   if (isHaltOrder(heard) || isListenOrder(heard)) return false;
   if (isTalkOpen(heard) || isHearCheck(heard) || isSpeakNow(heard)) return true;
+  if (/[?¿？]/.test(heard) || ASK_HINT.test(normalizeHeard(heard))) return true;
+  const topic = heardTopic(heard);
+  if (topic && topic.replace(/\s+/g, "").length >= 5) return true;
   const words = normalizeHeard(heard).split(" ").filter(Boolean);
   if (!words.length) return false;
   return words.length >= 2 || words.join("").length >= 8;
